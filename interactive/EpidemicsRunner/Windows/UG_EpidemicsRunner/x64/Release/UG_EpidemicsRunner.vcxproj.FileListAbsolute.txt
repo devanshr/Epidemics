@@ -1,0 +1,6 @@
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.vcxprojAssemblyReference.cache
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.Form1.resources
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.Form2.resources
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.Form3.resources
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.vcxproj.GenerateResource.cache
+G:\Epidemics\interactive\EpidemicsRunner\Windows\UG_EpidemicsRunner\x64\Release\UG_EpidemicsRunner.exe

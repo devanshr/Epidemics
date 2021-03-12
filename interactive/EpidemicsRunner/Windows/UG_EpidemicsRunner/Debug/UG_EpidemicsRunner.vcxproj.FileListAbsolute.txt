@@ -1,0 +1,5 @@
+C:\Users\Annett\source\repos\UG_EpidemicsRunner\Debug\UG_EpidemicsRunner.vcxprojAssemblyReference.cache
+C:\Users\Annett\source\repos\UG_EpidemicsRunner\Debug\UG_EpidemicsRunner.Form1.resources
+C:\Users\Annett\source\repos\UG_EpidemicsRunner\Debug\UG_EpidemicsRunner.vcxproj.GenerateResource.cache
+C:\Users\Annett\source\repos\UG_EpidemicsRunner\Debug\UG_EpidemicsRunner.exe
+C:\Users\Annett\source\repos\UG_EpidemicsRunner\Debug\UG_EpidemicsRunner.Form2.resources
