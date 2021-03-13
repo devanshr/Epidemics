@@ -73,7 +73,8 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label8;
-	private: System::Windows::Forms::NumericUpDown^ initial_sick;
+	private: System::Windows::Forms::NumericUpDown^ initial_exposed;
+
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::NumericUpDown^ pp_input;
 
@@ -99,28 +100,28 @@ namespace CppCLRWinformsProjekt {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series6 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series7 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series8 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series9 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series10 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Title^ title2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series4 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series5 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Title^ title1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->stepsize_input = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label11 = (gcnew System::Windows::Forms::Label());
-			this->initial_sick = (gcnew System::Windows::Forms::NumericUpDown());
+			this->initial_exposed = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->initial_infected = (gcnew System::Windows::Forms::NumericUpDown());
 			this->pp_input = (gcnew System::Windows::Forms::NumericUpDown());
 			this->qq_input = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->initial_deaths = (gcnew System::Windows::Forms::NumericUpDown());
 			this->initial_recovered = (gcnew System::Windows::Forms::NumericUpDown());
-			this->initial_infected = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
@@ -135,12 +136,12 @@ namespace CppCLRWinformsProjekt {
 			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_sick))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_deaths))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_recovered))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_susceptibles))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->theta_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->BeginInit();
@@ -173,15 +174,15 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->groupBox1->Controls->Add(this->stepsize_input);
 			this->groupBox1->Controls->Add(this->label11);
-			this->groupBox1->Controls->Add(this->initial_sick);
+			this->groupBox1->Controls->Add(this->initial_exposed);
 			this->groupBox1->Controls->Add(this->label10);
+			this->groupBox1->Controls->Add(this->initial_infected);
 			this->groupBox1->Controls->Add(this->pp_input);
 			this->groupBox1->Controls->Add(this->qq_input);
 			this->groupBox1->Controls->Add(this->label9);
 			this->groupBox1->Controls->Add(this->label8);
 			this->groupBox1->Controls->Add(this->initial_deaths);
 			this->groupBox1->Controls->Add(this->initial_recovered);
-			this->groupBox1->Controls->Add(this->initial_infected);
 			this->groupBox1->Controls->Add(this->label7);
 			this->groupBox1->Controls->Add(this->label6);
 			this->groupBox1->Controls->Add(this->label5);
@@ -223,24 +224,35 @@ namespace CppCLRWinformsProjekt {
 			this->label11->TabIndex = 20;
 			this->label11->Text = L"RK4 Stepsize";
 			// 
-			// initial_sick
+			// initial_exposed
 			// 
-			this->initial_sick->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_sick->Location = System::Drawing::Point(106, 221);
-			this->initial_sick->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
-			this->initial_sick->Name = L"initial_sick";
-			this->initial_sick->Size = System::Drawing::Size(120, 20);
-			this->initial_sick->TabIndex = 19;
-			this->initial_sick->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_sick_ValueChanged);
+			this->initial_exposed->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+			this->initial_exposed->Location = System::Drawing::Point(106, 189);
+			this->initial_exposed->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
+			this->initial_exposed->Name = L"initial_exposed";
+			this->initial_exposed->Size = System::Drawing::Size(120, 20);
+			this->initial_exposed->TabIndex = 19;
+			this->initial_exposed->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2714, 0, 0, 0 });
+			this->initial_exposed->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_exposed_ValueChanged);
 			// 
 			// label10
 			// 
 			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(6, 223);
+			this->label10->Location = System::Drawing::Point(6, 191);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(58, 13);
+			this->label10->Size = System::Drawing::Size(78, 13);
 			this->label10->TabIndex = 18;
-			this->label10->Text = L"Initial_Sick";
+			this->label10->Text = L"Initial_Exposed";
+			// 
+			// initial_infected
+			// 
+			this->initial_infected->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+			this->initial_infected->Location = System::Drawing::Point(106, 220);
+			this->initial_infected->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
+			this->initial_infected->Name = L"initial_infected";
+			this->initial_infected->Size = System::Drawing::Size(120, 20);
+			this->initial_infected->TabIndex = 11;
+			this->initial_infected->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_infected_ValueChanged);
 			// 
 			// pp_input
 			// 
@@ -308,17 +320,6 @@ namespace CppCLRWinformsProjekt {
 			this->initial_recovered->TabIndex = 12;
 			this->initial_recovered->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_recovered_ValueChanged);
 			// 
-			// initial_infected
-			// 
-			this->initial_infected->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_infected->Location = System::Drawing::Point(106, 192);
-			this->initial_infected->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
-			this->initial_infected->Name = L"initial_infected";
-			this->initial_infected->Size = System::Drawing::Size(120, 20);
-			this->initial_infected->TabIndex = 11;
-			this->initial_infected->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2714, 0, 0, 0 });
-			this->initial_infected->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_infected_ValueChanged);
-			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
@@ -350,7 +351,7 @@ namespace CppCLRWinformsProjekt {
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(6, 194);
+			this->label4->Location = System::Drawing::Point(6, 222);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(73, 13);
 			this->label4->TabIndex = 7;
@@ -436,49 +437,49 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// chart1
 			// 
-			chartArea2->AxisX->Title = L"Time";
-			chartArea2->AxisY->Title = L"Amount";
-			chartArea2->Name = L"ChartArea1";
-			this->chart1->ChartAreas->Add(chartArea2);
-			legend2->Name = L"Legend1";
-			this->chart1->Legends->Add(legend2);
+			chartArea1->AxisX->Title = L"Time";
+			chartArea1->AxisY->Title = L"Amount";
+			chartArea1->Name = L"ChartArea1";
+			this->chart1->ChartAreas->Add(chartArea1);
+			legend1->Name = L"Legend1";
+			this->chart1->Legends->Add(legend1);
 			this->chart1->Location = System::Drawing::Point(349, 44);
 			this->chart1->Name = L"chart1";
 			this->chart1->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::Bright;
-			series6->ChartArea = L"ChartArea1";
-			series6->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series6->Legend = L"Legend1";
-			series6->Name = L"Susceptibles";
-			series6->ShadowColor = System::Drawing::Color::Blue;
-			series7->ChartArea = L"ChartArea1";
-			series7->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series7->Legend = L"Legend1";
-			series7->Name = L"Infected";
-			series7->ShadowColor = System::Drawing::Color::Red;
-			series8->ChartArea = L"ChartArea1";
-			series8->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series8->Legend = L"Legend1";
-			series8->Name = L"Deaths";
-			series8->ShadowColor = System::Drawing::Color::Black;
-			series9->ChartArea = L"ChartArea1";
-			series9->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series9->Legend = L"Legend1";
-			series9->Name = L"Recovered";
-			series9->ShadowColor = System::Drawing::Color::Maroon;
-			series10->ChartArea = L"ChartArea1";
-			series10->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series10->Legend = L"Legend1";
-			series10->Name = L"Sick";
-			this->chart1->Series->Add(series6);
-			this->chart1->Series->Add(series7);
-			this->chart1->Series->Add(series8);
-			this->chart1->Series->Add(series9);
-			this->chart1->Series->Add(series10);
+			series1->ChartArea = L"ChartArea1";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series1->Legend = L"Legend1";
+			series1->Name = L"Susceptibles";
+			series1->ShadowColor = System::Drawing::Color::Blue;
+			series2->ChartArea = L"ChartArea1";
+			series2->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series2->Legend = L"Legend1";
+			series2->Name = L"Infected";
+			series2->ShadowColor = System::Drawing::Color::Red;
+			series3->ChartArea = L"ChartArea1";
+			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series3->Legend = L"Legend1";
+			series3->Name = L"Deaths";
+			series3->ShadowColor = System::Drawing::Color::Black;
+			series4->ChartArea = L"ChartArea1";
+			series4->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series4->Legend = L"Legend1";
+			series4->Name = L"Recovered";
+			series4->ShadowColor = System::Drawing::Color::Maroon;
+			series5->ChartArea = L"ChartArea1";
+			series5->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series5->Legend = L"Legend1";
+			series5->Name = L"Exposed";
+			this->chart1->Series->Add(series1);
+			this->chart1->Series->Add(series2);
+			this->chart1->Series->Add(series3);
+			this->chart1->Series->Add(series4);
+			this->chart1->Series->Add(series5);
 			this->chart1->Size = System::Drawing::Size(900, 546);
 			this->chart1->TabIndex = 3;
 			this->chart1->Text = L"chart1";
-			title2->Name = L"Result of SRI Model";
-			this->chart1->Titles->Add(title2);
+			title1->Name = L"Result of SRI Model";
+			this->chart1->Titles->Add(title1);
 			this->chart1->Click += gcnew System::EventHandler(this, &Form3::chart1_Click);
 			// 
 			// Form3
@@ -497,12 +498,12 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_sick))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_deaths))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_recovered))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_susceptibles))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->theta_input))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->EndInit();
@@ -622,7 +623,7 @@ private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e)
 		   
 		   seird_model.change_step_size(stepsize);
 
-		   std::vector<double> u0 = { System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_sick->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
+		   std::vector<double> u0 = { System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_exposed->Value),System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
 		   double t_start = 0;
 		   double t_end = 42;
 
@@ -679,7 +680,7 @@ private: System::Void qq_input_ValueChanged(System::Object^ sender, System::Even
 private: System::Void pp_input_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	plot_on_keypress();
 }
-private: System::Void initial_sick_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void initial_exposed_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	plot_on_keypress();
 }
 };

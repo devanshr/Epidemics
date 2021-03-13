@@ -21,11 +21,11 @@ namespace ug{
 			std::array<F,5> seird_ode(F t, std::array<F,5>& u){
 				std::array<F,5> res;
 				
-				F G=u[0]; // Gesunde
-				F A=u[1]; // Angesteckte
-				F K=u[2]; // Kranke
-				F R=u[3]; // Recovered
-				F V=u[4]; // Verstorbene
+				F G=u[0]; // Gesunde (Susceptibles)
+				F A=u[1]; // Angesteckte (Exposed)
+				F K=u[2]; // Kranke (Infected)
+				F R=u[3]; // Erholte (Recovered)
+				F V=u[4]; // Verstorbene (Deaths)
 				
 				
 				res[0]=-alpha*G*A; 				// dG/dt=-alpha*G*A
@@ -75,7 +75,7 @@ namespace ug{
 			
 			
 			public:
-			const std::array<std::string,5> names={"Susceptibles","Infected", "Sick", "Recovered", "Deaths"};
+			const std::array<std::string,5> names={"Susceptibles","Exposed", "Infected", "Recovered", "Deaths"};
 			SEIRD(F _alpha, F _kappa, F _theta, F _qq, F _pp):alpha(_alpha),kappa(_kappa),theta(_theta),qq(_qq),pp(_pp){
 			
 			}	
