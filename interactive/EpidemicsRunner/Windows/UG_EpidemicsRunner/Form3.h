@@ -81,6 +81,7 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::NumericUpDown^ qq_input;
 	private: System::Windows::Forms::NumericUpDown^ stepsize_input;
 	private: System::Windows::Forms::Label^ label11;
+	private: System::Windows::Forms::Button^ SaveImageButton;
 
 
 
@@ -134,6 +135,7 @@ namespace CppCLRWinformsProjekt {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->alpha_input = (gcnew System::Windows::Forms::NumericUpDown());
 			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->SaveImageButton = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->BeginInit();
@@ -208,7 +210,7 @@ namespace CppCLRWinformsProjekt {
 			this->stepsize_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 			this->stepsize_input->Location = System::Drawing::Point(106, 328);
 			this->stepsize_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
-			this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
+			this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 			this->stepsize_input->Name = L"stepsize_input";
 			this->stepsize_input->Size = System::Drawing::Size(120, 20);
 			this->stepsize_input->TabIndex = 21;
@@ -482,11 +484,22 @@ namespace CppCLRWinformsProjekt {
 			this->chart1->Titles->Add(title1);
 			this->chart1->Click += gcnew System::EventHandler(this, &Form3::chart1_Click);
 			// 
+			// SaveImageButton
+			// 
+			this->SaveImageButton->Location = System::Drawing::Point(1160, 604);
+			this->SaveImageButton->Name = L"SaveImageButton";
+			this->SaveImageButton->Size = System::Drawing::Size(75, 23);
+			this->SaveImageButton->TabIndex = 4;
+			this->SaveImageButton->Text = L"Save Image";
+			this->SaveImageButton->UseVisualStyleBackColor = true;
+			this->SaveImageButton->Click += gcnew System::EventHandler(this, &Form3::SaveImageButton_Click);
+			// 
 			// Form3
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1247, 639);
+			this->Controls->Add(this->SaveImageButton);
 			this->Controls->Add(this->chart1);
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->button2);
@@ -522,8 +535,7 @@ namespace CppCLRWinformsProjekt {
 		Application::Exit();
 	}
 	private: System::Void button1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-
-
+		plot_on_keypress();
 	}
 	private: System::Void Deutsch_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
@@ -682,6 +694,25 @@ private: System::Void pp_input_ValueChanged(System::Object^ sender, System::Even
 }
 private: System::Void initial_exposed_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	plot_on_keypress();
+}
+private: System::Void SaveImageButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	System::Windows::Forms::SaveFileDialog saveFileDialog;
+	saveFileDialog.Filter="emf files (*.emf)|*.emf|All files (*.*)|*.*";
+	saveFileDialog.FilterIndex = 2;
+
+	if (saveFileDialog.ShowDialog() == System::Windows::Forms::DialogResult::OK)
+	{
+		auto stream = saveFileDialog.OpenFile();
+		switch (saveFileDialog.FilterIndex)
+		{
+		case 1:
+			this->chart1->SaveImage(stream, ChartImageFormat::Emf);
+			break;
+		}
+		stream->Close();
+	}
+//	
+	//this->chart1->SaveImage(System::IO::Path::GetFullPath("chart1.emf"), ChartImageFormat::Emf);
 }
 };
 }
