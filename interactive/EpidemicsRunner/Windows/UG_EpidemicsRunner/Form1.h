@@ -218,7 +218,7 @@ seird_model=SEIRD(alpha,kappa,theta,qq,pp)
 RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,init_recovered,init_deaths,t_start,t_end)
 							)";
 
-	ug::epi::create_evaluate_lua("C:/Users/Annett/Desktop/Epidemics/Git Version/Epidemics/", textbody,names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
+	ug::epi::create_evaluate_lua("your_path", textbody,names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
 
 }
 };
