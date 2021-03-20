@@ -41,7 +41,7 @@ end
 
 --Start of parameter, constants and initial values definitions
 
-")";
+)";
 
 			for (int i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";
