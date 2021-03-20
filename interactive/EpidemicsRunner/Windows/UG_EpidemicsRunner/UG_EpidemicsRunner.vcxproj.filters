@@ -38,6 +38,9 @@
     <ClInclude Include="Form3.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppCLR_WinformsProjekt.cpp">

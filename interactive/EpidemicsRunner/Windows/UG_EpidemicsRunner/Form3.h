@@ -4,7 +4,12 @@
 #include "../../../../models/seird.h"
 #include "../../../../models/writer.h"
 #include "plotter.h"
-
+#include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
+#include "../../../../../ConstrainedOptimization/core/parameters.h"
+#include<limits>
+#include<vector>
+#include <string>
+#include "utility.h"
 //https://www.visualcplusdotnet.com/visualcplusdotnet21d.html
 
 namespace CppCLRWinformsProjekt {
@@ -37,11 +42,24 @@ namespace CppCLRWinformsProjekt {
 		/// </summary>
 		~Form3()
 		{
+			delete user_datapoints;
+			delete user_timepoints;
+			delete user_rows;
+			delete user_names;
+			delete user_cols;
 			if (components)
 			{
 				delete components;
 			}
 		}
+
+	public: std::vector<double>* user_datapoints;
+	public: std::vector<double>* user_timepoints;
+	public: std::vector<std::string>* user_names;
+	public: int* user_rows;
+	public: int* user_cols;
+	//private: System::Windows::Forms::DataVisualization::Charting::Series^ additional_series;
+
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
@@ -82,6 +100,9 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::NumericUpDown^ stepsize_input;
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::Button^ SaveImageButton;
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ featuresToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ loadcsvDataToolStripMenuItem;
 
 
 
@@ -136,6 +157,9 @@ namespace CppCLRWinformsProjekt {
 			this->alpha_input = (gcnew System::Windows::Forms::NumericUpDown());
 			this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->SaveImageButton = (gcnew System::Windows::Forms::Button());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->featuresToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->loadcsvDataToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->BeginInit();
@@ -149,6 +173,7 @@ namespace CppCLRWinformsProjekt {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->alpha_input))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->BeginInit();
+			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -494,6 +519,29 @@ namespace CppCLRWinformsProjekt {
 			this->SaveImageButton->UseVisualStyleBackColor = true;
 			this->SaveImageButton->Click += gcnew System::EventHandler(this, &Form3::SaveImageButton_Click);
 			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->featuresToolStripMenuItem });
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(1247, 24);
+			this->menuStrip1->TabIndex = 5;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// featuresToolStripMenuItem
+			// 
+			this->featuresToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->loadcsvDataToolStripMenuItem });
+			this->featuresToolStripMenuItem->Name = L"featuresToolStripMenuItem";
+			this->featuresToolStripMenuItem->Size = System::Drawing::Size(63, 20);
+			this->featuresToolStripMenuItem->Text = L"Features";
+			// 
+			// loadcsvDataToolStripMenuItem
+			// 
+			this->loadcsvDataToolStripMenuItem->Name = L"loadcsvDataToolStripMenuItem";
+			this->loadcsvDataToolStripMenuItem->Size = System::Drawing::Size(198, 22);
+			this->loadcsvDataToolStripMenuItem->Text = L"Load experimental data";
+			this->loadcsvDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form3::loadcsvDataToolStripMenuItem_Click);
+			// 
 			// Form3
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -504,9 +552,12 @@ namespace CppCLRWinformsProjekt {
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
-			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+			this->Controls->Add(this->menuStrip1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"Form3";
 			this->Text = L"UG Epidemics: SEIRD Model";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form3::Form3_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &Form3::Form3_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
@@ -522,7 +573,10 @@ namespace CppCLRWinformsProjekt {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->alpha_input))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->EndInit();
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -550,64 +604,6 @@ private: System::Void textBox1_KeyPress(System::Object^ sender, System::Windows:
 }
 	private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 		plot_on_keypress();
-		/*
-		double tau = System::Decimal::ToDouble(this->tau_input->Value);
-		double theta = System::Decimal::ToDouble(this->theta_input->Value);
-		double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
-
-		ug::epi::SIR<std::vector<double>> sir_model(tau, alpha, theta);
-
-		std::vector<double> u0 = { System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
-		double t_start = 0;
-		double t_end = 42;
-
-		auto [timepoints, data] = sir_model.run(t_start, u0, t_end);
-
-		auto names = sir_model.names;
-		
-
-		System::String^ converted_name;
-		int iter = 0;
-		ug::epi::Plotter<decltype(this), std::vector<double>> plotter;
-		
-		for (auto& x : names) {
-			converted_name = gcnew String(names[iter].c_str());
-			this->chart1->Series[converted_name]->Points->Clear();
-			iter++;
-		}
-		this->chart1->Refresh();
-		iter = 0;
-		for (auto& x : names) {
-			converted_name=gcnew String(names[iter].c_str());
-			plotter.plot(this, timepoints, data, converted_name, 4, iter);
-			iter++;
-		}
-		*/
-		//auto g1=this->CreateGraphics();		
-		
-		//
-
-
-		//	g1->DrawEllipse(Pens::Black, 150, 20, 50, 50);
-
-
-
-
-			/*DataPointCollection^ datapoints;
-			System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
-				0));
-			System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint2 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
-				15));
-				*/
-
-				//	this->chart1->Series["Series1"]->Points->DataBindXY(datapoints,datapoints);
-
-				//	this->chart1->Series["Series1"]->Points->Add(dataPoint1);
-				//	this->chart1->Series["Series1"]->Points->Add(dataPoint2);
-				//	ug::epi::write_data("../", "temp.txt", timepoints, data, sir_model.names,"#","");
-				//	system("python creategraph");
-
-		//plotter.plot(g1, timepoints, data,4,0);
 
 	}
 private: System::Void chart1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -653,6 +649,13 @@ private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e)
 			   this->chart1->Series[converted_name]->Points->Clear();
 			   iter++;
 		   }
+		   if (user_datapoints != nullptr && user_names != nullptr && user_cols != nullptr) {
+			   for (int i = 1; i < user_names->size(); i++) {
+				   converted_name = gcnew String((*user_names)[i].c_str());
+				   this->chart1->Series[converted_name]->Points->Clear();
+			   }
+		   }
+
 		   this->chart1->Refresh();
 		   iter = 0;
 		   for (auto& x : names) {
@@ -661,6 +664,13 @@ private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e)
 			   iter++;
 		   }
 		   ug::epi::write_data("../EpidemicsRunnerOutput", "sri_output.txt", timepoints, data, seird_model.names);
+		   if (user_datapoints!= nullptr && user_names!=nullptr && user_cols!= nullptr) {
+			   for (int i = 1; i <user_names->size();i++) {
+				   converted_name = gcnew String((*user_names)[i].c_str());
+				   plotter.plot(this, user_datapoints, converted_name, user_names->size(), i);
+			   }
+
+		   }
 	   }
 
 private: System::Void theta_input_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -713,6 +723,17 @@ private: System::Void SaveImageButton_Click(System::Object^ sender, System::Even
 	}
 //	
 	//this->chart1->SaveImage(System::IO::Path::GetFullPath("chart1.emf"), ChartImageFormat::Emf);
+}
+
+
+private: System::Void loadcsvDataToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	ug::epi::load_csv_data_on_click(this,5); //5 represents the number of prior plotted lines
+	plot_on_keypress();
+
+}
+private: System::Void Form3_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+	Application::Exit();
 }
 };
 }

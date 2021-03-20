@@ -7,7 +7,7 @@ namespace ug{
 	namespace epi{
 		template<class TA,class TB,class TC>
 		void write_data(std::string path, std::string name, const TA& times, const TB& m, const TC& datanames,std::string delimiter="--",std::string reason=""){
-			int dim=datanames.size();
+			size_t dim=datanames.size();
 			std::string output;
 			if (reason.length()!=0){
 				output.append(delimiter);

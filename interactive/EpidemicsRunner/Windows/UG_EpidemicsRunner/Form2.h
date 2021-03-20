@@ -368,6 +368,7 @@ namespace CppCLRWinformsProjekt {
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
 			this->Name = L"Form2";
 			this->Text = L"UG Epidemics: SIR Model";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form2::Form2_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &Form2::Form2_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
@@ -532,6 +533,9 @@ private: System::Void initial_recovered_ValueChanged(System::Object^ sender, Sys
 }
 private: System::Void initial_deaths_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 	plot_on_keypress();
+}
+private: System::Void Form2_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+	Application::Exit();
 }
 };
 }

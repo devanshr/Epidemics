@@ -6,7 +6,7 @@
 
 #ifndef PCH_H
 #define PCH_H
-
+#define NOMINMAX //somehow Windows.h is included here. If this is not included, numeric_limist<double>::min will not work due to conflicting macro definition, see  https://stackoverflow.com/questions/4913922/possible-problems-with-nominmax-on-visual-c
 // Fügen Sie hier Header hinzu, die vorkompiliert werden sollen.
 
 #endif //PCH_H

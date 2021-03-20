@@ -22,6 +22,21 @@ namespace ug{
 					obj->chart1->Series[name]->Points->Add(dataPoint1);
 				}
 			}
+			bool plot(E obj,const T* data, System::String^ name, int col, int selected_col) {
+				if (col == 0) {
+					MessageBox::Show(L"Plotting error: Selected column cannot be zero\n");
+					return false;
+				}
+				//obj->chart1->Invalidate();
+				int rows = data->size()/col;
+
+				for (int i = 0; i < rows; i++) {
+
+					System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint((*data)[i*col],
+						(*data)[i * col + selected_col]));
+					obj->chart1->Series[name]->Points->Add(dataPoint1);
+				}
+			}
 
 		};
 
