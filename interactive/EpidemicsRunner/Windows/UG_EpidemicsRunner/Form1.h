@@ -1,6 +1,7 @@
 #pragma once
 #include "Form2.h"
 #include "Form3.h"
+#include "utility.h"
 
 namespace CppCLRWinformsProjekt {
 
@@ -201,6 +202,23 @@ private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System
 	
 }
 private: System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	
+	std::vector<std::string > names_of_constants = {"kappa","theta","qq","pp"};
+	std::vector<double> values_of_constants = { 0.0001,0.001,1,1 };
+	std::vector<std::string> names_of_variables = { "alpha" };
+
+
+	std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+	std::vector<double> values_of_inits = { 0,42,5800000,0,70,0,0 };
+
+
+	std::string textbody = R"(
+
+seird_model=SEIRD(alpha,kappa,theta,qq,pp)
+RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,init_recovered,init_deaths,t_start,t_end)
+							)";
+
+	ug::epi::create_evaluate_lua("C:/Users/Annett/Desktop/Epidemics/Git Version/Epidemics/", textbody,names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
 
 }
 };

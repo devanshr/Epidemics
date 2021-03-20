@@ -1,7 +1,65 @@
 #pragma once
+#include <vector>
+#include <string>
+#include <fstream>
 
 namespace ug {
 	namespace epi {
+
+
+		void create_evaluate_lua(std::string path, std::string textbody, std::vector<std::string>& names_of_constants,std::vector<double>& values_of_constants, std::vector<std::string>& names_of_variables, std::vector<std::string>& names_of_inits, std::vector<double>& values_of_inits) {
+
+			std::ofstream lua_output;
+			std::ofstream general_output;
+			lua_output.open(path + "evaluate.lua");
+
+			lua_output << R"(PrintBuildConfiguration()
+ug_load_script("ug_util.lua")
+
+-----------------------------------------------------------------
+-- define Home-Directories
+----------------------------------------------------------------
+ug4_home        = ug_get_root_path().."/"
+common_scripts  = app_home.."scripts/"
+geom_home       = app_home.."geometry/"
+
+-----------------------------------------------------------------
+
+
+--Load Parameters
+local pars = "parameters.lua"
+
+local parmfileloaded= false
+if(pfile ~= "") then
+	local file = assert(loadfile(pars))
+	file()
+	parmfileloaded = true
+end
+if parmfileloaded == false then
+	print("Parameter file could not be loaded")
+end
+
+--Start of parameter, constants and initial values definitions
+
+")";
+
+			for (int i = 0; i < names_of_inits.size(); i++) {
+				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";
+			}
+
+			for (int i = 0; i < names_of_constants.size(); i++) {
+				lua_output << names_of_constants[i] << "=" << values_of_constants[i] << "\n";
+			}
+
+			for (int i = 0; i < names_of_variables.size(); i++) {
+				lua_output << names_of_variables[i] << "=parameters."<<names_of_variables[i]<<":get_value_as_double()\n";
+			}
+
+			lua_output << textbody;
+
+			lua_output.close();
+
+		}
 
 		/*Loads csv data and displays it on a chart*/
 		template<class E>
