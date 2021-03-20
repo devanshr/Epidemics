@@ -154,6 +154,12 @@
     <ClInclude Include="Form3.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Form4.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Form5.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="plotter.h" />
     <ClInclude Include="Resource.h" />
@@ -167,6 +173,7 @@
       <FileType>CppCode</FileType>
     </ClCompile>
     <ClCompile Include="Form3.cpp" />
+    <ClCompile Include="Form5.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -191,6 +198,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx" />
     <EmbeddedResource Include="Form3.resx" />
+    <EmbeddedResource Include="Form4.resx" />
+    <EmbeddedResource Include="Form5.resx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

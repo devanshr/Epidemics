@@ -41,6 +41,12 @@
     <ClInclude Include="utility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Form4.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Form5.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppCLR_WinformsProjekt.cpp">
@@ -61,6 +67,9 @@
     <ClCompile Include="Form3.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Form5.cpp">
+      <Filter>Headerdateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
@@ -72,6 +81,12 @@
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="Form3.resx">
+      <Filter>Headerdateien</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form4.resx">
+      <Filter>Headerdateien</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form5.resx">
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
   </ItemGroup>
