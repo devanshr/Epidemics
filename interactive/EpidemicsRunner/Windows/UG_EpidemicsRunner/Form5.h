@@ -84,6 +84,7 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// OK_button
 			// 
+			this->OK_button->DialogResult = System::Windows::Forms::DialogResult::OK;
 			this->OK_button->Location = System::Drawing::Point(114, 178);
 			this->OK_button->Name = L"OK_button";
 			this->OK_button->Size = System::Drawing::Size(90, 40);
@@ -94,6 +95,7 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Cancel_button
 			// 
+			this->Cancel_button->DialogResult = System::Windows::Forms::DialogResult::Cancel;
 			this->Cancel_button->Location = System::Drawing::Point(218, 178);
 			this->Cancel_button->Name = L"Cancel_button";
 			this->Cancel_button->Size = System::Drawing::Size(90, 40);
@@ -143,8 +145,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Form5
 			// 
+			this->AcceptButton = this->OK_button;
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->CancelButton = this->Cancel_button;
 			this->ClientSize = System::Drawing::Size(433, 232);
 			this->Controls->Add(this->lower);
 			this->Controls->Add(this->upper);

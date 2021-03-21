@@ -42,11 +42,11 @@ end
 --Start of parameter, constants and initial values definitions
 
 )";
-
+			
 			for (int i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";
 			}
-
+			
 			for (int i = 0; i < names_of_constants.size(); i++) {
 				lua_output << names_of_constants[i] << "=" << values_of_constants[i] << "\n";
 			}
@@ -54,7 +54,7 @@ end
 			for (int i = 0; i < names_of_variables.size(); i++) {
 				lua_output << names_of_variables[i] << "=parameters."<<names_of_variables[i]<<":get_value_as_double()\n";
 			}
-
+			
 			lua_output << textbody;
 
 			lua_output.close();
