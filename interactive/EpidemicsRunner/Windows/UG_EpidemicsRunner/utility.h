@@ -14,14 +14,14 @@ namespace ug {
 			lua_output.open(path + "evaluate.lua");
 
 			lua_output << R"(PrintBuildConfiguration()
-ug_load_script("ug_util.lua")
 
 -----------------------------------------------------------------
 -- define Home-Directories
 ----------------------------------------------------------------
 ug4_home        = ug_get_root_path().."/"
-common_scripts  = app_home.."scripts/"
-geom_home       = app_home.."geometry/"
+
+--common_scripts  = app_home.."scripts/"
+--geom_home       = app_home.."geometry/"
 
 -----------------------------------------------------------------
 

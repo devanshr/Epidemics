@@ -78,6 +78,7 @@ namespace CppCLRWinformsProjekt {
 	private: double pp_upper_input;
 	private: double pp_lower_input;
 	private: System::Windows::Forms::Button^ Optimize_button;
+	private: System::Windows::Forms::ToolStripMenuItem^ loadSubsetSimToolStripMenuItem;
 
 	
 
@@ -107,6 +108,7 @@ namespace CppCLRWinformsProjekt {
 		this->loadFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->cancel_button = (gcnew System::Windows::Forms::Button());
 		this->Optimize_button = (gcnew System::Windows::Forms::Button());
+		this->loadSubsetSimToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->groupBox1->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->BeginInit();
@@ -128,7 +130,7 @@ namespace CppCLRWinformsProjekt {
 		this->groupBox1->Controls->Add(this->qq_check);
 		this->groupBox1->Controls->Add(this->kappa_check);
 		this->groupBox1->Controls->Add(this->theta_check);
-		this->groupBox1->Location = System::Drawing::Point(30, 103);
+		this->groupBox1->Location = System::Drawing::Point(29, 66);
 		this->groupBox1->Name = L"groupBox1";
 		this->groupBox1->Size = System::Drawing::Size(257, 265);
 		this->groupBox1->TabIndex = 5;
@@ -267,7 +269,10 @@ namespace CppCLRWinformsProjekt {
 		// 
 		// File_strip_menu
 		// 
-		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->loadFileToolStripMenuItem });
+		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->loadFileToolStripMenuItem,
+				this->loadSubsetSimToolStripMenuItem
+		});
 		this->File_strip_menu->Name = L"File_strip_menu";
 		this->File_strip_menu->Size = System::Drawing::Size(54, 29);
 		this->File_strip_menu->Text = L"File";
@@ -275,8 +280,9 @@ namespace CppCLRWinformsProjekt {
 		// loadFileToolStripMenuItem
 		// 
 		this->loadFileToolStripMenuItem->Name = L"loadFileToolStripMenuItem";
-		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(181, 34);
-		this->loadFileToolStripMenuItem->Text = L"Load file";
+		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(270, 34);
+		this->loadFileToolStripMenuItem->Text = L"Load Subset_Target";
+		this->loadFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::loadFileToolStripMenuItem_Click);
 		// 
 		// cancel_button
 		// 
@@ -297,6 +303,12 @@ namespace CppCLRWinformsProjekt {
 		this->Optimize_button->Text = L"Optimize";
 		this->Optimize_button->UseVisualStyleBackColor = true;
 		this->Optimize_button->Click += gcnew System::EventHandler(this, &Form4::Optimize_button_Click);
+		// 
+		// loadSubsetSimToolStripMenuItem
+		// 
+		this->loadSubsetSimToolStripMenuItem->Name = L"loadSubsetSimToolStripMenuItem";
+		this->loadSubsetSimToolStripMenuItem->Size = System::Drawing::Size(270, 34);
+		this->loadSubsetSimToolStripMenuItem->Text = L"Load Subset_Sim";
 		// 
 		// Form4
 		// 
@@ -471,7 +483,7 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 	solver.run(initial_vars,estimated_vars);
 }
 		   */
-		   double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
+		   co::EFloat64 alpha(System::Decimal::ToDouble(this->alpha_input->Value));
 		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
 		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
 		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
@@ -481,28 +493,37 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   std::vector<double> values_of_constants;
 		   std::vector<std::string> names_of_variables;
 
-
+		  // MessageBox::Show(gcnew String(std::to_string(alpha).c_str()));
 		   std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 		   std::vector<double> values_of_inits;
 
 		   co::EVar64Manager initial_vars;
 
-
-
+		   double test = 0;
+		   double test2 = 0;
+		   double test3 = 0;
+		   co::EFloat64 lower_alpha(alpha_lower_input);
+		   co::EFloat64 upper_alpha(alpha_upper_input);
 		   if (this->alpha_check->Checked) {
 			   names_of_variables.push_back("alpha");
-			   co::EVar64 v_alpha(co::EFloat64(alpha, alpha_upper_input, alpha_lower_input));
-			   initial_vars.add("alpha", v_alpha);
-			   //MessageBox::Show(gcnew String(std::to_string(alpha).c_str()));
+			   //co::EVar64 v_alpha(co::EFloat64(alpha, alpha_lower_input, alpha_upper_input));
+			   //co::EVar<co::EFloat64> v_alpha(co::EFloat64(alpha),co::EFloat64(test), co::EFloat64(test2));
+			   //co::EVar<co::EFloat64> v_alpha(co::EFloat64(alpha), co::EFloat64(0), co::EFloat64(1));
+			   //co::EVar64 v_alpha(co::EFloat64(System::Decimal::ToDouble(this->alpha_input->Value)), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
 
+			   co::EVar64 v_alpha(alpha,lower_alpha,upper_alpha);
+			   
+			   initial_vars.add("alpha", v_alpha);
+			   
 		   }
 		   else {
 			   names_of_constants.push_back("alpha");
-			   values_of_constants.push_back(alpha);
+			   values_of_constants.push_back((double)alpha);
 		   }
 
 		   if (this->kappa_check->Checked) {
 			   names_of_variables.push_back("kappa");
+			   //EFloats for bounds aswelll!!
 			   co::EVar64 v_kappa(co::EFloat64(kappa, kappa_upper_input, kappa_lower_input));
 			   initial_vars.add("kappa", v_kappa);
 		   }
@@ -551,7 +572,7 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   std::string textbody = R"(
 
 seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,init_recovered,init_deaths,t_start,t_end)
+RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end)
 							)";
 
 		   ug::epi::create_evaluate_lua("C:/Users/devan/ug4/apps/test/", textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
@@ -572,6 +593,8 @@ RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,i
 private: System::Void Optimize_button_Click(System::Object^ sender, System::EventArgs^ e) {
 	main_newton();
 
+}
+private: System::Void loadFileToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
