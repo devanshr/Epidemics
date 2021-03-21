@@ -23,6 +23,17 @@ namespace CppCLRWinformsProjekt {
 			//
 		}
 
+
+		System::Decimal get_upper() { return this->upper->Value; }
+		void set_upper(int val) { this->upper->Value = val; }
+
+		System::Decimal get_lower() { return this->lower->Value; }
+		void set_lower(int val) { this->lower->Value = val; }
+		
+
+			
+
+
 	protected:
 		/// <summary>
 		/// Verwendete Ressourcen bereinigen.
@@ -38,8 +49,10 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::Button^ Cancel_button;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
-	private: System::Windows::Forms::NumericUpDown^ numericUpDown2;
+	private: System::Windows::Forms::NumericUpDown^ upper;
+	private: System::Windows::Forms::NumericUpDown^ lower;
+
+
 	protected:
 
 
@@ -63,10 +76,10 @@ namespace CppCLRWinformsProjekt {
 			this->Cancel_button = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
+			this->upper = (gcnew System::Windows::Forms::NumericUpDown());
+			this->lower = (gcnew System::Windows::Forms::NumericUpDown());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->upper))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->lower))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// OK_button
@@ -108,29 +121,33 @@ namespace CppCLRWinformsProjekt {
 			this->label2->Text = L"Lower Bound";
 			this->label2->Click += gcnew System::EventHandler(this, &Form5::label2_Click);
 			// 
-			// numericUpDown1
+			// upper
 			// 
-			this->numericUpDown1->Location = System::Drawing::Point(218, 47);
-			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(120, 26);
-			this->numericUpDown1->TabIndex = 6;
-			this->numericUpDown1->ValueChanged += gcnew System::EventHandler(this, &Form5::numericUpDown1_ValueChanged);
+			this->upper->DecimalPlaces = 9;
+			this->upper->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 393216, 0, 0, 0 });
+			this->upper->Location = System::Drawing::Point(218, 47);
+			this->upper->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 131072, 0, 0, 0 });
+			this->upper->Name = L"upper";
+			this->upper->Size = System::Drawing::Size(161, 26);
+			this->upper->TabIndex = 6;
+			this->upper->ValueChanged += gcnew System::EventHandler(this, &Form5::numericUpDown1_ValueChanged);
 			// 
-			// numericUpDown2
+			// lower
 			// 
-			this->numericUpDown2->Location = System::Drawing::Point(218, 97);
-			this->numericUpDown2->Name = L"numericUpDown2";
-			this->numericUpDown2->Size = System::Drawing::Size(120, 26);
-			this->numericUpDown2->TabIndex = 7;
-			this->numericUpDown2->ValueChanged += gcnew System::EventHandler(this, &Form5::numericUpDown2_ValueChanged);
+			this->lower->DecimalPlaces = 9;
+			this->lower->Location = System::Drawing::Point(218, 97);
+			this->lower->Name = L"lower";
+			this->lower->Size = System::Drawing::Size(161, 26);
+			this->lower->TabIndex = 7;
+			this->lower->ValueChanged += gcnew System::EventHandler(this, &Form5::numericUpDown2_ValueChanged);
 			// 
 			// Form5
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(433, 232);
-			this->Controls->Add(this->numericUpDown2);
-			this->Controls->Add(this->numericUpDown1);
+			this->Controls->Add(this->lower);
+			this->Controls->Add(this->upper);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->Cancel_button);
@@ -138,8 +155,8 @@ namespace CppCLRWinformsProjekt {
 			this->Name = L"Form5";
 			this->Text = L"Parameter Bounds";
 			this->Load += gcnew System::EventHandler(this, &Form5::Form5_Load);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->upper))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->lower))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

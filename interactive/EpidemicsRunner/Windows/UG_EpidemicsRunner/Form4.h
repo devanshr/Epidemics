@@ -2,6 +2,8 @@
 
 #include "Form3.h"
 #include "Form5.h"
+#include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
+#include "../../../../../ConstrainedOptimization/core/parameters.h"
 
 
 namespace CppCLRWinformsProjekt {
@@ -64,6 +66,9 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::ToolStripMenuItem^ File_strip_menu;
 	private: System::Windows::Forms::ToolStripMenuItem^ loadFileToolStripMenuItem;
 	private: System::Windows::Forms::Button^ cancel_button;
+	private: double alpha_upper_input;
+	private: double alpha_lower_input;
+	
 
 
 	private:
@@ -298,7 +303,12 @@ private: System::Void alpha_check_CheckedChanged(System::Object^ sender, System:
 
 		Form5^ box = gcnew Form5;
 		box->Show();
-
+		alpha_upper_input = System::Decimal::ToDouble(box->get_upper());
+		alpha_lower_input = System::Decimal::ToDouble(box->get_lower());
+		// set values 
+		box->set_upper(100);
+		box->set_lower(1);
+		
 	}
 	
 }
@@ -370,7 +380,7 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 	Close();
 }
 
-	   void main_newton() {
+	   void main_newton() { // COLLET DATA SEPARTE OPTIMIZE	
 		   /*
 		   * int main(){
 	co::EVar64Manager initial_vars;
@@ -397,6 +407,13 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
 		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
 		   double pp = System::Decimal::ToDouble(this->pp_input->Value);
+		   
+
+		   co::EVar64Manager initial_vars;
+		   co::EVar64 v_alpha(co::EFloat64(alpha, alpha_upper_input, alpha_lower_input));
+		   initial_vars.add("v_alpha", v_alpha);
 	   }
+
+
 };
 }
