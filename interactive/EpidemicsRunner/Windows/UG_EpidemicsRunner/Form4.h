@@ -35,6 +35,7 @@ namespace CppCLRWinformsProjekt {
 		/// </summary>
 		~Form4()
 		{
+			delete user_selected_optimization_path;
 			if (components)
 			{
 				delete components;
@@ -77,7 +78,11 @@ namespace CppCLRWinformsProjekt {
 	private: double qq_lower_input;
 	private: double pp_upper_input;
 	private: double pp_lower_input;
+
+	private: std::string* user_selected_optimization_path;
+
 	private: System::Windows::Forms::Button^ Optimize_button;
+
 
 	
 
@@ -128,7 +133,7 @@ namespace CppCLRWinformsProjekt {
 		this->groupBox1->Controls->Add(this->qq_check);
 		this->groupBox1->Controls->Add(this->kappa_check);
 		this->groupBox1->Controls->Add(this->theta_check);
-		this->groupBox1->Location = System::Drawing::Point(30, 103);
+		this->groupBox1->Location = System::Drawing::Point(29, 66);
 		this->groupBox1->Name = L"groupBox1";
 		this->groupBox1->Size = System::Drawing::Size(257, 265);
 		this->groupBox1->TabIndex = 5;
@@ -144,9 +149,9 @@ namespace CppCLRWinformsProjekt {
 		this->pp_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->pp_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->pp_input->Name = L"pp_input";
-		this->pp_input->Size = System::Drawing::Size(120, 26);
+		this->pp_input->Size = System::Drawing::Size(120, 20);
 		this->pp_input->TabIndex = 15;
-		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
+		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->pp_input->ValueChanged += gcnew System::EventHandler(this, &Form4::pp_input_ValueChanged);
 		// 
 		// qq_input
@@ -158,9 +163,9 @@ namespace CppCLRWinformsProjekt {
 		this->qq_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->qq_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->qq_input->Name = L"qq_input";
-		this->qq_input->Size = System::Drawing::Size(120, 26);
+		this->qq_input->Size = System::Drawing::Size(120, 20);
 		this->qq_input->TabIndex = 14;
-		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
+		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->qq_input->ValueChanged += gcnew System::EventHandler(this, &Form4::qq_input_ValueChanged);
 		// 
 		// theta_input
@@ -171,8 +176,9 @@ namespace CppCLRWinformsProjekt {
 		this->theta_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->theta_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->theta_input->Name = L"theta_input";
-		this->theta_input->Size = System::Drawing::Size(120, 26);
+		this->theta_input->Size = System::Drawing::Size(120, 20);
 		this->theta_input->TabIndex = 13;
+		this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->theta_input->ValueChanged += gcnew System::EventHandler(this, &Form4::theta_input_ValueChanged);
 		// 
 		// kappa_input
@@ -183,8 +189,9 @@ namespace CppCLRWinformsProjekt {
 		this->kappa_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->kappa_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->kappa_input->Name = L"kappa_input";
-		this->kappa_input->Size = System::Drawing::Size(120, 26);
+		this->kappa_input->Size = System::Drawing::Size(120, 20);
 		this->kappa_input->TabIndex = 12;
+		this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->kappa_input->ValueChanged += gcnew System::EventHandler(this, &Form4::kappa_input_ValueChanged);
 		// 
 		// alpha_input
@@ -195,7 +202,7 @@ namespace CppCLRWinformsProjekt {
 		this->alpha_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->alpha_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 		this->alpha_input->Name = L"alpha_input";
-		this->alpha_input->Size = System::Drawing::Size(120, 26);
+		this->alpha_input->Size = System::Drawing::Size(120, 20);
 		this->alpha_input->TabIndex = 11;
 		this->alpha_input->ValueChanged += gcnew System::EventHandler(this, &Form4::alpha_input_ValueChanged);
 		// 
@@ -204,7 +211,7 @@ namespace CppCLRWinformsProjekt {
 		this->pp_check->AutoSize = true;
 		this->pp_check->Location = System::Drawing::Point(6, 212);
 		this->pp_check->Name = L"pp_check";
-		this->pp_check->Size = System::Drawing::Size(53, 24);
+		this->pp_check->Size = System::Drawing::Size(38, 17);
 		this->pp_check->TabIndex = 10;
 		this->pp_check->Text = L"pp";
 		this->pp_check->UseVisualStyleBackColor = true;
@@ -215,7 +222,7 @@ namespace CppCLRWinformsProjekt {
 		this->alpha_check->AutoSize = true;
 		this->alpha_check->Location = System::Drawing::Point(6, 43);
 		this->alpha_check->Name = L"alpha_check";
-		this->alpha_check->Size = System::Drawing::Size(74, 24);
+		this->alpha_check->Size = System::Drawing::Size(52, 17);
 		this->alpha_check->TabIndex = 6;
 		this->alpha_check->Text = L"alpha";
 		this->alpha_check->UseVisualStyleBackColor = true;
@@ -226,7 +233,7 @@ namespace CppCLRWinformsProjekt {
 		this->qq_check->AutoSize = true;
 		this->qq_check->Location = System::Drawing::Point(6, 171);
 		this->qq_check->Name = L"qq_check";
-		this->qq_check->Size = System::Drawing::Size(53, 24);
+		this->qq_check->Size = System::Drawing::Size(38, 17);
 		this->qq_check->TabIndex = 9;
 		this->qq_check->Text = L"qq";
 		this->qq_check->UseVisualStyleBackColor = true;
@@ -237,7 +244,7 @@ namespace CppCLRWinformsProjekt {
 		this->kappa_check->AutoSize = true;
 		this->kappa_check->Location = System::Drawing::Point(6, 87);
 		this->kappa_check->Name = L"kappa_check";
-		this->kappa_check->Size = System::Drawing::Size(79, 24);
+		this->kappa_check->Size = System::Drawing::Size(56, 17);
 		this->kappa_check->TabIndex = 7;
 		this->kappa_check->Text = L"kappa";
 		this->kappa_check->UseVisualStyleBackColor = true;
@@ -248,7 +255,7 @@ namespace CppCLRWinformsProjekt {
 		this->theta_check->AutoSize = true;
 		this->theta_check->Location = System::Drawing::Point(6, 131);
 		this->theta_check->Name = L"theta_check";
-		this->theta_check->Size = System::Drawing::Size(72, 24);
+		this->theta_check->Size = System::Drawing::Size(50, 17);
 		this->theta_check->TabIndex = 8;
 		this->theta_check->Text = L"theta";
 		this->theta_check->UseVisualStyleBackColor = true;
@@ -256,12 +263,11 @@ namespace CppCLRWinformsProjekt {
 		// 
 		// menuStrip1
 		// 
-		this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
 		this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->File_strip_menu });
 		this->menuStrip1->Location = System::Drawing::Point(0, 0);
 		this->menuStrip1->Name = L"menuStrip1";
-		this->menuStrip1->Size = System::Drawing::Size(1078, 33);
+		this->menuStrip1->Size = System::Drawing::Size(1078, 24);
 		this->menuStrip1->TabIndex = 6;
 		this->menuStrip1->Text = L"menuStrip1";
 		// 
@@ -269,14 +275,15 @@ namespace CppCLRWinformsProjekt {
 		// 
 		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->loadFileToolStripMenuItem });
 		this->File_strip_menu->Name = L"File_strip_menu";
-		this->File_strip_menu->Size = System::Drawing::Size(54, 29);
+		this->File_strip_menu->Size = System::Drawing::Size(37, 20);
 		this->File_strip_menu->Text = L"File";
 		// 
 		// loadFileToolStripMenuItem
 		// 
 		this->loadFileToolStripMenuItem->Name = L"loadFileToolStripMenuItem";
-		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(181, 34);
-		this->loadFileToolStripMenuItem->Text = L"Load file";
+		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(254, 22);
+		this->loadFileToolStripMenuItem->Text = L"Select Data Specification Directory";
+		this->loadFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::loadFileToolStripMenuItem_Click);
 		// 
 		// cancel_button
 		// 
@@ -308,6 +315,7 @@ namespace CppCLRWinformsProjekt {
 		this->MainMenuStrip = this->menuStrip1;
 		this->Name = L"Form4";
 		this->Text = L"Parameter Estimation";
+		this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form4::Form4_FormClosing);
 		this->Load += gcnew System::EventHandler(this, &Form4::Form4_Load);
 		this->groupBox1->ResumeLayout(false);
 		this->groupBox1->PerformLayout();
@@ -460,18 +468,8 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 }
 
 	void main_newton() { // COLLET DATA SEPARTE OPTIMIZE	
-		   /*
-	co::NewtonOptions options;
-	options.set_stepsize_alpha(1);
-	std::string dir ="/home/server1/Programs/ug4/ug4/plugins/ConstrainedOptimization/examples/logistic_1/";
-	co::BiogasEvaluation<co::EFloat64,co::ConfigComputation::Local,co::ConfigOutput::File> evaluator(dir, "subset_target.lua","subset_sim.lua");
-	co::EVarManager<co::EFloat64> estimated_vars;
-	co::NewtonOptimizer<decltype(evaluator)> solver(options,evaluator);
 
-	solver.run(initial_vars,estimated_vars);
-}
-		   */
-		   double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
+		   double alpha= System::Decimal::ToDouble(this->alpha_input->Value);
 		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
 		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
 		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
@@ -481,20 +479,18 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   std::vector<double> values_of_constants;
 		   std::vector<std::string> names_of_variables;
 
-
+		  // MessageBox::Show(gcnew String(std::to_string(alpha).c_str()));
 		   std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 		   std::vector<double> values_of_inits;
 
 		   co::EVar64Manager initial_vars;
 
-
-
 		   if (this->alpha_check->Checked) {
 			   names_of_variables.push_back("alpha");
-			   co::EVar64 v_alpha(co::EFloat64(alpha, alpha_upper_input, alpha_lower_input));
-			   initial_vars.add("alpha", v_alpha);
-			   //MessageBox::Show(gcnew String(std::to_string(alpha).c_str()));
 
+			   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
+			   initial_vars.add("alpha", v_alpha);
+			   
 		   }
 		   else {
 			   names_of_constants.push_back("alpha");
@@ -503,6 +499,7 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 
 		   if (this->kappa_check->Checked) {
 			   names_of_variables.push_back("kappa");
+			   //EFloats for bounds aswelll!!
 			   co::EVar64 v_kappa(co::EFloat64(kappa, kappa_upper_input, kappa_lower_input));
 			   initial_vars.add("kappa", v_kappa);
 		   }
@@ -542,7 +539,7 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   }
 
 
-		   values_of_inits = { 0,42,5800000,0,70,0,0 };
+		   values_of_inits = { 0,42,5800000,700,700,0,0 };
 		   /*
 		   MessageBox::Show(gcnew String(std::to_string(names_of_constants.size()).c_str()));
 		   MessageBox::Show(gcnew String(std::to_string(values_of_constants.size()).c_str()));
@@ -551,19 +548,20 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   std::string textbody = R"(
 
 seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,init_recovered,init_deaths,t_start,t_end)
+RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end)
 							)";
+		   
+			ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
+			
+			co::NewtonOptions options;
+			options.set_stepsize_alpha(1);
+			co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+			co::EVarManager<co::EFloat64> estimated_vars;
+			co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
+		//	MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
 
-		   ug::epi::create_evaluate_lua("C:/Users/devan/ug4/apps/test/", textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
 
-		   co::NewtonOptions options;
-		   options.set_stepsize_alpha(1);
-		   std::string dir = "C:/Users/devan/ug4/apps/test/";
-		   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(dir, "subset_target.lua", "subset_sim.lua");
-		   co::EVarManager<co::EFloat64> estimated_vars;
-		   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
-
-		   solver.run(initial_vars, estimated_vars);
+			solver.run(initial_vars, estimated_vars);
 
 
 	   }
@@ -572,6 +570,29 @@ RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,i
 private: System::Void Optimize_button_Click(System::Object^ sender, System::EventArgs^ e) {
 	main_newton();
 
+}
+private: System::Void loadFileToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
+	if (user_selected_optimization_path) {
+		delete user_selected_optimization_path;
+
+	}
+
+	System::Windows::Forms::FolderBrowserDialog fileDialog;
+	String^ filepath;
+	if (fileDialog.ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+//		String^ files = System::IO::Directory.GetFiles(fileDialog.SelectedPath);
+		filepath = fileDialog.SelectedPath;
+	}
+
+	user_selected_optimization_path=new std::string;
+	*user_selected_optimization_path = msclr::interop::marshal_as<std::string>(filepath);
+
+	//MessageBox::Show(filepath);
+}
+private: System::Void Form4_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+	Application::Exit();
 }
 };
 }

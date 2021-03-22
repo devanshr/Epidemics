@@ -126,7 +126,7 @@ namespace CppCLRWinformsProjekt {
 			// upper
 			// 
 			this->upper->DecimalPlaces = 9;
-			this->upper->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 393216, 0, 0, 0 });
+			this->upper->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 327680 });
 			this->upper->Location = System::Drawing::Point(218, 47);
 			this->upper->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 131072, 0, 0, 0 });
 			this->upper->Name = L"upper";
@@ -137,6 +137,7 @@ namespace CppCLRWinformsProjekt {
 			// lower
 			// 
 			this->lower->DecimalPlaces = 9;
+			this->lower->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 327680 });
 			this->lower->Location = System::Drawing::Point(218, 97);
 			this->lower->Name = L"lower";
 			this->lower->Size = System::Drawing::Size(161, 26);

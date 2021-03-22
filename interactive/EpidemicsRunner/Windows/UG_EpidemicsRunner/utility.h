@@ -11,17 +11,17 @@ namespace ug {
 
 			std::ofstream lua_output;
 			std::ofstream general_output;
-			lua_output.open(path + "evaluate.lua");
+			lua_output.open(path + "/evaluate.lua");
 
 			lua_output << R"(PrintBuildConfiguration()
-ug_load_script("ug_util.lua")
 
 -----------------------------------------------------------------
 -- define Home-Directories
 ----------------------------------------------------------------
 ug4_home        = ug_get_root_path().."/"
-common_scripts  = app_home.."scripts/"
-geom_home       = app_home.."geometry/"
+
+--common_scripts  = app_home.."scripts/"
+--geom_home       = app_home.."geometry/"
 
 -----------------------------------------------------------------
 
@@ -60,6 +60,7 @@ end
 			lua_output.close();
 
 		}
+
 
 		/*Loads csv data and displays it on a chart*/
 		template<class E>
