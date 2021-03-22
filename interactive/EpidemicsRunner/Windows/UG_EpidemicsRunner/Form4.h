@@ -315,6 +315,7 @@ namespace CppCLRWinformsProjekt {
 		this->MainMenuStrip = this->menuStrip1;
 		this->Name = L"Form4";
 		this->Text = L"Parameter Estimation";
+		this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form4::Form4_FormClosing);
 		this->Load += gcnew System::EventHandler(this, &Form4::Form4_Load);
 		this->groupBox1->ResumeLayout(false);
 		this->groupBox1->PerformLayout();
@@ -589,6 +590,9 @@ private: System::Void loadFileToolStripMenuItem_Click(System::Object^ sender, Sy
 	*user_selected_optimization_path = msclr::interop::marshal_as<std::string>(filepath);
 
 	//MessageBox::Show(filepath);
+}
+private: System::Void Form4_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+	Application::Exit();
 }
 };
 }
