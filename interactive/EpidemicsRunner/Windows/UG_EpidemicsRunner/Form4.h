@@ -472,18 +472,8 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 }
 
 	void main_newton() { // COLLET DATA SEPARTE OPTIMIZE	
-		   /*
-	co::NewtonOptions options;
-	options.set_stepsize_alpha(1);
-	std::string dir ="/home/server1/Programs/ug4/ug4/plugins/ConstrainedOptimization/examples/logistic_1/";
-	co::BiogasEvaluation<co::EFloat64,co::ConfigComputation::Local,co::ConfigOutput::File> evaluator(dir, "subset_target.lua","subset_sim.lua");
-	co::EVarManager<co::EFloat64> estimated_vars;
-	co::NewtonOptimizer<decltype(evaluator)> solver(options,evaluator);
 
-	solver.run(initial_vars,estimated_vars);
-}
-		   */
-		   co::EFloat64 alpha(System::Decimal::ToDouble(this->alpha_input->Value));
+		   double alpha= System::Decimal::ToDouble(this->alpha_input->Value);
 		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
 		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
 		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
@@ -499,26 +489,16 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 
 		   co::EVar64Manager initial_vars;
 
-		   double test = 0;
-		   double test2 = 0;
-		   double test3 = 0;
-		   co::EFloat64 lower_alpha(alpha_lower_input);
-		   co::EFloat64 upper_alpha(alpha_upper_input);
 		   if (this->alpha_check->Checked) {
 			   names_of_variables.push_back("alpha");
-			   //co::EVar64 v_alpha(co::EFloat64(alpha, alpha_lower_input, alpha_upper_input));
-			   //co::EVar<co::EFloat64> v_alpha(co::EFloat64(alpha),co::EFloat64(test), co::EFloat64(test2));
-			   //co::EVar<co::EFloat64> v_alpha(co::EFloat64(alpha), co::EFloat64(0), co::EFloat64(1));
-			   //co::EVar64 v_alpha(co::EFloat64(System::Decimal::ToDouble(this->alpha_input->Value)), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
 
-			   co::EVar64 v_alpha(alpha,lower_alpha,upper_alpha);
-			   
-			   initial_vars.add("alpha", v_alpha);
+			   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
+
 			   
 		   }
 		   else {
 			   names_of_constants.push_back("alpha");
-			   values_of_constants.push_back((double)alpha);
+			   values_of_constants.push_back(alpha);
 		   }
 
 		   if (this->kappa_check->Checked) {
@@ -584,7 +564,7 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 		   co::EVarManager<co::EFloat64> estimated_vars;
 		   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
 
-		   solver.run(initial_vars, estimated_vars);
+		//   solver.run(initial_vars, estimated_vars);
 
 
 	   }
