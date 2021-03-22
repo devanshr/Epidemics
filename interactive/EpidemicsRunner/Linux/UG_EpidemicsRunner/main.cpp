@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 	
 	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive;
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive.widget, seird_widget_interactive.name_widget);
-	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive2;
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
+//	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive2;
+	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
 
 	/*
 	for(int i = 0; i < 5; i += 1)
