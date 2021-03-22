@@ -29,7 +29,7 @@ namespace ug{
 
 				auto [timepoints, data] =seird_model.run(t_start,u0,t_end);
 
-				ug::epi::write_data(path, name, timepoints, data,seird_model.names); //write to file
+				ug::epi::write_data(path, name, timepoints, data,seird_model.names,"#"); //write to file
 				
 			}
 
@@ -38,7 +38,7 @@ namespace ug{
 
 				auto [timepoints, data] =seird_model.run(t_start,u0,t_end);
 
-				ug::epi::write_data(path, name, timepoints, data,seird_model.names); //write to file
+				ug::epi::write_data(path, name, timepoints, data,seird_model.names,"#"); //write to file
 				
 			}
 		}

@@ -11,7 +11,7 @@ namespace ug {
 
 			std::ofstream lua_output;
 			std::ofstream general_output;
-			lua_output.open(path + "evaluate.lua");
+			lua_output.open(path + "/evaluate.lua");
 
 			lua_output << R"(PrintBuildConfiguration()
 
@@ -60,6 +60,7 @@ end
 			lua_output.close();
 
 		}
+
 
 		/*Loads csv data and displays it on a chart*/
 		template<class E>
