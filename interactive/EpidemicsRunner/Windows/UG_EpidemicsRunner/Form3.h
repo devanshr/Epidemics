@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../models/sir.h"
+
 #include "../../../../models/seird.h"
 #include "../../../../models/writer.h"
 #include "plotter.h"

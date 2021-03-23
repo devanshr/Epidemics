@@ -160,6 +160,12 @@
     <ClInclude Include="Form5.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Form6.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Form7.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="plotter.h" />
     <ClInclude Include="Resource.h" />
@@ -200,6 +206,12 @@
     <EmbeddedResource Include="Form3.resx" />
     <EmbeddedResource Include="Form4.resx" />
     <EmbeddedResource Include="Form5.resx" />
+    <EmbeddedResource Include="Form6.resx">
+      <DependentUpon>Form6.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form7.resx">
+      <DependentUpon>Form7.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
