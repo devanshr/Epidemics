@@ -7,7 +7,7 @@ namespace ug {
 	namespace epi {
 
 
-		void create_evaluate_lua(std::string path, std::string textbody, std::vector<std::string>& names_of_constants,std::vector<double>& values_of_constants, std::vector<std::string>& names_of_variables, std::vector<std::string>& names_of_inits, std::vector<double>& values_of_inits) {
+		void create_evaluate_lua(std::string path, std::string textbody, std::vector<std::string>& names_of_constants,std::vector<double>& values_of_constants, std::vector<std::string>& names_of_variables, std::vector<std::string>& names_of_inits, std::vector<double>& values_of_inits, double stepsize) {
 
 			std::ofstream lua_output;
 			std::ofstream general_output;
@@ -42,6 +42,7 @@ end
 --Start of parameter, constants and initial values definitions
 
 )";
+			lua_output << "h=" << stepsize << "\n";
 			
 			for (int i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";

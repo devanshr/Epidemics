@@ -36,10 +36,10 @@ static void Common(Registry& reg, string grp)
 
 
 	 reg.add_function("RunSIR", ug::epi::RunSIR,"call Function",
-	 				 "model#dir#name#init_susceptible#init_infected#init_recovered#init_deaths#tstart#tend", "Runs the SIR ode model See manual for details.");
+	 				 "model#dir#name#init_susceptible#init_infected#init_recovered#init_deaths#tstart#tend#stepsize", "Runs the SIR ode model See manual for details.");
 	 				 
 	 reg.add_function("RunSEIRD", ug::epi::RunSEIRD,"call Function",
-	 				 "model#dir#name#init_susceptible#init_infected#init_3#init_4#init_5#tstart#tend", "Runs the SEIRD ode model See manual for details.");
+	 				 "model#dir#name#init_susceptible#init_infected#init_3#init_4#init_5#tstart#tend#stepsize", "Runs the SEIRD ode model See manual for details.");
  
 	reg.add_class_<ug::epi::SIR<std::vector<double>>>("SIR", grp)
 				.add_constructor<void(*)(double, double,double)>();	 

@@ -202,24 +202,7 @@ private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System
 	
 }
 private: System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	
-	std::vector<std::string > names_of_constants = {"kappa","theta","qq","pp"};
-	std::vector<double> values_of_constants = { 0.0001,0.001,1,1 };
-	std::vector<std::string> names_of_variables = { "alpha" };
-
-
-	std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
-	std::vector<double> values_of_inits = { 0,42,5800000,0,70,0,0 };
-
-
-	std::string textbody = R"(
-
-seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_population,init_infected,init_sick,init_recovered,init_deaths,t_start,t_end)
-							)";
-
-	ug::epi::create_evaluate_lua("your_path", textbody,names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
-
+	MessageBox::Show(L"Coming Soon!");
 }
 };
 }

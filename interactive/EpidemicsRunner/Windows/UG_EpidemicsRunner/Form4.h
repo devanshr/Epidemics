@@ -100,9 +100,9 @@ namespace CppCLRWinformsProjekt {
 	private: double pp_lower_input;
 
 	//PSO settings
-	private: double max_iter;
-	private: double no_particles;
-	private: double no_groups;
+	private: int max_iter = 20;
+	private: int no_particles = 32;
+	private: int no_groups = 4;
 
 	//NEwton Settings
 	private: double convergence_parameter;
@@ -132,6 +132,7 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::ToolStripMenuItem^ settingsForPSOToolStripMenuItem;
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chart2;
 private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^ loadExperimentalDatatToolStripMenuItem;
 
 
 
@@ -183,6 +184,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 		this->File_strip_menu = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->loadFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+		this->loadExperimentalDatatToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->settingsForPSOToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->settingForGaussNewtonToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->cancel_button = (gcnew System::Windows::Forms::Button());
@@ -237,9 +239,9 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->groupBox1->Controls->Add(this->qq_check);
 		this->groupBox1->Controls->Add(this->kappa_check);
 		this->groupBox1->Controls->Add(this->theta_check);
-		this->groupBox1->Location = System::Drawing::Point(29, 58);
+		this->groupBox1->Location = System::Drawing::Point(12, 63);
 		this->groupBox1->Name = L"groupBox1";
-		this->groupBox1->Size = System::Drawing::Size(257, 265);
+		this->groupBox1->Size = System::Drawing::Size(248, 246);
 		this->groupBox1->TabIndex = 5;
 		this->groupBox1->TabStop = false;
 		this->groupBox1->Text = L"Parameters";
@@ -253,7 +255,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->pp_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->pp_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->pp_input->Name = L"pp_input";
-		this->pp_input->Size = System::Drawing::Size(130, 26);
+		this->pp_input->Size = System::Drawing::Size(130, 20);
 		this->pp_input->TabIndex = 15;
 		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->pp_input->ValueChanged += gcnew System::EventHandler(this, &Form4::pp_input_ValueChanged);
@@ -267,7 +269,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->qq_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->qq_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->qq_input->Name = L"qq_input";
-		this->qq_input->Size = System::Drawing::Size(130, 26);
+		this->qq_input->Size = System::Drawing::Size(130, 20);
 		this->qq_input->TabIndex = 14;
 		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->qq_input->ValueChanged += gcnew System::EventHandler(this, &Form4::qq_input_ValueChanged);
@@ -280,7 +282,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->theta_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->theta_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->theta_input->Name = L"theta_input";
-		this->theta_input->Size = System::Drawing::Size(130, 26);
+		this->theta_input->Size = System::Drawing::Size(130, 20);
 		this->theta_input->TabIndex = 13;
 		this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->theta_input->ValueChanged += gcnew System::EventHandler(this, &Form4::theta_input_ValueChanged);
@@ -293,7 +295,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->kappa_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->kappa_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->kappa_input->Name = L"kappa_input";
-		this->kappa_input->Size = System::Drawing::Size(130, 26);
+		this->kappa_input->Size = System::Drawing::Size(130, 20);
 		this->kappa_input->TabIndex = 12;
 		this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->kappa_input->ValueChanged += gcnew System::EventHandler(this, &Form4::kappa_input_ValueChanged);
@@ -302,10 +304,10 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		this->alpha_input->DecimalPlaces = 9;
 		this->alpha_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
-		this->alpha_input->Location = System::Drawing::Point(104, 41);
+		this->alpha_input->Location = System::Drawing::Point(104, 43);
 		this->alpha_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->alpha_input->Name = L"alpha_input";
-		this->alpha_input->Size = System::Drawing::Size(130, 26);
+		this->alpha_input->Size = System::Drawing::Size(130, 20);
 		this->alpha_input->TabIndex = 11;
 		this->alpha_input->ValueChanged += gcnew System::EventHandler(this, &Form4::alpha_input_ValueChanged);
 		// 
@@ -314,7 +316,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->pp_check->AutoSize = true;
 		this->pp_check->Location = System::Drawing::Point(6, 212);
 		this->pp_check->Name = L"pp_check";
-		this->pp_check->Size = System::Drawing::Size(53, 24);
+		this->pp_check->Size = System::Drawing::Size(38, 17);
 		this->pp_check->TabIndex = 10;
 		this->pp_check->Text = L"pp";
 		this->pp_check->UseVisualStyleBackColor = true;
@@ -325,7 +327,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->alpha_check->AutoSize = true;
 		this->alpha_check->Location = System::Drawing::Point(6, 43);
 		this->alpha_check->Name = L"alpha_check";
-		this->alpha_check->Size = System::Drawing::Size(74, 24);
+		this->alpha_check->Size = System::Drawing::Size(52, 17);
 		this->alpha_check->TabIndex = 6;
 		this->alpha_check->Text = L"alpha";
 		this->alpha_check->UseVisualStyleBackColor = true;
@@ -336,7 +338,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->qq_check->AutoSize = true;
 		this->qq_check->Location = System::Drawing::Point(6, 171);
 		this->qq_check->Name = L"qq_check";
-		this->qq_check->Size = System::Drawing::Size(53, 24);
+		this->qq_check->Size = System::Drawing::Size(38, 17);
 		this->qq_check->TabIndex = 9;
 		this->qq_check->Text = L"qq";
 		this->qq_check->UseVisualStyleBackColor = true;
@@ -347,7 +349,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->kappa_check->AutoSize = true;
 		this->kappa_check->Location = System::Drawing::Point(6, 87);
 		this->kappa_check->Name = L"kappa_check";
-		this->kappa_check->Size = System::Drawing::Size(79, 24);
+		this->kappa_check->Size = System::Drawing::Size(56, 17);
 		this->kappa_check->TabIndex = 7;
 		this->kappa_check->Text = L"kappa";
 		this->kappa_check->UseVisualStyleBackColor = true;
@@ -358,7 +360,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->theta_check->AutoSize = true;
 		this->theta_check->Location = System::Drawing::Point(6, 131);
 		this->theta_check->Name = L"theta_check";
-		this->theta_check->Size = System::Drawing::Size(72, 24);
+		this->theta_check->Size = System::Drawing::Size(50, 17);
 		this->theta_check->TabIndex = 8;
 		this->theta_check->Text = L"theta";
 		this->theta_check->UseVisualStyleBackColor = true;
@@ -373,41 +375,51 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		});
 		this->menuStrip1->Location = System::Drawing::Point(0, 0);
 		this->menuStrip1->Name = L"menuStrip1";
-		this->menuStrip1->Size = System::Drawing::Size(1898, 33);
+		this->menuStrip1->Size = System::Drawing::Size(1298, 24);
 		this->menuStrip1->TabIndex = 6;
 		this->menuStrip1->Text = L"menuStrip1";
 		// 
 		// File_strip_menu
 		// 
-		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->loadFileToolStripMenuItem });
+		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->loadFileToolStripMenuItem,
+				this->loadExperimentalDatatToolStripMenuItem
+		});
 		this->File_strip_menu->Name = L"File_strip_menu";
-		this->File_strip_menu->Size = System::Drawing::Size(54, 29);
+		this->File_strip_menu->Size = System::Drawing::Size(37, 20);
 		this->File_strip_menu->Text = L"File";
 		// 
 		// loadFileToolStripMenuItem
 		// 
 		this->loadFileToolStripMenuItem->Name = L"loadFileToolStripMenuItem";
-		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(384, 34);
+		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(254, 22);
 		this->loadFileToolStripMenuItem->Text = L"Select Data Specification Directory";
 		this->loadFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::loadFileToolStripMenuItem_Click);
+		// 
+		// loadExperimentalDatatToolStripMenuItem
+		// 
+		this->loadExperimentalDatatToolStripMenuItem->Name = L"loadExperimentalDatatToolStripMenuItem";
+		this->loadExperimentalDatatToolStripMenuItem->Size = System::Drawing::Size(254, 22);
+		this->loadExperimentalDatatToolStripMenuItem->Text = L"Load Experimental Data";
+		this->loadExperimentalDatatToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::loadExperimentalDatatToolStripMenuItem_Click);
 		// 
 		// settingsForPSOToolStripMenuItem
 		// 
 		this->settingsForPSOToolStripMenuItem->Name = L"settingsForPSOToolStripMenuItem";
-		this->settingsForPSOToolStripMenuItem->Size = System::Drawing::Size(162, 29);
+		this->settingsForPSOToolStripMenuItem->Size = System::Drawing::Size(106, 20);
 		this->settingsForPSOToolStripMenuItem->Text = L"Settings For PSO";
 		this->settingsForPSOToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::settingsForPSOToolStripMenuItem_Click);
 		// 
 		// settingForGaussNewtonToolStripMenuItem
 		// 
 		this->settingForGaussNewtonToolStripMenuItem->Name = L"settingForGaussNewtonToolStripMenuItem";
-		this->settingForGaussNewtonToolStripMenuItem->Size = System::Drawing::Size(236, 29);
+		this->settingForGaussNewtonToolStripMenuItem->Size = System::Drawing::Size(157, 20);
 		this->settingForGaussNewtonToolStripMenuItem->Text = L"Setting For Gauss-Newton";
 		this->settingForGaussNewtonToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form4::settingForGaussNewtonToolStripMenuItem_Click);
 		// 
 		// cancel_button
 		// 
-		this->cancel_button->Location = System::Drawing::Point(362, 729);
+		this->cancel_button->Location = System::Drawing::Point(359, 592);
 		this->cancel_button->Name = L"cancel_button";
 		this->cancel_button->Size = System::Drawing::Size(108, 38);
 		this->cancel_button->TabIndex = 7;
@@ -417,7 +429,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		// Optimize_button
 		// 
-		this->Optimize_button->Location = System::Drawing::Point(12, 727);
+		this->Optimize_button->Location = System::Drawing::Point(12, 590);
 		this->Optimize_button->Name = L"Optimize_button";
 		this->Optimize_button->Size = System::Drawing::Size(164, 38);
 		this->Optimize_button->TabIndex = 8;
@@ -428,18 +440,18 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// label1
 		// 
 		this->label1->AutoSize = true;
-		this->label1->Location = System::Drawing::Point(31, 349);
+		this->label1->Location = System::Drawing::Point(15, 335);
 		this->label1->Name = L"label1";
-		this->label1->Size = System::Drawing::Size(55, 20);
+		this->label1->Size = System::Drawing::Size(36, 13);
 		this->label1->TabIndex = 9;
 		this->label1->Text = L"t_start";
 		// 
 		// label2
 		// 
 		this->label2->AutoSize = true;
-		this->label2->Location = System::Drawing::Point(31, 385);
+		this->label2->Location = System::Drawing::Point(15, 361);
 		this->label2->Name = L"label2";
-		this->label2->Size = System::Drawing::Size(50, 20);
+		this->label2->Size = System::Drawing::Size(34, 13);
 		this->label2->TabIndex = 10;
 		this->label2->Text = L"t_end";
 		// 
@@ -447,9 +459,9 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		this->t_start_input->DecimalPlaces = 2;
 		this->t_start_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
-		this->t_start_input->Location = System::Drawing::Point(175, 353);
+		this->t_start_input->Location = System::Drawing::Point(116, 333);
 		this->t_start_input->Name = L"t_start_input";
-		this->t_start_input->Size = System::Drawing::Size(130, 26);
+		this->t_start_input->Size = System::Drawing::Size(130, 20);
 		this->t_start_input->TabIndex = 11;
 		this->t_start_input->ValueChanged += gcnew System::EventHandler(this, &Form4::t_start_input_ValueChanged);
 		// 
@@ -457,9 +469,9 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		this->t_end_input->DecimalPlaces = 2;
 		this->t_end_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
-		this->t_end_input->Location = System::Drawing::Point(175, 385);
+		this->t_end_input->Location = System::Drawing::Point(116, 359);
 		this->t_end_input->Name = L"t_end_input";
-		this->t_end_input->Size = System::Drawing::Size(130, 26);
+		this->t_end_input->Size = System::Drawing::Size(130, 20);
 		this->t_end_input->TabIndex = 12;
 		this->t_end_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 40, 0, 0, 0 });
 		this->t_end_input->ValueChanged += gcnew System::EventHandler(this, &Form4::t_end_input_ValueChanged);
@@ -468,12 +480,12 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		this->stepsize_input->DecimalPlaces = 6;
 		this->stepsize_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
-		this->stepsize_input->Location = System::Drawing::Point(175, 663);
+		this->stepsize_input->Location = System::Drawing::Point(116, 554);
 		this->stepsize_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->stepsize_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->stepsize_input->Name = L"stepsize_input";
-		this->stepsize_input->Size = System::Drawing::Size(130, 26);
+		this->stepsize_input->Size = System::Drawing::Size(130, 20);
 		this->stepsize_input->TabIndex = 33;
 		this->stepsize_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 25, 0, 0, 131072 });
 		this->stepsize_input->ValueChanged += gcnew System::EventHandler(this, &Form4::stepsize_input_ValueChanged);
@@ -481,21 +493,21 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// label11
 		// 
 		this->label11->AutoSize = true;
-		this->label11->Location = System::Drawing::Point(25, 663);
+		this->label11->Location = System::Drawing::Point(15, 556);
 		this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label11->Name = L"label11";
-		this->label11->Size = System::Drawing::Size(106, 20);
+		this->label11->Size = System::Drawing::Size(71, 13);
 		this->label11->TabIndex = 32;
 		this->label11->Text = L"RK4 Stepsize";
 		// 
 		// initial_exposed
 		// 
 		this->initial_exposed->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_exposed->Location = System::Drawing::Point(175, 485);
+		this->initial_exposed->Location = System::Drawing::Point(114, 441);
 		this->initial_exposed->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->initial_exposed->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 		this->initial_exposed->Name = L"initial_exposed";
-		this->initial_exposed->Size = System::Drawing::Size(130, 26);
+		this->initial_exposed->Size = System::Drawing::Size(130, 20);
 		this->initial_exposed->TabIndex = 31;
 		this->initial_exposed->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 7, 0, 0, 0 });
 		this->initial_exposed->ValueChanged += gcnew System::EventHandler(this, &Form4::initial_exposed_ValueChanged);
@@ -503,32 +515,32 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// label10
 		// 
 		this->label10->AutoSize = true;
-		this->label10->Location = System::Drawing::Point(25, 488);
+		this->label10->Location = System::Drawing::Point(12, 441);
 		this->label10->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label10->Name = L"label10";
-		this->label10->Size = System::Drawing::Size(117, 20);
+		this->label10->Size = System::Drawing::Size(78, 13);
 		this->label10->TabIndex = 30;
 		this->label10->Text = L"Initial_Exposed";
 		// 
 		// initial_infected
 		// 
 		this->initial_infected->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_infected->Location = System::Drawing::Point(175, 532);
+		this->initial_infected->Location = System::Drawing::Point(114, 471);
 		this->initial_infected->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->initial_infected->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 		this->initial_infected->Name = L"initial_infected";
-		this->initial_infected->Size = System::Drawing::Size(130, 26);
+		this->initial_infected->Size = System::Drawing::Size(130, 20);
 		this->initial_infected->TabIndex = 27;
 		this->initial_infected->ValueChanged += gcnew System::EventHandler(this, &Form4::initial_infected_ValueChanged);
 		// 
 		// initial_deaths
 		// 
 		this->initial_deaths->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_deaths->Location = System::Drawing::Point(175, 620);
+		this->initial_deaths->Location = System::Drawing::Point(116, 529);
 		this->initial_deaths->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->initial_deaths->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 		this->initial_deaths->Name = L"initial_deaths";
-		this->initial_deaths->Size = System::Drawing::Size(130, 26);
+		this->initial_deaths->Size = System::Drawing::Size(130, 20);
 		this->initial_deaths->TabIndex = 29;
 		this->initial_deaths->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 72, 0, 0, 0 });
 		this->initial_deaths->ValueChanged += gcnew System::EventHandler(this, &Form4::initial_deaths_ValueChanged);
@@ -536,63 +548,63 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// initial_recovered
 		// 
 		this->initial_recovered->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_recovered->Location = System::Drawing::Point(175, 579);
+		this->initial_recovered->Location = System::Drawing::Point(116, 501);
 		this->initial_recovered->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->initial_recovered->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 		this->initial_recovered->Name = L"initial_recovered";
-		this->initial_recovered->Size = System::Drawing::Size(130, 26);
+		this->initial_recovered->Size = System::Drawing::Size(130, 20);
 		this->initial_recovered->TabIndex = 28;
 		this->initial_recovered->ValueChanged += gcnew System::EventHandler(this, &Form4::initial_recovered_ValueChanged);
 		// 
 		// label7
 		// 
 		this->label7->AutoSize = true;
-		this->label7->Location = System::Drawing::Point(25, 623);
+		this->label7->Location = System::Drawing::Point(15, 529);
 		this->label7->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label7->Name = L"label7";
-		this->label7->Size = System::Drawing::Size(102, 20);
+		this->label7->Size = System::Drawing::Size(68, 13);
 		this->label7->TabIndex = 26;
 		this->label7->Text = L"Initial Deaths";
 		// 
 		// label6
 		// 
 		this->label6->AutoSize = true;
-		this->label6->Location = System::Drawing::Point(25, 448);
+		this->label6->Location = System::Drawing::Point(12, 411);
 		this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label6->Name = L"label6";
-		this->label6->Size = System::Drawing::Size(141, 20);
+		this->label6->Size = System::Drawing::Size(94, 13);
 		this->label6->TabIndex = 25;
 		this->label6->Text = L"Initial Susceptibles";
 		// 
 		// label5
 		// 
 		this->label5->AutoSize = true;
-		this->label5->Location = System::Drawing::Point(25, 582);
+		this->label5->Location = System::Drawing::Point(12, 501);
 		this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label5->Name = L"label5";
-		this->label5->Size = System::Drawing::Size(127, 20);
+		this->label5->Size = System::Drawing::Size(87, 13);
 		this->label5->TabIndex = 24;
 		this->label5->Text = L"Initial Recovered";
 		// 
 		// label4
 		// 
 		this->label4->AutoSize = true;
-		this->label4->Location = System::Drawing::Point(25, 536);
+		this->label4->Location = System::Drawing::Point(12, 471);
 		this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label4->Name = L"label4";
-		this->label4->Size = System::Drawing::Size(109, 20);
+		this->label4->Size = System::Drawing::Size(73, 13);
 		this->label4->TabIndex = 23;
 		this->label4->Text = L"Initial Infected";
 		// 
 		// initial_susceptibles
 		// 
 		this->initial_susceptibles->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_susceptibles->Location = System::Drawing::Point(175, 445);
+		this->initial_susceptibles->Location = System::Drawing::Point(116, 411);
 		this->initial_susceptibles->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->initial_susceptibles->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 7000000, 0, 0, 0 });
 		this->initial_susceptibles->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->initial_susceptibles->Name = L"initial_susceptibles";
-		this->initial_susceptibles->Size = System::Drawing::Size(130, 26);
+		this->initial_susceptibles->Size = System::Drawing::Size(130, 20);
 		this->initial_susceptibles->TabIndex = 22;
 		this->initial_susceptibles->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5800000, 0, 0, 0 });
 		this->initial_susceptibles->ValueChanged += gcnew System::EventHandler(this, &Form4::initial_susceptibles_ValueChanged);
@@ -605,7 +617,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->chart1->ChartAreas->Add(chartArea1);
 		legend1->Name = L"Legend1";
 		this->chart1->Legends->Add(legend1);
-		this->chart1->Location = System::Drawing::Point(323, 68);
+		this->chart1->Location = System::Drawing::Point(267, 70);
 		this->chart1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->chart1->Name = L"chart1";
 		this->chart1->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::Bright;
@@ -638,15 +650,16 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		this->chart1->Series->Add(series3);
 		this->chart1->Series->Add(series4);
 		this->chart1->Series->Add(series5);
-		this->chart1->Size = System::Drawing::Size(823, 653);
+		this->chart1->Size = System::Drawing::Size(546, 514);
 		this->chart1->TabIndex = 34;
 		this->chart1->Text = L"chart1";
 		title1->Name = L"Result of SRI Model";
 		this->chart1->Titles->Add(title1);
+		this->chart1->Click += gcnew System::EventHandler(this, &Form4::chart1_Click);
 		// 
 		// pso_optimize_button
 		// 
-		this->pso_optimize_button->Location = System::Drawing::Point(193, 729);
+		this->pso_optimize_button->Location = System::Drawing::Point(192, 592);
 		this->pso_optimize_button->Name = L"pso_optimize_button";
 		this->pso_optimize_button->Size = System::Drawing::Size(149, 36);
 		this->pso_optimize_button->TabIndex = 35;
@@ -656,25 +669,27 @@ private: System::Windows::Forms::ToolStripMenuItem^ settingForGaussNewtonToolStr
 		// 
 		// chart2
 		// 
+		chartArea2->AxisX->Title = L"Iteration";
+		chartArea2->AxisY->Title = L"Squared Error";
 		chartArea2->Name = L"ChartArea1";
 		this->chart2->ChartAreas->Add(chartArea2);
 		legend2->Enabled = false;
 		legend2->Name = L"Legend1";
 		this->chart2->Legends->Add(legend2);
-		this->chart2->Location = System::Drawing::Point(1172, 68);
+		this->chart2->Location = System::Drawing::Point(820, 68);
 		this->chart2->Name = L"chart2";
 		series6->ChartArea = L"ChartArea1";
 		series6->Legend = L"Legend1";
 		series6->Name = L"Series1";
 		this->chart2->Series->Add(series6);
-		this->chart2->Size = System::Drawing::Size(714, 653);
+		this->chart2->Size = System::Drawing::Size(466, 514);
 		this->chart2->TabIndex = 36;
 		this->chart2->Text = L"chart2";
 		// 
 		// Form4
 		// 
 		this->AutoSize = true;
-		this->ClientSize = System::Drawing::Size(1898, 787);
+		this->ClientSize = System::Drawing::Size(1298, 639);
 		this->Controls->Add(this->chart2);
 		this->Controls->Add(this->pso_optimize_button);
 		this->Controls->Add(this->chart1);
@@ -895,14 +910,14 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 		   std::string textbody = R"(
 
 seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end)
+RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
 							)";
 		   
 		   if (user_selected_optimization_path == nullptr) {
 			   MessageBox::Show(L"Please specify the directory for the experimental data");
 		   }
 		   else{
-			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
+			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
 
 			   co::NewtonOptions options;
 			   options.set_stepsize_alpha(1);
@@ -913,9 +928,6 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 			   //	MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
 
 			   solver.set_convergence_threshold(convergence_parameter);
-
-
-				   //if (user_selected_optimization_path != nullptr) { MessageBox::Show(L"In if with not null"); }
 
 			   auto result = solver.run(initial_vars, estimated_vars);
 
@@ -954,15 +966,16 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 
 							this->chart2->Series[converted_name]->Points->Add(dataPoint1);
 					   }
-
+					   
 
 
 				   }
 			   }
 			   else { MessageBox::Show(L"Please check the settings"); }
+			   
 		   }
 
-	   }
+	}
 
 	   void main_pso() {
 		   double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
@@ -1041,7 +1054,7 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 		   std::string textbody = R"(
 
 seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end)
+RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
 							)";
 
 		   if (user_selected_optimization_path == nullptr) {
@@ -1049,23 +1062,39 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 		   }
 		   else {
 
-			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
+			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
 
 			   co::PSOOptions options;
-			   options.set_max_iterations(max_iter);
-			   options.set_n_groups(no_groups);
-			   options.set_n_particles(no_particles);
+			   options.set_max_iterations((this->max_iter));
+			   options.set_n_groups(this->no_groups);
+			   options.set_n_particles(this->no_particles);
 			   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
 			   co::ParticleSwarmOptimizer<co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
 			   co::EVarManager<co::EFloat64> estimated_parameters;
 
+			   
 			   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
+			   
 			   if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
 			   else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
 			   else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
 			   else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
-			   else if (result == co::ErrorCode::NoError) {	MessageBox::Show(L"Optimization Complete!"); }
+			   else if (result == co::ErrorCode::NoError) {	MessageBox::Show(L"Optimization Complete!"); 
+			   
+			   
+			   auto sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+			   auto converted_name = gcnew String(L"Series1");
+			   this->chart2->Series[converted_name]->Points->Clear();
+			   this->chart2->Refresh();
+			   for (int i = 0; i < sq_error.size(); i++) {
+
+				   System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(i,
+					   sq_error[i]));
+
+				   this->chart2->Series[converted_name]->Points->Add(dataPoint1);
+			   }
+			   }
 			   else { MessageBox::Show(L"Please check the settings"); }
 
 		   }
@@ -1193,9 +1222,9 @@ private: System::Void settingsForPSOToolStripMenuItem_Click(System::Object^ send
 	if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 	{
 		// If it came back with OK, get the values
-		max_iter = System::Decimal::ToDouble(form->get_max_iterations());
-		no_groups = System::Decimal::ToDouble(form->get_groups());
-		no_particles = System::Decimal::ToDouble(form->get_particles());
+		max_iter = System::Decimal::ToInt32(form->get_max_iterations());
+		no_groups = System::Decimal::ToInt32(form->get_groups());
+		no_particles = System::Decimal::ToInt32(form->get_particles());
 	}
 }
 
@@ -1207,6 +1236,12 @@ private: System::Void settingForGaussNewtonToolStripMenuItem_Click(System::Objec
 		convergence_parameter = System::Decimal::ToDouble(form->get_convergence_factor());
 	}
 
+}
+private: System::Void chart1_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void loadExperimentalDatatToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	ug::epi::load_csv_data_on_click(this, 5); //5 represents the number of prior plotted lines
+	plot_on_keypress();
 }
 };
 }

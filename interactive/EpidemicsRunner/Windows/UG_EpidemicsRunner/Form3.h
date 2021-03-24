@@ -124,14 +124,14 @@ namespace CppCLRWinformsProjekt {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series6 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series7 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series8 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series9 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series10 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Title^ title2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series4 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series5 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Title^ title1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
@@ -181,10 +181,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(18, 666);
-			this->button1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->button1->Location = System::Drawing::Point(12, 433);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(262, 35);
+			this->button1->Size = System::Drawing::Size(175, 23);
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"OK";
 			this->button1->UseVisualStyleBackColor = true;
@@ -193,10 +192,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(309, 666);
-			this->button2->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->button2->Location = System::Drawing::Point(206, 433);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(112, 35);
+			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 1;
 			this->button2->Text = L"Cancel";
 			this->button2->UseVisualStyleBackColor = true;
@@ -226,11 +224,9 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox1->Controls->Add(this->kappa_input);
 			this->groupBox1->Controls->Add(this->label1);
 			this->groupBox1->Controls->Add(this->alpha_input);
-			this->groupBox1->Location = System::Drawing::Point(46, 68);
-			this->groupBox1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->groupBox1->Location = System::Drawing::Point(31, 44);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
-			this->groupBox1->Size = System::Drawing::Size(446, 568);
+			this->groupBox1->Size = System::Drawing::Size(297, 369);
 			this->groupBox1->TabIndex = 2;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Parameters";
@@ -240,12 +236,11 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->stepsize_input->DecimalPlaces = 6;
 			this->stepsize_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
-			this->stepsize_input->Location = System::Drawing::Point(159, 505);
-			this->stepsize_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->stepsize_input->Location = System::Drawing::Point(106, 328);
 			this->stepsize_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 			this->stepsize_input->Name = L"stepsize_input";
-			this->stepsize_input->Size = System::Drawing::Size(180, 26);
+			this->stepsize_input->Size = System::Drawing::Size(120, 20);
 			this->stepsize_input->TabIndex = 21;
 			this->stepsize_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 25, 0, 0, 131072 });
 			this->stepsize_input->ValueChanged += gcnew System::EventHandler(this, &Form3::stepsize_input_ValueChanged);
@@ -253,21 +248,19 @@ namespace CppCLRWinformsProjekt {
 			// label11
 			// 
 			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(9, 508);
-			this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label11->Location = System::Drawing::Point(6, 330);
 			this->label11->Name = L"label11";
-			this->label11->Size = System::Drawing::Size(106, 20);
+			this->label11->Size = System::Drawing::Size(71, 13);
 			this->label11->TabIndex = 20;
 			this->label11->Text = L"RK4 Stepsize";
 			// 
 			// initial_exposed
 			// 
 			this->initial_exposed->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_exposed->Location = System::Drawing::Point(159, 291);
-			this->initial_exposed->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->initial_exposed->Location = System::Drawing::Point(106, 189);
 			this->initial_exposed->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->initial_exposed->Name = L"initial_exposed";
-			this->initial_exposed->Size = System::Drawing::Size(180, 26);
+			this->initial_exposed->Size = System::Drawing::Size(120, 20);
 			this->initial_exposed->TabIndex = 19;
 			this->initial_exposed->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2714, 0, 0, 0 });
 			this->initial_exposed->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_exposed_ValueChanged);
@@ -275,21 +268,19 @@ namespace CppCLRWinformsProjekt {
 			// label10
 			// 
 			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(9, 294);
-			this->label10->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label10->Location = System::Drawing::Point(6, 191);
 			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(117, 20);
+			this->label10->Size = System::Drawing::Size(78, 13);
 			this->label10->TabIndex = 18;
 			this->label10->Text = L"Initial_Exposed";
 			// 
 			// initial_infected
 			// 
 			this->initial_infected->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_infected->Location = System::Drawing::Point(159, 338);
-			this->initial_infected->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->initial_infected->Location = System::Drawing::Point(106, 220);
 			this->initial_infected->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->initial_infected->Name = L"initial_infected";
-			this->initial_infected->Size = System::Drawing::Size(180, 26);
+			this->initial_infected->Size = System::Drawing::Size(120, 20);
 			this->initial_infected->TabIndex = 11;
 			this->initial_infected->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_infected_ValueChanged);
 			// 
@@ -297,12 +288,11 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->pp_input->DecimalPlaces = 4;
 			this->pp_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
-			this->pp_input->Location = System::Drawing::Point(159, 191);
-			this->pp_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->pp_input->Location = System::Drawing::Point(106, 124);
 			this->pp_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 			this->pp_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 			this->pp_input->Name = L"pp_input";
-			this->pp_input->Size = System::Drawing::Size(180, 26);
+			this->pp_input->Size = System::Drawing::Size(120, 20);
 			this->pp_input->TabIndex = 17;
 			this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 14, 0, 0, 0 });
 			this->pp_input->ValueChanged += gcnew System::EventHandler(this, &Form3::pp_input_ValueChanged);
@@ -311,12 +301,11 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->qq_input->DecimalPlaces = 4;
 			this->qq_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
-			this->qq_input->Location = System::Drawing::Point(159, 149);
-			this->qq_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->qq_input->Location = System::Drawing::Point(106, 97);
 			this->qq_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 			this->qq_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 			this->qq_input->Name = L"qq_input";
-			this->qq_input->Size = System::Drawing::Size(180, 26);
+			this->qq_input->Size = System::Drawing::Size(120, 20);
 			this->qq_input->TabIndex = 16;
 			this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 7, 0, 0, 0 });
 			this->qq_input->ValueChanged += gcnew System::EventHandler(this, &Form3::qq_input_ValueChanged);
@@ -324,10 +313,9 @@ namespace CppCLRWinformsProjekt {
 			// label9
 			// 
 			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(9, 191);
-			this->label9->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label9->Location = System::Drawing::Point(6, 124);
 			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(27, 20);
+			this->label9->Size = System::Drawing::Size(19, 13);
 			this->label9->TabIndex = 15;
 			this->label9->Text = L"pp";
 			this->label9->Click += gcnew System::EventHandler(this, &Form3::label9_Click);
@@ -335,21 +323,19 @@ namespace CppCLRWinformsProjekt {
 			// label8
 			// 
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(9, 149);
-			this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label8->Location = System::Drawing::Point(6, 97);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(27, 20);
+			this->label8->Size = System::Drawing::Size(19, 13);
 			this->label8->TabIndex = 14;
 			this->label8->Text = L"qq";
 			// 
 			// initial_deaths
 			// 
 			this->initial_deaths->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_deaths->Location = System::Drawing::Point(159, 426);
-			this->initial_deaths->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->initial_deaths->Location = System::Drawing::Point(106, 277);
 			this->initial_deaths->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->initial_deaths->Name = L"initial_deaths";
-			this->initial_deaths->Size = System::Drawing::Size(180, 26);
+			this->initial_deaths->Size = System::Drawing::Size(120, 20);
 			this->initial_deaths->TabIndex = 13;
 			this->initial_deaths->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 72, 0, 0, 0 });
 			this->initial_deaths->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_deaths_ValueChanged);
@@ -357,41 +343,37 @@ namespace CppCLRWinformsProjekt {
 			// initial_recovered
 			// 
 			this->initial_recovered->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_recovered->Location = System::Drawing::Point(159, 385);
-			this->initial_recovered->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->initial_recovered->Location = System::Drawing::Point(106, 250);
 			this->initial_recovered->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->initial_recovered->Name = L"initial_recovered";
-			this->initial_recovered->Size = System::Drawing::Size(180, 26);
+			this->initial_recovered->Size = System::Drawing::Size(120, 20);
 			this->initial_recovered->TabIndex = 12;
 			this->initial_recovered->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_recovered_ValueChanged);
 			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
-			this->label7->Location = System::Drawing::Point(9, 429);
-			this->label7->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label7->Location = System::Drawing::Point(6, 279);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(102, 20);
+			this->label7->Size = System::Drawing::Size(68, 13);
 			this->label7->TabIndex = 10;
 			this->label7->Text = L"Initial Deaths";
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(9, 254);
-			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label6->Location = System::Drawing::Point(6, 165);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(141, 20);
+			this->label6->Size = System::Drawing::Size(94, 13);
 			this->label6->TabIndex = 9;
 			this->label6->Text = L"Initial Susceptibles";
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(9, 388);
-			this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label5->Location = System::Drawing::Point(6, 252);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(127, 20);
+			this->label5->Size = System::Drawing::Size(87, 13);
 			this->label5->TabIndex = 8;
 			this->label5->Text = L"Initial Recovered";
 			this->label5->Click += gcnew System::EventHandler(this, &Form3::label5_Click);
@@ -399,10 +381,9 @@ namespace CppCLRWinformsProjekt {
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(9, 342);
-			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label4->Location = System::Drawing::Point(6, 222);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(109, 20);
+			this->label4->Size = System::Drawing::Size(73, 13);
 			this->label4->TabIndex = 7;
 			this->label4->Text = L"Initial Infected";
 			this->label4->Click += gcnew System::EventHandler(this, &Form3::label4_Click);
@@ -410,10 +391,9 @@ namespace CppCLRWinformsProjekt {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(9, 112);
-			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label3->Location = System::Drawing::Point(6, 73);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(46, 20);
+			this->label3->Size = System::Drawing::Size(31, 13);
 			this->label3->TabIndex = 6;
 			this->label3->Text = L"theta";
 			this->label3->Click += gcnew System::EventHandler(this, &Form3::label3_Click);
@@ -421,23 +401,21 @@ namespace CppCLRWinformsProjekt {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(9, 72);
-			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label2->Location = System::Drawing::Point(6, 47);
 			this->label2->Name = L"label2";
 			this->label2->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			this->label2->Size = System::Drawing::Size(53, 20);
+			this->label2->Size = System::Drawing::Size(37, 13);
 			this->label2->TabIndex = 5;
 			this->label2->Text = L"kappa";
 			// 
 			// initial_susceptibles
 			// 
 			this->initial_susceptibles->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-			this->initial_susceptibles->Location = System::Drawing::Point(159, 251);
-			this->initial_susceptibles->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->initial_susceptibles->Location = System::Drawing::Point(106, 163);
 			this->initial_susceptibles->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 7000000, 0, 0, 0 });
 			this->initial_susceptibles->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->initial_susceptibles->Name = L"initial_susceptibles";
-			this->initial_susceptibles->Size = System::Drawing::Size(180, 26);
+			this->initial_susceptibles->Size = System::Drawing::Size(120, 20);
 			this->initial_susceptibles->TabIndex = 4;
 			this->initial_susceptibles->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 753056, 0, 0, 0 });
 			this->initial_susceptibles->ValueChanged += gcnew System::EventHandler(this, &Form3::initial_susceptibles_ValueChanged);
@@ -446,11 +424,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->theta_input->DecimalPlaces = 8;
 			this->theta_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
-			this->theta_input->Location = System::Drawing::Point(159, 109);
-			this->theta_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->theta_input->Location = System::Drawing::Point(106, 71);
 			this->theta_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->theta_input->Name = L"theta_input";
-			this->theta_input->Size = System::Drawing::Size(180, 26);
+			this->theta_input->Size = System::Drawing::Size(120, 20);
 			this->theta_input->TabIndex = 3;
 			this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1720495929, 115473, 0, 1376256 });
 			this->theta_input->ValueChanged += gcnew System::EventHandler(this, &Form3::tau_input_ValueChanged);
@@ -459,11 +436,10 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->kappa_input->DecimalPlaces = 8;
 			this->kappa_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
-			this->kappa_input->Location = System::Drawing::Point(159, 69);
-			this->kappa_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->kappa_input->Location = System::Drawing::Point(106, 45);
 			this->kappa_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->kappa_input->Name = L"kappa_input";
-			this->kappa_input->Size = System::Drawing::Size(180, 26);
+			this->kappa_input->Size = System::Drawing::Size(120, 20);
 			this->kappa_input->TabIndex = 2;
 			this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { -495194266, 96608, 0, 1376256 });
 			this->kappa_input->ValueChanged += gcnew System::EventHandler(this, &Form3::theta_input_ValueChanged);
@@ -471,10 +447,9 @@ namespace CppCLRWinformsProjekt {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(9, 32);
-			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->label1->Location = System::Drawing::Point(6, 21);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(48, 20);
+			this->label1->Size = System::Drawing::Size(33, 13);
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"alpha";
 			// 
@@ -482,69 +457,66 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->alpha_input->DecimalPlaces = 9;
 			this->alpha_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
-			this->alpha_input->Location = System::Drawing::Point(159, 29);
-			this->alpha_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->alpha_input->Location = System::Drawing::Point(106, 19);
 			this->alpha_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 			this->alpha_input->Name = L"alpha_input";
-			this->alpha_input->Size = System::Drawing::Size(180, 26);
+			this->alpha_input->Size = System::Drawing::Size(120, 20);
 			this->alpha_input->TabIndex = 0;
 			this->alpha_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1720495929, 115473, 0, 1376256 });
 			this->alpha_input->ValueChanged += gcnew System::EventHandler(this, &Form3::numericUpDown1_ValueChanged);
 			// 
 			// chart1
 			// 
-			chartArea2->AxisX->Title = L"Time";
-			chartArea2->AxisY->Title = L"Amount";
-			chartArea2->Name = L"ChartArea1";
-			this->chart1->ChartAreas->Add(chartArea2);
-			legend2->Name = L"Legend1";
-			this->chart1->Legends->Add(legend2);
-			this->chart1->Location = System::Drawing::Point(524, 68);
-			this->chart1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			chartArea1->AxisX->Title = L"Time";
+			chartArea1->AxisY->Title = L"Amount";
+			chartArea1->Name = L"ChartArea1";
+			this->chart1->ChartAreas->Add(chartArea1);
+			legend1->Name = L"Legend1";
+			this->chart1->Legends->Add(legend1);
+			this->chart1->Location = System::Drawing::Point(349, 44);
 			this->chart1->Name = L"chart1";
 			this->chart1->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::Bright;
-			series6->ChartArea = L"ChartArea1";
-			series6->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series6->Legend = L"Legend1";
-			series6->Name = L"Susceptibles";
-			series6->ShadowColor = System::Drawing::Color::Blue;
-			series7->ChartArea = L"ChartArea1";
-			series7->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series7->Legend = L"Legend1";
-			series7->Name = L"Infected";
-			series7->ShadowColor = System::Drawing::Color::Red;
-			series8->ChartArea = L"ChartArea1";
-			series8->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series8->Legend = L"Legend1";
-			series8->Name = L"Deaths";
-			series8->ShadowColor = System::Drawing::Color::Black;
-			series9->ChartArea = L"ChartArea1";
-			series9->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series9->Legend = L"Legend1";
-			series9->Name = L"Recovered";
-			series9->ShadowColor = System::Drawing::Color::Maroon;
-			series10->ChartArea = L"ChartArea1";
-			series10->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series10->Legend = L"Legend1";
-			series10->Name = L"Exposed";
-			this->chart1->Series->Add(series6);
-			this->chart1->Series->Add(series7);
-			this->chart1->Series->Add(series8);
-			this->chart1->Series->Add(series9);
-			this->chart1->Series->Add(series10);
-			this->chart1->Size = System::Drawing::Size(1350, 840);
+			series1->ChartArea = L"ChartArea1";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series1->Legend = L"Legend1";
+			series1->Name = L"Susceptibles";
+			series1->ShadowColor = System::Drawing::Color::Blue;
+			series2->ChartArea = L"ChartArea1";
+			series2->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series2->Legend = L"Legend1";
+			series2->Name = L"Infected";
+			series2->ShadowColor = System::Drawing::Color::Red;
+			series3->ChartArea = L"ChartArea1";
+			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series3->Legend = L"Legend1";
+			series3->Name = L"Deaths";
+			series3->ShadowColor = System::Drawing::Color::Black;
+			series4->ChartArea = L"ChartArea1";
+			series4->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series4->Legend = L"Legend1";
+			series4->Name = L"Recovered";
+			series4->ShadowColor = System::Drawing::Color::Maroon;
+			series5->ChartArea = L"ChartArea1";
+			series5->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series5->Legend = L"Legend1";
+			series5->Name = L"Exposed";
+			this->chart1->Series->Add(series1);
+			this->chart1->Series->Add(series2);
+			this->chart1->Series->Add(series3);
+			this->chart1->Series->Add(series4);
+			this->chart1->Series->Add(series5);
+			this->chart1->Size = System::Drawing::Size(900, 546);
 			this->chart1->TabIndex = 3;
 			this->chart1->Text = L"chart1";
-			title2->Name = L"Result of SRI Model";
-			this->chart1->Titles->Add(title2);
+			title1->Name = L"Result of SRI Model";
+			this->chart1->Titles->Add(title1);
 			this->chart1->Click += gcnew System::EventHandler(this, &Form3::chart1_Click);
 			// 
 			// SaveImageButton
 			// 
-			this->SaveImageButton->Location = System::Drawing::Point(1740, 929);
-			this->SaveImageButton->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->SaveImageButton->Location = System::Drawing::Point(1160, 604);
 			this->SaveImageButton->Name = L"SaveImageButton";
-			this->SaveImageButton->Size = System::Drawing::Size(112, 35);
+			this->SaveImageButton->Size = System::Drawing::Size(75, 23);
 			this->SaveImageButton->TabIndex = 4;
 			this->SaveImageButton->Text = L"Save Image";
 			this->SaveImageButton->UseVisualStyleBackColor = true;
@@ -552,12 +524,12 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// menuStrip1
 			// 
-			this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
 			this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->featuresToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(1870, 33);
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 1, 0, 1);
+			this->menuStrip1->Size = System::Drawing::Size(1264, 24);
 			this->menuStrip1->TabIndex = 5;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -565,21 +537,22 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->featuresToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->loadcsvDataToolStripMenuItem });
 			this->featuresToolStripMenuItem->Name = L"featuresToolStripMenuItem";
-			this->featuresToolStripMenuItem->Size = System::Drawing::Size(94, 29);
+			this->featuresToolStripMenuItem->Size = System::Drawing::Size(63, 22);
 			this->featuresToolStripMenuItem->Text = L"Features";
 			// 
 			// loadcsvDataToolStripMenuItem
 			// 
 			this->loadcsvDataToolStripMenuItem->Name = L"loadcsvDataToolStripMenuItem";
-			this->loadcsvDataToolStripMenuItem->Size = System::Drawing::Size(299, 34);
+			this->loadcsvDataToolStripMenuItem->Size = System::Drawing::Size(198, 22);
 			this->loadcsvDataToolStripMenuItem->Text = L"Load experimental data";
 			this->loadcsvDataToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form3::loadcsvDataToolStripMenuItem_Click);
 			// 
 			// para_estimator_button
 			// 
-			this->para_estimator_button->Location = System::Drawing::Point(18, 731);
+			this->para_estimator_button->Location = System::Drawing::Point(12, 475);
+			this->para_estimator_button->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->para_estimator_button->Name = L"para_estimator_button";
-			this->para_estimator_button->Size = System::Drawing::Size(262, 40);
+			this->para_estimator_button->Size = System::Drawing::Size(175, 26);
 			this->para_estimator_button->TabIndex = 6;
 			this->para_estimator_button->Text = L"Optimize";
 			this->para_estimator_button->UseVisualStyleBackColor = true;
@@ -587,9 +560,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Form3
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1870, 983);
+			this->ClientSize = System::Drawing::Size(1264, 630);
 			this->Controls->Add(this->para_estimator_button);
 			this->Controls->Add(this->SaveImageButton);
 			this->Controls->Add(this->chart1);
@@ -599,7 +572,6 @@ namespace CppCLRWinformsProjekt {
 			this->Controls->Add(this->menuStrip1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"Form3";
 			this->Text = L"UG Epidemics: SEIRD Model";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form3::Form3_FormClosing);
