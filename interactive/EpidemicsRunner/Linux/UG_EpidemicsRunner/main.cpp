@@ -14,12 +14,12 @@ int main(int argc, char* argv[])
     gtk_window_set_title(GTK_WINDOW(window), "UG EpidemicsRunner");
 	notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
-	
-	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive;
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive.widget, seird_widget_interactive.name_widget);
-//	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive2;
-	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
 
+	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive;
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive.widget, seird_widget_interactive.name_widget); //represents GUI tab of the interactive SEIRD model
+	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
+	std::cout<<"Address:"<<&seird_widget_interactive<<"\n";
+	
 	/*
 	for(int i = 0; i < 5; i += 1)
 	{
@@ -46,5 +46,6 @@ int main(int argc, char* argv[])
 
 	gtk_widget_show_all(window);
 	gtk_main();
+	std::cout<<"Programm ended\n";
 	return 0;
 }
