@@ -39,7 +39,7 @@ namespace ug{
 				std::vector<double> u0={v1,v2,v3,v4,v5};
 
 				seird_model.change_step_size(stepsize);
-				auto result =seird_model.run(t_start,u0,t_end);
+				auto result =seird_model.run_linear_implicit(t_start,u0,t_end);
 				auto timepoints=std::get<0>(result);
 				auto data=std::get<1>(result);
 				ug::epi::write_data(path, name, timepoints, data,seird_model.names,"#"); //write to file

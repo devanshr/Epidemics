@@ -1117,9 +1117,9 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 		   double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
 		   double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
 
-		   auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
+		  // auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
 
-		   //auto [timepoints, data] = seird_model.run_linear_implicit(t_start, u0, t_end);
+		   auto [timepoints, data] = seird_model.run_linear_implicit(t_start, u0, t_end);
 
 		   auto names = seird_model.names;
 
