@@ -12,15 +12,13 @@ int main(){
 	double qq=8;
 	double pp=5;
 	
-	
-
 	ug::epi::SEIRD<std::vector<double>> seird_model(alpha,kappa,theta,qq,pp);
 	
 	std::vector<double> u0={753056,2714,0,0,72};
 	double t_start=0;
 	double t_end=42;
 
-	auto [timepoints, data] =seird_model.run(t_start,u0,t_end);
-
-	ug::epi::write_data("/home/devanshr/gcsc/ug4/plugins/Epidemics/models/", "test.txt", timepoints, data,seird_model.names);
+	auto [timepoints, data]=seird_model.run_linear_implicit(t_start,u0,t_end);
+	std::cout<<"Optimization done\n";
+	ug::epi::write_data("C:/Users/Annett/Desktop/Epidemics Git/Epidemics/models/", "test.txt", timepoints, data,seird_model.names);
 }
