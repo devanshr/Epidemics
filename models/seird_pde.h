@@ -40,19 +40,59 @@ namespace ug {
 
 		void set_susceptibles(typename T::iterator G_prime, typename T::iterator G, typename T::iterator A, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
-			for (int i = 0; i<nRows; i++) {
-				for (int j = 0; j < nCols;j++) {
-					F diffusion =D* hinv * (G[(i - 1) * nCols + j] - 4 * G[i * nCols + j] + G[(i + 1) * nCols + j] + G[i * nCols + j - 1] + G[i * nCols + j + 1]);
+			for (int i = 0; i<(nRows-1); i++) {
+				for (int j = 0; j < (nCols-1);j++) {
+					double a=0;
+					double b=0;
+					double c=0;
+					double d=0;					
+					if ((i-1)>=0){
+						a=G[(i - 1) * nCols + j];
+					}
+					if ((i+1)<nRows){
+						b=G[(i + 1) * nCols + j];
+					}
+					
+					if ((j-1)>=0){
+						c=G[i * nCols + j - 1];
+					}
+					
+					if ((j+1)<nCols){
+						d=G[i * nCols + j + 1];
+					}
+				
+					F diffusion =D* hinv * (a - 4 * G[i * nCols + j] + b + c + d);
 					G_prime[i * nCols + j] = diffusion - alpha * A[i * nCols + j] * G[i * nCols + j];
 				}
 			}
+		
 		}
 		void set_exposed(typename T::iterator A_prime, typename T::iterator A, typename T::iterator G, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
 			F tauinv = 1 / tau;
+			
 			for (int i = 0; i < nRows; i++) {
 				for (int j = 0; j < nCols; j++) {
-					F diffusion = D * hinv * (A[(i - 1) * nCols + j] - 4 * A[i * nCols + j] + A[(i + 1) * nCols + j] + A[i * nCols + j - 1] + A[i * nCols + j + 1]);
+					double a=0;
+					double b=0;
+					double c=0;
+					double d=0;					
+					if ((i-1)>=0){
+						a=A[(i - 1) * nCols + j];
+					}
+					if ((i+1)<nRows){
+						b=A[(i + 1) * nCols + j];
+					}
+					
+					if ((j-1)>=0){
+						c=A[i * nCols + j - 1];
+					}
+					
+					if ((j+1)<nCols){
+						d=A[i * nCols + j + 1];
+					}					
+				
+					F diffusion = D * hinv * (a - 4 * A[i * nCols + j] + b + c + d);
 					A_prime[i * nCols + j] = diffusion + alpha * A[i * nCols + j] * G[i * nCols + j]-tauinv*A[i*nCols+j];
 				}
 			}
@@ -73,6 +113,25 @@ namespace ug {
 			F tauinv = 1 / tau;
 			for (int i = 0; i < nRows; i++) {
 				for (int j = 0; j < nCols; j++) {
+					double a=0;
+					double b=0;
+					double c=0;
+					double d=0;						
+					if ((i-1)>=0){
+						a=A[(i - 1) * nCols + j];
+					}
+					if ((i+1)<nRows){
+						b=A[(i + 1) * nCols + j];
+					}
+					
+					if ((j-1)>=0){
+						c=A[i * nCols + j - 1];
+					}
+					
+					if ((j+1)<nCols){
+						d=A[i * nCols + j + 1];
+					}				
+			
 					F diffusion = -D * hinv * (A[(i - 1) * nCols + j] - 4 * A[i * nCols + j] + A[(i + 1) * nCols + j] + A[i * nCols + j - 1] + A[i * nCols + j + 1]);
 					R_prime[i * nCols + j] = diffusion + alpha * (1-kappa)*tauinv*A[i * nCols + j] + sigmainv*(1-theta) * K[i * nCols + j];
 				}
@@ -112,6 +171,7 @@ namespace ug {
 			
 			get_new_point(v, u, ks, hx, 0.5);
 			add_k_to_vector(u, ks, hx, (1.0 / 6.0));
+		
 			ks = system(v);
 			get_new_point(v, u, ks, hx, 0.5);
 			add_k_to_vector(u, ks, hx, (2.0 / 6.0));
@@ -171,14 +231,27 @@ namespace ug {
 				auto V = R+ vars_per_dim; // Verstorbene (Deaths)
 	
 				set_susceptibles(curr,G,A, vars_per_row,vars_per_column);
+	
+				
 				curr += vars_per_dim;
 				set_exposed(curr, A, G, vars_per_row, vars_per_column);
+				/*
+				for (int i=0;i<vars_per_column;i++){
+					for (int j=0;j<vars_per_row;j++){
+						std::cout<<res[i*vars_per_row+j]<<"\t";
+						
+					}
+					std::cout<<"\n";
+				}
+				std::cin.get();
+				*/
 				curr += vars_per_dim;
 				set_infected(curr, K, A, vars_per_row, vars_per_column);
 				curr += vars_per_dim;
 				set_recovered(curr, A, K, vars_per_row, vars_per_column);
 				curr += vars_per_dim;
 				set_deaths(curr, K, vars_per_row, vars_per_column);
+
 				return res;
 			}	
 
