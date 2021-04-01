@@ -86,7 +86,6 @@ namespace ug {
 						co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
 						co::dc::backwards_substitution<F>(R.begin(), k1.begin(), 1, q1.begin(), dim);
-					
 						
 						//k2
 						for (int i = 0; i < dim; i++) {

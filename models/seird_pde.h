@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include "utility.h"
 
 namespace ug {
 	namespace epi {
@@ -181,6 +182,14 @@ namespace ug {
 				
 				return std::make_tuple(ts, res);
 			}
+			
+			auto run_linear_implicit(F t0,  T (&u0)(F dimX,F dimY, F hx), F tend) {
+				std::array<F, 5> u = { u0[0],u0[1],u0[2],u0[3],u0[4] };
+				utility::LinearImplicitSolver23<std::array<F,5>,std::array<F,25>,SEIRD,F> solver(this,5);
+				solver.change_step_size(h);
+				auto result=solver.run(t0, u, tend);
+				return std::make_tuple(result.first,result.second);
+			}			
 		
 		};
 
