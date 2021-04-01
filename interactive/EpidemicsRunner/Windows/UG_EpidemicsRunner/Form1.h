@@ -1,6 +1,7 @@
 #pragma once
 #include "Form2.h"
 #include "Form3.h"
+#include "Form8.h"
 #include "utility.h"
 
 namespace CppCLRWinformsProjekt {
@@ -46,6 +47,8 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ extrasToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ updateToolStripMenuItem;
+	private: System::Windows::Forms::RadioButton^ radioButton3;
+	private: System::Windows::Forms::Label^ label2;
 
 
 	private:
@@ -69,12 +72,16 @@ namespace CppCLRWinformsProjekt {
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->extrasToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->updateToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
 			this->groupBox1->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// groupBox1
 			// 
+			this->groupBox1->Controls->Add(this->radioButton3);
+			this->groupBox1->Controls->Add(this->label2);
 			this->groupBox1->Controls->Add(this->button1);
 			this->groupBox1->Controls->Add(this->radioButton2);
 			this->groupBox1->Controls->Add(this->radioButton1);
@@ -147,9 +154,30 @@ namespace CppCLRWinformsProjekt {
 			// updateToolStripMenuItem
 			// 
 			this->updateToolStripMenuItem->Name = L"updateToolStripMenuItem";
-			this->updateToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->updateToolStripMenuItem->Size = System::Drawing::Size(112, 22);
 			this->updateToolStripMenuItem->Text = L"Update";
 			this->updateToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::updateToolStripMenuItem_Click);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(109, 73);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(35, 13);
+			this->label2->TabIndex = 4;
+			this->label2->Text = L"label2";
+			// 
+			// radioButton3
+			// 
+			this->radioButton3->AutoSize = true;
+			this->radioButton3->Location = System::Drawing::Point(86, 68);
+			this->radioButton3->Name = L"radioButton3";
+			this->radioButton3->Size = System::Drawing::Size(14, 13);
+			this->radioButton3->TabIndex = 4;
+			this->radioButton3->TabStop = true;
+			this->radioButton3->UseVisualStyleBackColor = true;
+			this->radioButton3->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButton3_CheckedChanged);
+			this->radioButton3->Click += gcnew System::EventHandler(this, &Form1::radioButton3_Click);
 			// 
 			// Form1
 			// 
@@ -203,6 +231,13 @@ private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System
 }
 private: System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	MessageBox::Show(L"Coming Soon!");
+}
+private: System::Void radioButton3_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void radioButton3_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	Form^ form = gcnew Form8();
+	form->Show();
 }
 };
 }

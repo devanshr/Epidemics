@@ -88,5 +88,5 @@ int main() {
 	seird_model.change_step_size_spatial(0.1);
 	seird_model.change_step_size_time(0.1);
 
-	auto [timepoints, data] = seird_model.run(t_start, initial_values<std::vector<double>>, t_end);
+	//auto [timepoints, data] = seird_model.run(t_start, initial_values<std::vector<double>>, t_end);
 }
