@@ -1644,30 +1644,44 @@ void set_radial_values(std::vector<double>& u0, typename std::vector<double>::va
 	}
 }
 
-std::vector<double> initial_values(typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx) {
+std::vector<double> initial_values(typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, int index_dim) {
 	using F = typename std::vector<double>::value_type;
 
-	size_t x_points = (dimX / hx) + 1;
+	size_t x_points = (dimX / hx) + 1; //1001
 	size_t y_points = (dimY / hx) + 1;
 
 	size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
 	std::vector<F> u0(nVars * 5, F(0)); //number of vertices in discretization
-	MessageBox::Show(gcnew String(std::to_string(nVars).c_str()));
-	//Sets initial values for first dimension
-	F r1 = 0.3;
-	F v1 = 100;
-	set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
+	//MessageBox::Show(gcnew String(std::to_string(nVars).c_str())); 1,002,001
+	
+	if(index_dim == 0){//Sets initial values for first dimension
+		F r1 = 0.1;
+		F v1 = 100;
+		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
+	}
+	else if(index_dim == 1){//Sets initial values for second dimension
+		F r2 = 0.2;
+		F v2 = 50;
+		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
+	}
+	else if (index_dim == 2) {//Sets initial values for third dimension
+		F r3 = 0.3;
+		F v3 = 25;
+		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r3, v3, 2);
+	}
+	else if (index_dim == 3) {//Sets initial values for fourth dimension
+		F r4 = 0.4;
+		F v4 = 12;
+		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r4, v4, 3);
+	}
+	else  {//Sets initial values for fifth dimension
+		F r5 = 0.5;
+		F v5 = 6;
+		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r5, v5, 5);
+	}
 
-	//Sets initial values for second dimension
-	F r2 = 0.1;
-	F v2 = 50;
-	set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
-
-	//Sets initial values for fifth dimension
-	F r4 = 100;
-	F v4 = 100;
-	//set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r4, v4, 4);
-
+	
+	
 
 	return u0;
 }
@@ -1684,8 +1698,6 @@ void print_initialvalues(const std::vector<float> u, float dimX, float dimY, flo
 		//	std::cout << "\n";
 	}
 }
-
-
 
 void image_to_grid(int index_image_i, int index_image_j, int image_width, int image_height, int grid_width, int grid_height, int& i_g, int& j_g) {
 	float ratio_i = index_image_i / (image_width - 1.0);
@@ -1712,38 +1724,66 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		int img_x = 200; //dimensions of picturebox
 		int img_y = 200; //dimensions of picturebox
-		Bitmap^ img = gcnew Bitmap(img_x, img_y);
 		double h = 0.001;
 		double dimX = 1.0;
 		double dimY = 1.0;
 		size_t grid_x = (dimX / h) + 1;
 		size_t grid_y = (dimY / h) + 1;
-		std::vector<double> u0 = initial_values(1, 1, h);
+
+		std::vector<double> u0 = initial_values(1, 1, h, 0);
 		double min_val = *std::min_element(u0.begin(), u0.end());
 		double max_val = *std::max_element(u0.begin(), u0.end());
 
-		for (int i = 0; i < u0.size(); i++) {
+		
+		//for (int i = 0; i < u0.size(); i++) {
 			//	MessageBox::Show(gcnew String(std::to_string(u0[i]).c_str()));
 			//MessageBox::Show ( gcnew String(std::to_string(u0.size()).c_str()));
-		}
+		//}
 
-		for (int i = 0; i < img_y; i++) {
-			for (int j = 0; j < img_x; j++) {
-				int i_g;
-				int j_g;
-				image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
-				int r;
-				int g;
-				int b;
-				//	MessageBox::Show(gcnew String(std::to_string(j_g).c_str()));
-				determine_color(u0[i_g * grid_x + j_g], min_val, max_val, r, g, b);
-				System::Drawing::Color c = System::Drawing::Color::FromArgb(r, g, b);
-				img->SetPixel(j, i, c);
+		/*array of picbox
+		std::vector<PictureBox^> picturebox(5);
+		picturebox[0] = this->pictureBox1;
+		picturebox[1] = this->pictureBox2;
+		picturebox[2] = this->pictureBox3;
+		picturebox[3] = this->pictureBox4;
+		picturebox[4] = this->pictureBox5;
+		*/
+		List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
+		list->Add(pictureBox1);
+		list->Add(pictureBox2);
+		list->Add(pictureBox3);
+		list->Add(pictureBox4);
+		list->Add(pictureBox5);
+
+		for (int pic = 0; pic < list->Count ; pic++) {
+			//create img 
+			Bitmap^ img = gcnew Bitmap(img_x, img_y);
+
+			//std::vector<double> u0 = initial_values(1, 1, h, pic);
+			//double min_val = *std::min_element(u0.begin(), u0.end());
+			//double max_val = *std::max_element(u0.begin(), u0.end());
+			
+			for (int i = 0; i < img_y; i++) {
+				for (int j = 0; j < img_x; j++) {
+					int i_g;
+					int j_g;
+					image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+					int r;
+					int g;
+					int b;
+					//	MessageBox::Show(gcnew String(std::to_string(j_g).c_str()));
+					determine_color(u0[i_g * grid_x + j_g], min_val, max_val, r, g, b);
+					System::Drawing::Color c = System::Drawing::Color::FromArgb(r, g, b);
+					img->SetPixel(j, i, c);
+				}
 			}
-		}
-		img->SetPixel(0, 0, System::Drawing::Color::Blue);
-		this->pictureBox1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
 
+			img->SetPixel(0, 0, System::Drawing::Color::Blue);
+			list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
+			//jump dimension
+
+		}
+		
 	}
 
 };

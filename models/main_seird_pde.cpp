@@ -98,7 +98,7 @@ int main() {
 
 	double t_start = 0;
 	double t_end = 42;
-	double h=0.1;
+	double h=0.01;
 	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
 	for (int i = 0; i < 5; i++) {
@@ -130,7 +130,7 @@ int main() {
 		std::cout << "\n";
 	}
 
-	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
+	std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Git_Version/Epidemics/Output";
 	std::string filename="output";
 			
 	seird_model.set_store_to_file(true,filepath,filename);

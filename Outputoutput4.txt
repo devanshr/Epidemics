@@ -1,0 +1,63 @@
+#Seen are the grid output values for t=0.400000. If you want to see which gridpoints corrosponds to which coordinate entry, see the gridmapping.txt file
+#The following dimensions are plotted:
+#Susceptibles
+#Exposed
+#Infected
+#Recovered
+#Deaths
+#The values are plotted in the above order. Each dimension has 11 rows 
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	inf	2.20191e+267	inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	inf	1.20104e+267	9.08857e+167	9.98747e+266	inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	3.65934e+306	9.61989e+266	1.52408e+152	-2.23217e+265	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+3.13172e+295	-inf	inf	9.25485e+268	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	2.1934e+293	
+-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-inf	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-inf	-1.92051e+145	-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-inf	-4.96379e+139	-9.08857e+167	-1.92051e+145	-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-3.65934e+306	-7.34906e+118	-1.52408e+152	-4.96466e+139	inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-3.13172e+295	7.50851e+304	9.53971e+304	-7.30177e+118	inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-2.1934e+293	
+1.96673e+290	-nan(ind)	-nan(ind)	-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	4.74412e+289	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-3.32321e+297	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-2.21547e+297	-8.79954e+86	-6.9065e+298	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-6.8673e+295	-2.23799e+86	-4.04501e+75	-1.47032e+85	-5.5252e+298	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-1.52457e+291	-1.10359e+76	-6.50307e+72	-8.79954e+86	-4.04501e+75	-8.79954e+86	-1.10774e+297	-nan(ind)	-nan(ind)	-nan(ind)	
+-3.08672e+283	-2.18724e+47	-2.50223e+62	-1.1395e+79	-6.50364e+72	-2.23798e+86	5.13639e+293	1.9623e+297	-1.95999e+291	-nan(ind)	-8.03217e+281	
+-4.3677e+36	-3.04287e+46	-5.87167e+46	-2.49417e+62	-1.10141e+76	4.1115e+293	-nan(ind)	-nan(ind)	3.36396e+283	-2.62887e+282	-1.22363e+35	
+-2.11134e+29	1.5277e+278	2.14421e+283	-1.80498e+47	9.81222e+289	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	1.10598e+280	-2.76379e+27	
+-1.59026e+273	-nan(ind)	-nan(ind)	-1.56444e+285	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-2.79637e+274	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	2.0954e+300	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	6.4155e+298	5.61295e+88	3.4917e+300	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	1.92887e+297	3.10012e+88	-9.88613e+88	5.61295e+88	1.58297e+300	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	4.28208e+292	3.20363e+80	-1.28021e+81	3.10012e+88	-2.59746e+295	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+8.8953e+284	-4.29086e+279	-6.02246e+284	3.20363e+80	-1.15508e+295	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	9.63975e+283	
+-4.29081e+279	-nan(ind)	-nan(ind)	-2.75592e+291	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-3.10637e+281	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-inf	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-inf	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-2.08148e+280	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-nan(ind)	-8.85296e+280	-2.78951e+39	-9.82253e+282	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-nan(ind)	-2.60166e+280	-2.78951e+39	-3.24474e+46	-6.95681e+40	-1.38316e+283	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	
+-nan(ind)	-4.65423e+277	-6.91732e+37	-1.63636e+46	-6.95681e+40	-4.19427e+45	-6.95681e+40	-5.89351e+282	-nan(ind)	-nan(ind)	-nan(ind)	
+-1.68113e+273	-1.9196e+33	-1.14909e+41	-2.78939e+39	-3.24474e+46	-6.95681e+40	-3.24474e+46	-2.78951e+39	-5.20331e+279	-nan(ind)	-3.4603e+272	
+-7.77301e+25	-5.11562e+26	-1.73027e+34	-3.69239e+42	-2.78951e+39	-1.63636e+46	-2.78951e+39	-3.69239e+42	-1.72748e+34	-4.7251e+271	-7.07934e+24	
+-2.286e+21	-1.90806e+26	-2.65052e+26	-1.72748e+34	-1.14796e+41	-6.92296e+37	9.65066e+276	1.08051e+274	-2.65038e+26	-1.85362e+26	-3.82626e+20	
+-5.02618e+17	-8.69447e+20	-1.85341e+26	-4.64715e+26	-1.805e+33	5.33534e+275	-nan(ind)	-nan(ind)	2.66154e+272	-8.55388e+20	-5.75112e+16	
+2.40369e+13	-8.4214e+267	-3.2789e+269	-5.67352e+24	1.30425e+272	-nan(ind)	-nan(ind)	-nan(ind)	-nan(ind)	-6.13515e+269	2.44537e+13	
