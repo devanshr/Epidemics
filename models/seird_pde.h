@@ -3,6 +3,7 @@
 #include <string>
 #include <array>
 #include "utility.h"
+#include "writer.h"
 
 namespace ug {
 	namespace epi {
@@ -34,31 +35,8 @@ namespace ug {
 			const size_t dimModel = 5;
 			F hx = 0.25;
 			F ht = 0.25;
-
-
-		T seird_pde_to_ode(T& u) {
-			size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
-			size_t vars_per_row = ((dimX / hx) + 1);
-			size_t vars_per_column = ((dimY / hx) + 1);
-			T res(dimModel*vars_per_dim,F(0.0)); //number of vertices in discretization
-			auto curr = res.begin();
-			auto G = u.begin(); // Gesunde (Susceptibles)
-			auto A = G+ vars_per_dim; // Angesteckte (Exposed)
-			auto K = A+ vars_per_dim; // Kranke (Infected)
-			auto R = K+ vars_per_dim; // Erholte (Recovered)
-			auto V = R+ vars_per_dim; // Verstorbene (Deaths)
-
-			set_susceptibles(curr,G,A, vars_per_row,vars_per_column);
-			curr += vars_per_dim;
-			set_exposed(curr, A, G, vars_per_row, vars_per_column);
-			curr += vars_per_dim;
-			set_infected(curr, K, A, vars_per_row, vars_per_column);
-			curr += vars_per_dim;
-			set_recovered(curr, A, K, vars_per_row, vars_per_column);
-			curr += vars_per_dim;
-			set_deaths(curr, K, vars_per_row, vars_per_column);
-			return res;
-		}
+			std::string filepath="";
+			std::string filename="";
 
 		void set_susceptibles(typename T::iterator G_prime, typename T::iterator G, typename T::iterator A, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
@@ -127,31 +105,50 @@ namespace ug {
 
 
 		//As ODE system does not depend on time, the ODE is autonomous
-		void calc_values(T& u, T& res,T& v) {
 		
-			T ks = seird_pde_to_ode(u);
+		void calc_values(F t, T& u, T& res,T& v, int iter, OutputPDEWriter<std::vector<F>,F>& ow ) {
+		
+			T ks = system(u);
 			
 			get_new_point(v, u, ks, hx, 0.5);
 			add_k_to_vector(u, ks, hx, (1.0 / 6.0));
-			ks = seird_pde_to_ode(v);
+			ks = system(v);
 			get_new_point(v, u, ks, hx, 0.5);
 			add_k_to_vector(u, ks, hx, (2.0 / 6.0));
-			ks = seird_pde_to_ode(v);
+			ks = system(v);
 			get_new_point(v, u, ks, hx, 1);
 			add_k_to_vector(u, ks, hx, (2.0 / 6.0));
-			ks = seird_pde_to_ode(v);
-	
-			for (int i = 0; i < u.size(); i++) {
-				res.push_back(u[i]);
+			ks = system(v);
+			
+			if (StoreToFile==false){
+				for (int i = 0; i < u.size(); i++) {
+					res.push_back(u[i]);
+				}				
 			}
+			else{
+				std::cout<<"Writing to file\n";
+				//std::cin.get();
+				ow.write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,((dimX/hx)+1),((dimY/hx)+1));
+			}
+
 			
 		}
-
+		
+			bool StoreToFile=true; // if true, results are stored to file only
+	
 		public:
-			SEIRD( F _alpha, F _kappa, F _theta, F _sigma, F _tau ):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa) {
-
-			}
-			const std::array<std::string, 5> names = { "Susceptibles","Exposed", "Infected", "Recovered", "Deaths" };
+		
+			void set_store_to_file(bool _store_to_file, std::string _filepath, std::string _filename){
+				StoreToFile=_store_to_file;
+				filepath=_filepath;
+				filename=_filename;
+			}			
+			SEIRD( F _alpha, F _kappa, F _theta, F _sigma, F _tau , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), D(_diffusion){
+				
+			}		
+			
+			
+			const std::vector<std::string> names = { "Susceptibles","Exposed", "Infected", "Recovered", "Deaths" };
 
 			void change_step_size_time(F _ht) {
 				ht = _ht;
@@ -160,34 +157,110 @@ namespace ug {
 			void change_step_size_spatial(F _hx) {
 				hx= _hx;
 			}
-			auto run(F t0,  T (&u0)(F dimX,F dimY, F hx), F tend) {
+			
+			T system(T& u) {
+				size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t vars_per_row = ((dimX / hx) + 1);
+				size_t vars_per_column = ((dimY / hx) + 1);
+				T res(dimModel*vars_per_dim,F(0.0)); //number of vertices in discretization
+				auto curr = res.begin();
+				auto G = u.begin(); // Gesunde (Susceptibles)
+				auto A = G+ vars_per_dim; // Angesteckte (Exposed)
+				auto K = A+ vars_per_dim; // Kranke (Infected)
+				auto R = K+ vars_per_dim; // Erholte (Recovered)
+				auto V = R+ vars_per_dim; // Verstorbene (Deaths)
+	
+				set_susceptibles(curr,G,A, vars_per_row,vars_per_column);
+				curr += vars_per_dim;
+				set_exposed(curr, A, G, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_infected(curr, K, A, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_recovered(curr, A, K, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_deaths(curr, K, vars_per_row, vars_per_column);
+				return res;
+			}	
+
+			T jacobian(T& u) {
+				size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t vars_per_row = ((dimX / hx) + 1);
+				size_t vars_per_column = ((dimY / hx) + 1);
+				T res(dimModel*vars_per_dim,F(0.0)); //number of vertices in discretization
+				auto curr = res.begin();
+				auto S = u.begin(); // Gesunde (Susceptibles)
+				auto E = S+ vars_per_dim; // Angesteckte (Exposed)
+				auto I = E+ vars_per_dim; // Kranke (Infected)
+				auto R = I+ vars_per_dim; // Erholte (Recovered)
+				auto D = R+ vars_per_dim; // Verstorbene (Deaths)
+				
+				
+				
+				/*
+	
+				set_susceptibles(curr,S,E, vars_per_row,vars_per_column);
+				curr += vars_per_dim;
+				set_exposed(curr, E, S, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_infected(curr, I, E, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_recovered(curr, E, I, vars_per_row, vars_per_column);
+				curr += vars_per_dim;
+				set_deaths(curr, I, vars_per_row, vars_per_column);
+				*/
+				return res;
+			}	
+
+
+			
+			auto run(F t0,  T& u0, F tend) {
 				size_t vars_per_dim = ((dimX/hx)+1)*((dimY/hx)+1);
 				
-				std::vector<F> u = u0(dimX, dimY, hx);
+				OutputPDEWriter<std::vector<double>,double> writer(5,names);
+				
+				std::vector<F> u = u0;
 				std::vector<F> res;
 				std::vector<F> ts;
-				ts.push_back(t0);
+				if (StoreToFile==false){
+					res=u;
+					ts.push_back(t0);
+				}
+				else{
+					writer.write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u,((dimX/hx)+1),((dimY/hx)+1));
+				}
 				F t = t0 + ht;
 				std::vector<F> temp(u.size());
-				
+				int iter=1;
 				while (t <= tend) {
-					calc_values(u, res,temp);
-					ts.push_back(t);
+					calc_values(t,u, res,temp,iter,writer);
+					if (StoreToFile==false){
+						ts.push_back(t);					
+					}
+
 					t += ht;
+					iter++;
 				}
+				/*
 				if (t != tend) {
 					calc_values(u, res, temp);
 					ts.push_back(tend);
 				}
-				
+				*/
 				return std::make_tuple(ts, res);
 			}
 			
-			auto run_linear_implicit(F t0,  T (&u0)(F dimX,F dimY, F hx), F tend) {
-				std::array<F, 5> u = { u0[0],u0[1],u0[2],u0[3],u0[4] };
-				utility::LinearImplicitSolver23<std::array<F,5>,std::array<F,25>,SEIRD,F> solver(this,5);
-				solver.change_step_size(h);
-				auto result=solver.run(t0, u, tend);
+			
+			auto run_linear_implicit(F t0,  T& u0, F tend) {
+				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t dim=nVars*5;
+				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD,F> solver(this,dim);
+				solver.change_step_size(hx);
+				
+				std::cout<<nVars;
+				OutputPDEWriter<std::vector<double>,double> writer(5,names);
+				solver.set_store_to_file(true, filepath, filename,&writer);
+				auto result=solver.run(t0, u0, tend);
+
 				return std::make_tuple(result.first,result.second);
 			}			
 		

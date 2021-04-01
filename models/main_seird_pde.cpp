@@ -2,19 +2,21 @@
 #include "writer.h"
 #include<vector>
 #include <iostream>
+#include <algorithm>
+#include <string>
 
 template<class T>
 void set_radial_values(T& u0, typename T::value_type x_points, typename T::value_type y_points, typename T::value_type dimX, typename T::value_type dimY,typename T::value_type hx, typename T::value_type radius, typename T::value_type val,int current_dimension) {
 	using F = typename T::value_type;
-	for (int i = 0; i < x_points; i++) {
-		for (int j = 0; j < y_points; j++) {
-			F worldX = ((i + 1.0) / x_points) * dimX;
-			F worldY = ((j + 1.0) / y_points) * dimY;
+	for (int i = 0; i < y_points; i++) {
+		for (int j = 0; j < x_points; j++) {
+			F worldX =dimY- ((i) / (y_points-1.0)) * dimY;
+			F worldY = ((j) / (x_points-1.0)) * dimX;
 			int offset = current_dimension*x_points*y_points;
 			F a = (worldX - 0.5 * dimX);
 			F b = (worldY - 0.5 * dimY);
-			F r = 0.1;
-			if ((a * a + b * b) <= r) {
+			F r = 0.2;
+			if ((a * a + b * b) <= r*r) {
 				u0[i * x_points + j+offset] = val;
 			}
 			else {
@@ -63,6 +65,27 @@ void print_initialvalues(const T& u,  typename T::value_type dimX, typename T::v
 	}	
 }
 
+
+void image_to_grid(int index_image_i, int index_image_j, int image_width, int image_height, int grid_width, int grid_height, int& i_g, int& j_g){
+	float ratio_i=index_image_i/(image_width-1.0);
+	float ratio_j=index_image_j/(image_height-1.0);	
+
+	i_g=ratio_i*(grid_width-1);
+	j_g=ratio_j*(grid_height-1);
+}
+
+void determine_color(double val, double min_val, double max_val, int& r, int& g, int& b){
+	float ratio=(val-min_val)/(max_val-min_val);
+	//std::cout<<"val:"<<val-min_val<<"\n";
+	int start_r=0;
+	int start_g=0;
+	int start_b=0;
+
+	r=start_r+(255-start_r)*ratio;
+	g=start_g+(255-start_g)*ratio;	
+	b=start_b+(255-start_b)*ratio;
+}
+
 int main() {
 
 	double alpha = 4.95954479066937e-07;
@@ -70,23 +93,47 @@ int main() {
 	double theta = 4.14932000304998e-07;
 	double sigma = 0.1;
 	double rho = 0.1;
+	double diffusion=1;
+	ug::epi::SEIRD<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,rho,diffusion);
 
-	ug::epi::SEIRD<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,rho);
-
-//	std::vector<double> u0 = { 753056,2714,0,0,72 };
-//	std::vector<double> u0 = { 753056,2714,0,0,72 };
 	double t_start = 0;
 	double t_end = 42;
-	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, 0.1);
+	double h=0.1;
+	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
 	for (int i = 0; i < 5; i++) {
 		std::cout << "Initial values dimension: " << i << "\n";
-		print_initialvalues(u0, 1, 1, 0.1, i);
+		print_initialvalues(u0, 1, 1, h, i);
 		std::cout << "\n";
 	}
 
-	seird_model.change_step_size_spatial(0.1);
-	seird_model.change_step_size_time(0.1);
+	seird_model.change_step_size_spatial(h);
+	seird_model.change_step_size_time(h);
 
-	//auto [timepoints, data] = seird_model.run(t_start, initial_values<std::vector<double>>, t_end);
+	std::vector<double> heatvals;
+	double min_val=*std::min_element(u0.begin(),u0.end());
+	double max_val=*std::max_element(u0.begin(),u0.end());
+
+	for (int i=0;i<u0.size();i++){
+		int r;
+		int g;
+		int b;
+		determine_color(u0[i],min_val,max_val,r,g,b);
+		heatvals.push_back(r);
+	}
+
+	std::cout<<"Heatmap vals\n";
+
+	for (int i = 0; i < 5; i++) {
+		std::cout << "Initial values dimension: " << i << "\n";
+		print_initialvalues(heatvals, 1, 1, h, i);
+		std::cout << "\n";
+	}
+
+	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
+	std::string filename="output";
+			
+	seird_model.set_store_to_file(true,filepath,filename);
+
+	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
 }

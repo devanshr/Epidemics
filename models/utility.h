@@ -1,6 +1,7 @@
 #pragma once
 #include "../../ConstrainedOptimization/core/parameters.h"
 #include "../../ConstrainedOptimization/core/transformation.h"
+#include "writer.h"
 #include <utility>
 #include <vector>
 
@@ -13,6 +14,10 @@ namespace ug {
 				C* model;
 				int dim;
 				F h = 0.25;
+				bool StoreToFile=false; //if true, results are stored to file
+				OutputWriter<T1,F>* ow;
+				std::string filepath="";
+				std::string filename="output";				
 
 				std::vector<F> create_identity_matrix() {
 					std::vector<F>  result(dim*dim,F(0.0));
@@ -34,6 +39,12 @@ namespace ug {
 				}
 
 			public:
+				void set_store_to_file(bool _store_to_file, std::string _filepath, std::string _filename, OutputWriter<T1,F>* _ow){
+					StoreToFile=_store_to_file;
+					filepath=_filepath;
+					filename=_filename;
+					ow=_ow;
+				}
 
 				LinearImplicitSolver23(C* _model, int _dim) : model(_model), dim(_dim) {
 					
@@ -109,12 +120,23 @@ namespace ug {
 						co::dc::backwards_substitution<F>(R.begin(), k3.begin(), 1, q1.begin(), dim);
 						
 						//calculating yi+1
-						for (int i = 0; i < dim; i++) {
-							//u[i] = u[i] + (h / 6) * (k1[i] + 4 * k2[i] + k3[i]);
-							u[i] = u_copy[i] + h*k2[i];
-							datapoints.push_back(u[i]);
+						if (StoreToFile==false){
+							for (int i = 0; i < dim; i++) {
+								//u[i] = u[i] + (h / 6) * (k1[i] + 4 * k2[i] + k3[i]);
+								u[i] = u_copy[i] + h*k2[i];
+								datapoints.push_back(u[i]);
+							}
+							timepoints.push_back(t);
 						}
-						timepoints.push_back(t);
+						else{
+							for (int i = 0; i < dim; i++) {
+								//u[i] = u[i] + (h / 6) * (k1[i] + 4 * k2[i] + k3[i]);
+								u[i] = u_copy[i] + h*k2[i];
+							}							
+							
+						//	(*ow).write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,((dimX/h)+1),((dimY/h)+1));
+						}
+						iter++;
 					//	co::mul::printmat(temp2.begin(), dim, dim);
 					//	std::cout << "M:\n";
 					//	co::mul::printmat(M.begin(), dim, dim);
