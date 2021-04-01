@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <cmath>
 
 template<class T>
 void set_radial_values(T& u0, typename T::value_type x_points, typename T::value_type y_points, typename T::value_type dimX, typename T::value_type dimY,typename T::value_type hx, typename T::value_type radius, typename T::value_type val,int current_dimension) {
@@ -27,6 +28,28 @@ void set_radial_values(T& u0, typename T::value_type x_points, typename T::value
 	}
 }
 
+
+template<class T>
+void set_gaussian_values(T& u0, typename T::value_type x_points, typename T::value_type y_points, typename T::value_type dimX, typename T::value_type dimY,typename T::value_type hx, typename T::value_type radius, typename T::value_type val,int current_dimension) {
+	using F = typename T::value_type;
+	for (int i = 0; i < y_points; i++) {
+		for (int j = 0; j < x_points; j++) {
+			F worldX =dimY- ((i) / (y_points-1.0)) * dimY;
+			F worldY = ((j) / (x_points-1.0)) * dimX;
+			int offset = current_dimension*x_points*y_points;
+			
+			
+			F a = (worldX - 0.5 * dimX);
+			F b = (worldY - 0.5 * dimY);
+			F sigma=1;
+			F x=(a * a + b * b);
+			u0[i * x_points + j+offset] = val*std::exp(-sigma*x);
+			
+		}
+
+	}
+}
+
 template<class T>
 T initial_values(typename T::value_type dimX, typename T::value_type dimY, typename T::value_type hx) {
 	using F = typename T::value_type;
@@ -40,12 +63,12 @@ T initial_values(typename T::value_type dimX, typename T::value_type dimY, typen
 	//Sets initial values for first dimension
 	F r1 = 0.1;
 	F v1 = 100;
-	set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1,0);
+	set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1,0);
 
 	//Sets initial values for second dimension
 	F r2 = 100;
 	F v2 = 20;
-	set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r2,v2, 1);
+	set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r2,v2, 1);
 
 
 	return u0;
@@ -93,7 +116,7 @@ int main() {
 	double theta = 4.14932000304998e-07;
 	double sigma = 0.1;
 	double rho = 0.1;
-	double diffusion=1;
+	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed 
 	ug::epi::SEIRD<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,rho,diffusion);
 
 	double t_start = 0;
@@ -130,7 +153,10 @@ int main() {
 		std::cout << "\n";
 	}
 
-	std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Git_Version/Epidemics/Output";
+
+
+	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
+
 	std::string filename="output";
 			
 	seird_model.set_store_to_file(true,filepath,filename);
