@@ -159,5 +159,7 @@ int main() {
 			
 	seird_model.set_store_to_file(true,filepath,filename);
 
+
 	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
+
 }

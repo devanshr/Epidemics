@@ -313,13 +313,9 @@ namespace ug {
 					t += ht;
 					iter++;
 				}
-				/*
-				if (t != tend) {
-					calc_values(u, res, temp);
-					ts.push_back(tend);
-				}
-				*/
+			
 				return std::make_tuple(ts, res);
+
 			}
 			
 			
