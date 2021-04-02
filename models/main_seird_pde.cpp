@@ -37,14 +37,14 @@ void set_gaussian_values(T& u0, typename T::value_type x_points, typename T::val
 			F worldX =dimY- ((i) / (y_points-1.0)) * dimY;
 			F worldY = ((j) / (x_points-1.0)) * dimX;
 			int offset = current_dimension*x_points*y_points;
-			
-			
+
+
 			F a = (worldX - 0.5 * dimX);
 			F b = (worldY - 0.5 * dimY);
-			F sigma=1;
+			F sigma=radius;
 			F x=(a * a + b * b);
 			u0[i * x_points + j+offset] = val*std::exp(-sigma*x);
-			
+
 		}
 
 	}
@@ -59,7 +59,7 @@ T initial_values(typename T::value_type dimX, typename T::value_type dimY, typen
 
 	size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
 	std::vector<F> u0(nVars*5,F(0)); //number of vertices in discretization
-	
+
 	//Sets initial values for first dimension
 	F r1 = 0.1;
 	F v1 = 100;
@@ -75,23 +75,23 @@ T initial_values(typename T::value_type dimX, typename T::value_type dimY, typen
 }
 
 template<class T>
-void print_initialvalues(const T& u,  typename T::value_type dimX, typename T::value_type dimY, typename T::value_type hx, int current_dimension) {	
+void print_initialvalues(const T& u,  typename T::value_type dimX, typename T::value_type dimY, typename T::value_type hx, int current_dimension) {
 	size_t x_points = (dimX / hx) + 1;
 	size_t y_points = (dimY / hx) + 1;
 	int offset = current_dimension * x_points * y_points;
 	for (int i = 0; i < x_points; i++) {
-		
+
 		for (int j = 0; j < y_points; j++) {
-			std::cout << u[i * x_points + j+offset]<< "\t";			
+			std::cout << u[i * x_points + j+offset]<< "\t";
 		}
-		std::cout << "\n";	
-	}	
+		std::cout << "\n";
+	}
 }
 
 
 void image_to_grid(int index_image_i, int index_image_j, int image_width, int image_height, int grid_width, int grid_height, int& i_g, int& j_g){
 	float ratio_i=index_image_i/(image_width-1.0);
-	float ratio_j=index_image_j/(image_height-1.0);	
+	float ratio_j=index_image_j/(image_height-1.0);
 
 	i_g=ratio_i*(grid_width-1);
 	j_g=ratio_j*(grid_height-1);
@@ -105,7 +105,7 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 	int start_b=0;
 
 	r=start_r+(255-start_r)*ratio;
-	g=start_g+(255-start_g)*ratio;	
+	g=start_g+(255-start_g)*ratio;
 	b=start_b+(255-start_b)*ratio;
 }
 
@@ -115,9 +115,10 @@ int main() {
 	double kappa = 0.356035567977659;
 	double theta = 4.14932000304998e-07;
 	double sigma = 0.1;
+	double tau = 1;
 	double rho = 0.1;
-	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed 
-	ug::epi::SEIRD<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,rho,diffusion);
+	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
+	ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,tau, rho,diffusion);
 
 	double t_start = 0;
 	double t_end = 42;
@@ -155,10 +156,10 @@ int main() {
 
 
 
-	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
+	std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
 
 	std::string filename="output";
-			
+
 	seird_model.set_store_to_file(true,filepath,filename);
 
 

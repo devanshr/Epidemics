@@ -614,8 +614,6 @@ private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^
 }
 private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
-
-
 private: System::Void textBox1_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
 
 }
@@ -741,8 +739,6 @@ private: System::Void SaveImageButton_Click(System::Object^ sender, System::Even
 //	
 	//this->chart1->SaveImage(System::IO::Path::GetFullPath("chart1.emf"), ChartImageFormat::Emf);
 }
-
-
 private: System::Void loadcsvDataToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 
 	ug::epi::load_csv_data_on_click(this,5); //5 represents the number of prior plotted lines

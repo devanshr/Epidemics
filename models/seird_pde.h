@@ -17,10 +17,10 @@ namespace ug {
 		}
 
 		template<class T, seird::Geometry G>
-		class SEIRD {};
+		class SEIRD_PDE {};
 
 		template<class T>
-		class SEIRD<T,seird::Geometry::Plane> {
+		class SEIRD_PDE<T,seird::Geometry::Plane> {
 			using F = typename T::value_type;
 		private:
 			F rho = 1;
@@ -203,7 +203,7 @@ namespace ug {
 				filepath=_filepath;
 				filename=_filename;
 			}			
-			SEIRD( F _alpha, F _kappa, F _theta, F _sigma, F _tau , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), D(_diffusion){
+			SEIRD_PDE( F _alpha, F _kappa, F _theta, F _sigma, F _tau , F _rho , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), theta(_theta) ,rho(_rho) , D(_diffusion){
 				
 			}		
 			
@@ -322,7 +322,7 @@ namespace ug {
 			auto run_linear_implicit(F t0,  T& u0, F tend) {
 				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
 				size_t dim=nVars*5;
-				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD,F> solver(this,dim);
+				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD_PDE,F> solver(this,dim);
 				solver.change_step_size(hx);
 				
 				std::cout<<nVars;

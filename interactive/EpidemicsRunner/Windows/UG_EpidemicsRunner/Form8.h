@@ -3,7 +3,7 @@
 #include<limits>
 #include<vector>
 #include <string>
-#include "../../../../models/seird.h"
+#include "../../../../models/seird_pde.h"
 #include "../../../../models/writer.h"
 #include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
 #include "../../../../../ConstrainedOptimization/core/parameters.h"
@@ -115,14 +115,9 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::NumericUpDown^ stepsize_input;
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::NumericUpDown^ initial_exposed;
-
 	private: System::Windows::Forms::NumericUpDown^ initial_infected;
 	private: System::Windows::Forms::NumericUpDown^ initial_deaths;
 	private: System::Windows::Forms::NumericUpDown^ initial_recovered;
-
-
-
-
 	private: System::Windows::Forms::NumericUpDown^ initial_susceptibles;
 
 	private: System::Windows::Forms::Button^ pso_optimize_button;
@@ -135,13 +130,7 @@ private: System::Data::DataTable^ dataTable1;
 private: System::Data::DataColumn^ dataColumn1;
 private: System::Data::DataColumn^ dataColumn2;
 
-
-
-
 private: System::Windows::Forms::PictureBox^ pictureBox1;
-
-
-
 
 private: System::Windows::Forms::Button^ button1;
 private: System::Windows::Forms::Label^ label3;
@@ -156,67 +145,15 @@ private: System::Windows::Forms::PictureBox^ pictureBox5;
 private: System::Windows::Forms::HScrollBar^ hScrollBar1;
 private: System::Windows::Forms::Label^ label4;
 
-
-
-
-
-
-
-
-
-
 private: System::ComponentModel::IContainer^ components;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public:
 	private:
-
-
-
-
-
-
-	
-
 
 	private:
 		/// <summary>
 		/// Erforderliche Designervariable.
 		/// </summary>
-
-
-
 
 	private: System::Void InitializeComponent() {
 		this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
@@ -708,7 +645,7 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		// pictureBox2
 		// 
-		this->pictureBox2->Location = System::Drawing::Point(1086, 349);
+		this->pictureBox2->Location = System::Drawing::Point(303, 349);
 		this->pictureBox2->Name = L"pictureBox2";
 		this->pictureBox2->Size = System::Drawing::Size(200, 200);
 		this->pictureBox2->TabIndex = 44;
@@ -716,7 +653,7 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		// pictureBox3
 		// 
-		this->pictureBox3->Location = System::Drawing::Point(832, 349);
+		this->pictureBox3->Location = System::Drawing::Point(557, 349);
 		this->pictureBox3->Name = L"pictureBox3";
 		this->pictureBox3->Size = System::Drawing::Size(200, 200);
 		this->pictureBox3->TabIndex = 45;
@@ -724,7 +661,7 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		// pictureBox4
 		// 
-		this->pictureBox4->Location = System::Drawing::Point(557, 349);
+		this->pictureBox4->Location = System::Drawing::Point(832, 349);
 		this->pictureBox4->Name = L"pictureBox4";
 		this->pictureBox4->Size = System::Drawing::Size(200, 200);
 		this->pictureBox4->TabIndex = 46;
@@ -732,7 +669,7 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		// pictureBox5
 		// 
-		this->pictureBox5->Location = System::Drawing::Point(303, 349);
+		this->pictureBox5->Location = System::Drawing::Point(1086, 349);
 		this->pictureBox5->Name = L"pictureBox5";
 		this->pictureBox5->Size = System::Drawing::Size(200, 200);
 		this->pictureBox5->TabIndex = 47;
@@ -744,6 +681,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->hScrollBar1->Name = L"hScrollBar1";
 		this->hScrollBar1->Size = System::Drawing::Size(454, 31);
 		this->hScrollBar1->TabIndex = 48;
+		this->hScrollBar1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &Form8::hScrollBar1_Scroll);
 		// 
 		// label4
 		// 
@@ -1644,9 +1582,9 @@ void set_radial_values(std::vector<double>& u0, typename std::vector<double>::va
 	}
 }
 
-std::vector<double> initial_values(typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, int index_dim) {
+std::vector<double> initial_values(typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx) {
 	using F = typename std::vector<double>::value_type;
-
+	
 	size_t x_points = (dimX / hx) + 1; //1001
 	size_t y_points = (dimY / hx) + 1;
 
@@ -1654,38 +1592,50 @@ std::vector<double> initial_values(typename std::vector<double>::value_type dimX
 	std::vector<F> u0(nVars * 5, F(0)); //number of vertices in discretization
 	//MessageBox::Show(gcnew String(std::to_string(nVars).c_str())); 1,002,001
 	
-	if(index_dim == 0){//Sets initial values for first dimension
-		F r1 = 0.1;
+		F r1 = 1;
 		F v1 = 100;
-		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
-	}
-	else if(index_dim == 1){//Sets initial values for second dimension
-		F r2 = 0.2;
-		F v2 = 50;
-		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
-	}
-	else if (index_dim == 2) {//Sets initial values for third dimension
-		F r3 = 0.3;
-		F v3 = 25;
-		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r3, v3, 2);
-	}
-	else if (index_dim == 3) {//Sets initial values for fourth dimension
-		F r4 = 0.4;
-		F v4 = 12;
-		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r4, v4, 3);
-	}
-	else  {//Sets initial values for fifth dimension
-		F r5 = 0.5;
-		F v5 = 6;
-		set_radial_values(u0, x_points, y_points, dimX, dimY, hx, r5, v5, 5);
-	}
-
+		set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
 	
+		F r2 = 3;
+		F v2 = 100;
+		set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
+		
+		F r3 = 6;
+		F v3 = 100;
+		set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r3, v3, 2);
+		
+		F r4 = 9;
+		F v4 = 100;
+		set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r4, v4, 3);
+	
+		F r5 = 12;
+		F v5 = 100;
+		set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r5, v5, 4);
 	
 
 	return u0;
 }
 
+void set_gaussian_values(std::vector<double>& u0, typename std::vector<double>::value_type x_points, typename std::vector<double>::value_type y_points, typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, typename std::vector<double>::value_type radius, typename std::vector<double>::value_type val, int current_dimension) {
+	using F = typename std::vector<double>::value_type;
+	for (int i = 0; i < y_points; i++) {
+		for (int j = 0; j < x_points; j++) {
+			F worldX = dimY - ((i) / (y_points - 1.0)) * dimY;
+			F worldY = ((j) / (x_points - 1.0)) * dimX;
+			int offset = current_dimension * x_points * y_points;
+			F a = (worldX - 0.5 * dimX);
+			F b = (worldY - 0.5 * dimY);
+			F sigma = radius;
+			F x = (a * a + b * b);
+			//MessageBox::Show(gcnew String(std::to_string(x).c_str()));
+			//MessageBox::Show(gcnew String(std::to_string(i * x_points + j + offset).c_str()));
+			//MessageBox::Show(gcnew String(std::to_string(val * (std::exp(-sigma * x))).c_str()));
+			u0[i * x_points + j + offset] = val * (std::exp(-sigma * x));
+
+		}
+
+	}
+}
 void print_initialvalues(const std::vector<float> u, float dimX, float dimY, float hx, int current_dimension) {
 	size_t x_points = (dimX / hx) + 1;
 	size_t y_points = (dimY / hx) + 1;
@@ -1721,7 +1671,10 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 
 
 #pragma endregion
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		Run_SERID_PDE();
+		/*
 		int img_x = 200; //dimensions of picturebox
 		int img_y = 200; //dimensions of picturebox
 		double h = 0.001;
@@ -1730,24 +1683,13 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 		size_t grid_x = (dimX / h) + 1;
 		size_t grid_y = (dimY / h) + 1;
 
-		std::vector<double> u0 = initial_values(1, 1, h, 0);
+		std::vector<double> u0 = initial_values(1, 1, h);
+		int offset = u0.size() / 5;
+
 		double min_val = *std::min_element(u0.begin(), u0.end());
 		double max_val = *std::max_element(u0.begin(), u0.end());
 
 		
-		//for (int i = 0; i < u0.size(); i++) {
-			//	MessageBox::Show(gcnew String(std::to_string(u0[i]).c_str()));
-			//MessageBox::Show ( gcnew String(std::to_string(u0.size()).c_str()));
-		//}
-
-		/*array of picbox
-		std::vector<PictureBox^> picturebox(5);
-		picturebox[0] = this->pictureBox1;
-		picturebox[1] = this->pictureBox2;
-		picturebox[2] = this->pictureBox3;
-		picturebox[3] = this->pictureBox4;
-		picturebox[4] = this->pictureBox5;
-		*/
 		List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
 		list->Add(pictureBox1);
 		list->Add(pictureBox2);
@@ -1762,6 +1704,7 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 			//std::vector<double> u0 = initial_values(1, 1, h, pic);
 			//double min_val = *std::min_element(u0.begin(), u0.end());
 			//double max_val = *std::max_element(u0.begin(), u0.end());
+			MessageBox::Show(gcnew String(std::to_string(pic*offset).c_str()));
 			
 			for (int i = 0; i < img_y; i++) {
 				for (int j = 0; j < img_x; j++) {
@@ -1772,7 +1715,11 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 					int g;
 					int b;
 					//	MessageBox::Show(gcnew String(std::to_string(j_g).c_str()));
-					determine_color(u0[i_g * grid_x + j_g], min_val, max_val, r, g, b);
+					
+					//if (pic==0){ determine_color(u0[i_g * grid_x + j_g ], min_val, max_val, r, g, b); }
+					//else { determine_color(u0[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b); }
+					
+					determine_color(u0[i_g * grid_x + j_g + static_cast<unsigned long long>(pic)*offset], min_val, max_val, r, g, b);
 					System::Drawing::Color c = System::Drawing::Color::FromArgb(r, g, b);
 					img->SetPixel(j, i, c);
 				}
@@ -1780,11 +1727,144 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 
 			img->SetPixel(0, 0, System::Drawing::Color::Blue);
 			list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
-			//jump dimension
+			
+
 
 		}
+		*/
+
+
 		
 	}
 
+
+void Run_SERID_PDE() {
+	
+	double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
+	double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
+	double theta = System::Decimal::ToDouble(this->theta_input->Value);
+	double pp = System::Decimal::ToDouble(this->pp_input->Value);
+	double qq = System::Decimal::ToDouble(this->qq_input->Value);
+	double rho = 0.1;
+	double diffusion = 0;
+	double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+
+	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+
+	
+	auto seird_model= ug::epi::SEIRD_PDE<std::vector<double>, ug::epi::seird::Geometry::Plane>(alpha, kappa, theta, qq, pp,rho, diffusion);
+	
+	seird_model.change_step_size_spatial(stepsize);
+	seird_model.change_step_size_time(stepsize);
+
+
+	auto names = seird_model.names;
+
+	int img_x = 200; //dimensions of picturebox
+	int img_y = 200; //dimensions of picturebox
+	//double h = 0.2;
+	double dimX = 1.0;
+	double dimY = 1.0;
+	size_t grid_x = (dimX / stepsize) + 1;
+	size_t grid_y = (dimY / stepsize) + 1;
+
+	std::vector<double> u0 = initial_values(1, 1, stepsize);
+	std::string filepath = "C:/Users/devan/Desktop/THESIS/Plugin/Output/";
+
+	std::string filename = "output";
+
+	seird_model.set_store_to_file(true, filepath, filename);
+
+	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
+
+	//pass output selected by user 
+	double timepointUser = 0.0;
+	std::vector<double> generated;
+	std::string delimiter = "\t";
+	int gridx = (int)grid_x;
+
+	co::ErrorCode err;
+	try {
+		err = co::utility::parse_csv(filepath+"/output1.txt", generated, delimiter, &gridx);
+		MessageBox::Show(gcnew String(std::to_string(generated.size()).c_str()));
+
+	}
+	catch (System::Exception^ e) {
+		MessageBox::Show(L"Could not read file" + e);
+	}
+	if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
+	if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error");
+
+	
+	//MessageBox::Show(gcnew String(std::to_string().c_str()));
+
+	
+	
+	int offset = generated.size() / 5;
+
+	double min_val = *std::min_element(generated.begin(), generated.end());
+	double max_val = *std::max_element(generated.begin(), generated.end());
+
+
+	std::vector<double> heatvals;
+
+	for (int i = 0; i < generated.size(); i++) {
+		int r;
+		int g;
+		int b;
+		determine_color(generated[i], min_val, max_val, r, g, b);
+		heatvals.push_back(r);
+	}
+	
+
+	List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
+	list->Add(pictureBox1);
+	list->Add(pictureBox2);
+	list->Add(pictureBox3);
+	list->Add(pictureBox4);
+	list->Add(pictureBox5);
+
+	for (int pic = 0; pic < list->Count; pic++) {
+		//create img 
+		Bitmap^ img = gcnew Bitmap(img_x, img_y);
+		for (int i = 0; i < img_y; i++) {
+			for (int j = 0; j < img_x; j++) {
+				int i_g;
+				int j_g;
+				image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+				int r;
+				int g;
+				int b;
+				
+				determine_color(generated[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b);
+
+				//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
+
+				System::Drawing::Color c = System::Drawing::Color::FromArgb(r, g, b);
+				img->SetPixel(j, i, c);
+			}
+		}
+
+		img->SetPixel(0, 0, System::Drawing::Color::Blue);
+		list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
+
+	}
+
+
+
+
+
+
+
+}
+
+
+
+private: System::Void hScrollBar1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
+
+}
 };
 }
