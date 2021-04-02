@@ -118,7 +118,7 @@ int main() {
 	double tau = 1;
 	double rho = 0.1;
 	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
-	ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,tau, rho,diffusion);
+	ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,tau,diffusion);
 
 	double t_start = 0;
 	double t_end = 42;

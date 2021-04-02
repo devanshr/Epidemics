@@ -203,7 +203,7 @@ namespace ug {
 				filepath=_filepath;
 				filename=_filename;
 			}			
-			SEIRD_PDE( F _alpha, F _kappa, F _theta, F _sigma, F _tau , F _rho , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), theta(_theta) ,rho(_rho) , D(_diffusion){
+			SEIRD_PDE( F _alpha, F _kappa, F _theta, F _sigma, F _tau  , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), theta(_theta)  , D(_diffusion){
 				
 			}		
 			

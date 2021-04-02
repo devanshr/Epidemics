@@ -116,8 +116,10 @@ namespace CppCLRWinformsProjekt {
 	private: System::Windows::Forms::Label^ label11;
 	private: System::Windows::Forms::NumericUpDown^ initial_exposed;
 	private: System::Windows::Forms::NumericUpDown^ initial_infected;
-	private: System::Windows::Forms::NumericUpDown^ initial_deaths;
-	private: System::Windows::Forms::NumericUpDown^ initial_recovered;
+	private: System::Windows::Forms::NumericUpDown^ diffusion_input;
+	private: System::Windows::Forms::NumericUpDown^ rho_input;
+
+
 	private: System::Windows::Forms::NumericUpDown^ initial_susceptibles;
 
 	private: System::Windows::Forms::Button^ pso_optimize_button;
@@ -144,8 +146,12 @@ private: System::Windows::Forms::PictureBox^ pictureBox4;
 private: System::Windows::Forms::PictureBox^ pictureBox5;
 private: System::Windows::Forms::HScrollBar^ hScrollBar1;
 private: System::Windows::Forms::Label^ label4;
+private: System::Windows::Forms::NumericUpDown^ scroll_val;
 
 private: System::ComponentModel::IContainer^ components;
+
+//private: std::vector<double> generated;
+
 
 	public:
 	private:
@@ -183,8 +189,8 @@ private: System::ComponentModel::IContainer^ components;
 		this->label11 = (gcnew System::Windows::Forms::Label());
 		this->initial_exposed = (gcnew System::Windows::Forms::NumericUpDown());
 		this->initial_infected = (gcnew System::Windows::Forms::NumericUpDown());
-		this->initial_deaths = (gcnew System::Windows::Forms::NumericUpDown());
-		this->initial_recovered = (gcnew System::Windows::Forms::NumericUpDown());
+		this->diffusion_input = (gcnew System::Windows::Forms::NumericUpDown());
+		this->rho_input = (gcnew System::Windows::Forms::NumericUpDown());
 		this->initial_susceptibles = (gcnew System::Windows::Forms::NumericUpDown());
 		this->pso_optimize_button = (gcnew System::Windows::Forms::Button());
 		this->dataSet1 = (gcnew System::Data::DataSet());
@@ -204,6 +210,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
 		this->hScrollBar1 = (gcnew System::Windows::Forms::HScrollBar());
 		this->label4 = (gcnew System::Windows::Forms::Label());
+		this->scroll_val = (gcnew System::Windows::Forms::NumericUpDown());
 		this->groupBox1->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->BeginInit();
@@ -216,8 +223,8 @@ private: System::ComponentModel::IContainer^ components;
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_deaths))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_recovered))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->diffusion_input))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rho_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_susceptibles))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataSet1))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable1))->BeginInit();
@@ -226,6 +233,7 @@ private: System::ComponentModel::IContainer^ components;
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->scroll_val))->BeginInit();
 		this->SuspendLayout();
 		// 
 		// groupBox1
@@ -258,7 +266,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->pp_input->Name = L"pp_input";
 		this->pp_input->Size = System::Drawing::Size(130, 26);
 		this->pp_input->TabIndex = 15;
-		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 0 });
 		this->pp_input->ValueChanged += gcnew System::EventHandler(this, &Form8::pp_input_ValueChanged);
 		// 
 		// qq_input
@@ -272,7 +280,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->qq_input->Name = L"qq_input";
 		this->qq_input->Size = System::Drawing::Size(130, 26);
 		this->qq_input->TabIndex = 14;
-		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 14, 0, 0, 0 });
 		this->qq_input->ValueChanged += gcnew System::EventHandler(this, &Form8::qq_input_ValueChanged);
 		// 
 		// theta_input
@@ -285,7 +293,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->theta_input->Name = L"theta_input";
 		this->theta_input->Size = System::Drawing::Size(130, 26);
 		this->theta_input->TabIndex = 13;
-		this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
+		this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 		this->theta_input->ValueChanged += gcnew System::EventHandler(this, &Form8::theta_input_ValueChanged);
 		// 
 		// kappa_input
@@ -298,7 +306,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->kappa_input->Name = L"kappa_input";
 		this->kappa_input->Size = System::Drawing::Size(130, 26);
 		this->kappa_input->TabIndex = 12;
-		this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
+		this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->kappa_input->ValueChanged += gcnew System::EventHandler(this, &Form8::kappa_input_ValueChanged);
 		// 
 		// alpha_input
@@ -310,6 +318,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->alpha_input->Name = L"alpha_input";
 		this->alpha_input->Size = System::Drawing::Size(130, 26);
 		this->alpha_input->TabIndex = 11;
+		this->alpha_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 78, 0, 0, 524288 });
 		this->alpha_input->ValueChanged += gcnew System::EventHandler(this, &Form8::alpha_input_ValueChanged);
 		// 
 		// pp_check
@@ -469,27 +478,27 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		// t_end_input
 		// 
-		this->t_end_input->DecimalPlaces = 2;
+		this->t_end_input->DecimalPlaces = 4;
 		this->t_end_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
 		this->t_end_input->Location = System::Drawing::Point(1146, 84);
 		this->t_end_input->Name = L"t_end_input";
 		this->t_end_input->Size = System::Drawing::Size(130, 26);
 		this->t_end_input->TabIndex = 12;
-		this->t_end_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 40, 0, 0, 0 });
+		this->t_end_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 3, 0, 0, 196608 });
 		this->t_end_input->ValueChanged += gcnew System::EventHandler(this, &Form8::t_end_input_ValueChanged);
 		// 
 		// stepsize_input
 		// 
 		this->stepsize_input->DecimalPlaces = 6;
 		this->stepsize_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
-		this->stepsize_input->Location = System::Drawing::Point(436, 209);
+		this->stepsize_input->Location = System::Drawing::Point(525, 209);
 		this->stepsize_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->stepsize_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->stepsize_input->Name = L"stepsize_input";
 		this->stepsize_input->Size = System::Drawing::Size(130, 26);
 		this->stepsize_input->TabIndex = 33;
-		this->stepsize_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 25, 0, 0, 131072 });
+		this->stepsize_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->stepsize_input->ValueChanged += gcnew System::EventHandler(this, &Form8::stepsize_input_ValueChanged);
 		// 
 		// label11
@@ -498,9 +507,9 @@ private: System::ComponentModel::IContainer^ components;
 		this->label11->Location = System::Drawing::Point(288, 209);
 		this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label11->Name = L"label11";
-		this->label11->Size = System::Drawing::Size(106, 20);
+		this->label11->Size = System::Drawing::Size(229, 20);
 		this->label11->TabIndex = 32;
-		this->label11->Text = L"RK4 Stepsize";
+		this->label11->Text = L"Stepsize: Saptial and Temporal";
 		// 
 		// initial_exposed
 		// 
@@ -525,28 +534,28 @@ private: System::ComponentModel::IContainer^ components;
 		this->initial_infected->TabIndex = 27;
 		this->initial_infected->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_infected_ValueChanged);
 		// 
-		// initial_deaths
+		// diffusion_input
 		// 
-		this->initial_deaths->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_deaths->Location = System::Drawing::Point(454, 171);
-		this->initial_deaths->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
-		this->initial_deaths->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
-		this->initial_deaths->Name = L"initial_deaths";
-		this->initial_deaths->Size = System::Drawing::Size(130, 26);
-		this->initial_deaths->TabIndex = 29;
-		this->initial_deaths->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 72, 0, 0, 0 });
-		this->initial_deaths->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_deaths_ValueChanged);
+		this->diffusion_input->DecimalPlaces = 9;
+		this->diffusion_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+		this->diffusion_input->Location = System::Drawing::Point(436, 180);
+		this->diffusion_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+		this->diffusion_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
+		this->diffusion_input->Name = L"diffusion_input";
+		this->diffusion_input->Size = System::Drawing::Size(130, 26);
+		this->diffusion_input->TabIndex = 29;
+		this->diffusion_input->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_deaths_ValueChanged);
 		// 
-		// initial_recovered
+		// rho_input
 		// 
-		this->initial_recovered->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
-		this->initial_recovered->Location = System::Drawing::Point(454, 148);
-		this->initial_recovered->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
-		this->initial_recovered->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
-		this->initial_recovered->Name = L"initial_recovered";
-		this->initial_recovered->Size = System::Drawing::Size(130, 26);
-		this->initial_recovered->TabIndex = 28;
-		this->initial_recovered->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_recovered_ValueChanged);
+		this->rho_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		this->rho_input->Location = System::Drawing::Point(454, 148);
+		this->rho_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+		this->rho_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
+		this->rho_input->Name = L"rho_input";
+		this->rho_input->Size = System::Drawing::Size(130, 26);
+		this->rho_input->TabIndex = 28;
+		this->rho_input->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_recovered_ValueChanged);
 		// 
 		// initial_susceptibles
 		// 
@@ -609,9 +618,9 @@ private: System::ComponentModel::IContainer^ components;
 		this->label8->Location = System::Drawing::Point(287, 154);
 		this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label8->Name = L"label8";
-		this->label8->Size = System::Drawing::Size(127, 20);
+		this->label8->Size = System::Drawing::Size(39, 20);
 		this->label8->TabIndex = 24;
-		this->label8->Text = L"Initial Recovered";
+		this->label8->Text = L"Rho";
 		// 
 		// label9
 		// 
@@ -629,9 +638,9 @@ private: System::ComponentModel::IContainer^ components;
 		this->label12->Location = System::Drawing::Point(290, 182);
 		this->label12->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label12->Name = L"label12";
-		this->label12->Size = System::Drawing::Size(102, 20);
+		this->label12->Size = System::Drawing::Size(72, 20);
 		this->label12->TabIndex = 26;
-		this->label12->Text = L"Initial Deaths";
+		this->label12->Text = L"Diffusion";
 		// 
 		// label13
 		// 
@@ -679,9 +688,11 @@ private: System::ComponentModel::IContainer^ components;
 		// 
 		this->hScrollBar1->Location = System::Drawing::Point(411, 579);
 		this->hScrollBar1->Name = L"hScrollBar1";
+		this->hScrollBar1->RightToLeft = System::Windows::Forms::RightToLeft::No;
 		this->hScrollBar1->Size = System::Drawing::Size(454, 31);
 		this->hScrollBar1->TabIndex = 48;
 		this->hScrollBar1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &Form8::hScrollBar1_Scroll);
+		this->hScrollBar1->ValueChanged += gcnew System::EventHandler(this, &Form8::hScrollBar1_ValueChanged);
 		// 
 		// label4
 		// 
@@ -692,10 +703,21 @@ private: System::ComponentModel::IContainer^ components;
 		this->label4->TabIndex = 49;
 		this->label4->Text = L"Time";
 		// 
+		// scroll_val
+		// 
+		this->scroll_val->DecimalPlaces = 5;
+		this->scroll_val->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
+		this->scroll_val->Location = System::Drawing::Point(932, 587);
+		this->scroll_val->Name = L"scroll_val";
+		this->scroll_val->Size = System::Drawing::Size(120, 26);
+		this->scroll_val->TabIndex = 50;
+		this->scroll_val->ValueChanged += gcnew System::EventHandler(this, &Form8::scroll_val_ValueChanged);
+		// 
 		// Form8
 		// 
 		this->AutoSize = true;
 		this->ClientSize = System::Drawing::Size(1298, 674);
+		this->Controls->Add(this->scroll_val);
 		this->Controls->Add(this->label4);
 		this->Controls->Add(this->hScrollBar1);
 		this->Controls->Add(this->pictureBox5);
@@ -710,8 +732,8 @@ private: System::ComponentModel::IContainer^ components;
 		this->Controls->Add(this->initial_exposed);
 		this->Controls->Add(this->label13);
 		this->Controls->Add(this->initial_infected);
-		this->Controls->Add(this->initial_deaths);
-		this->Controls->Add(this->initial_recovered);
+		this->Controls->Add(this->diffusion_input);
+		this->Controls->Add(this->rho_input);
 		this->Controls->Add(this->label12);
 		this->Controls->Add(this->label9);
 		this->Controls->Add(this->label8);
@@ -744,8 +766,8 @@ private: System::ComponentModel::IContainer^ components;
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->stepsize_input))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_exposed))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_infected))->EndInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_deaths))->EndInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_recovered))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->diffusion_input))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rho_input))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->initial_susceptibles))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataSet1))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable1))->EndInit();
@@ -754,6 +776,7 @@ private: System::ComponentModel::IContainer^ components;
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->scroll_val))->EndInit();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
@@ -1746,28 +1769,19 @@ void Run_SERID_PDE() {
 	double pp = System::Decimal::ToDouble(this->pp_input->Value);
 	double qq = System::Decimal::ToDouble(this->qq_input->Value);
 	double rho = 0.1;
-	double diffusion = 0;
+	double diffusion = System::Decimal::ToDouble(this->diffusion_input->Value);
+
 	double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
 	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
 
 	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
 
-	
-	auto seird_model= ug::epi::SEIRD_PDE<std::vector<double>, ug::epi::seird::Geometry::Plane>(alpha, kappa, theta, qq, pp,rho, diffusion);
+	auto seird_model= ug::epi::SEIRD_PDE<std::vector<double>, ug::epi::seird::Geometry::Plane>(alpha, kappa, theta, qq, pp, diffusion);
 	
 	seird_model.change_step_size_spatial(stepsize);
 	seird_model.change_step_size_time(stepsize);
 
-
 	auto names = seird_model.names;
-
-	int img_x = 200; //dimensions of picturebox
-	int img_y = 200; //dimensions of picturebox
-	//double h = 0.2;
-	double dimX = 1.0;
-	double dimY = 1.0;
-	size_t grid_x = (dimX / stepsize) + 1;
-	size_t grid_y = (dimY / stepsize) + 1;
 
 	std::vector<double> u0 = initial_values(1, 1, stepsize);
 	std::string filepath = "C:/Users/devan/Desktop/THESIS/Plugin/Output/";
@@ -1778,6 +1792,15 @@ void Run_SERID_PDE() {
 
 	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
 
+
+	int img_x = 200; //dimensions of picturebox
+	int img_y = 200; //dimensions of picturebox
+	double dimX = 1.0;
+	double dimY = 1.0;
+	size_t grid_x = (dimX / stepsize) + 1;
+	size_t grid_y = (dimY / stepsize) + 1;
+
+	
 	//pass output selected by user 
 	double timepointUser = 0.0;
 	std::vector<double> generated;
@@ -1786,7 +1809,7 @@ void Run_SERID_PDE() {
 
 	co::ErrorCode err;
 	try {
-		err = co::utility::parse_csv(filepath+"/output1.txt", generated, delimiter, &gridx);
+		err = co::utility::parse_csv(filepath+"/output0.txt", generated, delimiter, &gridx);
 		MessageBox::Show(gcnew String(std::to_string(generated.size()).c_str()));
 
 	}
@@ -1799,24 +1822,11 @@ void Run_SERID_PDE() {
 	
 	//MessageBox::Show(gcnew String(std::to_string().c_str()));
 
-	
-	
 	int offset = generated.size() / 5;
 
 	double min_val = *std::min_element(generated.begin(), generated.end());
 	double max_val = *std::max_element(generated.begin(), generated.end());
 
-
-	std::vector<double> heatvals;
-
-	for (int i = 0; i < generated.size(); i++) {
-		int r;
-		int g;
-		int b;
-		determine_color(generated[i], min_val, max_val, r, g, b);
-		heatvals.push_back(r);
-	}
-	
 
 	List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
 	list->Add(pictureBox1);
@@ -1864,6 +1874,216 @@ void Run_SERID_PDE() {
 
 
 private: System::Void hScrollBar1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
+	//after button click - output is generated 
+	std::string filepath = "C:/Users/devan/Desktop/THESIS/Plugin/Output/";
+	std::string filename = "output";
+
+	double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+
+
+	//hScrollBar1->Maximum =t_end;
+	hScrollBar1->Minimum = t_start;
+	hScrollBar1->SmallChange= (hScrollBar1->Size.Width) / ((t_end - t_start) / stepsize);
+	hScrollBar1->LargeChange = (hScrollBar1->Size.Width) / ((t_end - t_start) / stepsize);
+
+	hScrollBar1->Maximum = (t_end - t_start)/stepsize ;
+
+	double change = 1/((t_end - t_start) / stepsize);
+	//hScrollBar1->SmallChange = change;
+	//hScrollBar1->LargeChange = change;
+
+
+
+	int img_x = 200; //dimensions of picturebox
+	int img_y = 200; //dimensions of picturebox
+	double dimX = 1.0;
+	double dimY = 1.0;
+	size_t grid_x = (dimX / stepsize) + 1;
+	size_t grid_y = (dimY / stepsize) + 1;
+
+
+	//pass output selected by user 
+	//double timepointUser = 0.0;
+	std::vector<double> generated;
+	std::string delimiter = "\t";
+	int gridx = (int)grid_x;
+
+	int filenum = ((hScrollBar1->Value) / (t_end)) *( 1 / change);
+	int iterations = (t_end - t_start) / stepsize;
+
+	scroll_val->Value = hScrollBar1->Value;
+
+
+	co::ErrorCode err;
+	try {
+		for (int i = 0; i <= iterations - 1; i++) {
+			err = co::utility::parse_csv(filepath + "/output" + std::to_string(i).c_str() + ".txt", generated, delimiter, &gridx);
+			//MessageBox::Show(gcnew String(std::to_string(generated.size()).c_str()));
+			//MessageBox::Show(gcnew String(std::to_string(change).c_str()));
+			MessageBox::Show(gcnew String(std::to_string(i).c_str()));
+
+			int offset = generated.size() / 5;
+
+			double min_val = *std::min_element(generated.begin(), generated.end());
+			double max_val = *std::max_element(generated.begin(), generated.end());
+
+
+			List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
+			list->Add(pictureBox1);
+			list->Add(pictureBox2);
+			list->Add(pictureBox3);
+			list->Add(pictureBox4);
+			list->Add(pictureBox5);
+
+			for (int pic = 0; pic < list->Count; pic++) {
+				//create img 
+				Bitmap^ img = gcnew Bitmap(img_x, img_y);
+				for (int i = 0; i < img_y; i++) {
+					for (int j = 0; j < img_x; j++) {
+						int i_g;
+						int j_g;
+						image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+						int r;
+						int g;
+						int b;
+
+						determine_color(generated[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b);
+
+						//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
+						//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
+						//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
+
+						System::Drawing::Color c = System::Drawing::Color::FromArgb(r, 0, 255-b);
+						img->SetPixel(j, i, c);
+					}
+				}
+
+				img->SetPixel(0, 0, System::Drawing::Color::Blue);
+				list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
+
+			}
+
+
+		}
+
+		
+	}
+	catch (System::Exception^ e) {
+		MessageBox::Show(L"Could not read file" + e);
+	}
+	if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
+	if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error");
+
+
+	//MessageBox::Show(gcnew String(std::to_string().c_str()));
+
+	
+
+}
+private: System::Void hScrollBar1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+
+private: System::Void scroll_val_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+
+	hScrollBar1->Value =System::Decimal::ToDouble( scroll_val->Value);
+
+	std::string filepath = "C:/Users/devan/Desktop/THESIS/Plugin/Output/";
+	std::string filename = "output";
+
+	double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+	double change = 1 / ((t_end - t_start) / stepsize);
+
+
+	scroll_val->Maximum = t_end_input->Value;
+	scroll_val->Minimum = t_start_input->Value;
+	scroll_val->Increment = stepsize_input->Value;
+
+
+
+	int img_x = 200; //dimensions of picturebox
+	int img_y = 200; //dimensions of picturebox
+	double dimX = 1.0;
+	double dimY = 1.0;
+	size_t grid_x = (dimX / stepsize) + 1;
+	size_t grid_y = (dimY / stepsize) + 1;
+
+
+	//pass output selected by user 
+	//double timepointUser = 0.0;
+	std::vector<double> generated;
+	std::string delimiter = "\t";
+	int gridx = (int)grid_x;
+
+	int filenum = System::Decimal::ToDouble(scroll_val->Value) * (1 / stepsize);//((hScrollBar1->Value) / (t_end)) * (1 / change);
+	
+	if (filenum == (System::Decimal::ToDouble(scroll_val->Maximum))) {
+		MessageBox::Show(L"Max Value reached! ");
+		return;
+	}
+		
+
+	co::ErrorCode err;
+	try {
+		
+		err = co::utility::parse_csv(filepath + "/output" + std::to_string(filenum).c_str() + ".txt", generated, delimiter, &gridx);
+		//MessageBox::Show(gcnew String(std::to_string(generated.size()).c_str()));
+		//MessageBox::Show(gcnew String(std::to_string(change).c_str()));
+		//MessageBox::Show(gcnew String(std::to_string(filenum).c_str()));
+	}
+	catch (System::Exception^ e) {
+		MessageBox::Show(L"Could not read file" + e);
+	}
+	if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
+	if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error");
+
+
+	//MessageBox::Show(gcnew String(std::to_string().c_str()));
+
+	int offset = generated.size() / 5;
+
+	double min_val = *std::min_element(generated.begin(), generated.end());
+	double max_val = *std::max_element(generated.begin(), generated.end());
+
+
+	List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
+	list->Add(pictureBox1);
+	list->Add(pictureBox2);
+	list->Add(pictureBox3);
+	list->Add(pictureBox4);
+	list->Add(pictureBox5);
+
+	for (int pic = 0; pic < list->Count; pic++) {
+		//create img 
+		Bitmap^ img = gcnew Bitmap(img_x, img_y);
+		for (int i = 0; i < img_y; i++) {
+			for (int j = 0; j < img_x; j++) {
+				int i_g;
+				int j_g;
+				image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+				int r;
+				int g;
+				int b;
+
+				determine_color(generated[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b);
+
+				//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
+
+				System::Drawing::Color c = System::Drawing::Color::FromArgb(r, 0, 255-b);
+				img->SetPixel(j, i, c);
+			}
+		}
+
+		img->SetPixel(0, 0, System::Drawing::Color::Blue);
+		list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
+
+	}
+
 
 }
 };
