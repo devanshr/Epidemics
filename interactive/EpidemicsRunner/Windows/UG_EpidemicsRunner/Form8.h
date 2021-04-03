@@ -1916,6 +1916,7 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 
 		Run_SERID_PDE();
 		plot_heatmaps("/output0.txt");
+		scroll_val->Value = scroll_val->Minimum;
 		
 }
 
