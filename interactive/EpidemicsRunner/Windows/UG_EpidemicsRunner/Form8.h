@@ -440,6 +440,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->menuStrip1->Size = System::Drawing::Size(1393, 24);
 		this->menuStrip1->TabIndex = 6;
 		this->menuStrip1->Text = L"menuStrip1";
+		this->menuStrip1->ItemClicked += gcnew System::Windows::Forms::ToolStripItemClickedEventHandler(this, &Form8::menuStrip1_ItemClicked);
 		// 
 		// File_strip_menu
 		// 
@@ -880,6 +881,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->v3_input->Size = System::Drawing::Size(120, 20);
 		this->v3_input->TabIndex = 65;
 		this->v3_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		this->v3_input->ValueChanged += gcnew System::EventHandler(this, &Form8::v3_input_ValueChanged);
 		// 
 		// label17
 		// 
@@ -1492,10 +1494,14 @@ private: System::Void loadFileToolStripMenuItem_Click(System::Object^ sender, Sy
 	if (fileDialog.ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 //		String^ files = System::IO::Directory.GetFiles(fileDialog.SelectedPath);
 		filepath = fileDialog.SelectedPath;
+		user_selected_optimization_path = new std::string;
+		*user_selected_optimization_path = msclr::interop::marshal_as<std::string>(filepath);
+	}
+	else {
+		MessageBox::Show(L"Path selection cancelled");
 	}
 
-	user_selected_optimization_path=new std::string;
-	*user_selected_optimization_path = msclr::interop::marshal_as<std::string>(filepath);
+
 
 	//MessageBox::Show(filepath);
 }
@@ -1914,9 +1920,12 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 #pragma endregion
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 
-		Run_SERID_PDE();
-		plot_heatmaps("/output0.txt");
-		scroll_val->Value = scroll_val->Minimum;
+		bool res=Run_SERID_PDE();
+		if (res) {
+			plot_heatmaps("/output0.txt");
+			scroll_val->Value = scroll_val->Minimum;
+		}
+
 		
 }
 
@@ -1980,7 +1989,7 @@ void plot_heatmaps(std::string filenum) {
 
 				double aux = 1.0 - (static_cast<double>(i) / (legend->Size.Height - 1.0));
 
-				System::Drawing::Color c = System::Drawing::Color::FromArgb(aux * 255, 0, 255 - aux * 255);
+				System::Drawing::Color c = System::Drawing::Color::FromArgb(153 + (aux) * 102, 153 - (aux) * 120, 255 - aux*255);
 				legend->SetPixel(j, i, c);
 			}
 		}
@@ -2012,7 +2021,7 @@ void plot_heatmaps(std::string filenum) {
 					//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
 					//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
 
-					System::Drawing::Color c = System::Drawing::Color::FromArgb(r, 0, 255 - b);
+					System::Drawing::Color c = System::Drawing::Color::FromArgb(153+(r/255.0)*102, 153-(b/255.0)*120, 255 - b);
 					img->SetPixel(j, i, c);
 				}
 			}
@@ -2024,7 +2033,7 @@ void plot_heatmaps(std::string filenum) {
 	}
 }
 
-void Run_SERID_PDE() {
+bool Run_SERID_PDE() {
 	
 	//Parameters
 	double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
@@ -2070,13 +2079,15 @@ void Run_SERID_PDE() {
 
 	if (user_selected_optimization_path == nullptr) {
 		MessageBox::Show(L"Please specify the directory for Output generation");	
+		return false;
 	}
 	else {
 		//MessageBox::Show(gcnew String((*user_selected_optimization_path).c_str()));
 
 		seird_model.set_store_to_file(true, *user_selected_optimization_path, filename);
 
-		auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
+		seird_model.run(t_start, u0, t_end);
+		return true;
 	}
 
 }
@@ -2226,6 +2237,10 @@ private: System::Void scroll_val_ValueChanged(System::Object^ sender, System::Ev
 
 
 private: System::Void label11_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Windows::Forms::ToolStripItemClickedEventArgs^ e) {
+}
+private: System::Void v3_input_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
