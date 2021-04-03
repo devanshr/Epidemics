@@ -155,11 +155,11 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// menuStrip1
 			// 
+			this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
 			this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->extrasToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Padding = System::Windows::Forms::Padding(9, 3, 0, 3);
 			this->menuStrip1->Size = System::Drawing::Size(426, 35);
 			this->menuStrip1->TabIndex = 3;
 			this->menuStrip1->Text = L"menuStrip1";
@@ -170,11 +170,12 @@ namespace CppCLRWinformsProjekt {
 			this->extrasToolStripMenuItem->Name = L"extrasToolStripMenuItem";
 			this->extrasToolStripMenuItem->Size = System::Drawing::Size(74, 29);
 			this->extrasToolStripMenuItem->Text = L"Extras";
+			this->extrasToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::extrasToolStripMenuItem_Click);
 			// 
 			// updateToolStripMenuItem
 			// 
 			this->updateToolStripMenuItem->Name = L"updateToolStripMenuItem";
-			this->updateToolStripMenuItem->Size = System::Drawing::Size(172, 34);
+			this->updateToolStripMenuItem->Size = System::Drawing::Size(270, 34);
 			this->updateToolStripMenuItem->Text = L"Update";
 			this->updateToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form1::updateToolStripMenuItem_Click);
 			// 
@@ -240,6 +241,8 @@ private: System::Void radioButton3_CheckedChanged(System::Object^ sender, System
 	this->Hide();
 	Form^ form = gcnew Form8();
 	form->Show();
+}
+private: System::Void extrasToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
