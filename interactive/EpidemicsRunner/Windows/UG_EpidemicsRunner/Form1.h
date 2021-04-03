@@ -230,7 +230,9 @@ private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System
 	
 }
 private: System::Void updateToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show(L"Coming Soon!");
+
+	system("cd /../../../../ & git pull");
+	MessageBox::Show(L"Pulled the git repository!");
 }
 private: System::Void radioButton3_Click(System::Object^ sender, System::EventArgs^ e) {
 }
