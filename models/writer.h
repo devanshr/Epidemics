@@ -32,7 +32,7 @@ namespace ug{
 			
 			virtual void write_to_file(std::string path, std::string name, F t, const T& u, int points_x, int points_y) override{
 				std::ofstream output;	
-				
+				output.precision(15);
 				//Write outputs
 				output.open(path+name);	
 				int points_per_dim=u.size()/dim;

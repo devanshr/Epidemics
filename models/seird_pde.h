@@ -95,27 +95,24 @@ namespace ug {
 			
 			for (int i = 0; i < nRows; i++) {
 				for (int j = 0; j < nCols; j++) {
-					double a=0;
-					double b=0;
-					double c=0;
-					double d=0;	
 					F diffusion=0;
-					
 					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
-						a=A[(i - 1) * nCols + j];
-						b=A[(i + 1) * nCols + j];
-						c=A[i * nCols + j - 1];
-						d=A[i * nCols + j + 1];
+						F a=A[(i - 1) * nCols + j];
+						F b=A[(i + 1) * nCols + j];
+						F c=A[i * nCols + j - 1];
+						F d=A[i * nCols + j + 1];
 						diffusion=(a - 4 * A[i * nCols + j] + b + c + d);
 					}
 					else{
 						//Upper boundary. Forward difference for y dimension
 						if ((i-1)<0){
 							diffusion+=2*A[(i)*nCols+j]-5*A[(i+1)*nCols+j]+4*A[(i+2)*nCols+j]-A[(i+3)*nCols+j];
-						}					
+							//std::cout<<"C1:"<<A[(i)*nCols+j]<<"   "<<A[(i+1)*nCols+j]<<"   "<<A[(i+2)*nCols+j]<<"   "<<A[(i+3)*nCols+j]<<"\n";
+						}
 						//Lower boundary. Backwards difference for y dimension
 						else if ((i+1)>=nRows){
 							diffusion+=2*A[i*nCols+j]-5*A[(i-1)*nCols+j]+4*A[(i-2)*nCols+j]-A[(i-3)*nCols+j];
+							//std::cout<<"C2:"<<A[i*nCols+j]<<"   "<<A[(i-1)*nCols+j]<<"  "<<A[(i-2)*nCols+j]<<"   "<<A[(i-3)*nCols+j]<<"\n";
 						}
 						else{
 							diffusion+=A[(i - 1) * nCols + j]-2* A[i * nCols + j]+A[(i + 1) * nCols + j];
@@ -124,16 +121,17 @@ namespace ug {
 						//Left boundary. Forward difference for x dimension
 						if ((j-1)<0){
 							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j+1)]+4*A[i*nCols+(j+2)]-A[i*nCols+(j+3)];
-						}
-						
+							//std::cout<<"c4"<<A[i*nCols+j]<<"   "<<A[i*nCols+j+1]<<"   "<<A[i*nCols+j+2]<<"  "<<A[i*nCols+j+3]<<"\n";
+						}	
 						//Right boundary. Backwards boundary for x dimension
 						else if ((j+1)>=nCols){
 							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j-1)]+4*A[i*nCols+(j-2)]-A[i*nCols+(j-3)];
-						}
+							//std::cout<<"C4:"<<A[i*nCols+j]<<"  "<<A[i*nCols+(j-1)]<<"   "<<A[i*nCols+(j-2)]<<"   "<<A[i*nCols+(j-3)]<<"\n";
+						}	
 						else{
 							diffusion+=A[i * nCols + j - 1]-2*A[i * nCols + j]+A[i * nCols + j +1];
 						}
-						
+
 					}
 				
 					diffusion*=D*hinv;
