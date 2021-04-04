@@ -56,6 +56,9 @@
     <ClInclude Include="Form8.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Form9.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppCLR_WinformsProjekt.cpp">
@@ -76,10 +79,16 @@
     <ClCompile Include="Form3.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Form5.cpp">
-      <Filter>Headerdateien</Filter>
-    </ClCompile>
     <ClCompile Include="Form8.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Form5.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Form4.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Form9.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,6 +111,9 @@
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="Form8.resx">
+      <Filter>Headerdateien</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form9.resx">
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
   </ItemGroup>
