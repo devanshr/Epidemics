@@ -379,6 +379,13 @@ namespace ug {
 					iter++;
 				}
 			
+				if (t!= tend){
+					t=tend;
+					calc_values(t,u, res,temp,iter,writer);
+					if (StoreToFile==false){
+						ts.push_back(t);					
+					}					
+				}
 				return std::make_tuple(ts, res);
 
 			}
