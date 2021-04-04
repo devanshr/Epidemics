@@ -30,4 +30,13 @@ int main(){
 	for (auto &x:data){
 		std::cout<<x<<"\t";
 	}	
+	
+	std::cout<<"\n\ngrid_world_coordinates\n";
+	std::vector<double> grid_world_coordinates;
+	
+	co::utility::parse_csv("C:/Users/Annett/Desktop/Epidemics Git/Output/gridmapping_output.txt", grid_world_coordinates,"\t");
+	
+	for (auto& x: grid_world_coordinates){
+		std::cout<<x<<"\t";
+	}
 }
