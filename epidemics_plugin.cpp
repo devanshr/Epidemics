@@ -36,16 +36,42 @@ static void Common(Registry& reg, string grp)
 
 
 	 reg.add_function("RunSIR", ug::epi::RunSIR,"call Function",
-	 				 "model#dir#name#init_susceptible#init_infected#init_recovered#init_deaths#tstart#tend#stepsize", "Runs the SIR ode model See manual for details.");
+	 				 "model#dir#name#init_susceptible#init_infected#init_recovered#init_deaths#tstart#tend#stepsize", "Runs the SIR ode model. See manual for details.");
 	 				 
 	 reg.add_function("RunSEIRD", ug::epi::RunSEIRD,"call Function",
-	 				 "model#dir#name#init_susceptible#init_infected#init_3#init_4#init_5#tstart#tend#stepsize", "Runs the SEIRD ode model See manual for details.");
+	 				 "model#dir#name#init_susceptible#init_infected#init_3#init_4#init_5#tstart#tend#stepsize", "Runs the SEIRD ode model. See manual for details.");
+ 
+	reg.add_function("RunSEIRDPDE", ug::epi::RunSEIRDPDE,"call Function",
+	 				 "model#initial_manager#dir#name", "Runs the SEIRD PDE model. See manual for details.");
+ 
+ 
  
 	reg.add_class_<ug::epi::SIR<std::vector<double>>>("SIR", grp)
 				.add_constructor<void(*)(double, double,double)>();	 
  
 	reg.add_class_<ug::epi::SEIRD<std::vector<double>>>("SEIRD", grp)
 				.add_constructor<void(*)(double, double,double, double,double)>();	
+				
+	reg.add_class_<ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane>>("SEIRD_PDE", grp)
+				.add_constructor<void(*)(double, double,double, double,double,double)>();	
+				
+	reg.add_class_<ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>>("InitialValueManager", grp)
+				.add_constructor<void(*)()>()
+				.add_method("set_r1",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_r1,"index")
+				.add_method("set_r2",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_r2,"index")
+				.add_method("set_r3",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_r3,"index")
+				.add_method("set_r4",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_r4,"index")				
+				.add_method("set_r5",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_r5,"index")
+				.add_method("set_v1",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v1,"index")
+				.add_method("set_v2",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v2,"index")
+				.add_method("set_v3",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v3,"index")
+				.add_method("set_v4",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v4,"index")
+				.add_method("set_v5",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v5,"index")
+				.add_method("set_h",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_h,"index")
+				.add_method("set_t_start",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_t_start,"index")
+				.add_method("set_t_end",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_t_end,"index");	
+				
+				
 }
 
 
