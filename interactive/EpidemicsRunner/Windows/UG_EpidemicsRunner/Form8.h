@@ -2045,6 +2045,98 @@ void plot_heatmaps(std::string filenum) {
 	}
 }
 
+void plot_heatmap(int filenum, System::Windows::Forms::PictureBox^ legend_pbox, System::Windows::Forms::PictureBox^ heatmap_pbox, System::Windows::Forms::Label^ max_label2, System::Windows::Forms::Label^ min_label2) {
+	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+
+	int img_x = heatmap_pbox->Width;// 200; //dimensions of picturebox
+	int img_y = heatmap_pbox->Height;//200; //dimensions of picturebox
+	double dimX = 1.0;
+	double dimY = 1.0;
+	size_t grid_x = (dimX / stepsize) + 1;
+	size_t grid_y = (dimY / stepsize) + 1;
+
+	std::string delimiter = "\t";
+	int gridx = (int)grid_x;
+
+	if (user_datapoints == nullptr) {
+		user_datapoints = new std::vector<double>();
+	}
+	else {
+		delete user_datapoints;
+		user_datapoints = new std::vector<double>();
+	}
+
+	if (user_selected_optimization_path == nullptr) {
+		MessageBox::Show(L"Please specify the directory for Output generation");
+	}
+	else {
+
+		co::ErrorCode err;
+		try {
+			std::string path = *user_selected_optimization_path +"/output"+ std::to_string(filenum)+".txt";
+			err = co::utility::parse_csv(path, *user_datapoints, delimiter, &gridx);
+
+			//MessageBox::Show(gcnew String(path.c_str()));
+
+		}
+		catch (System::Exception^ e) {
+			MessageBox::Show(L"Could not read file" + e);
+		}
+		//if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
+		if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error - Could not locate file");
+
+
+		//MessageBox::Show(gcnew String(std::to_string().c_str()));
+
+		int offset = (*user_datapoints).size() / 5;
+
+		double min_val = *std::min_element(user_datapoints->begin()+filenum*offset, user_datapoints->begin() + filenum * offset+offset);
+		double max_val = *std::max_element(user_datapoints->begin() + filenum * offset, user_datapoints->begin() + filenum * offset+offset);
+
+		max_label2->Text = gcnew String(std::to_string(max_val).c_str());
+		min_label2->Text = gcnew String(std::to_string(min_val).c_str());
+
+		Bitmap^ legend = gcnew Bitmap(legend_pbox->Width, legend_pbox->Height);
+
+		for (int i = 0; i < legend->Size.Height; i++) {
+			for (int j = 0; j < legend->Size.Width; j++) {
+
+				double aux = 1.0 - (static_cast<double>(i) / (legend->Size.Height - 1.0));
+
+				System::Drawing::Color c = System::Drawing::Color::FromArgb(153 + (aux) * 102, 153 - (aux) * 120, 255 - aux * 255);
+				legend->SetPixel(j, i, c);
+			}
+		}
+		legend_pbox->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(legend));
+
+
+
+		Bitmap^ img = gcnew Bitmap(img_x, img_y);
+		for (int i = 0; i < img_y; i++) {
+			for (int j = 0; j < img_x; j++) {
+				int i_g;
+				int j_g;
+				image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+				int r;
+				int g;
+				int b;
+
+				determine_color((*user_datapoints)[i_g * grid_x + j_g + filenum * offset], min_val, max_val, r, g, b);
+
+				//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
+				//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
+
+				System::Drawing::Color c = System::Drawing::Color::FromArgb(153 + (r / 255.0) * 102, 153 - (b / 255.0) * 120, 255 - b);
+				img->SetPixel(j, i, c);
+			}
+		}
+			//img->SetPixel(0, 0, System::Drawing::Color::Blue);
+		heatmap_pbox->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));	
+	}
+}
+
+
 bool Run_SERID_PDE() {
 	
 	//Parameters
@@ -2150,35 +2242,47 @@ private: System::Void v3_input_ValueChanged(System::Object^ sender, System::Even
 private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 	Form9^ form = gcnew Form9;
 	form->Text = L"Susceptibles";
-	//form->
-	//form-> pictureBox1->Image->Clone();
-	Image^ img = pictureBox1->Image;
-	form->set_image(img);
-
-
-
+	System::Windows::Forms::PictureBox^ pbox1=form->get_legendbox();
+	System::Windows::Forms::PictureBox^ pbox2=form->get_mainbox();
+	plot_heatmap(0, pbox1, pbox2, form->get_max_label(),form->get_min_label());
 	form->Show();
-
 }
 
 private: System::Void pictureBox2_Click(System::Object^ sender, System::EventArgs^ e) {
 	Form9^ form = gcnew Form9;
 	form->Text = L"Exposed";
+	System::Windows::Forms::PictureBox^ pbox1 = form->get_legendbox();
+	System::Windows::Forms::PictureBox^ pbox2 = form->get_mainbox();
+	plot_heatmap(1, pbox1, pbox2, form->get_max_label(), form->get_min_label());
+	form->Show();
+
 
 }
 private: System::Void pictureBox3_Click(System::Object^ sender, System::EventArgs^ e) {
 		   Form9^ form = gcnew Form9;
 		   form->Text = L"Infected";
+		   System::Windows::Forms::PictureBox^ pbox1 = form->get_legendbox();
+		   System::Windows::Forms::PictureBox^ pbox2 = form->get_mainbox();
+		   plot_heatmap(2, pbox1, pbox2, form->get_max_label(), form->get_min_label());
+		   form->Show();
 
 }
 private: System::Void pictureBox4_Click(System::Object^ sender, System::EventArgs^ e) {
 	Form9^ form = gcnew Form9;
 	form->Text = L"Recoverd";
+	System::Windows::Forms::PictureBox^ pbox1 = form->get_legendbox();
+	System::Windows::Forms::PictureBox^ pbox2 = form->get_mainbox();
+	plot_heatmap(3, pbox1, pbox2, form->get_max_label(), form->get_min_label());
+	form->Show();
 
 }
 private: System::Void pictureBox5_Click(System::Object^ sender, System::EventArgs^ e) {
 	Form9^ form = gcnew Form9;
 	form->Text = L"Deceased";
+	System::Windows::Forms::PictureBox^ pbox1 = form->get_legendbox();
+	System::Windows::Forms::PictureBox^ pbox2 = form->get_mainbox();
+	plot_heatmap(4, pbox1, pbox2, form->get_max_label(), form->get_min_label());
+	form->Show();
 
 
 }
