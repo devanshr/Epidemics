@@ -7,6 +7,7 @@
 #include "../../../../models/writer.h"
 #include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
 #include "../../../../../ConstrainedOptimization/core/parameters.h"
+#include "Form9.h"
 
 
 
@@ -287,6 +288,9 @@ private: System::ComponentModel::IContainer^ components;
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->v1_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->r1_input))->BeginInit();
 		this->SuspendLayout();
+		// 
+		// groupBox1
+		// 
 		this->groupBox1->Controls->Add(this->pp_input);
 		this->groupBox1->Controls->Add(this->qq_input);
 		this->groupBox1->Controls->Add(this->theta_input);
@@ -303,6 +307,9 @@ private: System::ComponentModel::IContainer^ components;
 		this->groupBox1->TabIndex = 5;
 		this->groupBox1->TabStop = false;
 		this->groupBox1->Text = L"Parameters";
+		// 
+		// pp_input
+		// 
 		this->pp_input->DecimalPlaces = 4;
 		this->pp_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
 		this->pp_input->Location = System::Drawing::Point(1113, 20);
@@ -310,10 +317,13 @@ private: System::ComponentModel::IContainer^ components;
 		this->pp_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->pp_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->pp_input->Name = L"pp_input";
-		this->pp_input->Size = System::Drawing::Size(130, 20);
+		this->pp_input->Size = System::Drawing::Size(130, 26);
 		this->pp_input->TabIndex = 15;
 		this->pp_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 0 });
 		this->pp_input->ValueChanged += gcnew System::EventHandler(this, &Form8::pp_input_ValueChanged);
+		// 
+		// qq_input
+		// 
 		this->qq_input->DecimalPlaces = 4;
 		this->qq_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
 		this->qq_input->Location = System::Drawing::Point(853, 23);
@@ -321,113 +331,159 @@ private: System::ComponentModel::IContainer^ components;
 		this->qq_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 30, 0, 0, 0 });
 		this->qq_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 262144 });
 		this->qq_input->Name = L"qq_input";
-		this->qq_input->Size = System::Drawing::Size(121, 20);
+		this->qq_input->Size = System::Drawing::Size(121, 26);
 		this->qq_input->TabIndex = 14;
 		this->qq_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 14, 0, 0, 0 });
 		this->qq_input->ValueChanged += gcnew System::EventHandler(this, &Form8::qq_input_ValueChanged);
+		// 
+		// theta_input
+		// 
 		this->theta_input->DecimalPlaces = 8;
 		this->theta_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
 		this->theta_input->Location = System::Drawing::Point(589, 22);
 		this->theta_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->theta_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->theta_input->Name = L"theta_input";
-		this->theta_input->Size = System::Drawing::Size(130, 20);
+		this->theta_input->Size = System::Drawing::Size(130, 26);
 		this->theta_input->TabIndex = 13;
 		this->theta_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 		this->theta_input->ValueChanged += gcnew System::EventHandler(this, &Form8::theta_input_ValueChanged);
+		// 
+		// kappa_input
+		// 
 		this->kappa_input->DecimalPlaces = 8;
 		this->kappa_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
 		this->kappa_input->Location = System::Drawing::Point(354, 25);
 		this->kappa_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->kappa_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->kappa_input->Name = L"kappa_input";
-		this->kappa_input->Size = System::Drawing::Size(130, 20);
+		this->kappa_input->Size = System::Drawing::Size(130, 26);
 		this->kappa_input->TabIndex = 12;
 		this->kappa_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->kappa_input->ValueChanged += gcnew System::EventHandler(this, &Form8::kappa_input_ValueChanged);
+		// 
+		// alpha_input
+		// 
 		this->alpha_input->DecimalPlaces = 9;
 		this->alpha_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
 		this->alpha_input->Location = System::Drawing::Point(94, 25);
 		this->alpha_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->alpha_input->Name = L"alpha_input";
-		this->alpha_input->Size = System::Drawing::Size(130, 20);
+		this->alpha_input->Size = System::Drawing::Size(130, 26);
 		this->alpha_input->TabIndex = 11;
 		this->alpha_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 78, 0, 0, 524288 });
 		this->alpha_input->ValueChanged += gcnew System::EventHandler(this, &Form8::alpha_input_ValueChanged);
+		// 
+		// pp_check
+		// 
 		this->pp_check->AutoSize = true;
 		this->pp_check->Location = System::Drawing::Point(1022, 23);
 		this->pp_check->Name = L"pp_check";
-		this->pp_check->Size = System::Drawing::Size(38, 17);
+		this->pp_check->Size = System::Drawing::Size(53, 24);
 		this->pp_check->TabIndex = 10;
 		this->pp_check->Text = L"pp";
 		this->pp_check->UseVisualStyleBackColor = true;
 		this->pp_check->CheckedChanged += gcnew System::EventHandler(this, &Form8::pp_check_CheckedChanged);
+		// 
+		// alpha_check
+		// 
 		this->alpha_check->AutoSize = true;
 		this->alpha_check->Location = System::Drawing::Point(6, 27);
 		this->alpha_check->Name = L"alpha_check";
-		this->alpha_check->Size = System::Drawing::Size(52, 17);
+		this->alpha_check->Size = System::Drawing::Size(74, 24);
 		this->alpha_check->TabIndex = 6;
 		this->alpha_check->Text = L"alpha";
 		this->alpha_check->UseVisualStyleBackColor = true;
 		this->alpha_check->CheckedChanged += gcnew System::EventHandler(this, &Form8::alpha_check_CheckedChanged);
+		// 
+		// qq_check
+		// 
 		this->qq_check->AutoSize = true;
 		this->qq_check->Location = System::Drawing::Point(765, 21);
 		this->qq_check->Name = L"qq_check";
-		this->qq_check->Size = System::Drawing::Size(38, 17);
+		this->qq_check->Size = System::Drawing::Size(53, 24);
 		this->qq_check->TabIndex = 9;
 		this->qq_check->Text = L"qq";
 		this->qq_check->UseVisualStyleBackColor = true;
 		this->qq_check->CheckedChanged += gcnew System::EventHandler(this, &Form8::qq_check_CheckedChanged);
+		// 
+		// kappa_check
+		// 
 		this->kappa_check->AutoSize = true;
 		this->kappa_check->Location = System::Drawing::Point(254, 25);
 		this->kappa_check->Name = L"kappa_check";
-		this->kappa_check->Size = System::Drawing::Size(56, 17);
+		this->kappa_check->Size = System::Drawing::Size(79, 24);
 		this->kappa_check->TabIndex = 7;
 		this->kappa_check->Text = L"kappa";
 		this->kappa_check->UseVisualStyleBackColor = true;
 		this->kappa_check->CheckedChanged += gcnew System::EventHandler(this, &Form8::kappa_check_CheckedChanged);
+		// 
+		// theta_check
+		// 
 		this->theta_check->AutoSize = true;
 		this->theta_check->Location = System::Drawing::Point(510, 25);
 		this->theta_check->Name = L"theta_check";
-		this->theta_check->Size = System::Drawing::Size(50, 17);
+		this->theta_check->Size = System::Drawing::Size(72, 24);
 		this->theta_check->TabIndex = 8;
 		this->theta_check->Text = L"theta";
 		this->theta_check->UseVisualStyleBackColor = true;
 		this->theta_check->CheckedChanged += gcnew System::EventHandler(this, &Form8::theta_check_CheckedChanged);
+		// 
+		// menuStrip1
+		// 
+		this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
 		this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-			this->File_strip_menu, this->settingsForPSOToolStripMenuItem,
-				this->settingForGaussNewtonToolStripMenuItem
+			this->File_strip_menu,
+				this->settingsForPSOToolStripMenuItem, this->settingForGaussNewtonToolStripMenuItem
 		});
 		this->menuStrip1->Location = System::Drawing::Point(0, 0);
 		this->menuStrip1->Name = L"menuStrip1";
-		this->menuStrip1->Size = System::Drawing::Size(1393, 24);
+		this->menuStrip1->Size = System::Drawing::Size(1393, 33);
 		this->menuStrip1->TabIndex = 6;
 		this->menuStrip1->Text = L"menuStrip1";
 		this->menuStrip1->ItemClicked += gcnew System::Windows::Forms::ToolStripItemClickedEventHandler(this, &Form8::menuStrip1_ItemClicked);
+		// 
+		// File_strip_menu
+		// 
 		this->File_strip_menu->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 			this->loadFileToolStripMenuItem,
 				this->loadExperimentalDatatToolStripMenuItem
 		});
 		this->File_strip_menu->Name = L"File_strip_menu";
-		this->File_strip_menu->Size = System::Drawing::Size(37, 20);
+		this->File_strip_menu->Size = System::Drawing::Size(54, 29);
 		this->File_strip_menu->Text = L"File";
+		// 
+		// loadFileToolStripMenuItem
+		// 
 		this->loadFileToolStripMenuItem->Name = L"loadFileToolStripMenuItem";
-		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(254, 22);
+		this->loadFileToolStripMenuItem->Size = System::Drawing::Size(384, 34);
 		this->loadFileToolStripMenuItem->Text = L"Select Data Specification Directory";
 		this->loadFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form8::loadFileToolStripMenuItem_Click);
+		// 
+		// loadExperimentalDatatToolStripMenuItem
+		// 
 		this->loadExperimentalDatatToolStripMenuItem->Name = L"loadExperimentalDatatToolStripMenuItem";
-		this->loadExperimentalDatatToolStripMenuItem->Size = System::Drawing::Size(254, 22);
+		this->loadExperimentalDatatToolStripMenuItem->Size = System::Drawing::Size(384, 34);
 		this->loadExperimentalDatatToolStripMenuItem->Text = L"Load Experimental Data";
 		this->loadExperimentalDatatToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form8::loadExperimentalDatatToolStripMenuItem_Click);
+		// 
+		// settingsForPSOToolStripMenuItem
+		// 
 		this->settingsForPSOToolStripMenuItem->Name = L"settingsForPSOToolStripMenuItem";
-		this->settingsForPSOToolStripMenuItem->Size = System::Drawing::Size(106, 20);
+		this->settingsForPSOToolStripMenuItem->Size = System::Drawing::Size(162, 29);
 		this->settingsForPSOToolStripMenuItem->Text = L"Settings For PSO";
 		this->settingsForPSOToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form8::settingsForPSOToolStripMenuItem_Click);
+		// 
+		// settingForGaussNewtonToolStripMenuItem
+		// 
 		this->settingForGaussNewtonToolStripMenuItem->Name = L"settingForGaussNewtonToolStripMenuItem";
-		this->settingForGaussNewtonToolStripMenuItem->Size = System::Drawing::Size(157, 20);
+		this->settingForGaussNewtonToolStripMenuItem->Size = System::Drawing::Size(236, 29);
 		this->settingForGaussNewtonToolStripMenuItem->Text = L"Setting For Gauss-Newton";
 		this->settingForGaussNewtonToolStripMenuItem->Click += gcnew System::EventHandler(this, &Form8::settingForGaussNewtonToolStripMenuItem_Click);
+		// 
+		// cancel_button
+		// 
 		this->cancel_button->Location = System::Drawing::Point(1273, 616);
 		this->cancel_button->Name = L"cancel_button";
 		this->cancel_button->Size = System::Drawing::Size(108, 38);
@@ -435,6 +491,9 @@ private: System::ComponentModel::IContainer^ components;
 		this->cancel_button->Text = L"Cancel";
 		this->cancel_button->UseVisualStyleBackColor = true;
 		this->cancel_button->Click += gcnew System::EventHandler(this, &Form8::cancel_button_Click);
+		// 
+		// Optimize_button
+		// 
 		this->Optimize_button->Location = System::Drawing::Point(727, 134);
 		this->Optimize_button->Name = L"Optimize_button";
 		this->Optimize_button->Size = System::Drawing::Size(164, 38);
@@ -442,33 +501,48 @@ private: System::ComponentModel::IContainer^ components;
 		this->Optimize_button->Text = L"Run Gauss-Newton";
 		this->Optimize_button->UseVisualStyleBackColor = true;
 		this->Optimize_button->Click += gcnew System::EventHandler(this, &Form8::Optimize_button_Click);
+		// 
+		// label1
+		// 
 		this->label1->AutoSize = true;
 		this->label1->Location = System::Drawing::Point(39, 148);
 		this->label1->Name = L"label1";
-		this->label1->Size = System::Drawing::Size(36, 13);
+		this->label1->Size = System::Drawing::Size(55, 20);
 		this->label1->TabIndex = 9;
 		this->label1->Text = L"t_start";
+		// 
+		// label2
+		// 
 		this->label2->AutoSize = true;
 		this->label2->Location = System::Drawing::Point(39, 174);
 		this->label2->Name = L"label2";
-		this->label2->Size = System::Drawing::Size(34, 13);
+		this->label2->Size = System::Drawing::Size(50, 20);
 		this->label2->TabIndex = 10;
 		this->label2->Text = L"t_end";
+		// 
+		// t_start_input
+		// 
 		this->t_start_input->DecimalPlaces = 2;
 		this->t_start_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
 		this->t_start_input->Location = System::Drawing::Point(140, 146);
 		this->t_start_input->Name = L"t_start_input";
-		this->t_start_input->Size = System::Drawing::Size(130, 20);
+		this->t_start_input->Size = System::Drawing::Size(130, 26);
 		this->t_start_input->TabIndex = 11;
 		this->t_start_input->ValueChanged += gcnew System::EventHandler(this, &Form8::t_start_input_ValueChanged);
+		// 
+		// t_end_input
+		// 
 		this->t_end_input->DecimalPlaces = 4;
 		this->t_end_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 65536 });
 		this->t_end_input->Location = System::Drawing::Point(140, 172);
 		this->t_end_input->Name = L"t_end_input";
-		this->t_end_input->Size = System::Drawing::Size(130, 20);
+		this->t_end_input->Size = System::Drawing::Size(130, 26);
 		this->t_end_input->TabIndex = 12;
 		this->t_end_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 40, 0, 0, 65536 });
 		this->t_end_input->ValueChanged += gcnew System::EventHandler(this, &Form8::t_end_input_ValueChanged);
+		// 
+		// stepsize_input
+		// 
 		this->stepsize_input->DecimalPlaces = 6;
 		this->stepsize_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 131072 });
 		this->stepsize_input->Location = System::Drawing::Point(503, 172);
@@ -476,28 +550,37 @@ private: System::ComponentModel::IContainer^ components;
 		this->stepsize_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		this->stepsize_input->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 196608 });
 		this->stepsize_input->Name = L"stepsize_input";
-		this->stepsize_input->Size = System::Drawing::Size(130, 20);
+		this->stepsize_input->Size = System::Drawing::Size(130, 26);
 		this->stepsize_input->TabIndex = 33;
 		this->stepsize_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->stepsize_input->ValueChanged += gcnew System::EventHandler(this, &Form8::stepsize_input_ValueChanged);
+		// 
+		// label11
+		// 
 		this->label11->AutoSize = true;
 		this->label11->Location = System::Drawing::Point(310, 175);
 		this->label11->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label11->Name = L"label11";
-		this->label11->Size = System::Drawing::Size(153, 13);
+		this->label11->Size = System::Drawing::Size(229, 20);
 		this->label11->TabIndex = 32;
 		this->label11->Text = L"Stepsize: Saptial and Temporal";
 		this->label11->Click += gcnew System::EventHandler(this, &Form8::label11_Click);
+		// 
+		// diffusion_input
+		// 
 		this->diffusion_input->DecimalPlaces = 9;
 		this->diffusion_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->diffusion_input->Location = System::Drawing::Point(503, 141);
 		this->diffusion_input->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 		this->diffusion_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 		this->diffusion_input->Name = L"diffusion_input";
-		this->diffusion_input->Size = System::Drawing::Size(130, 20);
+		this->diffusion_input->Size = System::Drawing::Size(130, 26);
 		this->diffusion_input->TabIndex = 29;
 		this->diffusion_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 393216 });
 		this->diffusion_input->ValueChanged += gcnew System::EventHandler(this, &Form8::initial_deaths_ValueChanged);
+		// 
+		// pso_optimize_button
+		// 
 		this->pso_optimize_button->Location = System::Drawing::Point(727, 178);
 		this->pso_optimize_button->Name = L"pso_optimize_button";
 		this->pso_optimize_button->Size = System::Drawing::Size(164, 36);
@@ -505,13 +588,23 @@ private: System::ComponentModel::IContainer^ components;
 		this->pso_optimize_button->Text = L"Run PSO";
 		this->pso_optimize_button->UseVisualStyleBackColor = true;
 		this->pso_optimize_button->Click += gcnew System::EventHandler(this, &Form8::pso_optimize_button_Click);
+		// 
+		// dataSet1
+		// 
 		this->dataSet1->DataSetName = L"NewDataSet";
+		// 
+		// pictureBox1
+		// 
 		this->pictureBox1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->pictureBox1->Location = System::Drawing::Point(37, 349);
 		this->pictureBox1->Name = L"pictureBox1";
 		this->pictureBox1->Size = System::Drawing::Size(200, 200);
 		this->pictureBox1->TabIndex = 38;
 		this->pictureBox1->TabStop = false;
+		this->pictureBox1->Click += gcnew System::EventHandler(this, &Form8::pictureBox1_Click);
+		// 
+		// button1
+		// 
 		this->button1->Location = System::Drawing::Point(897, 134);
 		this->button1->Name = L"button1";
 		this->button1->Size = System::Drawing::Size(164, 38);
@@ -519,37 +612,59 @@ private: System::ComponentModel::IContainer^ components;
 		this->button1->Text = L"Run Simulation";
 		this->button1->UseVisualStyleBackColor = true;
 		this->button1->Click += gcnew System::EventHandler(this, &Form8::button1_Click);
+		// 
+		// label12
+		// 
 		this->label12->AutoSize = true;
 		this->label12->Location = System::Drawing::Point(415, 146);
 		this->label12->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 		this->label12->Name = L"label12";
-		this->label12->Size = System::Drawing::Size(48, 13);
+		this->label12->Size = System::Drawing::Size(72, 20);
 		this->label12->TabIndex = 26;
 		this->label12->Text = L"Diffusion";
+		// 
+		// pictureBox2
+		// 
 		this->pictureBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->pictureBox2->Location = System::Drawing::Point(291, 349);
 		this->pictureBox2->Name = L"pictureBox2";
 		this->pictureBox2->Size = System::Drawing::Size(200, 200);
 		this->pictureBox2->TabIndex = 44;
 		this->pictureBox2->TabStop = false;
+		this->pictureBox2->Click += gcnew System::EventHandler(this, &Form8::pictureBox2_Click);
+		// 
+		// pictureBox3
+		// 
 		this->pictureBox3->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->pictureBox3->Location = System::Drawing::Point(547, 349);
 		this->pictureBox3->Name = L"pictureBox3";
 		this->pictureBox3->Size = System::Drawing::Size(200, 200);
 		this->pictureBox3->TabIndex = 45;
 		this->pictureBox3->TabStop = false;
+		this->pictureBox3->Click += gcnew System::EventHandler(this, &Form8::pictureBox3_Click);
+		// 
+		// pictureBox4
+		// 
 		this->pictureBox4->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->pictureBox4->Location = System::Drawing::Point(802, 349);
 		this->pictureBox4->Name = L"pictureBox4";
 		this->pictureBox4->Size = System::Drawing::Size(200, 200);
 		this->pictureBox4->TabIndex = 46;
 		this->pictureBox4->TabStop = false;
+		this->pictureBox4->Click += gcnew System::EventHandler(this, &Form8::pictureBox4_Click);
+		// 
+		// pictureBox5
+		// 
 		this->pictureBox5->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->pictureBox5->Location = System::Drawing::Point(1059, 349);
 		this->pictureBox5->Name = L"pictureBox5";
 		this->pictureBox5->Size = System::Drawing::Size(200, 200);
 		this->pictureBox5->TabIndex = 47;
 		this->pictureBox5->TabStop = false;
+		this->pictureBox5->Click += gcnew System::EventHandler(this, &Form8::pictureBox5_Click);
+		// 
+		// hScrollBar1
+		// 
 		this->hScrollBar1->Location = System::Drawing::Point(425, 616);
 		this->hScrollBar1->Name = L"hScrollBar1";
 		this->hScrollBar1->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -557,67 +672,100 @@ private: System::ComponentModel::IContainer^ components;
 		this->hScrollBar1->TabIndex = 48;
 		this->hScrollBar1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &Form8::hScrollBar1_Scroll);
 		this->hScrollBar1->ValueChanged += gcnew System::EventHandler(this, &Form8::hScrollBar1_ValueChanged);
+		// 
+		// label4
+		// 
 		this->label4->AutoSize = true;
 		this->label4->Location = System::Drawing::Point(959, 645);
 		this->label4->Name = L"label4";
-		this->label4->Size = System::Drawing::Size(30, 13);
+		this->label4->Size = System::Drawing::Size(43, 20);
 		this->label4->TabIndex = 49;
 		this->label4->Text = L"Time";
+		// 
+		// scroll_val
+		// 
 		this->scroll_val->DecimalPlaces = 5;
 		this->scroll_val->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->scroll_val->Location = System::Drawing::Point(932, 616);
 		this->scroll_val->Name = L"scroll_val";
-		this->scroll_val->Size = System::Drawing::Size(120, 20);
+		this->scroll_val->Size = System::Drawing::Size(120, 26);
 		this->scroll_val->TabIndex = 50;
 		this->scroll_val->ValueChanged += gcnew System::EventHandler(this, &Form8::scroll_val_ValueChanged);
+		// 
+		// max_label
+		// 
 		this->max_label->AutoSize = true;
 		this->max_label->Location = System::Drawing::Point(1326, 348);
 		this->max_label->Name = L"max_label";
-		this->max_label->Size = System::Drawing::Size(27, 13);
+		this->max_label->Size = System::Drawing::Size(38, 20);
 		this->max_label->TabIndex = 51;
 		this->max_label->Text = L"Max";
+		// 
+		// min_label
+		// 
 		this->min_label->AutoSize = true;
 		this->min_label->Location = System::Drawing::Point(1326, 529);
 		this->min_label->Name = L"min_label";
-		this->min_label->Size = System::Drawing::Size(24, 13);
+		this->min_label->Size = System::Drawing::Size(34, 20);
 		this->min_label->TabIndex = 52;
 		this->min_label->Text = L"Min";
+		// 
+		// legend_box
+		// 
 		this->legend_box->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 		this->legend_box->Location = System::Drawing::Point(1292, 348);
 		this->legend_box->Name = L"legend_box";
 		this->legend_box->Size = System::Drawing::Size(22, 200);
 		this->legend_box->TabIndex = 53;
 		this->legend_box->TabStop = false;
+		// 
+		// label5
+		// 
 		this->label5->AutoSize = true;
 		this->label5->Location = System::Drawing::Point(105, 566);
 		this->label5->Name = L"label5";
-		this->label5->Size = System::Drawing::Size(67, 13);
+		this->label5->Size = System::Drawing::Size(100, 20);
 		this->label5->TabIndex = 54;
 		this->label5->Text = L"Susceptibles";
+		// 
+		// label6
+		// 
 		this->label6->AutoSize = true;
 		this->label6->Location = System::Drawing::Point(369, 566);
 		this->label6->Name = L"label6";
-		this->label6->Size = System::Drawing::Size(48, 13);
+		this->label6->Size = System::Drawing::Size(71, 20);
 		this->label6->TabIndex = 55;
 		this->label6->Text = L"Exposed";
+		// 
+		// label7
+		// 
 		this->label7->AutoSize = true;
 		this->label7->Location = System::Drawing::Point(623, 566);
 		this->label7->Name = L"label7";
-		this->label7->Size = System::Drawing::Size(46, 13);
+		this->label7->Size = System::Drawing::Size(68, 20);
 		this->label7->TabIndex = 56;
 		this->label7->Text = L"Infected";
+		// 
+		// label10
+		// 
 		this->label10->AutoSize = true;
 		this->label10->Location = System::Drawing::Point(878, 566);
 		this->label10->Name = L"label10";
-		this->label10->Size = System::Drawing::Size(54, 13);
+		this->label10->Size = System::Drawing::Size(77, 20);
 		this->label10->TabIndex = 57;
 		this->label10->Text = L"Recoverd";
+		// 
+		// label14
+		// 
 		this->label14->AutoSize = true;
 		this->label14->Location = System::Drawing::Point(1138, 566);
 		this->label14->Name = L"label14";
-		this->label14->Size = System::Drawing::Size(56, 13);
+		this->label14->Size = System::Drawing::Size(82, 20);
 		this->label14->TabIndex = 58;
 		this->label14->Text = L"Deceased";
+		// 
+		// groupBox2
+		// 
 		this->groupBox2->Controls->Add(this->label20);
 		this->groupBox2->Controls->Add(this->v5_input);
 		this->groupBox2->Controls->Add(this->label21);
@@ -644,137 +792,200 @@ private: System::ComponentModel::IContainer^ components;
 		this->groupBox2->TabIndex = 59;
 		this->groupBox2->TabStop = false;
 		this->groupBox2->Text = L"Initial Values";
+		// 
+		// label20
+		// 
 		this->label20->AutoSize = true;
-		this->label20->Location = System::Drawing::Point(1043, 59);
+		this->label20->Location = System::Drawing::Point(1041, 64);
 		this->label20->Name = L"label20";
-		this->label20->Size = System::Drawing::Size(19, 13);
+		this->label20->Size = System::Drawing::Size(25, 20);
 		this->label20->TabIndex = 74;
 		this->label20->Text = L"v5";
+		// 
+		// v5_input
+		// 
 		this->v5_input->DecimalPlaces = 2;
 		this->v5_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
-		this->v5_input->Location = System::Drawing::Point(1090, 57);
+		this->v5_input->Location = System::Drawing::Point(1088, 62);
 		this->v5_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 		this->v5_input->Name = L"v5_input";
-		this->v5_input->Size = System::Drawing::Size(120, 20);
+		this->v5_input->Size = System::Drawing::Size(120, 26);
 		this->v5_input->TabIndex = 73;
 		this->v5_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		// 
+		// label21
+		// 
 		this->label21->AutoSize = true;
-		this->label21->Location = System::Drawing::Point(1043, 25);
+		this->label21->Location = System::Drawing::Point(1041, 30);
 		this->label21->Name = L"label21";
-		this->label21->Size = System::Drawing::Size(16, 13);
+		this->label21->Size = System::Drawing::Size(23, 20);
 		this->label21->TabIndex = 72;
 		this->label21->Text = L"r5";
+		// 
+		// r5_input
+		// 
 		this->r5_input->DecimalPlaces = 2;
-		this->r5_input->Location = System::Drawing::Point(1090, 23);
+		this->r5_input->Location = System::Drawing::Point(1088, 28);
 		this->r5_input->Name = L"r5_input";
-		this->r5_input->Size = System::Drawing::Size(120, 20);
+		this->r5_input->Size = System::Drawing::Size(120, 26);
 		this->r5_input->TabIndex = 71;
 		this->r5_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		// 
+		// label18
+		// 
 		this->label18->AutoSize = true;
-		this->label18->Location = System::Drawing::Point(786, 56);
+		this->label18->Location = System::Drawing::Point(784, 61);
 		this->label18->Name = L"label18";
-		this->label18->Size = System::Drawing::Size(19, 13);
+		this->label18->Size = System::Drawing::Size(25, 20);
 		this->label18->TabIndex = 70;
 		this->label18->Text = L"v4";
+		// 
+		// v4_input
+		// 
 		this->v4_input->DecimalPlaces = 2;
 		this->v4_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
-		this->v4_input->Location = System::Drawing::Point(833, 54);
+		this->v4_input->Location = System::Drawing::Point(831, 59);
 		this->v4_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 		this->v4_input->Name = L"v4_input";
-		this->v4_input->Size = System::Drawing::Size(120, 20);
+		this->v4_input->Size = System::Drawing::Size(120, 26);
 		this->v4_input->TabIndex = 69;
 		this->v4_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		// 
+		// label19
+		// 
 		this->label19->AutoSize = true;
-		this->label19->Location = System::Drawing::Point(786, 22);
+		this->label19->Location = System::Drawing::Point(784, 27);
 		this->label19->Name = L"label19";
-		this->label19->Size = System::Drawing::Size(16, 13);
+		this->label19->Size = System::Drawing::Size(23, 20);
 		this->label19->TabIndex = 68;
 		this->label19->Text = L"r4";
+		// 
+		// r4_input
+		// 
 		this->r4_input->DecimalPlaces = 2;
-		this->r4_input->Location = System::Drawing::Point(833, 20);
+		this->r4_input->Location = System::Drawing::Point(831, 25);
 		this->r4_input->Name = L"r4_input";
-		this->r4_input->Size = System::Drawing::Size(120, 20);
+		this->r4_input->Size = System::Drawing::Size(120, 26);
 		this->r4_input->TabIndex = 67;
 		this->r4_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		// 
+		// label16
+		// 
 		this->label16->AutoSize = true;
-		this->label16->Location = System::Drawing::Point(531, 56);
+		this->label16->Location = System::Drawing::Point(529, 61);
 		this->label16->Name = L"label16";
-		this->label16->Size = System::Drawing::Size(19, 13);
+		this->label16->Size = System::Drawing::Size(25, 20);
 		this->label16->TabIndex = 66;
 		this->label16->Text = L"v3";
+		// 
+		// v3_input
+		// 
 		this->v3_input->DecimalPlaces = 2;
 		this->v3_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
-		this->v3_input->Location = System::Drawing::Point(578, 54);
+		this->v3_input->Location = System::Drawing::Point(576, 59);
 		this->v3_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 		this->v3_input->Name = L"v3_input";
-		this->v3_input->Size = System::Drawing::Size(120, 20);
+		this->v3_input->Size = System::Drawing::Size(120, 26);
 		this->v3_input->TabIndex = 65;
 		this->v3_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
 		this->v3_input->ValueChanged += gcnew System::EventHandler(this, &Form8::v3_input_ValueChanged);
+		// 
+		// label17
+		// 
 		this->label17->AutoSize = true;
-		this->label17->Location = System::Drawing::Point(531, 22);
+		this->label17->Location = System::Drawing::Point(529, 27);
 		this->label17->Name = L"label17";
-		this->label17->Size = System::Drawing::Size(16, 13);
+		this->label17->Size = System::Drawing::Size(23, 20);
 		this->label17->TabIndex = 64;
 		this->label17->Text = L"r3";
+		// 
+		// r3_input
+		// 
 		this->r3_input->DecimalPlaces = 2;
-		this->r3_input->Location = System::Drawing::Point(578, 20);
+		this->r3_input->Location = System::Drawing::Point(576, 25);
 		this->r3_input->Name = L"r3_input";
-		this->r3_input->Size = System::Drawing::Size(120, 20);
+		this->r3_input->Size = System::Drawing::Size(120, 26);
 		this->r3_input->TabIndex = 63;
 		this->r3_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		// 
+		// label13
+		// 
 		this->label13->AutoSize = true;
-		this->label13->Location = System::Drawing::Point(275, 56);
+		this->label13->Location = System::Drawing::Point(273, 61);
 		this->label13->Name = L"label13";
-		this->label13->Size = System::Drawing::Size(19, 13);
+		this->label13->Size = System::Drawing::Size(25, 20);
 		this->label13->TabIndex = 62;
 		this->label13->Text = L"v2";
+		// 
+		// v2_input
+		// 
 		this->v2_input->DecimalPlaces = 2;
 		this->v2_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
-		this->v2_input->Location = System::Drawing::Point(322, 54);
+		this->v2_input->Location = System::Drawing::Point(320, 59);
 		this->v2_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 		this->v2_input->Name = L"v2_input";
-		this->v2_input->Size = System::Drawing::Size(120, 20);
+		this->v2_input->Size = System::Drawing::Size(120, 26);
 		this->v2_input->TabIndex = 61;
 		this->v2_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		// 
+		// label15
+		// 
 		this->label15->AutoSize = true;
-		this->label15->Location = System::Drawing::Point(275, 22);
+		this->label15->Location = System::Drawing::Point(273, 27);
 		this->label15->Name = L"label15";
-		this->label15->Size = System::Drawing::Size(16, 13);
+		this->label15->Size = System::Drawing::Size(23, 20);
 		this->label15->TabIndex = 60;
 		this->label15->Text = L"r2";
+		// 
+		// r2_input
+		// 
 		this->r2_input->DecimalPlaces = 2;
-		this->r2_input->Location = System::Drawing::Point(322, 20);
+		this->r2_input->Location = System::Drawing::Point(320, 25);
 		this->r2_input->Name = L"r2_input";
-		this->r2_input->Size = System::Drawing::Size(120, 20);
+		this->r2_input->Size = System::Drawing::Size(120, 26);
 		this->r2_input->TabIndex = 59;
 		this->r2_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		// 
+		// label9
+		// 
 		this->label9->AutoSize = true;
 		this->label9->Location = System::Drawing::Point(57, 61);
 		this->label9->Name = L"label9";
-		this->label9->Size = System::Drawing::Size(19, 13);
+		this->label9->Size = System::Drawing::Size(25, 20);
 		this->label9->TabIndex = 58;
 		this->label9->Text = L"v1";
+		// 
+		// v1_input
+		// 
 		this->v1_input->DecimalPlaces = 2;
 		this->v1_input->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 65536 });
 		this->v1_input->Location = System::Drawing::Point(104, 59);
 		this->v1_input->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 		this->v1_input->Name = L"v1_input";
-		this->v1_input->Size = System::Drawing::Size(120, 20);
+		this->v1_input->Size = System::Drawing::Size(120, 26);
 		this->v1_input->TabIndex = 57;
 		this->v1_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 100, 0, 0, 0 });
+		// 
+		// label3
+		// 
 		this->label3->AutoSize = true;
 		this->label3->Location = System::Drawing::Point(57, 27);
 		this->label3->Name = L"label3";
-		this->label3->Size = System::Drawing::Size(16, 13);
+		this->label3->Size = System::Drawing::Size(23, 20);
 		this->label3->TabIndex = 56;
 		this->label3->Text = L"r1";
+		// 
+		// r1_input
+		// 
 		this->r1_input->DecimalPlaces = 2;
 		this->r1_input->Location = System::Drawing::Point(104, 25);
 		this->r1_input->Name = L"r1_input";
-		this->r1_input->Size = System::Drawing::Size(120, 20);
+		this->r1_input->Size = System::Drawing::Size(120, 26);
 		this->r1_input->TabIndex = 0;
 		this->r1_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+		// 
+		// Form8
+		// 
 		this->AutoSize = true;
 		this->BackColor = System::Drawing::SystemColors::Control;
 		this->ClientSize = System::Drawing::Size(1393, 674);
@@ -1717,6 +1928,14 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 		if (res) {
 			plot_heatmaps("/output0.txt");
 			scroll_val->Value = scroll_val->Minimum;
+			
+			double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+			double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+			double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+
+			hScrollBar1->Minimum = t_start;
+			hScrollBar1->Maximum = ((t_end - t_start) / stepsize) + hScrollBar1->LargeChange - 1; //Number of steps scroll bar requires to move to get till end
+
 		}
 
 		
@@ -1727,8 +1946,8 @@ void plot_heatmaps(std::string filenum) {
 	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
 	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
 
-	int img_x = 200; //dimensions of picturebox
-	int img_y = 200; //dimensions of picturebox
+	int img_x = pictureBox1->Height;// 200; //dimensions of picturebox
+	int img_y = pictureBox1->Height;//200; //dimensions of picturebox
 	double dimX = 1.0;
 	double dimY = 1.0;
 	size_t grid_x = (dimX / stepsize) + 1;
@@ -1819,7 +2038,7 @@ void plot_heatmaps(std::string filenum) {
 				}
 			}
 
-			img->SetPixel(0, 0, System::Drawing::Color::Blue);
+			//img->SetPixel(0, 0, System::Drawing::Color::Blue);
 			list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
 
 		}
@@ -1874,7 +2093,8 @@ bool Run_SERID_PDE() {
 		return false;
 	}
 	else {
-		
+		//MessageBox::Show(gcnew String(*user_selected_optimization_path));
+
 		seird_model.set_store_to_file(true, *user_selected_optimization_path, filename);
 
 		seird_model.run(t_start, u0, t_end);
@@ -1887,18 +2107,6 @@ bool Run_SERID_PDE() {
 
 private: System::Void hScrollBar1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
 	
-	double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
-	double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
-	double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
-
-	//scroll_val->Value = (hScrollBar1->Value) * (System::Decimal(1.0) / stepsize_input->Value);
-
-	hScrollBar1->Minimum = t_start;
-	hScrollBar1->Maximum = ((t_end - t_start) / stepsize) + hScrollBar1->LargeChange -1 ; //Number of steps scroll bar requires to move to get till end
-
-	//hScrollBar1->SmallChange = stepsize;
-	//hScrollBar1->LargeChange = stepsize*10;
-
 	int filenum = hScrollBar1->Value; 
 	std::string path = "/output" + std::to_string(filenum) + ".txt";
 	
@@ -1939,6 +2147,44 @@ private: System::Void menuStrip1_ItemClicked(System::Object^ sender, System::Win
 }
 private: System::Void v3_input_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 }
+private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
+	Form9^ form = gcnew Form9;
+	form->Text = L"Susceptibles";
+	//form->
+	//form-> pictureBox1->Image->Clone();
+	Image^ img = pictureBox1->Image;
+	form->set_image(img);
+
+
+
+	form->Show();
+
+}
+
+private: System::Void pictureBox2_Click(System::Object^ sender, System::EventArgs^ e) {
+	Form9^ form = gcnew Form9;
+	form->Text = L"Exposed";
+
+}
+private: System::Void pictureBox3_Click(System::Object^ sender, System::EventArgs^ e) {
+		   Form9^ form = gcnew Form9;
+		   form->Text = L"Infected";
+
+}
+private: System::Void pictureBox4_Click(System::Object^ sender, System::EventArgs^ e) {
+	Form9^ form = gcnew Form9;
+	form->Text = L"Recoverd";
+
+}
+private: System::Void pictureBox5_Click(System::Object^ sender, System::EventArgs^ e) {
+	Form9^ form = gcnew Form9;
+	form->Text = L"Deceased";
+
+
+}
+
+
+
 };
 }
 /*
