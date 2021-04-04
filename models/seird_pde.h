@@ -40,28 +40,50 @@ namespace ug {
 
 		void set_susceptibles(typename T::iterator G_prime, typename T::iterator G, typename T::iterator A, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
-			for (int i = 0; i<(nRows-1); i++) {
-				for (int j = 0; j < (nCols-1);j++) {
-					double a=0;
-					double b=0;
-					double c=0;
-					double d=0;					
-					if ((i-1)>=0){
-						a=G[(i - 1) * nCols + j];
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+					F diffusion=0;
+							
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
+						F a=G[(i - 1) * nCols + j];
+						F b=G[(i + 1) * nCols + j];
+						F c=G[i * nCols + j - 1];
+						F d=G[i * nCols + j + 1];
+						diffusion=(a - 4 * G[i * nCols + j] + b + c + d);
 					}
-					if ((i+1)<nRows){
-						b=G[(i + 1) * nCols + j];
-					}
-					
-					if ((j-1)>=0){
-						c=G[i * nCols + j - 1];
-					}
-					
-					if ((j+1)<nCols){
-						d=G[i * nCols + j + 1];
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							diffusion+=2*G[(i)*nCols+j]-5*G[(i+1)*nCols+j]+4*G[(i+2)*nCols+j]-G[(i+3)*nCols+j];
+						//	std::cout<<"C1:"<<G[(i)*nCols+j]<<"   "<<G[(i+1)*nCols+j]<<"   "<<G[(i+2)*nCols+j]<<"   "<<G[(i+3)*nCols+j]<<"\n";
+						}
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							diffusion+=2*G[i*nCols+j]-5*G[(i-1)*nCols+j]+4*G[(i-2)*nCols+j]-G[(i-3)*nCols+j];
+					//		std::cout<<"C2:"<<G[i*nCols+j]<<"   "<<G[(i-1)*nCols+j]<<"  "<<G[(i-2)*nCols+j]<<"   "<<G[(i-3)*nCols+j]<<"\n";
+						}
+						else{
+							diffusion+=G[(i - 1) * nCols + j]-2* G[i * nCols + j]+G[(i + 1) * nCols + j];
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							diffusion+=2*G[i*nCols+j]-5*G[i*nCols+(j+1)]+4*G[i*nCols+(j+2)]-G[i*nCols+(j+3)];
+							//std::cout<<"c4"<<G[i*nCols+j]<<"   "<<G[i*nCols+j+1]<<"   "<<G[i*nCols+j+2]<<"  "<<G[i*nCols+j+3]<<"\n";
+						}	
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							diffusion+=2*G[i*nCols+j]-5*G[i*nCols+(j-1)]+4*G[i*nCols+(j-2)]-G[i*nCols+(j-3)];
+						//	std::cout<<"C4:"<<G[i*nCols+j]<<"  "<<G[i*nCols+(j-1)]<<"   "<<G[i*nCols+(j-2)]<<"   "<<G[i*nCols+(j-3)]<<"\n";
+						}	
+						else{
+							diffusion+=G[i * nCols + j - 1]-2*G[i * nCols + j]+G[i * nCols + j +1];
+						}
 					}
 				
-					F diffusion =D* hinv * (a - 4 * G[i * nCols + j] + b + c + d);
+					diffusion*=D*hinv;
+					//std::cout<<"diffusion:"<<diffusion<<"\n";
+				//	std::cin.get();
 					G_prime[i * nCols + j] = diffusion - alpha * A[i * nCols + j] * G[i * nCols + j];
 				}
 			}
@@ -76,23 +98,45 @@ namespace ug {
 					double a=0;
 					double b=0;
 					double c=0;
-					double d=0;					
-					if ((i-1)>=0){
+					double d=0;	
+					F diffusion=0;
+					
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
 						a=A[(i - 1) * nCols + j];
-					}
-					if ((i+1)<nRows){
 						b=A[(i + 1) * nCols + j];
-					}
-					
-					if ((j-1)>=0){
 						c=A[i * nCols + j - 1];
-					}
-					
-					if ((j+1)<nCols){
 						d=A[i * nCols + j + 1];
-					}					
+						diffusion=(a - 4 * A[i * nCols + j] + b + c + d);
+					}
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							diffusion+=2*A[(i)*nCols+j]-5*A[(i+1)*nCols+j]+4*A[(i+2)*nCols+j]-A[(i+3)*nCols+j];
+						}					
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							diffusion+=2*A[i*nCols+j]-5*A[(i-1)*nCols+j]+4*A[(i-2)*nCols+j]-A[(i-3)*nCols+j];
+						}
+						else{
+							diffusion+=A[(i - 1) * nCols + j]-2* A[i * nCols + j]+A[(i + 1) * nCols + j];
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j+1)]+4*A[i*nCols+(j+2)]-A[i*nCols+(j+3)];
+						}
+						
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j-1)]+4*A[i*nCols+(j-2)]-A[i*nCols+(j-3)];
+						}
+						else{
+							diffusion+=A[i * nCols + j - 1]-2*A[i * nCols + j]+A[i * nCols + j +1];
+						}
+						
+					}
 				
-					F diffusion = D * hinv * (a - 4 * A[i * nCols + j] + b + c + d);
+					diffusion*=D*hinv;
 					A_prime[i * nCols + j] = diffusion + alpha * A[i * nCols + j] * G[i * nCols + j]-tauinv*A[i*nCols+j];
 				}
 			}
@@ -116,23 +160,45 @@ namespace ug {
 					double a=0;
 					double b=0;
 					double c=0;
-					double d=0;						
-					if ((i-1)>=0){
+					double d=0;		
+					F diffusion=0;
+					
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
 						a=A[(i - 1) * nCols + j];
-					}
-					if ((i+1)<nRows){
 						b=A[(i + 1) * nCols + j];
-					}
-					
-					if ((j-1)>=0){
 						c=A[i * nCols + j - 1];
-					}
-					
-					if ((j+1)<nCols){
 						d=A[i * nCols + j + 1];
-					}				
-			
-					F diffusion = -D * hinv * (A[(i - 1) * nCols + j] - 4 * A[i * nCols + j] + A[(i + 1) * nCols + j] + A[i * nCols + j - 1] + A[i * nCols + j + 1]);
+						diffusion=(a - 4 * A[i * nCols + j] + b + c + d);
+					}
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							diffusion+=2*A[(i)*nCols+j]-5*A[(i+1)*nCols+j]+4*A[(i+2)*nCols+j]-A[(i+3)*nCols+j];
+						}	
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							diffusion+=2*A[i*nCols+j]-5*A[(i-1)*nCols+j]+4*A[(i-2)*nCols+j]-A[(i-3)*nCols+j];
+						}
+						else{
+							diffusion+=A[(i - 1) * nCols + j]-2* A[i * nCols + j]+A[(i + 1) * nCols + j];
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j+1)]+4*A[i*nCols+(j+2)]-A[i*nCols+(j+3)];
+						}
+						
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							diffusion+=2*A[i*nCols+j]-5*A[i*nCols+(j-1)]+4*A[i*nCols+(j-2)]-A[i*nCols+(j-3)];
+						}
+						else{
+							diffusion+=A[i * nCols + j - 1]-2*A[i * nCols + j]+A[i * nCols + j +1];
+						}
+						
+					}
+				
+					diffusion=diffusion*-D*hinv;
 					R_prime[i * nCols + j] = diffusion + alpha * (1-kappa)*tauinv*A[i * nCols + j] + sigmainv*(1-theta) * K[i * nCols + j];
 				}
 			}

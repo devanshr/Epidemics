@@ -24,7 +24,7 @@ namespace CppCLRWinformsProjekt {
 		}
 
 		void set_image(Image^ img) { 
-			this->pictureBox1->Image = img->Clone();
+			//this->pictureBox1->Image = img->Clone();
 			//this->pictureBox1->Ba
 		
 		

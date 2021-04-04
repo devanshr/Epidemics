@@ -117,7 +117,7 @@ int main() {
 	double sigma = 0.1;
 	double tau = 1;
 	double rho = 0.1;
-	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
+	double diffusion=1; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
 	ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,tau,diffusion);
 
 	double t_start = 0;
@@ -126,18 +126,18 @@ int main() {
 	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
 	for (int i = 0; i < 5; i++) {
-		std::cout << "Initial values dimension: " << i << "\n";
-		print_initialvalues(u0, 1, 1, h, i);
-		std::cout << "\n";
+	//	std::cout << "Initial values dimension: " << i << "\n";
+	//	print_initialvalues(u0, 1, 1, h, i);
+	//	std::cout << "\n";
 	}
 
 	seird_model.change_step_size_spatial(h);
 	seird_model.change_step_size_time(h);
 
 	std::vector<double> heatvals;
-	double min_val=*std::min_element(u0.begin(),u0.end());
-	double max_val=*std::max_element(u0.begin(),u0.end());
-
+//	double min_val=*std::min_element(u0.begin(),u0.end());
+//	double max_val=*std::max_element(u0.begin(),u0.end());
+/*
 	for (int i=0;i<u0.size();i++){
 		int r;
 		int g;
@@ -153,7 +153,7 @@ int main() {
 		print_initialvalues(heatvals, 1, 1, h, i);
 		std::cout << "\n";
 	}
-
+*/
 
 
 	//std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
@@ -162,7 +162,6 @@ int main() {
 	std::string filename="output";
 
 	seird_model.set_store_to_file(true,filepath,filename);
-
 
 	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
 
