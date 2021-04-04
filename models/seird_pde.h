@@ -289,7 +289,7 @@ namespace ug {
 			auto run(F t0,  T& u0, F tend) {
 				size_t vars_per_dim = ((dimX/hx)+1)*((dimY/hx)+1);
 				
-				OutputPDEWriter<std::vector<double>,double> writer(5,names);
+				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
 				
 				std::vector<F> u = u0;
 				std::vector<F> res;
@@ -300,6 +300,7 @@ namespace ug {
 				}
 				else{
 					writer.write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u,((dimX/hx)+1),((dimY/hx)+1));
+					writer.write_gridmapping(filepath, filename+".txt",t0,u,((dimX/hx)+1),((dimY/hx)+1));
 				}
 				F t = t0 + ht;
 				std::vector<F> temp(u.size());
@@ -326,7 +327,7 @@ namespace ug {
 				solver.change_step_size(hx);
 				
 				std::cout<<nVars;
-				OutputPDEWriter<std::vector<double>,double> writer(5,names);
+				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
 				solver.set_store_to_file(true, filepath, filename,&writer);
 				auto result=solver.run(t0, u0, tend);
 

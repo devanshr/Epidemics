@@ -122,7 +122,7 @@ int main() {
 
 	double t_start = 0;
 	double t_end = 42;
-	double h=0.01;
+	double h=0.1;
 	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
 	for (int i = 0; i < 5; i++) {
@@ -156,7 +156,8 @@ int main() {
 
 
 
-	std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
+	//std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
+	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
 
 	std::string filename="output";
 

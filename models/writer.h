@@ -19,19 +19,24 @@ namespace ug{
 			private:
 			int dim=-1;
 			
+			F dimX=-1; //horizontal dimension of rectangle in world coordinates
+			F dimY=-1; //vertical dimension of rectangle in world coordinates
+			
 			std::vector<std::string> names;
 			
 			public:
 			OutputPDEWriter(){
 			}
-			OutputPDEWriter(int _dim, std::vector<std::string> _names): names(_names), dim(_dim){
+			OutputPDEWriter(int _dim, F _dimX, F _dimY, std::vector<std::string> _names): names(_names), dim(_dim),dimX(_dimX), dimY(_dimY){
 			}
 			
 			virtual void write_to_file(std::string path, std::string name, F t, const T& u, int points_x, int points_y) override{
 				std::ofstream output;	
+				
+				//Write outputs
 				output.open(path+name);	
 				int points_per_dim=u.size()/dim;
-				output<<"#Seen are the grid output values for t="<<std::to_string(t)<<". If you want to see which gridpoints corrosponds to which coordinate entry, see the gridmapping.txt file\n";
+				output<<"#Seen are the grid output values for t="<<std::to_string(t)<<". If you want to see which gridpoints correspond to which coordinate entries, look for gridmapping text file (if you generated it)\n";
 				output<<"#The following dimensions are plotted:\n";
 				for (int i=0;i<names.size();i++){
 					output<<"#"<<names[i]<<"\n";						
@@ -52,10 +57,27 @@ namespace ug{
 					}	
 					pos+=points_per_dim;				
 				}
+				output.close();	
+				
 
-				output.close();				
 			}
 			
+			void write_gridmapping(std::string path, std::string name, F t, const T& u, int points_x, int points_y){
+				std::ofstream output;				
+				//Write grid to world coordinates mapping
+				output.open(path+"gridmapping_"+name);
+				output<<"# Coordinate mapping in the format (posY, posX)\n";
+				for (int i=0;i<points_y;i++){
+					for (int j=0;j<points_x;j++){
+						F wx=(j/(points_x-1.0))*dimX;
+						F wy=(F(1.0)-(i/(points_y-1.0)))*dimY;
+						output<<"("<<wy<<","<<wx<<")\t";
+					}
+					output<<"\n";
+				}	
+				output.close();				
+				
+			}
 		};
 				
 		
