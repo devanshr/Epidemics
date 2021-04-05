@@ -69,7 +69,9 @@ static void Common(Registry& reg, string grp)
 				.add_method("set_v5",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_v5,"index")
 				.add_method("set_h",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_h,"index")
 				.add_method("set_t_start",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_t_start,"index")
-				.add_method("set_t_end",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_t_end,"index");	
+				.add_method("set_t_end",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::set_t_end,"index")
+				.add_method("get_t_start",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::get_t_start,"index")
+				.add_method("get_t_end",&ug::epi::InitialValueManager<ug::epi::seird::Geometry::Plane,double>::get_t_end,"index");	
 				
 				
 }

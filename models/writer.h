@@ -36,6 +36,7 @@ namespace ug{
 				//Write outputs
 				output.open(path+name);	
 				int points_per_dim=u.size()/dim;
+				output<<"#[TIME]:"<<std::to_string(t)<<"\n";
 				output<<"#Seen are the grid output values for t="<<std::to_string(t)<<". If you want to see which gridpoints correspond to which coordinate entries, look for gridmapping text file (if you generated it)\n";
 				output<<"#The following dimensions are plotted:\n";
 				for (int i=0;i<names.size();i++){
