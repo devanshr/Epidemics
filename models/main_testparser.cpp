@@ -1,6 +1,7 @@
 #include "../../ConstrainedOptimization/core/parameter_estimation.h"
 #include<vector>
 #include <iostream>
+#include <string>
 
 
 int main(){
@@ -44,5 +45,39 @@ int main(){
 		std::cout<<x<<"\t";
 	}
 	
+	//Parsing of simulated_data
+	double current_time=0;
+	double successor_time=0;
+	int i=0;
+	int index=0;
+	std::vector<double> parsed_sim_times;
+	while (true){
+			std::string path="C:/Users/Annett/Desktop/Epidemics Git/Output/output"+std::to_string(i)+".txt";
+			std::string path_successor="C:/Users/Annett/Desktop/Epidemics Git/Output/output"+std::to_string(i+1)+".txt";
+			std::ifstream file(path_successor);
+			
+			//If file does not exist, exist loop
+			if (file.fail()){
+				break;
+			}
+			co::utility::parse_pde_time(path, current_time, "\t");
+			co::utility::parse_pde_time(path_successor, successor_time, "\t");
+			i++;
+			std::cout<<"\n\nCurrent time of simulated data: "<<current_time<< "The successor time is:"<<successor_time<<"\n";	
+			
+			if ((current_time <=times[index]) && (successor_time > times[index])){
+				parsed_sim_times.push_back(current_time);
+				
+				//Todo: Now parse the sim data with the right columns (think about offset)
+				
+				
+				index++;
+			}
+	}
 	
+	std::cout<<"\n\nParsed sim times:\n";
+	for (auto& x: parsed_sim_times){
+		std::cout<<x<<"\t";
+	}
+
 }
