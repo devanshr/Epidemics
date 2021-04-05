@@ -117,11 +117,11 @@ int main() {
 	double sigma = 0.1;
 	double tau = 1;
 	double rho = 0.1;
-	double diffusion=1; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
+	double diffusion=0; //if turned to one, finite difference approximation gives errors. probably boundary conditions needed
 	ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, sigma,tau,diffusion);
 
 	double t_start = 0;
-	double t_end = 42;
+	double t_end = 1;
 	double h=0.1;
 	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
@@ -157,12 +157,12 @@ int main() {
 
 
 	//std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
-	std::string filepath="C:/Users/Annett/Desktop/Epidemics Git/Output/";
+	std::string filepath="C:\\Users\\devan\\ug4\\apps\\testoptimization_pde\\Output\\";
 
 	std::string filename="output";
 
 	seird_model.set_store_to_file(true,filepath,filename);
 
-	auto [timepoints, data] = seird_model.run(t_start, u0, t_end);
+	seird_model.run(t_start, u0, t_end);
 
 }

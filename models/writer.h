@@ -67,12 +67,12 @@ namespace ug{
 				std::ofstream output;				
 				//Write grid to world coordinates mapping
 				output.open(path+"gridmapping_"+name);
-				output<<"# Coordinate mapping in the format (posY, posX)\n";
+				output<<"# Coordinate mapping in the format (posX, posY)\n";
 				for (int i=0;i<points_y;i++){
 					for (int j=0;j<points_x;j++){
 						F wx=(j/(points_x-1.0))*dimX;
 						F wy=(F(1.0)-(i/(points_y-1.0)))*dimY;
-						output<<"("<<(double)wy<<","<<(double)wx<<")\t";
+						output<<"("<<(double)wx<<","<<(double)wy<<")\t";
 					}
 					output<<"\n";
 				}	
