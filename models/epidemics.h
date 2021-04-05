@@ -134,10 +134,10 @@ template<seird::Geometry T, class F>
 					return t_start;
 				}						
 				void set_t_start(F _val){
-					t_start=_val;;
+					t_start=_val;
 				}		
 				F get_t_end() const{
-					return v5;
+					return t_end;
 				}						
 				void set_t_end(F _val){
 					t_end=_val;
@@ -274,7 +274,7 @@ template<seird::Geometry T, class F>
 				seird_model.change_step_size_spatial(h);
 				seird_model.change_step_size_time(h);	
 
-				std::string filename="output";
+				std::string filename=name;
 
 				seird_model.set_store_to_file(true,path,filename);
 
