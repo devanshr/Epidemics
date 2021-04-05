@@ -223,6 +223,20 @@ template<seird::Geometry T, class F>
 				F v2 = initial_manager.get_v2();
 				set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r2,v2, 1);
 
+				F r3 = initial_manager.get_r3();
+				F v3 = initial_manager.get_v3();
+				set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r3,v3, 2);
+
+				F r4 = initial_manager.get_r4();
+				F v4 = initial_manager.get_v4();
+				set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r4,v4, 3);
+
+				F r5 = initial_manager.get_r5();
+				F v5 = initial_manager.get_v5();
+				set_gaussian_values(u0, x_points, y_points, dimX, dimY, hx, r5,v5, 4);
+
+
+
 				// continue with r3,r4,v3,v4, etc.
 				return u0;
 			}
