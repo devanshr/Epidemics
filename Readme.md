@@ -15,7 +15,7 @@ Sample problems can be found in the Sample Folder.
 
 For Windows users, an optional GUI has been created for the use of estimation or prototyping. 
 
-<img src="document/images/gui.png" alt="drawing" width="600"/>
+<img src="documents/images/gui.png" alt="drawing" width="600"/>
     
 # Installation Notes 
 ## General
