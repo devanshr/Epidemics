@@ -1,10 +1,14 @@
-#include "seird_pde.h"
-#include "writer.h"
+#include "../models/seird_pde.h"
+#include "../models/writer.h"
 #include<vector>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <cmath>
+
+/*
+The main() function runs the SEIRD_PDE model and writes the output to file.
+*/
 
 template<class T>
 void set_radial_values(T& u0, typename T::value_type x_points, typename T::value_type y_points, typename T::value_type dimX, typename T::value_type dimY,typename T::value_type hx, typename T::value_type radius, typename T::value_type val,int current_dimension) {
@@ -109,7 +113,7 @@ void determine_color(double val, double min_val, double max_val, int& r, int& g,
 	b=start_b+(255-start_b)*ratio;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 
 	double alpha = 4.95954479066937e-07;
 	double kappa = 0.356035567977659;
@@ -126,40 +130,18 @@ int main() {
 	std::vector<double> u0 =  initial_values<std::vector<double>>(1, 1, h);
 	std::cout << "Initial values on the grid:" << "\n";
 	for (int i = 0; i < 5; i++) {
-	//	std::cout << "Initial values dimension: " << i << "\n";
-	//	print_initialvalues(u0, 1, 1, h, i);
-	//	std::cout << "\n";
+		std::cout << "Initial values dimension: " << i << "\n";
+		print_initialvalues(u0, 1, 1, h, i);
+		std::cout << "\n";
 	}
 
 	seird_model.change_step_size_spatial(h);
 	seird_model.change_step_size_time(h);
 
-	std::vector<double> heatvals;
-//	double min_val=*std::min_element(u0.begin(),u0.end());
-//	double max_val=*std::max_element(u0.begin(),u0.end());
-/*
-	for (int i=0;i<u0.size();i++){
-		int r;
-		int g;
-		int b;
-		determine_color(u0[i],min_val,max_val,r,g,b);
-		heatvals.push_back(r);
-	}
 
-	std::cout<<"Heatmap vals\n";
+	std::string filepath=argv[0];
 
-	for (int i = 0; i < 5; i++) {
-		std::cout << "Initial values dimension: " << i << "\n";
-		print_initialvalues(heatvals, 1, 1, h, i);
-		std::cout << "\n";
-	}
-*/
-
-
-	//std::string filepath="C:/Users/devan/Desktop/THESIS/Plugin/Output/";
-	std::string filepath="C:\\Users\\devan\\ug4\\apps\\testoptimization_pde\\Output\\";
-
-	std::string filename="output";
+	std::string filename="_output";
 
 	seird_model.set_store_to_file(true,filepath,filename);
 

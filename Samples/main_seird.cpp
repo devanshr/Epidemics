@@ -1,10 +1,13 @@
-#include "seird.h"
-#include "writer.h"
+#include "../models/seird.h"
+#include "../models/writer.h"
 #include<vector>
 #include <iostream>
 
+/*
+This function evaluates the SEIRD model and writes the output to file.
+*/
 
-int main(){
+int main(int argc, char *argv[]){
 
 	double alpha=4.95954479066937e-07;
 	double kappa=0.356035567977659;
@@ -14,11 +17,11 @@ int main(){
 	
 	ug::epi::SEIRD<std::vector<double>> seird_model(alpha,kappa,theta,qq,pp);
 	
-	std::vector<double> u0={753056,2714,0,0,72};
+	std::vector<double> u0={753056,2714,0,0,72}; // Inital Values: Susceptibles, Exposed, Infected, Recoverd, Deceased
 	double t_start=0;
 	double t_end=42;
 
 	auto [timepoints, data]=seird_model.run_linear_implicit(t_start,u0,t_end);
 	std::cout<<"Optimization done\n";
-	ug::epi::write_data("C:/Users/Annett/Desktop/Epidemics Git/Epidemics/models/", "test.txt", timepoints, data,seird_model.names);
+	ug::epi::write_data(argv[0], "_test.txt", timepoints, data,seird_model.names);
 }

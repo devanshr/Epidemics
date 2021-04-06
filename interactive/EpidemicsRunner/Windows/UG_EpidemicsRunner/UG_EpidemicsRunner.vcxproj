@@ -148,6 +148,9 @@
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Form10.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Form2.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -181,6 +184,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CppCLR_WinformsProjekt.cpp" />
     <ClCompile Include="Form1.cpp" />
+    <ClCompile Include="Form10.cpp" />
     <ClCompile Include="Form2.cpp">
       <FileType>CppCode</FileType>
     </ClCompile>
@@ -211,6 +215,7 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form10.resx" />
     <EmbeddedResource Include="Form2.resx" />
     <EmbeddedResource Include="Form3.resx" />
     <EmbeddedResource Include="Form4.resx" />

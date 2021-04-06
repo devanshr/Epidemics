@@ -3,7 +3,7 @@
  * \section intro_sec Overview
  *
  *The Epidemics plugin consists of various algorithms used in epidemics modeling.
- *This manual was created in March 2021 for version number 0.1
+ *This manual was created in April 2021 for version number 0.3
 
 
  */
@@ -23,7 +23,7 @@
 namespace ug{
 	namespace epi{
 		
-			constexpr int version_number=0.2;//change if you update your Epidemics version
+			constexpr int version_number=0.3;//change if you update your Epidemics version
 			
 template<seird::Geometry T, class F>
 			class InitialValueManager{

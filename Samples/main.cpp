@@ -1,10 +1,13 @@
-#include "sir.h"
-#include "writer.h"
+#include "../models/sir.h"
+#include "../models/writer.h"
 #include<vector>
 #include <iostream>
 
+/*
+This function evaluates the SIR model and writes the output to file.
+*/
 
-int main(){
+int main(int argc, char *argv[]){
 
 	double tau=0.356035567977659;
 	double theta=4.14932000304998e-07;
@@ -18,5 +21,5 @@ int main(){
 
 	auto [timepoints, data] =sir_model.run(t_start,u0,t_end);
 
-	ug::epi::write_data("C:/Users/Annett/Desktop/Epidemics/models/", "test.txt", timepoints, data,sir_model.names);
+	ug::epi::write_data(argv[0], "_test.txt", timepoints, data,sir_model.names);
 }

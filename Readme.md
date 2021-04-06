@@ -11,7 +11,11 @@ It also provides some brief notes concerning the installation of the plugin.
 * [Description](#description)
 * [Example](#description)
 
-A sample problem will be added to the description.
+Sample problems can be found in the Sample Folder.
+
+For Windows users, an optional GUI has been created for the use of estimation or prototyping. 
+
+<img src="document/images/gui.png" alt="drawing" width="600"/>
     
 # Installation Notes 
 ## General
@@ -85,3 +89,4 @@ The following algorithms are currently implemented:
 |---|---|
 |SRI|Standard Susceptible-Recovered-Infected ODE Model|
 |SEIRD| Extended SRI model accounting for an incubation period.|
+|SEIRD_PDE| A PDE formulation of the SEIRD model, discretized using Finite Differences.|

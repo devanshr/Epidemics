@@ -8,6 +8,7 @@
 #include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
 #include "../../../../../ConstrainedOptimization/core/parameters.h"
 #include "Form9.h"
+#include "Form10.h"
 
 
 
@@ -92,6 +93,9 @@ namespace CppCLRWinformsProjekt {
 	private: double pp_upper_input;
 	private: double pp_lower_input;
 
+	private: double diffusion_upper_input;
+	private: double diffusion_lower_input;
+
 	//PSO settings
 	private: int max_iter = 20;
 	private: int no_particles = 32;
@@ -133,7 +137,7 @@ private: System::Windows::Forms::Button^ button1;
 
 
 
-private: System::Windows::Forms::Label^ label12;
+
 
 private: System::Windows::Forms::PictureBox^ pictureBox2;
 private: System::Windows::Forms::PictureBox^ pictureBox3;
@@ -171,6 +175,7 @@ private: System::Windows::Forms::Label^ label13;
 private: System::Windows::Forms::NumericUpDown^ v2_input;
 private: System::Windows::Forms::Label^ label15;
 private: System::Windows::Forms::NumericUpDown^ r2_input;
+private: System::Windows::Forms::CheckBox^ diffusion_checkBox;
 
 private: System::ComponentModel::IContainer^ components;
 
@@ -219,7 +224,6 @@ private: System::ComponentModel::IContainer^ components;
 		this->dataColumn2 = (gcnew System::Data::DataColumn());
 		this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 		this->button1 = (gcnew System::Windows::Forms::Button());
-		this->label12 = (gcnew System::Windows::Forms::Label());
 		this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 		this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 		this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
@@ -256,6 +260,7 @@ private: System::ComponentModel::IContainer^ components;
 		this->v1_input = (gcnew System::Windows::Forms::NumericUpDown());
 		this->label3 = (gcnew System::Windows::Forms::Label());
 		this->r1_input = (gcnew System::Windows::Forms::NumericUpDown());
+		this->diffusion_checkBox = (gcnew System::Windows::Forms::CheckBox());
 		this->groupBox1->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->BeginInit();
@@ -612,16 +617,6 @@ private: System::ComponentModel::IContainer^ components;
 		this->button1->Text = L"Run Simulation";
 		this->button1->UseVisualStyleBackColor = true;
 		this->button1->Click += gcnew System::EventHandler(this, &Form8::button1_Click);
-		// 
-		// label12
-		// 
-		this->label12->AutoSize = true;
-		this->label12->Location = System::Drawing::Point(415, 146);
-		this->label12->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
-		this->label12->Name = L"label12";
-		this->label12->Size = System::Drawing::Size(72, 20);
-		this->label12->TabIndex = 26;
-		this->label12->Text = L"Diffusion";
 		// 
 		// pictureBox2
 		// 
@@ -984,11 +979,23 @@ private: System::ComponentModel::IContainer^ components;
 		this->r1_input->TabIndex = 0;
 		this->r1_input->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 		// 
+		// diffusion_checkBox
+		// 
+		this->diffusion_checkBox->AutoSize = true;
+		this->diffusion_checkBox->Location = System::Drawing::Point(393, 141);
+		this->diffusion_checkBox->Name = L"diffusion_checkBox";
+		this->diffusion_checkBox->Size = System::Drawing::Size(98, 24);
+		this->diffusion_checkBox->TabIndex = 60;
+		this->diffusion_checkBox->Text = L"Diffusion";
+		this->diffusion_checkBox->UseVisualStyleBackColor = true;
+		this->diffusion_checkBox->CheckedChanged += gcnew System::EventHandler(this, &Form8::diffusion_checkBox_CheckedChanged);
+		// 
 		// Form8
 		// 
 		this->AutoSize = true;
 		this->BackColor = System::Drawing::SystemColors::Control;
 		this->ClientSize = System::Drawing::Size(1393, 674);
+		this->Controls->Add(this->diffusion_checkBox);
 		this->Controls->Add(this->groupBox2);
 		this->Controls->Add(this->label14);
 		this->Controls->Add(this->label10);
@@ -1011,7 +1018,6 @@ private: System::ComponentModel::IContainer^ components;
 		this->Controls->Add(this->stepsize_input);
 		this->Controls->Add(this->label11);
 		this->Controls->Add(this->diffusion_input);
-		this->Controls->Add(this->label12);
 		this->Controls->Add(this->t_end_input);
 		this->Controls->Add(this->t_start_input);
 		this->Controls->Add(this->label2);
@@ -1160,25 +1166,26 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 }
 
 void main_newton() { 	
-	/*
+	
 		   double alpha= System::Decimal::ToDouble(this->alpha_input->Value);
 		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
 		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
 		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
 		   double pp = System::Decimal::ToDouble(this->pp_input->Value);
-
+		   double diffusion = System::Decimal::ToDouble(this->diffusion_input->Value);
+		   size_t countcheck=0;
 		   std::vector<std::string > names_of_constants;
 		   std::vector<double> values_of_constants;
 		   std::vector<std::string> names_of_variables;
 
-		   std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+		   std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
 		   std::vector<double> values_of_inits;
 
 		   co::EVar64Manager initial_vars;
 
 		   if (this->alpha_check->Checked) {
 			   names_of_variables.push_back("alpha");
-
+			   countcheck++;
 			   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
 			   initial_vars.add("alpha", v_alpha);
 			   
@@ -1193,6 +1200,7 @@ void main_newton() {
 			   //EFloats for bounds aswelll!!
 			   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(kappa_lower_input), co::EFloat64(kappa_upper_input));
 			   initial_vars.add("kappa", v_kappa);
+			   countcheck++;
 		   }
 		   else {
 			   names_of_constants.push_back("kappa");
@@ -1203,6 +1211,7 @@ void main_newton() {
 			   names_of_variables.push_back("theta");
 			   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(theta_lower_input), co::EFloat64(theta_upper_input));
 			   initial_vars.add("theta", v_theta);
+			   countcheck++;
 		   }
 		   else {
 			   names_of_constants.push_back("theta");
@@ -1213,6 +1222,7 @@ void main_newton() {
 			   names_of_variables.push_back("qq");
 			   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(qq_lower_input), co::EFloat64(qq_upper_input));
 			   initial_vars.add("qq", v_qq);
+			   countcheck++;
 		   }
 		   else {
 			   names_of_constants.push_back("qq");
@@ -1223,31 +1233,65 @@ void main_newton() {
 			   names_of_variables.push_back("pp");
 			   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(pp_lower_input), co::EFloat64(pp_upper_input));
 			   initial_vars.add("pp", v_pp);
+			   countcheck++;
 		   }
 		   else {
 			   names_of_constants.push_back("pp");
 			   values_of_constants.push_back(pp);
 		   }
 
+		   if (this->diffusion_checkBox->Checked) {
+			   names_of_variables.push_back("diffusion");
+			   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(diffusion), co::EFloat64(diffusion_lower_input), co::EFloat64(diffusion_upper_input));
+			   initial_vars.add("diffusion", v_diffusion);
+			   countcheck++;
+		   }
+		   else {
+			   names_of_constants.push_back("diffusion");
+			   values_of_constants.push_back(diffusion);
+		   }
 
-		   values_of_inits = { System::Decimal::ToDouble(this->t_start_input->Value),System::Decimal::ToDouble(this->t_end_input->Value),System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_exposed->Value),System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
+		   if (countcheck <= 0) {
+			   MessageBox::Show(L"No parameters are selected!");
+			   return;
+		   }
+		   values_of_inits = { System::Decimal::ToDouble(this->stepsize_input->Value), System::Decimal::ToDouble(this->t_end_input->Value),System::Decimal::ToDouble(this->t_start_input->Value),System::Decimal::ToDouble(this->r1_input->Value),System::Decimal::ToDouble(this->r2_input->Value) ,
+		   System::Decimal::ToDouble(this->r3_input->Value),System::Decimal::ToDouble(this->r4_input->Value),System::Decimal::ToDouble(this->r5_input->Value),
+		   System::Decimal::ToDouble(this->v1_input->Value),System::Decimal::ToDouble(this->v2_input->Value),System::Decimal::ToDouble(this->v3_input->Value),
+		   System::Decimal::ToDouble(this->v4_input->Value),System::Decimal::ToDouble(this->v5_input->Value) };
 		   
 		   std::string textbody = R"(
+initial_vars=InitialValueManager()
 
-seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
+initial_vars:set_h(h)
+initial_vars:set_t_end(t_end)
+initial_vars:set_t_start(t_start)
+initial_vars:set_r1(r1)
+initial_vars:set_r2(r2)
+initial_vars:set_r3(r3)
+initial_vars:set_r4(r4)
+initial_vars:set_r5(r5)
+
+initial_vars:set_v1(v1)
+initial_vars:set_v2(v2)
+initial_vars:set_v3(v3)
+initial_vars:set_v4(v4)
+initial_vars:set_v5(v5)
+seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
+RunSEIRDPDE(seird_model,initial_vars,"./","output")
 							)";
 		   
 		   if (user_selected_optimization_path == nullptr) {
 			   MessageBox::Show(L"Please specify the directory for the experimental data");
 		   }
 		   else{
-			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
+
+			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
 
 			   co::NewtonOptions options;
 			   options.set_stepsize_alpha(1);
 			  
-			   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+			   co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
 			   co::EVarManager<co::EFloat64> estimated_vars;
 			   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
 			   //	MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
@@ -1277,155 +1321,229 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 					   if (estimated_vars.get_name(i) == "pp") {
 						   this->pp_input->Value = System::Decimal(estimated_vars.get_param(i).get_value_as_double());
 					   }
-
+					   if (estimated_vars.get_name(i) == "diffusion") {
+						   this->diffusion_input->Value = System::Decimal(estimated_vars.get_param(i).get_value_as_double());
+					   }
 
 					   MessageBox::Show(L"Optimization Complete!");
 					   auto sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-					   auto converted_name = gcnew String(L"Series1");
-					   this->chart2->Series[converted_name]->Points->Clear();
-					   this->chart2->Refresh();
-					   for (int i = 0; i < sq_error.size(); i++) {
+					   Form10^ form = gcnew Form10;
+					   form->plot(sq_error);
+					   form->Show();
+					   bool res = Run_SERID_PDE();
+					   if (res) {
+						   plot_heatmaps("/output0.txt");
+						   scroll_val->Value = scroll_val->Minimum;
 
-							System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(i,
-							   sq_error[i]));
+						   double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+						   double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+						   double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
 
-							this->chart2->Series[converted_name]->Points->Add(dataPoint1);
+						   hScrollBar1->Minimum = t_start;
+						   hScrollBar1->Maximum = ((t_end - t_start) / stepsize) + hScrollBar1->LargeChange - 1; //Number of steps scroll bar requires to move to get till end
+
 					   }
-					   
-
-
 				   }
 			   }
 			   else { MessageBox::Show(L"Please check the settings"); }
 			   
 		   }
-		   */
+		   
 
 	}	
 void main_pso() {
-/*
-		   double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
-		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
-		   double theta = System::Decimal::ToDouble(this->theta_input->Value);
-		   double qq = System::Decimal::ToDouble(this->qq_input->Value);
-		   double pp = System::Decimal::ToDouble(this->pp_input->Value);
 
-		   std::vector<std::string > names_of_constants;
-		   std::vector<double> values_of_constants;
-		   std::vector<std::string> names_of_variables;
+	double alpha = System::Decimal::ToDouble(this->alpha_input->Value);
+	double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
+	double theta = System::Decimal::ToDouble(this->theta_input->Value);
+	double qq = System::Decimal::ToDouble(this->qq_input->Value);
+	double pp = System::Decimal::ToDouble(this->pp_input->Value);
+	double diffusion = System::Decimal::ToDouble(this->diffusion_input->Value);
+	size_t countcheck = 0;
+	std::vector<std::string > names_of_constants;
+	std::vector<double> values_of_constants;
+	std::vector<std::string> names_of_variables;
+	std::vector<double> values_of_inits;
 
-		   std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
-		   std::vector<double> values_of_inits;
+	std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
 
-		   std::vector<co::EFloat64> bounds;
+	std::vector<co::EFloat64> bounds;
 
-		   if (this->alpha_check->Checked) {
-			   names_of_variables.push_back("alpha");
-			   bounds.push_back(co::EFloat64(alpha_lower_input)); 
-			   bounds.push_back( co::EFloat64(alpha_upper_input));
+	if (this->alpha_check->Checked) {
+		names_of_variables.push_back("alpha");
+		bounds.push_back(co::EFloat64(alpha_lower_input));
+		bounds.push_back(co::EFloat64(alpha_upper_input));
+		countcheck++;
 
-		   }
-		   else {
-			   names_of_constants.push_back("alpha");
-			   values_of_constants.push_back(alpha);
-		   }
+	}
+	else {
+		names_of_constants.push_back("alpha");
+		values_of_constants.push_back(alpha);
+	}
 
-		   if (this->kappa_check->Checked) {
-			   names_of_variables.push_back("kappa");
-			   bounds.push_back(co::EFloat64(kappa_lower_input));
-			   bounds.push_back(co::EFloat64(kappa_upper_input));
+	if (this->kappa_check->Checked) {
+		names_of_variables.push_back("kappa");
+		bounds.push_back(co::EFloat64(kappa_lower_input));
+		bounds.push_back(co::EFloat64(kappa_upper_input));
+		countcheck++;
+	}
+	else {
+		names_of_constants.push_back("kappa");
+		values_of_constants.push_back(kappa);
+	}
 
-		   }
-		   else {
-			   names_of_constants.push_back("kappa");
-			   values_of_constants.push_back(kappa);
-		   }
+	if (this->theta_check->Checked) {
+		names_of_variables.push_back("theta");
+		bounds.push_back(co::EFloat64(theta_lower_input));
+		bounds.push_back(co::EFloat64(theta_upper_input));
+		countcheck++;
+	}
+	else {
+		names_of_constants.push_back("theta");
+		values_of_constants.push_back(theta);
+	}
 
-		   if (this->theta_check->Checked) {
-			   names_of_variables.push_back("theta");
-			   bounds.push_back(co::EFloat64(theta_lower_input));
-			   bounds.push_back(co::EFloat64(theta_upper_input));
+	if (this->qq_check->Checked) {
+		names_of_variables.push_back("qq");
+		bounds.push_back(co::EFloat64(qq_lower_input));
+		bounds.push_back(co::EFloat64(qq_upper_input));
+		countcheck++;
+	}
+	else {
+		names_of_constants.push_back("qq");
+		values_of_constants.push_back(qq);
+	}
 
-		   }
-		   else {
-			   names_of_constants.push_back("theta");
-			   values_of_constants.push_back(theta);
-		   }
+	if (this->pp_check->Checked) {
+		names_of_variables.push_back("pp");
+		bounds.push_back(co::EFloat64(pp_lower_input));
+		bounds.push_back(co::EFloat64(pp_upper_input));
+		countcheck++;
+	}
+	else {
+		names_of_constants.push_back("pp");
+		values_of_constants.push_back(pp);
+	}
+	if (this->diffusion_checkBox->Checked) {
+		names_of_variables.push_back("diffusion");
+		bounds.push_back(co::EFloat64(diffusion_lower_input));
+		bounds.push_back(co::EFloat64(diffusion_upper_input));
+		countcheck++;
+	}
+	else {
+		names_of_constants.push_back("diffusion");
+		values_of_constants.push_back(diffusion);
+	}
+	if (countcheck <= 0) {
+		MessageBox::Show(L"No parameters are selected!");
+		return;
+	}
+	values_of_inits = { System::Decimal::ToDouble(this->stepsize_input->Value), System::Decimal::ToDouble(this->t_end_input->Value),System::Decimal::ToDouble(this->t_start_input->Value),System::Decimal::ToDouble(this->r1_input->Value),System::Decimal::ToDouble(this->r2_input->Value) ,
+	System::Decimal::ToDouble(this->r3_input->Value),System::Decimal::ToDouble(this->r4_input->Value),System::Decimal::ToDouble(this->r5_input->Value),
+	System::Decimal::ToDouble(this->v1_input->Value),System::Decimal::ToDouble(this->v2_input->Value),System::Decimal::ToDouble(this->v3_input->Value),
+	System::Decimal::ToDouble(this->v4_input->Value),System::Decimal::ToDouble(this->v5_input->Value) };
 
-		   if (this->qq_check->Checked) {
-			   names_of_variables.push_back("qq");
-			   bounds.push_back(co::EFloat64(qq_lower_input));
-			   bounds.push_back(co::EFloat64(qq_upper_input));
+	std::string textbody = R"(
+initial_vars=InitialValueManager()
 
-		   }
-		   else {
-			   names_of_constants.push_back("qq");
-			   values_of_constants.push_back(qq);
-		   }
+initial_vars:set_h(h)
+initial_vars:set_t_end(t_end)
+initial_vars:set_t_start(t_start)
+initial_vars:set_r1(r1)
+initial_vars:set_r2(r2)
+initial_vars:set_r3(r3)
+initial_vars:set_r4(r4)
+initial_vars:set_r5(r5)
 
-		   if (this->pp_check->Checked) {
-			   names_of_variables.push_back("pp");
-			   bounds.push_back(co::EFloat64(pp_lower_input));
-			   bounds.push_back(co::EFloat64(pp_upper_input));
-
-		   }
-		   else {
-			   names_of_constants.push_back("pp");
-			   values_of_constants.push_back(pp);
-		   }
-
-
-		   values_of_inits = { System::Decimal::ToDouble(this->t_start_input->Value),System::Decimal::ToDouble(this->t_end_input->Value),System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_exposed->Value),System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
-
-		   std::string textbody = R"(
-
-seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
+initial_vars:set_v1(v1)
+initial_vars:set_v2(v2)
+initial_vars:set_v3(v3)
+initial_vars:set_v4(v4)
+initial_vars:set_v5(v5)
+seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
+RunSEIRDPDE(seird_model,initial_vars,"./","output")
 							)";
 
-		   if (user_selected_optimization_path == nullptr) {
-			   MessageBox::Show(L"Please specify the directory for the experimental data");
-		   }
-		   else {
+	if (user_selected_optimization_path == nullptr) {
+		MessageBox::Show(L"Please specify the directory for the experimental data");
+	}
+	else {
 
-			   ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
+		ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
 
-			   co::PSOOptions options;
-			   options.set_max_iterations((this->max_iter));
-			   options.set_n_groups(this->no_groups);
-			   options.set_n_particles(this->no_particles);
-			   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
-			   co::ParticleSwarmOptimizer<co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
-			   co::EVarManager<co::EFloat64> estimated_parameters;
+		if (user_selected_optimization_path == nullptr) {
+			MessageBox::Show(L"Please specify the directory for the experimental data");
+		}
+		else {
 
-			   
-			   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
+			ug::epi::create_evaluate_lua(*user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, System::Decimal::ToDouble(this->stepsize_input->Value));
 
-			   
-			   if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
-			   else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
-			   else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
-			   else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
-			   else if (result == co::ErrorCode::NoError) {	MessageBox::Show(L"Optimization Complete!"); 
-			   
-			   
-			   auto sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-			   auto converted_name = gcnew String(L"Series1");
-			   this->chart2->Series[converted_name]->Points->Clear();
-			   this->chart2->Refresh();
-			   for (int i = 0; i < sq_error.size(); i++) {
+			co::PSOOptions options;
+			options.set_max_iterations((this->max_iter));
+			options.set_n_groups(this->no_groups);
+			options.set_n_particles(this->no_particles);
+			co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(*user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+			co::ParticleSwarmOptimizer<co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
+			co::EVarManager<co::EFloat64> estimated_parameters;
 
-				   System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(i,
-					   sq_error[i]));
 
-				   this->chart2->Series[converted_name]->Points->Add(dataPoint1);
-			   }
-			   }
-			   else { MessageBox::Show(L"Please check the settings"); }
+			auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
-		   }
-		   */
-	}	
+
+			if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
+			else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
+			else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
+			else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
+			else if (result == co::ErrorCode::NoError) {
+				MessageBox::Show(L"Optimization Complete!");
+
+				for (int i = 0; i < estimated_parameters.len(); i++) {
+					if (estimated_parameters.get_name(i) == "alpha") {
+						this->alpha_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+					if (estimated_parameters.get_name(i) == "kappa") {
+						this->kappa_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+					if (estimated_parameters.get_name(i) == "theta") {
+						this->theta_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+					if (estimated_parameters.get_name(i) == "qq") {
+						this->qq_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+					if (estimated_parameters.get_name(i) == "pp") {
+						this->pp_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+					if (estimated_parameters.get_name(i) == "diffusion") {
+						this->diffusion_input->Value = System::Decimal(estimated_parameters.get_param(i).get_value_as_double());
+					}
+				}
+
+				auto sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+				Form10^ form = gcnew Form10;
+				form->plot(sq_error);
+				form->Show();
+				bool res=Run_SERID_PDE();
+				if (res) {
+					plot_heatmaps("/output0.txt");
+					scroll_val->Value = scroll_val->Minimum;
+
+					double t_start = System::Decimal::ToDouble(this->t_start_input->Value);
+					double t_end = System::Decimal::ToDouble(this->t_end_input->Value);
+					double stepsize = System::Decimal::ToDouble(this->stepsize_input->Value);
+
+					hScrollBar1->Minimum = t_start;
+					hScrollBar1->Maximum = ((t_end - t_start) / stepsize) + hScrollBar1->LargeChange - 1; //Number of steps scroll bar requires to move to get till end
+
+				}
+
+			}
+			else { MessageBox::Show(L"Please check the settings"); }
+
+		}
+
+
+	}
+}
 void plot_on_keypress() {
 	/*	   //MessageBox::Show(L"plotter called");
 		   double kappa = System::Decimal::ToDouble(this->kappa_input->Value);
@@ -2289,6 +2407,21 @@ private: System::Void pictureBox5_Click(System::Object^ sender, System::EventArg
 
 
 
+private: System::Void diffusion_checkBox_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+
+	if (diffusion_checkBox->Checked) {
+		Form5^ box = gcnew Form5;
+		// set values 
+		box->set_upper(0);
+		box->set_lower(0);
+		if (box->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			// If it came back with OK, get the values
+			diffusion_upper_input = System::Decimal::ToDouble(box->get_upper());
+			diffusion_lower_input = System::Decimal::ToDouble(box->get_lower());
+		}
+	}
+}
 };
 }
 /*

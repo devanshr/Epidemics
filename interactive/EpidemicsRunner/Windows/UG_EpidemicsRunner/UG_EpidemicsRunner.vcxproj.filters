@@ -59,6 +59,9 @@
     <ClInclude Include="Form9.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Form10.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppCLR_WinformsProjekt.cpp">
@@ -91,6 +94,9 @@
     <ClCompile Include="Form9.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Form10.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
@@ -114,6 +120,9 @@
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="Form9.resx">
+      <Filter>Headerdateien</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form10.resx">
       <Filter>Headerdateien</Filter>
     </EmbeddedResource>
   </ItemGroup>
