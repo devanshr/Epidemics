@@ -6,14 +6,10 @@
     <signal name="activate" handler="on_show_menu" object="window_settings_gauss" swapped="no"/>
   </object>
   <object class="GtkAction" id="action_pso"/>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">100</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment:_t_start">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
+    <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -141,6 +137,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_death">
     <property name="upper">1000000</property>
+    <property name="value">100</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -148,7 +145,7 @@
     <property name="upper">1000000</property>
     <property name="value">70</property>
     <property name="step-increment">100</property>
-    <property name="page-increment">0.09999999999999999</property>
+    <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_infected">
     <property name="upper">1000000</property>
@@ -157,12 +154,13 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_recovered">
     <property name="upper">1000000</property>
+    <property name="value">100</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_susceptibles">
     <property name="upper">1000000</property>
-    <property name="value">750000</property>
+    <property name="value">75000</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -376,14 +374,21 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_rk4_stepsize">
     <property name="upper">1</property>
-    <property name="value">0.10</property>
+    <property name="value">0.59999999999999998</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_t_end">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
+    <property name="value">10</property>
     <property name="step-increment">1</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_tau">
+    <property name="upper">1</property>
+    <property name="value">0.029999999999999999</property>
+    <property name="step-increment">9.9999999999999995e-07</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_theta">
@@ -485,7 +490,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_alpha</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                                 <signal name="value-changed" handler="on_spin_alpha_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -542,7 +547,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_kappa</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                                 <signal name="value-changed" handler="on_spin_kappa_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -584,7 +589,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_theta</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                                 <signal name="value-changed" handler="on_spin_theta_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -626,6 +631,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_qq</property>
+                                <property name="value">1</property>
                                 <signal name="value-changed" handler="on_spin_qq_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -667,6 +673,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_pp</property>
+                                <property name="value">1</property>
                                 <signal name="value-changed" handler="on_spin_pp_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -722,6 +729,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment:_t_start</property>
                                 <property name="digits">2</property>
+                                <property name="value">1</property>
                                 <signal name="value-changed" handler="on_spin_t_start_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -761,6 +769,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_t_end</property>
                                 <property name="digits">2</property>
+                                <property name="value">10</property>
                                 <signal name="value-changed" handler="on_spin_t_end_value_changed" swapped="no"/>
                               </object>
                               <packing>
@@ -949,14 +958,14 @@
                         </child>
                         <child>
                           <!-- n-columns=2 n-rows=1 -->
-                          <object class="GtkGrid" id="grid_initial_death">
-                            <property name="name">grid_initial_death</property>
+                          <object class="GtkGrid" id="grid_initial_deaths">
+                            <property name="name">grid_initial_deaths</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="margin-bottom">15</property>
                             <child>
-                              <object class="GtkLabel" id="label_initial_death">
-                                <property name="name">label_initial_death</property>
+                              <object class="GtkLabel" id="label_initial_deaths">
+                                <property name="name">label_initial_deaths</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Initial Death</property>
@@ -968,11 +977,11 @@
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="spin_initial_death">
-                                <property name="name">spin_initial_death</property>
+                                <property name="name">spin_initial_deaths</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_initial_death</property>
-                                <signal name="value-changed" handler="on_spin_initial_death_value_changed" swapped="no"/>
+                                <signal name="value-changed" handler="on_spin_initial_deaths_value_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -1241,7 +1250,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_alpha</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -1297,7 +1306,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="adjustment">adjustment_theta</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -1337,8 +1346,8 @@
                                 <property name="name">spin_tau</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
-                                <property name="adjustment">adjustment1</property>
-                                <property name="digits">9</property>
+                                <property name="adjustment">adjustment_tau</property>
+                                <property name="digits">6</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -1641,7 +1650,8 @@
                 <property name="label-yalign">0</property>
                 <property name="shadow-type">out</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="drawing_sir">
+                    <property name="name">drawing</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                   </object>
@@ -1963,7 +1973,7 @@
                                 <property name="text" translatable="yes">0.000003000</property>
                                 <property name="adjustment">adjustment_alpha</property>
                                 <property name="climb-rate">0.009999999776482582</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                                 <property name="value">3.0000000000000001e-06</property>
                               </object>
                               <packing>
@@ -2023,7 +2033,7 @@
                                 <property name="text" translatable="yes">0.00</property>
                                 <property name="adjustment">adjustment_kappa</property>
                                 <property name="climb-rate">0.01</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -2065,7 +2075,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="max-width-chars">3</property>
                                 <property name="adjustment">adjustment_theta</property>
-                                <property name="digits">9</property>
+                                <property name="digits">6</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -2527,6 +2537,7 @@
                     <property name="name">drawing</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <signal name="draw" handler="on_drawing_draw" swapped="no"/>
                   </object>
                 </child>
                 <child type="label">
