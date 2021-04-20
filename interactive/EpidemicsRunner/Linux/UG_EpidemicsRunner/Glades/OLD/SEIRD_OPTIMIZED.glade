@@ -4,6 +4,12 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkAction" id="action_gauss"/>
   <object class="GtkAction" id="action_pso"/>
+  <object class="GtkAdjustment" id="adjustment_alpha">
+    <property name="upper">1</property>
+    <property name="value">3.0000000000000001e-06</property>
+    <property name="step-increment">9.9999999999999995e-08</property>
+    <property name="page-increment">1</property>
+  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -14,8 +20,8 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
-  <object class="GtkApplicationWindow" id="window_main">
-    <property name="name">window_main</property>
+  <object class="GtkApplicationWindow" id="window_optimized">
+    <property name="name">window_optimized</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="hexpand">True</property>
@@ -246,6 +252,10 @@
                                 <property name="name">spin_alpha</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
+                                <property name="max-width-chars">3</property>
+                                <property name="adjustment">adjustment_alpha</property>
+                                <property name="climb-rate">0.009999999776482582</property>
+                                <property name="digits">9</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -302,6 +312,9 @@
                                 <property name="name">spin_kappa</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
+                                <property name="max-width-chars">3</property>
+                                <property name="climb-rate">0.01</property>
+                                <property name="digits">2</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -342,6 +355,7 @@
                                 <property name="name">spin_theta</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
+                                <property name="max-width-chars">3</property>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
@@ -797,7 +811,10 @@
                 <property name="label-yalign">0</property>
                 <property name="shadow-type">out</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkDrawingArea">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
                 </child>
                 <child type="label">
                   <object class="GtkLabel" id="label_visual_frame_1">
@@ -828,7 +845,10 @@
                 <property name="label-yalign">0</property>
                 <property name="shadow-type">etched-out</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkDrawingArea">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
                 </child>
                 <child type="label">
                   <object class="GtkLabel" id="label_visual_frame_2">

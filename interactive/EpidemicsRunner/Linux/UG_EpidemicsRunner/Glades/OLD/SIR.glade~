@@ -2,8 +2,8 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkApplicationWindow" id="window_main">
-    <property name="name">window_main</property>
+  <object class="GtkApplicationWindow" id="window_sir">
+    <property name="name">window_sir</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="hexpand">True</property>
@@ -492,7 +492,10 @@
                 <property name="label-yalign">0</property>
                 <property name="shadow-type">out</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkDrawingArea">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
                 </child>
                 <child type="label">
                   <object class="GtkLabel" id="label_visual_1">
