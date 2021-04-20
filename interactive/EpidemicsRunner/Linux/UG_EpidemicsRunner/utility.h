@@ -94,21 +94,43 @@ namespace ug{
 
 				if (yrange_max>=0){
 					get_canvas_coordinates(timepoints[0],0.0,&xg,&yg); 		
-					cairo_line_to(cr, xg, yg);					
+					cairo_line_to(cr, xg, yg);
+					cairo_show_text(cr,std::to_string(xrange_min).c_str());					
 					get_canvas_coordinates(timepoints[timepoints.size()-1],0.0,&xg,&yg); 		
 					cairo_line_to(cr, xg, yg);						
+					cairo_show_text(cr,std::to_string(xrange_max).c_str());					
 				}
 				//y axis
 				if (xrange_min <= 0){
 					get_canvas_coordinates(0,yrange_min,&xg,&yg); 		
 					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_min).c_str());
 					cairo_line_to(cr, xg, yg);					
 					get_canvas_coordinates(0,yrange_max,&xg,&yg); 		
 					cairo_line_to(cr, xg, yg);
-
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_max).c_str());
+					
 				}
-	
+				int n_ticks=5;
+				int len_t=timepoints.size();
+				int tick_stride=len_t/n_ticks;
 				
+				//x ticks
+				for (int i=0;i<n_ticks;i++){
+					get_canvas_coordinates(timepoints[i*tick_stride],yrange_min,&xg,&yg); 		
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(timepoints[i*tick_stride]).c_str());
+				}	
+				//y ticks
+				int max_column=0; //datacolumn that contains highest value
+				tick_stride=(yrange_max-yrange_min)/n_ticks;;
+				for (int i=0;i<n_ticks;i++){
+					//std::cout<<datapoints[i*tick_stride*dim_data+max_column]<<"\n";
+					get_canvas_coordinates(0,yrange_min+tick_stride*i,&xg,&yg); 		
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_min+tick_stride*i).c_str());
+				}							
 				cairo_stroke(cr);
 									
 			}				
