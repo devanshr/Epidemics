@@ -11,8 +11,8 @@
 #include "../../../../models/seird.h"
 #include "../../../../models/seird_pde.h"
 #include "../../../../models/writer.h"
-#include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
-#include "../../../../../ConstrainedOptimization/core/parameters.h"
+#include "../../ConstrainedOptimization/core/parameter_estimation.h"
+#include "../../ConstrainedOptimization/core/parameters.h"
 
 #include "utility.h"
 
@@ -46,9 +46,9 @@ double& _simulation_starttime = initial_values[5];
 double& _simulation_endtime = initial_values[6];
 double& _stepsize = initial_values[7];
 
-int _max_iter = 3;
-int _no_groups = 2;
-int _no_particles = 8;
+int _max_iter = 0;
+int _no_groups = 0;
+int _no_particles = 0;
 
 std::vector<std::string> param_names = {"alpha","kappa","theta","qq","pp"};
 std::vector<std::string> initial_names = {"Initial Susceptibles","Initial Exposed","Initial Infected","Initial Recovered","Initial Deaths","Simulation Starttime","Simulation Endtime","RK4 Stepsize h"};             
@@ -169,9 +169,9 @@ typedef struct{
     GtkBuilder *builder;
 
      app_widgets *widgets = g_slice_new(app_widgets);
-    // initial_input_widgets *initial_inputs = g_slice_new(initial_input_widgets);
-    // parameter_input_widgets *parameter_inputs = g_slice_new(parameter_input_widgets);
-    // check_input_widgets *check_inputs = g_slice_new(check_input_widgets);
+    initial_input_widgets *initial_inputs = g_slice_new(initial_input_widgets);
+    parameter_input_widgets *parameter_inputs = g_slice_new(parameter_input_widgets);
+    check_input_widgets *check_inputs = g_slice_new(check_input_widgets);
 
 
 
@@ -588,8 +588,6 @@ extern "C" G_MODULE_EXPORT void on_spin_upper_bound_pp_value_changed(GtkSpinButt
 }
 
 
-
-
 extern "C" G_MODULE_EXPORT void on_spin_initial_susceptibles_value_changed(GtkSpinButton* button, gpointer* data)
 {
     GtkSpinButton *_this = reinterpret_cast<GtkSpinButton*>(button);
@@ -620,7 +618,7 @@ extern "C" G_MODULE_EXPORT void on_spin_initial_recovered_value_changed(GtkSpinB
 extern "C" G_MODULE_EXPORT void on_spin_initial_deaths_value_changed(GtkSpinButton* button, gpointer* data)
 {
     GtkSpinButton *_this = reinterpret_cast<GtkSpinButton*>(button);
-    initial_value_changed(button,data,4);
+    initial_value_changed(button,dataz,4);
     printf("Deaths\n");
 }           
 
@@ -699,11 +697,11 @@ extern "C" G_MODULE_EXPORT gboolean on_drawing_draw (GtkWidget *_widget,cairo_t*
 
 
 
+zzdsz
 
 extern "C" G_MODULE_EXPORT void main_pso() {
-       double alpha = _alpha;
-       double kappa = _kappa;
-       double theta = _theta;
+       double alpha = _alpha;names_of_variables:alpha
+
        double qq = _qq;
        double pp = _pp;
 
@@ -800,48 +798,17 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
            co::ParticleSwarmOptimizer<co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
            co::EVarManager<co::EFloat64> estimated_parameters;
 
-            printf("%d \n",_max_iter);
-            printf("%d \n",_no_groups);
-            printf("%d \n",_no_particles);
-
-            std::cout << names_of_variables.size() << "\n";
-            std::cout << bounds.size() << "\n";
-           for (int i = 0; i < names_of_variables.size(); ++i)
+           for (int i = 0; i < 5; ++i)
            {
+           // std::cout << "estimated_parameters:" << estimated_parameters[i] << "\n";
            std::cout  << "names_of_variables:" << names_of_variables[i] << "\n" ;
-           std::cout << "bounds:" << bounds[2*i] << "\n";
-           std::cout << "bounds:" << bounds[2*i+1] << "\n";
+           std::cout << "bounds:" << bounds[i] << "\n";
            }
+
            auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
-
-
-            for (int i = 0; i < estimated_parameters.len(); i++) {
-                    if (estimated_parameters.get_name(i) == "alpha") {
-                        parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
-                        gtk_spin_button_set_value(widgets -> w_spin_alpha, parameter_values[0]);
-                    }
-                    if (estimated_parameters.get_name(i) == "kappa") {
-                        parameter_values[1] =estimated_parameters.get_param(i).get_value_as_double();
-                        gtk_spin_button_set_value(widgets -> w_spin_kappa, parameter_values[1]);
-                    }
-                    if (estimated_parameters.get_name(i) == "theta") {
-                        parameter_values[2] = estimated_parameters.get_param(i).get_value_as_double();
-                        gtk_spin_button_set_value(widgets -> w_spin_theta, parameter_values[2]);
-                    }
-                    if (estimated_parameters.get_name(i) == "qq") {
-                        parameter_values[3] = estimated_parameters.get_param(i).get_value_as_double();
-                        gtk_spin_button_set_value(widgets -> w_spin_qq, parameter_values[3]);
-                    }
-                    if (estimated_parameters.get_name(i) == "pp") {
-                        parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
-                        gtk_spin_button_set_value(widgets -> w_spin_pp, parameter_values[4]);
-                    }
-                }    
-
-
-
-             // if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
+           
+           // if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
            // else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
            // else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
            // else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
@@ -853,7 +820,7 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
            // this->chart2->Series[converted_name]->Points->Clear();
            // this->chart2->Refresh();
 
-           gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing")));  
+           // gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing")));  
 
            update_simulation();
            // for (int i = 0; i < sq_error.size(); i++) {

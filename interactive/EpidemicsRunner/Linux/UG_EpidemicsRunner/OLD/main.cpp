@@ -21,30 +21,30 @@ int main(int argc, char* argv[])
     window = GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
     GtkSpinButton *spin_alpha;
 
-	GtkWidget* label0 = GTK_WIDGET(gtk_builder_get_object(builder, "label_alpha"));
-	GtkAdjustment *adjustment0;
-	adjustment0 = gtk_adjustment_new (0.00000003, 0.0, 1, 0.0000001, 0.1, 0.0);								
-	parameter_input_widget = GTK_WIDGET(gtk_builder_get_object(builder, "spin_alpha"));
-	spin_alpha = GTK_SPIN_BUTTON(parameter_input_widget);
-	gtk_spin_button_set_adjustment(spin_alpha, adjustment0);
-	gtk_spin_button_set_digits(spin_alpha,3);
+	// GtkWidget* label0 = GTK_WIDGET(gtk_builder_get_object(builder, "label_alpha"));
+	// GtkAdjustment *adjustment0;
+	// adjustment0 = gtk_adjustment_new (0.00000003, 0.0, 1, 0.0000001, 0.1, 0.0);								
+	// parameter_input_widget = GTK_WIDGET(gtk_builder_get_object(builder, "spin_alpha"));
+	// spin_alpha = GTK_SPIN_BUTTON(parameter_input_widget);
+	// gtk_spin_button_set_adjustment(spin_alpha, adjustment0);
+	// gtk_spin_button_set_digits(spin_alpha,3);
 
 	// g_signal_connect (spin_alpha, "value-changed",  G_CALLBACK (alpha_value_changed_callback), this);  
     g_object_unref(builder);
 
 
-	// g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-    // gtk_window_set_title(GTK_WINDOW(window), "UG EpidemicsRunner");
+	g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
+    gtk_window_set_title(GTK_WINDOW(window), "UG EpidemicsRunner");
 
-	// notebook = gtk_notebook_new();
-	// gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
+	notebook = gtk_notebook_new();
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
 
-	// ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive;
+	ug::epi::SEIRDWidget<ug::epi::util::WidgetTab::Interactive> seird_widget_interactive;
 	
- //    gtk_builder_connect_signals(builder, NULL);
-	// gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive.widget, seird_widget_interactive.name_widget); //represents GUI tab of the interactive SEIRD model
-	// //gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
-	// std::cout<<"Address:"<<&seird_widget_interactive<<"\n";
+    gtk_builder_connect_signals(builder, NULL);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive.widget, seird_widget_interactive.name_widget); //represents GUI tab of the interactive SEIRD model
+	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
+	std::cout<<"Address:"<<&seird_widget_interactive<<"\n";
 	
 	/*
 	for(int i = 0; i < 5; i += 1)

@@ -212,7 +212,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ loadExperimentalDatatToolStr
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pp_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->qq_input))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->theta_input))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->kappa_input))->BeginInit();fsh
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->alpha_input))->BeginInit();
 		this->menuStrip1->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->t_start_input))->BeginInit();
@@ -856,7 +856,6 @@ private: System::Void cancel_button_Click(System::Object^ sender, System::EventA
 
 			   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(alpha_lower_input), co::EFloat64(alpha_upper_input));
 			   initial_vars.add("alpha", v_alpha);
-			   
 		   }
 		   else {
 			   names_of_constants.push_back("alpha");
@@ -1052,7 +1051,6 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
 		   values_of_inits = { System::Decimal::ToDouble(this->t_start_input->Value),System::Decimal::ToDouble(this->t_end_input->Value),System::Decimal::ToDouble(this->initial_susceptibles->Value) ,System::Decimal::ToDouble(this->initial_exposed->Value),System::Decimal::ToDouble(this->initial_infected->Value),System::Decimal::ToDouble(this->initial_recovered->Value),System::Decimal::ToDouble(this->initial_deaths->Value) };
 
 		   std::string textbody = R"(
-
 seird_model=SEIRD(alpha,kappa,theta,qq,pp)
 RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
 							)";

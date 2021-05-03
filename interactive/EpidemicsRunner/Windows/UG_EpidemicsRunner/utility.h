@@ -65,7 +65,8 @@ end
 
 		/*Loads csv data and displays it on a chart*/
 		template<class E>
-		void load_csv_data_on_click(E obj, int number_of_prior_plotted_lines){
+		void load_csv_data_on_click(E obj, int number_of_prior_plotted_lines)
+		{
 			System::Windows::Forms::OpenFileDialog fileDialog;
 			System::IO::Stream^ win_stream;
 			fileDialog.Title = L"Open Experimental Data";
@@ -92,7 +93,8 @@ end
 			obj->user_names = new std::vector<std::string>;
 			obj->user_cols = new int(0);
 			co::ErrorCode err;
-			if (fileDialog.ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			if (fileDialog.ShowDialog() == System::Windows::Forms::DialogResult::OK) 
+			{
 				try {
 					win_stream = fileDialog.OpenFile();
 					if (win_stream != nullptr) {
@@ -111,9 +113,12 @@ end
 
 					MessageBox::Show(L"The input file has the wrong data layout. It must be comma or tab separated. In addition, the first line must start with a # and indicate the column names.");
 				}
-				else {
-					if (obj->user_datapoints != nullptr && obj->user_names != nullptr && obj->user_cols != nullptr) {
-						for (int i = 1; i < obj->user_names->size(); i++) {
+				else
+				{
+					if (obj->user_datapoints != nullptr && obj->user_names != nullptr && obj->user_cols != nullptr)
+					{
+						for (int i = 1; i < obj->user_names->size(); i++)
+						{
 							System::Windows::Forms::DataVisualization::Charting::Series^ seriesExp = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 							obj->chart1->Series->Add(seriesExp);
 							seriesExp->ChartArea = L"ChartArea1";
