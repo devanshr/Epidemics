@@ -47,9 +47,9 @@ double& _simulation_starttime = initial_values[5];
 double& _simulation_endtime = initial_values[6];
 double& _ode_stepsize = initial_values[7];
 
-int _max_iter = pso_values[0];
-int _no_groups = pso_values[1];
-int _no_particles = pso_values[2];
+int& _max_iter = pso_values[0];
+int& _no_groups = pso_values[1];
+int& _no_particles = pso_values[2];
 
 int _convergence_threshold = 0;
 
@@ -211,18 +211,18 @@ extern "C" G_MODULE_EXPORT void initialize_values()
 {
     // gtk_widget_set_size_request (GTK_WIDGET(gtk_builder_get_object<(builder,"drawing")), 600, 600);
  
-    widgets -> w_spin_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_alpha"));
-    widgets -> w_spin_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_kappa"));
-    widgets -> w_spin_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_theta"));
-    widgets -> w_spin_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_qq"));
-    widgets -> w_spin_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pp"));
+    // widgets -> w_spin_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_alpha"));
+    // widgets -> w_spin_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_kappa"));
+    // widgets -> w_spin_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_theta"));
+    // widgets -> w_spin_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_qq"));
+    // widgets -> w_spin_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pp"));
 
 
-    widgets -> w_spin_alpha_optimized = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_alpha_optimized"));
-    widgets -> w_spin_kappa_optimized = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_kappa_optimized"));
-    widgets -> w_spin_theta_optimized = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_theta_optimized"));
-    widgets -> w_spin_qq_optimized = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_qq_optimized"));
-    widgets -> w_spin_pp_optimized = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pp_optimized"));
+    widgets -> w_spin_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_alpha_optimized"));
+    widgets -> w_spin_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_kappa_optimized"));
+    widgets -> w_spin_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_theta_optimized"));
+    widgets -> w_spin_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_qq_optimized"));
+    widgets -> w_spin_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pp_optimized"));
 
     widgets -> w_check_alpha = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_alpha_optimized"));
     widgets -> w_check_kappa = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_kappa_optimized"));
@@ -230,14 +230,14 @@ extern "C" G_MODULE_EXPORT void initialize_values()
     widgets -> w_check_qq = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_qq_optimized"));
     widgets -> w_check_pp = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_pp_optimized"));
 
-    widgets -> w_spin_initial_susceptibles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_susceptibles"));
-    widgets -> w_spin_initial_exposed = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_exposed"));
-    widgets -> w_spin_initial_infected = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_infected"));
-    widgets -> w_spin_initial_recovered = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_recovered"));
-    widgets -> w_spin_initial_deaths = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_deaths"));
-    widgets -> w_spin_ode_stepsize = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_ode_stepsize"));
-    widgets -> w_spin_t_start = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_start"));
-    widgets -> w_spin_t_end = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_end"));
+    widgets -> w_spin_initial_susceptibles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_susceptibles_optimized"));
+    widgets -> w_spin_initial_exposed = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_exposed_optimized"));
+    widgets -> w_spin_initial_infected = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_infected_optimized"));
+    widgets -> w_spin_initial_recovered = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_recovered_optimized"));
+    widgets -> w_spin_initial_deaths = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_deaths_optimized"));
+    widgets -> w_spin_ode_stepsize = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_ode_stepsize_optimized"));
+    widgets -> w_spin_t_start = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_start_optimized"));
+    widgets -> w_spin_t_end = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_end_optimized"));
 
     widgets -> w_spin_lower_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_alpha"));
     widgets -> w_spin_upper_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_alpha"));
@@ -379,7 +379,7 @@ extern "C" G_MODULE_EXPORT void on_spin_qq_value_changed(GtkSpinButton* button, 
     GtkSpinButton *_this = reinterpret_cast<GtkSpinButton*>(button);
     parameter_value_changed(button,data,3);
     printf("qq\n");
-}                       
+}
 
 extern "C" G_MODULE_EXPORT void on_spin_pp_value_changed(GtkSpinButton* button, gpointer* data)
 {
@@ -424,7 +424,7 @@ extern "C" G_MODULE_EXPORT void on_spin_convergence_threshold_value_changed(GtkS
 
     double val = gtk_spin_button_get_value(button);
     _convergence_threshold = val;
-    gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird")));  
+    gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
     update_simulation();
     printf("Convergence Threshold\n");
 
@@ -954,7 +954,7 @@ RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infec
         // this->chart2->Series[converted_name]->Points->Clear();
         // this->chart2->Refresh();
 
-       gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
+       // gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
 
        update_simulation();
        // for (int i = 0; i < sq_error.size(); i++) {
