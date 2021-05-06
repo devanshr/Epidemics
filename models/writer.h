@@ -99,14 +99,14 @@ namespace ug{
 			general_output<<output;
 			general_output<<delimiter<<"time\t";
 			
-			for (int i=0;i<dim;i++){
+			for (size_t i=0;i<dim;i++){
 				general_output<<datanames[i]<<"\t";
 			}
 			
 			general_output<<"\n";
-			for (int i=0;i<(m.size()/dim);i++){
+			for (size_t i=0;i<(m.size()/dim);i++){
 				general_output<<times[i]<<"\t";
-				for (int j=0;j<dim;j++){
+				for (size_t j=0;j<dim;j++){
 					general_output<<m[i*dim+j]<<"\t";
 				}
 				general_output<<"\n";

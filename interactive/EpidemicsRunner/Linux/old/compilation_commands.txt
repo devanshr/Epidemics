@@ -1,0 +1,19 @@
+g++ -o Epidemics.bin Epidemics.cpp -Wall `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./Epidemics.bin
+
+
+
+# alternative/old commands
+ 
+g++ `pkg-config --cflags gtk+-3.0` -o main main.cpp `pkg-config --libs gtk+-3.0` -std=c++17
+
+
+g++ -o SIR.bin SIR.cpp -Wall `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./SIR.bin                              
+
+g++ -o SEIRD.bin SEIRD.cpp -Wall `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./SEIRD.bin                                
+
+g++ -o SEIRD_OPTIMIZED.bin SEIRD_OPTIMIZED.cpp -Wall `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./SEIRD_OPTIMIZED.bin                                
+
+
+
+
+

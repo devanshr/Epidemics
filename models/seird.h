@@ -97,8 +97,8 @@ namespace ug{
 				F G = u[0]; // Gesunde (Susceptibles)
 				F A = u[1]; // Angesteckte (Exposed)
 				F K = u[2]; // Kranke (Infected)
-				F R = u[3]; // Erholte (Recovered)
-				F V = u[4]; // Verstorbene (Deaths)
+				//F R = u[3]; // Erholte (Recovered)
+				//F V = u[4]; // Verstorbene (Deaths)
 
 
 				res[0] = -alpha * G * A; 				// dG/dt=-alpha*G*A
@@ -118,9 +118,9 @@ namespace ug{
 
 				F S = u[0]; // Gesunde (Susceptibles)
 				F E = u[1]; // Angesteckte (Exposed)
-				F I = u[2]; // Kranke (Infected)
-				F R = u[3]; // Erholte (Recovered)
-				F D = u[4]; // Verstorbene (Deaths)
+				//F I = u[2]; // Kranke (Infected)
+				//F R = u[3]; // Erholte (Recovered)
+				//F D = u[4]; // Verstorbene (Deaths)
 				res[0] = -alpha*E;
 				res[1] = -alpha * S;
 				res[5] = alpha * E;

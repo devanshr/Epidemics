@@ -13,6 +13,7 @@
 #include "../../../../models/writer.h"
 #include "../../../../../ConstrainedOptimization/core/parameter_estimation.h"
 #include "../../../../../ConstrainedOptimization/core/parameters.h"
+#include "test.cpp"
 
 #include "utility.h"
 
@@ -70,70 +71,10 @@ std::vector<double> sq_error;
 //https://stackoverflow.com/questions/56610208/the-pointer-in-signal-connect-function-is-not-working-correct
 
 
-
-
-/* MAYBE REIMPLEMENT LATER FOR BETTER STRUCTURE!?
-
-typedef struct
-{
-    GtkSpinButton *w_spin_initial_susceptibles;
-    GtkSpinButton *w_spin_initial_exposed;
-    GtkSpinButton *w_spin_initial_infected;
-    GtkSpinButton *w_spin_initial_recovered;
-    GtkSpinButton *w_spin_initial_deaths;
-    GtkSpinButton *w_spin_t_start;
-    GtkSpinButton *w_spin_t_end;
-    GtkSpinButton *w_spin_ode_stepsize;
-
-} initial_input_widgets;
-
-
-typedef struct
-{
-    GtkSpinButton *w_spin_alpha;
-    GtkSpinButton *w_spin_kappa;
-    GtkSpinButton *w_spin_theta;
-    GtkSpinButton *w_spin_qq;
-    GtkSpinButton *w_spin_pp;
-} parameter_input_widgets;
-
-
-typedef struct
-{
-    GtkToggleButton *w_check_alpha;
-    GtkToggleButton *w_check_kappa;
-    GtkToggleButton *w_check_theta;
-    GtkToggleButton *w_check_qq;
-    GtkToggleButton *w_check_pp;
-} check_input_widgets;
-
-
-typedef struct
-{
-    GtkSpinButton *w_spin_lower_bound_alpha;
-    GtkSpinButton *w_spin_upper_bound_alpha;
-    GtkSpinButton *w_spin_lower_bound_kappa;
-    GtkSpinButton *w_spin_upper_bound_kappa;
-    GtkSpinButton *w_spin_lower_bound_theta;
-    GtkSpinButton *w_spin_upper_bound_theta;
-    GtkSpinButton *w_spin_lower_bound_qq;
-    GtkSpinButton *w_spin_upper_bound_qq;
-    GtkSpinButton *w_spin_lower_Wbound_pp;
-    GtkSpinButton *w_spin_upper_bound_pp;
-    
-} bound_input_widgets;
-
-*/
-
-
 typedef struct{
     GtkWidget *window_chooser;
-    GtkWidget *window_seird;
     GtkWidget *window_optimized;
     GtkWidget *window_bounds;
-    GtkWidget *w_drawing_widget;
-    GtkWidget *w_drawing_widget2;
-    GtkWidget *w_drawing_widget3;
     GtkSpinButton *w_spin_alpha;
     GtkSpinButton *w_spin_kappa;
     GtkSpinButton *w_spin_theta;
@@ -319,13 +260,7 @@ extern "C" G_MODULE_EXPORT void lower_bound_value_changed(GtkSpinButton *spin_bu
 }   
 
 
-extern "C" G_MODULE_EXPORT void parameter_value_changed(GtkSpinButton *spin_button, gpointer user_data, int n)
-{
-    double val = gtk_spin_button_get_value(spin_button);
-    parameter_values[n]=val;
-    gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
-    update_simulation();
-}   
+
 
 extern "C" G_MODULE_EXPORT void initial_value_changed(GtkSpinButton *spin_button, gpointer user_data, int n)
 {
@@ -340,7 +275,7 @@ extern "C" G_MODULE_EXPORT void pso_value_changed(GtkSpinButton *spin_button, gp
 {
     double val = gtk_spin_button_get_value(spin_button);
     pso_values[n]=val;
-    gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
+   // gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird_optimized")));  
     update_simulation();
 }   
 
@@ -353,12 +288,6 @@ extern "C" G_MODULE_EXPORT double numeric_input(GtkSpinButton *button, gpointer 
 }
 
 
-extern "C" G_MODULE_EXPORT void on_spin_alpha_value_changed(GtkSpinButton* button, gpointer* data)
-{
-    GtkSpinButton *_this = reinterpret_cast<GtkSpinButton*>(button);
-    parameter_value_changed(button,data,0);
-    printf("alpha\n");;
-    }
 
 extern "C" G_MODULE_EXPORT void on_spin_kappa_value_changed(GtkSpinButton* button, gpointer* data)
 {
@@ -388,7 +317,6 @@ extern "C" G_MODULE_EXPORT void on_spin_pp_value_changed(GtkSpinButton* button, 
     printf("pp\n");
 
 }   
-
 
 
 
@@ -429,89 +357,6 @@ extern "C" G_MODULE_EXPORT void on_spin_convergence_threshold_value_changed(GtkS
     printf("Convergence Threshold\n");
 
 }   
-
-
-
-// extern "C" G_MODULE_EXPORT void on_check_alpha_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     checkbox_toggled(button,data,0);
-//     printf("alpha\n");;
-//     }
-
-// extern "C" G_MODULE_EXPORT void on_check_kappa_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,1);
-//     printf("kappa\n");
-
-// }           
-// extern "C" G_MODULE_EXPORT void on_check_theta_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,2);
-//     printf("theta\n");
-// }   
-
-// extern "C" G_MODULE_EXPORT void on_check_qq_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,3);
-//     printf("qq\n");
-// }                       
-
-// extern "C" G_MODULE_EXPORT void on_check_pp_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,4);
-//     printf("pp\n");
-
-// }   
-
-
-
-
-
-
-
-
-// extern "C" G_MODULE_EXPORT void on_check_alpha_pde_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,0);
-//     printf("alpha\n");;
-//     }
-
-// extern "C" G_MODULE_EXPORT void on_check_kappa_pde_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,1);
-//     printf("kappa\n");
-
-// }           
-// extern "C" G_MODULE_EXPORT void on_check_theta_pde_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,2);
-//     printf("theta\n");
-// }   
-
-// extern "C" G_MODULE_EXPORT void on_check_qq_pde_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,3);
-//     printf("qq\n");
-// }                       
-
-// extern "C" G_MODULE_EXPORT void on_check_pp_pde_toggled(GtkToggleButton* button, gpointer* data)
-// {
-//     GtkToggleButton *_this = reinterpret_cast<GtkToggleButton*>(button);
-//     checkbox_toggled(button,data,4);
-//     printf("pp\n");
-
-// }
-
-
-
 
 
 extern "C" G_MODULE_EXPORT void on_spin_lower_bound_alpha_value_changed(GtkSpinButton* button, gpointer* data)
