@@ -50,7 +50,7 @@ namespace ug{
 			int& _pso_no_groups = pso_values[1];
 			int& _pso_no_particles = pso_values[2];
 			
-			double _convergence_threshold;
+			double newton_convergence_threshold;
 			
 			std::vector<double> sq_error; //vector of squared errors
 
@@ -163,7 +163,6 @@ namespace ug{
 			
 			GtkWidget* get_widget() const{
 				return main_widget;
-				
 			}
 			GtkWidget* get_name() const{
 				return name_widget;
@@ -236,6 +235,28 @@ namespace ug{
 				}			
 				return 1;			
 			}	
+			static gboolean on_drawing_squared_error_draw (GtkWidget *_widget,cairo_t* cr, SEIRDWidget* _this)
+			{
+				std::cout<<"Redrawing squared error graph\n";
+				std::vector<double> iterations; 
+				for (int i = 0; i < _this->sq_error.size(); ++i)
+				{
+					iterations.push_back(i);
+				}
+
+
+				if (_this->sq_error.size()!=0)
+				{
+					ug::epi::util::plot_values(_widget,cr,iterations,_this->sq_error,0);
+					ug::epi::util::plot_axis(_widget,cr,iterations, _this->sq_error);    
+				}           
+				return 1;	
+			}	
+			static void set_convergence_threshold(double val,SEIRDWidget* _this)
+			{
+			_this->newton_convergence_threshold=val;	
+			}				
+			
 			
 			void run_pso(){
 				double alpha = _alpha;
@@ -496,10 +517,10 @@ namespace ug{
 					   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
 					   //   MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
 
-					   solver.set_convergence_threshold(_convergence_threshold);
+					   solver.set_convergence_threshold(newton_convergence_threshold);
 
 					   auto result = solver.run(initial_vars, estimated_parameters);
-
+						//TODO Handle errors
 					   // if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
 					   // else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
 					   // else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
@@ -561,6 +582,13 @@ namespace ug{
 		
 			glade_widgets->seird_object->on_drawing_seird_draw(_widget,cr,glade_widgets->seird_object);
 		}		
+
+		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_draw(GtkWidget *_widget,cairo_t* cr, gpointer* data){
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+		
+			glade_widgets->seird_object->on_drawing_squared_error_draw(_widget,cr,glade_widgets->seird_object);
+		}	
+
 		
 		extern "C" G_MODULE_EXPORT void on_spin_alpha_value_changed(GtkSpinButton* button, gpointer* data)
 		{
@@ -583,7 +611,7 @@ namespace ug{
 		{
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 			double val=gtk_spin_button_get_value(button);
-			glade_widgets->seird_object->parameter_value_changed(val,3);		
+			glade_widgets->seird_object->parameter_value_changed(val,2);		
 			//printf("theta changed \n");
 
 		}    
@@ -592,7 +620,7 @@ namespace ug{
 		{
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 			double val=gtk_spin_button_get_value(button);
-			glade_widgets->seird_object->parameter_value_changed(val,4);		
+			glade_widgets->seird_object->parameter_value_changed(val,3);		
 			//printf("qq changed \n");
 
 		}  
@@ -682,6 +710,15 @@ namespace ug{
 			
 		}
 		
+		extern "C" G_MODULE_EXPORT void on_spin_convergence_threshold_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+
+			double val = gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->set_convergence_threshold(val,glade_widgets->seird_object);	
+
+		}   
+		
 		//Menu callbacks
 		//TODO: Leads to memory error
 		extern "C" G_MODULE_EXPORT void select_optimization_path(int resp_id, GtkFileChooserDialog* dialog,gpointer* data)
@@ -720,6 +757,7 @@ namespace ug{
 			
 			glade_widgets->seird_object->set_optimization_path(temp);
 		}
+		
 
 		extern "C" G_MODULE_EXPORT void on_cancel(GtkButton* button, gpointer* data)
 		{
@@ -727,7 +765,16 @@ namespace ug{
 			gtk_widget_hide(_this);
 			printf("Cancel\n");
 		}
-
+		extern "C" G_MODULE_EXPORT void on_show_menu(GtkButton *button, gpointer* data)
+		{
+			GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
+			gtk_widget_show(_this);
+				//Initialize value<s
+			// initialize_values();
+			printf("Show Menu\n");
+			//Initialize simulation
+			// update_simulation();
+		}
 		
 	}
 }

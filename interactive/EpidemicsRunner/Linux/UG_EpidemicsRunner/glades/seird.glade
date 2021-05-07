@@ -773,7 +773,6 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="draw-indicator">True</property>
-                                <signal name="clicked" handler="on_check_alpha_clicked" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -803,7 +802,6 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="draw-indicator">True</property>
-                                <signal name="clicked" handler="on_check_kappa_clicked" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -849,7 +847,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="draw-indicator">True</property>
-                                <signal name="clicked" handler="on_check_theta_clicked" swapped="no"/>
+                                
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -893,7 +891,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="draw-indicator">True</property>
-                                <signal name="clicked" handler="on_check_qq_clicked" swapped="no"/>
+            
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
@@ -935,7 +933,7 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="draw-indicator">True</property>
-                                <signal name="clicked" handler="on_check_pp_clicked" swapped="no"/>
+                               
                               </object>
                               <packing>
                                 <property name="left-attach">0</property>
