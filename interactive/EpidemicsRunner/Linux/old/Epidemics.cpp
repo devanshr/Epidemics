@@ -568,11 +568,7 @@ extern "C" G_MODULE_EXPORT void on_show_popup_menu(GtkMenuItem *button, gpointer
 {
     GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
     gtk_widget_show(_this);
-        //Initialize value<s
-    // initialize_values();
     printf("Show Menu\n");
-    //Initialize simulation
-    // update_simulation();
 }
 
 extern "C" G_MODULE_EXPORT void on_cancel(GtkButton* button, gpointer* data)
@@ -580,8 +576,6 @@ extern "C" G_MODULE_EXPORT void on_cancel(GtkButton* button, gpointer* data)
     GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
     gtk_widget_hide(_this);
     printf("Cancel\n");
-
-
 }
 
 

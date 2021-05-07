@@ -470,6 +470,63 @@
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object> 
+ <object class="GtkFileChooserDialog" id="folder_chooser_dialog">
+    <property name="name">folder_chooser_dialog</property>
+    <property name="can-focus">False</property>
+    <property name="type-hint">dialog</property>
+    <property name="action">select-folder</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="folder_chooser">
+        <property name="name">folder_chooser</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="button_ok_folder_chooser">
+                <property name="label" translatable="yes">OK</property>
+                <property name="name">button_ok_folder_chooser</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="select_optimization_path" object="folder_chooser_dialog" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_cancel_folder_chooser">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="name">button_cancel_folder_chooser</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
       <object class="GtkGrid" id="grid_main_seird">
         <property name="name">grid_main</property>
         <property name="visible">True</property>
