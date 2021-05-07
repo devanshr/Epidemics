@@ -1,2 +1,0 @@
---Evaluating derivative
-alpha=EVar64(value: EFloat64(value: 3.2e-06,low: 3.2e-06,high: 3.2e-06),min: 0,max: 0)

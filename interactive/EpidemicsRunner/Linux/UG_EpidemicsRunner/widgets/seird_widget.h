@@ -49,7 +49,6 @@ namespace ug{
 			int& _pso_max_iter = pso_values[0];
 			int& _pso_no_groups = pso_values[1];
 			int& _pso_no_particles = pso_values[2];
-			
 			double newton_convergence_threshold;
 			
 			std::vector<double> sq_error; //vector of squared errors
@@ -411,6 +410,23 @@ namespace ug{
 							
 			}
 			
+			static void set_pso_iterations(int val, SEIRDWidget* _this)
+			{
+				_this->_pso_max_iter=val;
+			}	
+			
+				static void set_pso_particles(int val, SEIRDWidget* _this)
+			{
+				_this->_pso_no_particles=val;
+			}	
+			
+				static void set_pso_groups(int val, SEIRDWidget* _this)
+			{
+				_this->_pso_no_groups=val;
+			}	
+			
+			
+			
 			void run_newton() 
 			{    
 
@@ -703,6 +719,31 @@ namespace ug{
 			glade_widgets->seird_object->run_pso();				
 			
 		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_iterations_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			double val=gtk_spin_button_get_value(button);
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->set_pso_iterations(val,glade_widgets->seird_object);	
+
+		}   
+
+
+		extern "C" G_MODULE_EXPORT void on_spin_particles_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			double val=gtk_spin_button_get_value(button);
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->set_pso_particles(val,glade_widgets->seird_object);	
+
+		}   
+
+		extern "C" G_MODULE_EXPORT void on_spin_groups_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			double val=gtk_spin_button_get_value(button);
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->set_pso_groups(val,glade_widgets->seird_object);	
+
+		}  		
 		
 		extern "C" G_MODULE_EXPORT void run_newton(GtkButton* button, gpointer* data) {
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
