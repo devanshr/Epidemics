@@ -684,9 +684,8 @@ namespace ug{
 		
 		//Menu callbacks
 		//TODO: Leads to memory error
-		extern "C" G_MODULE_EXPORT void select_optimization_path(GtkButton* button, GtkFileChooserDialog* dialog,gpointer* data)
+		extern "C" G_MODULE_EXPORT void select_optimization_path(int resp_id, GtkFileChooserDialog* dialog,gpointer* data)
 		{
-			std::cout<<"Suche pfad\n";
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);				
 			GtkWidget* dia= reinterpret_cast<GtkWidget*>(dialog);
 			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
@@ -694,14 +693,32 @@ namespace ug{
 			std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
 			glade_widgets->seird_object->set_optimization_path(temp);
 			gtk_widget_hide(dia);
-
 		}	
 			
 		extern "C" G_MODULE_EXPORT void on_show_popup_menu(GtkMenuItem *button, gpointer* data)
 		{
-			GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
-			gtk_widget_show(_this);
+			//GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
+			//gtk_widget_show(_this);
 			printf("Show Menu\n");
+			
+			GtkFileChooserNative *native;
+			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+			gint res;
+
+			native = gtk_file_chooser_native_new("Select older",
+												0,
+												action,
+												"_Select",
+												"_Cancel");
+
+			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
+			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+			std::cout << "Set path to " << temp << "\n";
+			
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
+			
+			glade_widgets->seird_object->set_optimization_path(temp);
 		}
 
 		extern "C" G_MODULE_EXPORT void on_cancel(GtkButton* button, gpointer* data)

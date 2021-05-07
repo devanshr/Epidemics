@@ -26,20 +26,21 @@ end
 
 --Start of parameter, constants and initial values definitions
 
-h=0.60003
-t_start=1
-t_end=6
-init_susceptibles=75300
-init_exposed=370
-init_infected=300
-init_recovered=300
-init_deaths=500
-alpha=3e-05
-kappa=0.10002
-theta=0.00986
-qq=3
-pp=6
+h=0.125
+t_start=0
+t_end=30
+init_susceptibles=750000
+init_exposed=70
+init_infected=0
+init_recovered=0
+init_deaths=1
+alpha=3e-06
+kappa=0.1
+theta=0.01
+qq=1
+pp=1
 
-seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
-						
+
+			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
+			RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
+									
