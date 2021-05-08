@@ -67,6 +67,7 @@
                 <property name="can-focus">True</property>
                 <property name="adjustment">adjustment_convergence_threshold</property>
                 <signal name="value-changed" handler="on_spin_convergence_threshold_value_changed" swapped="no"/>
+                <property name="digits">10</property>    
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -140,6 +141,8 @@
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">2</property>
+    
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_death">
     <property name="upper">10000000</property>
@@ -175,6 +178,7 @@
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">4</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_kappa">
     <property name="upper">1</property>
@@ -187,15 +191,50 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment_time">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_upper_alpha">
+    <property name="upper">3</property>
+    <property name="value">0.5</property>
+    <property name="step-increment">9.9999999999999995e-08</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_upper_kappa">
+    <property name="upper">3</property>
+    <property name="value">0.7</property>
+    <property name="step-increment">1.0000000000000001e-05</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_upper_pp">
+    <property name="upper">100</property>
+    <property name="value">5</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_upper_qq">
+    <property name="upper">100</property>
+    <property name="value">5</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_upper_theta">
+    <property name="upper">3</property>
+    <property name="value">0.5</property>
+    <property name="step-increment">1.0000000000000001e-05</property>
+    <property name="page-increment">0.10</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment_lower_alpha">
     <property name="upper">1</property>
-    <property name="value">3.0000000000000001e-06</property>
+    <property name="value">1e-06</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_kappa">
     <property name="upper">1</property>
-    <property name="value">0.10</property>
+    <property name="value">1e-06</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -213,7 +252,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_theta">
     <property name="upper">1</property>
-    <property name="value">0.01</property>
+    <property name="value">1e-06</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -1346,7 +1385,7 @@
                     <property name="can-focus">False</property>
                     <property name="valign">start</property>
                     <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Visual  1</property>
+                    <property name="label" translatable="yes"></property>
                   </object>
                 </child>
               </object>
@@ -1381,7 +1420,7 @@
                     <property name="can-focus">False</property>
                     <property name="valign">start</property>
                     <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Visual  2</property>
+                    <property name="label" translatable="yes">Loss Function Values</property>
                   </object>
                 </child>
               </object>
@@ -1397,4 +1436,380 @@
           </packing>
         </child>
       </object>
+      <object class="GtkWindow" id="window_bounds">
+    <property name="name">window_bounds</property>
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Set Bounds</property>
+    <child>
+      <!-- n-columns=5 n-rows=6 -->
+      <object class="GtkGrid" id="grid_main_bounds">
+        <property name="name">grid_main_bounds</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
+        <child>
+          <object class="GtkButton" id="button_ok_bounds">
+            <property name="label" translatable="yes">OK</property>
+            <property name="name">button_ok_bounds</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_cancel" object="window_bounds" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_cancel_bounds">
+            <property name="label" translatable="yes">Cancel</property>
+            <property name="name">button_cancel_bounds</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_cancel" object="window_bounds" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_lower_bound">
+            <property name="name">label_lower_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Lower Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_lower_bound_kappa">
+            <property name="name">spin_lower_bound_kappa</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">adjustment_lower_kappa</property>
+            <property name="digits">5</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_kappa_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_upper_bound1">
+            <property name="name">label_upper_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Upper Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_upper_bound3">
+            <property name="name">label_upper_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Upper Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_upper_bound4">
+            <property name="name">label_upper_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Upper Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_upper_bound5">
+            <property name="name">label_upper_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Upper Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_lower_bound3">
+            <property name="name">label_lower_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Lower Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_lower_bound4">
+            <property name="name">label_lower_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Lower Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_lower_bound5">
+            <property name="name">label_lower_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Lower Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_upper_bound_kappa">
+            <property name="name">spin_upper_bound_kappa</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_upper_kappa</property>
+            <property name="digits">5</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_kappa_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_upper_bound_theta">
+            <property name="name">spin_upper_bound_theta</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_upper_theta</property>
+            <property name="digits">5</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_theta_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_upper_bound_qq">
+            <property name="name">spin_upper_bound_qq</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_upper_qq</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_qq_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_upper_bound_pp">
+            <property name="name">spin_upper_bound_pp</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_upper_pp</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_pp_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_lower_bound_theta">
+            <property name="name">spin_lower_bound_theta</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_lower_theta</property>
+            <property name="digits">5</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_theta_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_lower_bound_qq">
+            <property name="name">spin_lower_bound_qq</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_lower_qq</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_qq_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_lower_bound_pp">
+            <property name="name">spin_lower_bound_pp</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_lower_pp</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_pp_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_alpha">
+            <property name="name">label_alpha</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">alpha</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_kappa">
+            <property name="name">label_kappa</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">kappa</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_theta">
+            <property name="name">label_theta</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">theta</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_qq">
+            <property name="name">label_qq</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">qq</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_pp">
+            <property name="name">label_pp</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">pp</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_upper_bound_alpha">
+            <property name="name">spin_upper_bound_alpha</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">adjustment_upper_alpha</property>
+            <property name="digits">7</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_alpha_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_lower_bound1">
+            <property name="name">label_lower_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Lower Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_lower_bound_alpha">
+            <property name="name">spin_lower_bound_alpha</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">0</property>
+            <property name="adjustment">adjustment_lower_alpha</property>
+            <property name="digits">7</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_alpha_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_upper_bound2">
+            <property name="name">label_upper_bound</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Upper Bound</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>

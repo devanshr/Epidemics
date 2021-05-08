@@ -34,13 +34,12 @@ init_exposed=70
 init_infected=0
 init_recovered=0
 init_deaths=1
-alpha=3e-06
+kappa=0.1
 theta=0.01
 qq=1
 pp=1
-kappa=parameters.kappa:get_value_as_double()
-
+alpha=parameters.alpha:get_value_as_double()
 
 			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
 			RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
-									
+								

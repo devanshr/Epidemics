@@ -22,6 +22,8 @@ namespace ug{
 			//These variables store all the data values and parameter settings
 			double parameter_values[5]={0};
 			double initial_values[8]={0};
+			double upper_bound_values[5] = {0};
+			double lower_bound_values[5] = {0};
 			
 			double& _alpha=parameter_values[0];
 			double& _kappa=parameter_values[1];
@@ -47,8 +49,8 @@ namespace ug{
 
 			int pso_values[3];
 			int& _pso_max_iter = pso_values[0];
-			int& _pso_no_groups = pso_values[1];
-			int& _pso_no_particles = pso_values[2];
+			int& _pso_no_particles = pso_values[1];
+			int& _pso_no_groups = pso_values[2];
 			double newton_convergence_threshold;
 			
 			std::vector<double> sq_error; //vector of squared errors
@@ -81,7 +83,8 @@ namespace ug{
 				glade_widgets.w_check_theta = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_theta"));
 				glade_widgets.w_check_qq = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_qq"));
 				glade_widgets.w_check_pp = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_pp"));
-
+				
+				
 				glade_widgets.w_spin_initial_susceptibles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_susceptibles"));
 				glade_widgets.w_spin_initial_exposed = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_exposed"));
 				glade_widgets.w_spin_initial_infected = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_infected"));
@@ -102,6 +105,10 @@ namespace ug{
 				glade_widgets.w_spin_lower_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_pp"));
 				glade_widgets.w_spin_upper_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_pp"));
 
+				glade_widgets.w_spin_pso_iterations = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_iterations"));
+				glade_widgets.w_spin_pso_no_particles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_particles"));
+				glade_widgets.w_spin_pso_no_groups = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_groups"));
+
 				parameter_values[0]=gtk_spin_button_get_value(glade_widgets.w_spin_alpha);
 				parameter_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_kappa);
 				parameter_values[2]=gtk_spin_button_get_value(glade_widgets.w_spin_theta);
@@ -116,7 +123,10 @@ namespace ug{
 				initial_values[5]=gtk_spin_button_get_value(glade_widgets.w_spin_t_start);
 				initial_values[6]=gtk_spin_button_get_value(glade_widgets.w_spin_t_end);
 				initial_values[7]=gtk_spin_button_get_value(glade_widgets.w_spin_stepsize);
-
+				
+				pso_values[0]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_iterations); 
+				pso_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_particles);
+				pso_values[2]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_groups);
 				update_simulation();			
 				
 			}
@@ -201,6 +211,10 @@ namespace ug{
 				GtkSpinButton *w_spin_upper_bound_qq;
 				GtkSpinButton *w_spin_lower_bound_pp;
 				GtkSpinButton *w_spin_upper_bound_pp;
+				GtkSpinButton *w_spin_pso_iterations;
+				GtkSpinButton *w_spin_pso_no_particles;
+				GtkSpinButton *w_spin_pso_no_groups;
+				
 				SEIRDWidget* seird_object;
 			};	
 			
@@ -216,7 +230,16 @@ namespace ug{
 				update_simulation();
 				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird")));	
 			}				
-						
+				
+			void upper_bound_value_changed(double val, int n)
+			{
+				upper_bound_values[n]=val;
+			} 
+			
+			void lower_bound_value_changed(double val, int n)
+			{
+				lower_bound_values[n]=val;
+			}     		
 			
 			app_widgets glade_widgets;		
 			//Evenhandler functions
@@ -237,6 +260,7 @@ namespace ug{
 			static gboolean on_drawing_squared_error_draw (GtkWidget *_widget,cairo_t* cr, SEIRDWidget* _this)
 			{
 				std::cout<<"Redrawing squared error graph\n";
+				//std::cout<<_this->sq_error[0]<<"\n";
 				std::vector<double> iterations; 
 				for (int i = 0; i < _this->sq_error.size(); ++i)
 				{
@@ -263,7 +287,7 @@ namespace ug{
 				double theta = _theta;
 				double qq = _qq;
 				double pp = _pp;
-				printf("Run PSO\n");
+				printf("Run PSO - HERE\n");
 
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
@@ -341,7 +365,7 @@ namespace ug{
 				   values_of_constants.push_back(pp);
 			   }
 
-
+				
 			   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
 
 			   std::string textbody = R"(
@@ -362,12 +386,9 @@ namespace ug{
 					options.set_max_iterations(_pso_max_iter);
 					options.set_n_groups(_pso_no_groups);
 					options.set_n_particles(_pso_no_particles);
-					co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
-					co::ParticleSwarmOptimizer<co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
+					co::EpidemicsEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+					co::ParticleSwarmOptimizer<co::EpidemicsEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
 					co::EVarManager<co::EFloat64> estimated_parameters;
-
-					std::cout << names_of_variables.size() << "\n";
-					std::cout << bounds.size() << "\n";
 
 				   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
@@ -405,6 +426,7 @@ namespace ug{
 					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
 
 					sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));	
 
 				}
 							
@@ -412,6 +434,8 @@ namespace ug{
 			
 			static void set_pso_iterations(int val, SEIRDWidget* _this)
 			{
+				std::cout<<"set iter"<<"\n";
+				std::cout<<val<<"\n";
 				_this->_pso_max_iter=val;
 			}	
 			
@@ -524,7 +548,7 @@ namespace ug{
 				   else
 				   {
 					   ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
-
+	
 					   co::NewtonOptions options;
 					   options.set_stepsize_alpha(1);
 					  
@@ -537,11 +561,11 @@ namespace ug{
 
 					   auto result = solver.run(initial_vars, estimated_parameters);
 						//TODO Handle errors
-					   // if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
-					   // else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
-					   // else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
-					   // else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
-					   // else
+					   if (result == co::ErrorCode::OptimizationError) { std::cout<<"Optimization Error\n"; }
+					    else if (result == co::ErrorCode::PathError) { std::cout<<"Path Error\n"; }
+					    else if (result == co::ErrorCode::ComputationError) { std::cout<<"ComputationError\n"; }
+					    else if (result == co::ErrorCode::ParseError) { std::cout<<"Parse Error!\n"; }
+					    else{
 
 						for (int i = 0; i < estimated_parameters.len(); i++) 
 						{
@@ -572,8 +596,9 @@ namespace ug{
 								}
 						}
     
-                   auto sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-
+                   sq_error = solver.get_saved_losses_in_past_iteration_as_double();
+					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));
+					}
 				}
 			}	
 			
@@ -605,7 +630,7 @@ namespace ug{
 			glade_widgets->seird_object->on_drawing_squared_error_draw(_widget,cr,glade_widgets->seird_object);
 		}	
 
-		
+		// Spin Buttons for the parameters
 		extern "C" G_MODULE_EXPORT void on_spin_alpha_value_changed(GtkSpinButton* button, gpointer* data)
 		{
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
@@ -650,6 +675,99 @@ namespace ug{
 			//printf("pp changed \n");
 
 		}  
+		
+		// Spin Buttons for the Lower and Upper bounds from "window_bounds"
+		extern "C" G_MODULE_EXPORT void on_spin_upper_bound_alpha_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->upper_bound_value_changed(val, 0);
+			//printf( "Upper: %4.2f\n", val);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_upper_bound_kappa_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->upper_bound_value_changed(val, 1);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_upper_bound_theta_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->upper_bound_value_changed(val, 2);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_upper_bound_qq_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->upper_bound_value_changed(val, 3);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_upper_bound_pp_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->upper_bound_value_changed(val, 4);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_lower_bound_alpha_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->lower_bound_value_changed(val, 0);
+			//printf( "Upper: %4.2f\n", val);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_lower_bound_kappa_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->lower_bound_value_changed(val, 1);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_lower_bound_theta_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->lower_bound_value_changed(val, 2);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_lower_bound_qq_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->lower_bound_value_changed(val, 3);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_spin_lower_bound_pp_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->lower_bound_value_changed(val, 4);
+			//printf( "Upper: %4.2f\n", lower);
+
+		}
+		
+
 		
 		extern "C" G_MODULE_EXPORT void on_spin_initial_susceptibles_value_changed(GtkSpinButton* button, gpointer* data)
 		{
@@ -778,22 +896,24 @@ namespace ug{
 			//GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
 			//gtk_widget_show(_this);
 			printf("Show Menu\n");
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 			
 			GtkFileChooserNative *native;
 			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 			gint res;
+			
+			//auto parent_window=gtk_builder_get_object(glade_widgets->seird_object->builder,"grid_seird");
 
-			native = gtk_file_chooser_native_new("Select older",
+			native = gtk_file_chooser_native_new("Select folder",
 												0,
 												action,
-												"_Select",
-												"_Cancel");
+												"_Select"
+												,"_Cancel");
 
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
 			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
 			std::cout << "Set path to " << temp << "\n";
 			
-			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
 			
 			glade_widgets->seird_object->set_optimization_path(temp);

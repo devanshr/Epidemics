@@ -1,0 +1,12 @@
+Particle Swarm Optimization iteration: 4
+
+
+
+
+
+
+
+
+Best group:                   -1
+Best particle id:             0
+Minimum Error:                1.79769313486e+308

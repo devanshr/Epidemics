@@ -4,12 +4,13 @@
 #include <string>
 #include "widgets/seird_widget.h"
 #include <iostream>
-
+#include <clocale>
 
 
 int main(int argc, char* argv[])
 {
 	gtk_init(&argc, &argv);
+	std::setlocale(LC_NUMERIC,"C");
 	GtkWidget *window, *notebook;
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget.get_widget(),seird_widget.get_name()); //represents GUI tab of the interactive SEIRD model
 	auto label1 = gtk_label_new("label1");
-	auto label2 = gtk_label_new("label2");	
+	auto label2 = gtk_label_new("SEIRD PDE");	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), label1,label2); //represents GUI tab of the interactive SEIRD model
 
 	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
