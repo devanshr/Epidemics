@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
 	g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
     gtk_window_set_title(GTK_WINDOW(window), "UG EpidemicsRunner");
-
+	gtk_window_set_icon_from_file(GTK_WINDOW(window), "resources/icon.png", NULL);
 	notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
 	ug::epi::SEIRDWidget seird_widget;
