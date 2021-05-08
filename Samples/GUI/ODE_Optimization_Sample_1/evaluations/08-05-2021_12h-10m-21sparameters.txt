@@ -1,1 +1,0 @@
---These are the estimated parameters of the problem. The run did finish but not converge.

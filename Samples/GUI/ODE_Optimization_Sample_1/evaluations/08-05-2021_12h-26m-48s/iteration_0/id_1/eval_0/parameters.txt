@@ -1,2 +1,0 @@
---Initializing Particles
-alpha=EVar64(value: EFloat64(value: 0.458110935191363,low: 0.458110935191363,high: 0.458110935191363),min: 1e-06,max: 0.5)
