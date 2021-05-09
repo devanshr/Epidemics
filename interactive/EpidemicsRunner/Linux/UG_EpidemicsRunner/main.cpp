@@ -3,6 +3,7 @@
 #include <gtk/gtk.h>
 #include <string>
 #include "widgets/seird_widget.h"
+#include "widgets/seird_pde_widget.h"
 #include <iostream>
 #include <clocale>
 
@@ -20,11 +21,12 @@ int main(int argc, char* argv[])
 	notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
 	ug::epi::SEIRDWidget seird_widget;
+	ug::epi::SEIRDPDEWidget seird_pde_widget;
+	
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget.get_widget(),seird_widget.get_name()); //represents GUI tab of the interactive SEIRD model
-	auto label1 = gtk_label_new("label1");
-	auto label2 = gtk_label_new("SEIRD PDE");	
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), label1,label2); //represents GUI tab of the interactive SEIRD model
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_pde_widget.get_widget(),seird_pde_widget.get_name()); //represents GUI tab of the interactive SEIRD model
+	
 
 	//gtk_notebook_append_page(GTK_NOTEBOOK(notebook), seird_widget_interactive2.widget, seird_widget_interactive2.name_widget);
 	
