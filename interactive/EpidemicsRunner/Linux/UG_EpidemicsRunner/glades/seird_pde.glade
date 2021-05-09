@@ -1072,6 +1072,8 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="adjustment">adjustment_pde_stepsize</property>
+                <property name="digits">5</property>
+                    <property name="value">0.1</property>
                 <signal name="value-changed" handler="on_spin_stepsize_pde_value_changed" swapped="no"/>
               </object>
               <packing>
@@ -1115,6 +1117,7 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="resize-mode">immediate</property>
+                <signal name="clicked" handler="on_run_sim_pde_button" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">5</property>
@@ -1312,8 +1315,8 @@
                     <property name="left-padding">12</property>
                     <child>
                       <object class="GtkDrawingArea">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
+                        <property name="width-request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                       </object>
@@ -1337,14 +1340,14 @@
                 <property name="label-xalign">0</property>
                 <property name="shadow-type">etched-out</property>
                 <child>
-                  <object class="GtkAlignment">
+                  <object class="GtkAlignment" >
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="left-padding">12</property>
                     <child>
-                      <object class="GtkDrawingArea">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
+                      <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
+                        <property name="width-request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                       </object>
@@ -1374,8 +1377,8 @@
                     <property name="left-padding">12</property>
                     <child>
                       <object class="GtkDrawingArea">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
+                        <property name="width-request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                       </object>
@@ -1404,10 +1407,12 @@
                     <property name="can-focus">False</property>
                     <property name="left-padding">12</property>
                     <child>
-                      <object class="GtkDrawingArea">
-                        <property name="height-request">300</property>
+                      <object class="GtkDrawingArea" id="legend_pde">
+                          <property name="name">legend_pde</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_legend_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1435,8 +1440,8 @@
                     <property name="left-padding">12</property>
                     <child>
                       <object class="GtkDrawingArea">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
+                        <property name="width-request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                       </object>
@@ -1466,8 +1471,8 @@
                     <property name="left-padding">12</property>
                     <child>
                       <object class="GtkDrawingArea">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
+                        <property name="width-request">200</property>
+                        <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                       </object>

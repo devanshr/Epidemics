@@ -152,37 +152,15 @@ namespace ug{
 				pso_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_particles);
 				pso_values[2]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_groups);
 				
+				glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_exposed"));
+				glade_widgets.frame_exposed_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_exposed_drawing_area_pde"));
+				glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
+				
 				//update_simulation();			
 				
 			}
 
-/*			
-		void update_simulation()
-		{
-
-			printf("Update Simulation ");
-			double alpha=_alpha;
-			double kappa=_kappa;
-			double theta=_theta;
-			double qq=_qq;
-			double pp=_pp;  
-
-			ug::epi::SEIRD<std::vector<double>> seird_model(alpha,kappa,theta,qq,pp);
-
-			seird_model.change_step_size(_stepsize);
-
-			std::vector<double> u0 = {_initial_r1,_initial_v1,_initial_r2,_initial_v2,_initial_r3,_initial_v3,_initial_r4,_initial_v4,_initial_r5,_initial_v5};
-			double t_start = _simulation_starttime;
-			double t_end = _simulation_endtime;
-
-			auto res = seird_model.run_linear_implicit(t_start, u0, t_end);
-			timepoints=std::get<0>(res);
-			datapoints=std::get<1>(res);
-
-			//ug::epi::write_data("/home/devanshr/Desktop/", "_test.txt", timepoints, datapoints,seird_model.names);
-
-		}
-*/			
+	
 			public:
 			
 			SEIRDPDEWidget(){
@@ -204,6 +182,8 @@ namespace ug{
 			}
 			GtkWidget* main_widget; //main widget
 			GtkWidget* name_widget=gtk_label_new("SEIRD PDE");
+			
+			cairo_surface_t *image_legend;
 			
 		/* This struct is given to a glade builder to automatically connect signals.
 		 The members need to have the same name as the "name" property in the glade files*/
@@ -247,6 +227,9 @@ namespace ug{
 				GtkSpinButton *w_spin_pso_iterations;
 				GtkSpinButton *w_spin_pso_no_particles;
 				GtkSpinButton *w_spin_pso_no_groups;
+				GtkFrame *frame_exposed;
+				GtkDrawingArea *frame_exposed_drawing_area_pde;
+				GtkDrawingArea *legend_pde; 
 				
 				SEIRDPDEWidget* seird_pde_object;
 			};	
@@ -274,9 +257,276 @@ namespace ug{
 				lower_bound_values[n]=val;
 			}     		
 			
+			static void update_simulation(SEIRDPDEWidget* widget)
+			{
+
+				printf("Update Simulation ");
+				double alpha=widget->_alpha;
+				double kappa=widget->_kappa;
+				double theta=widget->_theta;
+				double qq=widget->_qq;
+				double pp=widget->_pp;  
+				double diffusion = widget->_diffusion;
+				
+				double t_start =widget-> _simulation_starttime;
+				double t_end = widget->_simulation_endtime;
+
+				ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, pp,qq,diffusion);
+
+				seird_model.change_step_size_spatial(widget->_stepsize);
+				seird_model.change_step_size_time(widget->_stepsize);
+				
+				
+				std::vector<double> u0 = widget->initialize_pde_values(widget,1,1,widget->_stepsize,widget->_initial_r1,widget->_initial_r2,widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,widget->_initial_v5);
+				
+				std::string filename = "/output";
+
+				if (widget->user_selected_optimization_path.size()==0) {
+					std::cout<<"No data dir";	
+					//return false;
+				}
+				else {
+					//MessageBox::Show(gcnew String(*user_selected_optimization_path));
+
+					seird_model.set_store_to_file(true,widget->user_selected_optimization_path, filename);
+
+					seird_model.run(t_start, u0, t_end);
+					//return true;
+				}
+			
+
+			}
+			
+			static std::vector<double> initialize_pde_values(SEIRDPDEWidget* widget,typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, typename std::vector<double>::value_type r1,
+				typename std::vector<double>::value_type r2, typename std::vector<double>::value_type r3, typename std::vector<double>::value_type r4, typename std::vector<double>::value_type r5,
+				typename std::vector<double>::value_type v1, typename std::vector<double>::value_type v2, typename std::vector<double>::value_type v3, typename std::vector<double>::value_type v4,
+				typename std::vector<double>::value_type v5 ) {
+				using F = typename std::vector<double>::value_type;
+				
+				size_t x_points = (dimX / hx) + 1; //1001
+				size_t y_points = (dimY / hx) + 1;
+
+				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				
+				std::vector<F> u0(nVars * 5, F(0)); //number of vertices in discretization
+				
+				
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
+			
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
+	
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r3, v3, 2);
+		
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r4, v4, 3);
+	
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r5, v5, 4);
+
+				return u0;
+			}
+	
+			static void set_gaussian_values(SEIRDPDEWidget* widget,std::vector<double>& u0, typename std::vector<double>::value_type x_points, typename std::vector<double>::value_type y_points, typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, typename std::vector<double>::value_type radius, typename std::vector<double>::value_type val, int current_dimension) {
+				using F = typename std::vector<double>::value_type;
+				for (int i = 0; i < y_points; i++) {
+					for (int j = 0; j < x_points; j++) {
+						F worldX = dimY - ((i) / (y_points - 1.0)) * dimY;
+						F worldY = ((j) / (x_points - 1.0)) * dimX;
+						int offset = current_dimension * x_points * y_points;
+						F a = (worldX - 0.5 * dimX);
+						F b = (worldY - 0.5 * dimY);
+						F sigma = radius;
+						F x = (a * a + b * b);
+						u0[i * x_points + j + offset] = val * (std::exp(-sigma * x));
+
+					}
+
+				}
+			}
+			
+			static void image_to_grid(int index_image_i, int index_image_j, int image_width, int image_height, int grid_width, int grid_height, int& i_g, int& j_g) {
+				float ratio_i = index_image_i / (image_width - 1.0);
+				float ratio_j = index_image_j / (image_height - 1.0);
+
+				i_g = ratio_i * (grid_width - 1);
+				j_g = ratio_j * (grid_height - 1);
+			}
+
+			static void determine_color(double val, double min_val, double max_val, int& r, int& g, int& b) {
+				float ratio = (val - min_val) / (max_val - min_val);
+				//std::cout<<"val:"<<val-min_val<<"\n";
+				int start_r = 0;
+				int start_g = 0;
+				int start_b = 0;
+
+				r = start_r + (255 - start_r) * ratio;
+				g = start_g + (255 - start_g) * ratio;
+				b = start_b + (255 - start_b) * ratio;
+			}
+			
+			static void plot_heatmaps(SEIRDPDEWidget* widget,std::string filenum) {
+				double t_start =widget-> _simulation_starttime;
+				double t_end = widget->_simulation_endtime;
+				double stepsize = widget->_stepsize;
+				
+				std::cout<< "\nInPlot Heatmaps\n";
+				int img_x = 200;
+				int img_y = 200;
+				double dimX = 1.0;
+				double dimY = 1.0;
+				size_t grid_x = (dimX / stepsize) + 1;
+				size_t grid_y = (dimY / stepsize) + 1;
+
+				std::string delimiter = "\t";
+				int gridx = (int)grid_x;
+
+				widget->datapoints = std::vector<double>();
+				
+				if (widget->user_selected_optimization_path.size() == 0) {
+					//MessageBox::Show(L"Please specify the directory for Output generation");
+					std::cout<<"No dir\n";
+				}
+				else {
+					co::ErrorCode err;					
+					std::string path = widget->user_selected_optimization_path + filenum;
+					err = co::utility::parse_csv(path, widget->datapoints, delimiter, &gridx);
+				
+					if (err == co::ErrorCode::ParseError)
+					{std::cout<<" Parse Error - Could not locate file";
+					}
+
+					int offset = (widget->datapoints).size() / 5;
+
+					double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
+					double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
+
+					//max_label->Text = gcnew String(std::to_string(max_val).c_str());
+					//min_label->Text = gcnew String(std::to_string(min_val).c_str());
+
+					//Bitmap^ legend = gcnew Bitmap(22, 200);
+					int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,22);
+					guint8* imgdata=new guint8[img_y*stride];
+					
+					//Set everything full
+					  for (int i=0;i<img_y*stride;i++){
+						  
+							imgdata[i]=0;
+					 }
+					 std::cout<<"Filled Image\n";
+				widget->image_legend=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,22,img_y,stride);
+				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"legend_pde")));
+				}
+/*
+				int img_x =  200; //dimensions of picturebox
+				int img_y = 200; //dimensions of picturebox
+				double dimX = 1.0;
+				double dimY = 1.0;
+				size_t grid_x = (dimX / stepsize) + 1;
+				size_t grid_y = (dimY / stepsize) + 1;
+
+				std::string delimiter = "\t";
+				int gridx = (int)grid_x;
+
+				if (user_datapoints == nullptr) {
+					user_datapoints = new std::vector<double>();
+				}
+				else {
+					delete user_datapoints;
+					user_datapoints = new std::vector<double>();
+				}
+
+				if (user_selected_optimization_path == nullptr) {
+					MessageBox::Show(L"Please specify the directory for Output generation");
+				}
+				else {
+
+					co::ErrorCode err;
+					try {
+						std::string path = *user_selected_optimization_path + filenum;
+						err = co::utility::parse_csv(path, *user_datapoints, delimiter, &gridx);
+
+						//MessageBox::Show(gcnew String(path.c_str()));
+
+					}
+					catch (System::Exception^ e) {
+						MessageBox::Show(L"Could not read file" + e);
+					}
+					//if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
+					if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error - Could not locate file");
+
+
+					//MessageBox::Show(gcnew String(std::to_string().c_str()));
+
+					int offset = (*user_datapoints).size() / 5;
+
+					double min_val = *std::min_element(user_datapoints->begin(), user_datapoints->end());
+					double max_val = *std::max_element(user_datapoints->begin(), user_datapoints->end());
+
+					max_label->Text = gcnew String(std::to_string(max_val).c_str());
+					min_label->Text = gcnew String(std::to_string(min_val).c_str());
+
+					Bitmap^ legend = gcnew Bitmap(22, 200);
+
+					for (int i = 0; i < legend->Size.Height; i++) {
+						for (int j = 0; j < legend->Size.Width; j++) {
+
+							double aux = 1.0 - (static_cast<double>(i) / (legend->Size.Height - 1.0));
+
+							System::Drawing::Color c = System::Drawing::Color::FromArgb(153 + (aux) * 102, 153 - (aux) * 120, 255 - aux*255);
+							legend->SetPixel(j, i, c);
+						}
+					}
+					legend_box->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(legend));
+
+
+					List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
+					list->Add(pictureBox1);
+					list->Add(pictureBox2);
+					list->Add(pictureBox3);
+					list->Add(pictureBox4);
+					list->Add(pictureBox5);
+
+					for (int pic = 0; pic < list->Count; pic++) {
+						//create img 
+						Bitmap^ img = gcnew Bitmap(img_x, img_y);
+						for (int i = 0; i < img_y; i++) {
+							for (int j = 0; j < img_x; j++) {
+								int i_g;
+								int j_g;
+								image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+								int r;
+								int g;
+								int b;
+
+								determine_color((*user_datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b);
+
+								//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
+								//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
+								//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
+
+								System::Drawing::Color c = System::Drawing::Color::FromArgb(153+(r/255.0)*102, 153-(b/255.0)*120, 255 - b);
+								img->SetPixel(j, i, c);
+							}
+						}
+
+						//img->SetPixel(0, 0, System::Drawing::Color::Blue);
+						list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
+
+					}
+				}
+				*/
+			}
+			
+			
+			
+			
 			app_widgets glade_widgets;		
 			//Evenhandler functions
-
+			static gboolean do_drawing_legend(GtkWidget *widget,cairo_t *cr,SEIRDPDEWidget* _this)
+			{
+				std::cout<<"In do__drawing_legend\n";
+			  cairo_set_source_surface(cr,_this->image_legend, 10, 10);
+			  cairo_paint(cr);   
+			  return 1;		 
+			}
 			/*
 			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* _this)
 			{
@@ -1032,6 +1282,22 @@ namespace ug{
 			printf("Show Menu\n");
 			//Initialize simulation
 			// update_simulation();
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_run_sim_pde_button(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+			glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);	
+			glade_widgets->seird_pde_object->plot_heatmaps(glade_widgets->seird_pde_object,"/output0.txt");
+		}
+		
+		extern "C" G_MODULE_EXPORT void on_drawing_legend_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_legend(widget,cr,glade_widgets->seird_pde_object);
+
+		  
 		}
 		
 	}
