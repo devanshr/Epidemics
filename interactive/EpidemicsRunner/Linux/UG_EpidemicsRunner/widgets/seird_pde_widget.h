@@ -565,11 +565,11 @@ namespace ug{
 								int b;
 
 								widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
-							std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
+							//std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
 								r=153+(r/255.0)*102;
 								b=153-(b/255.0)*120;
 								g=255 - b;
-									std::cout<<"r:"<<r<<" g:"<<g<<"\n";
+									
 								int index=i*stride+j*4;
 								imgdata[index]=r;
 								imgdata[index+1]=g;
@@ -603,7 +603,6 @@ namespace ug{
 			{
 				std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
 				if(_this->datapoints.size()!=0){
-					//TODK: Instead of "0" the chosen filenumber should be passed
 					_this->generate_heatmap(_this,"0",mapindex);
 					cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
 					cairo_paint(cr);   
@@ -665,20 +664,22 @@ namespace ug{
 			}	
 			
 /*
-			void run_pso()
+			void run_pso(SEIRDPDEWidget* widget)
 			{
 				double alpha = _alpha;
 				double kappa = _kappa;
 				double theta = _theta;
 				double qq = _qq;
 				double pp = _pp;
+				double diffusion=_diffusion;
 				printf("Run PSO - HERE\n");
 
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
 
-				std::vector<std::string> names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+				std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
+
 				std::vector<double> values_of_inits;
 
 				std::vector<co::EFloat64> bounds;
@@ -749,9 +750,23 @@ namespace ug{
 				   names_of_constants.push_back("pp");
 				   values_of_constants.push_back(pp);
 			   }
+			   
+			   if (gtk_toggle_button_get_active(glade_widgets.w_check_diffusion)) {
+				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_diffusion) << "\n";
+				   names_of_variables.push_back("diffusion");
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_diffusion)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_diffusion)));
+
+			   }
+			   else
+			   {
+				   names_of_constants.push_back("diffusion");
+				   values_of_constants.push_back(diffusion);
+			   }
+			   
 
 				
-			   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
+			   values_of_inits = { glade_widgets->seird_pde_object->stepsize,t_start,t_end};
 
 			   std::string textbody = R"(
 			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
@@ -816,9 +831,9 @@ namespace ug{
 				}
 							
 			}
+			*/
 			
-			
-			
+		/*	
 			void run_newton() 
 			{    
 
