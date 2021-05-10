@@ -24,9 +24,9 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_convergence_threshold">
     <property name="upper">100</property>
-    <property name="step-increment">0.00001</property>
-    <property name="page-increment">10</property>
     <property name="value">0.001</property>
+    <property name="step-increment">1.0000000000000001e-05</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkWindow" id="window_settings_gauss">
     <property name="name">window_settings_gauss</property>
@@ -65,8 +65,8 @@
                 <property name="name">spin_convergence_threshold</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="digits">8</property>
                 <property name="adjustment">adjustment_convergence_threshold</property>
+                <property name="digits">8</property>
                 <signal name="value-changed" handler="on_spin_convergence_threshold_pde_value_changed" swapped="no"/>
               </object>
               <packing>
@@ -144,15 +144,15 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_groups">
     <property name="upper">100</property>
+    <property name="value">2</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">2</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_iterations">
     <property name="upper">100</property>
+    <property name="value">4</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">4</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_kappa">
     <property name="upper">1</property>
@@ -204,9 +204,9 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_particles">
     <property name="upper">100</property>
+    <property name="value">8</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">8</property>
   </object>
   <object class="GtkWindow" id="window_settings_pso">
     <property name="name">window_settings_pso</property>
@@ -956,626 +956,375 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
-      <object class="GtkGrid" id="grid_main_pde">
-        <property name="name">grid_main_pde</property>
+  <!-- n-columns=3 n-rows=6 -->
+  <object class="GtkGrid" id="grid_main_pde">
+    <property name="name">grid_main_pde</property>
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-bottom">5</property>
+    <property name="hexpand">False</property>
+    <property name="vexpand">False</property>
+    <property name="row-spacing">5</property>
+    <child>
+      <!-- n-columns=6 n-rows=2 -->
+      <object class="GtkGrid" id="grid_parameters_2">
+        <property name="name">grid_parameters</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="hexpand">False</property>
-        <property name="vexpand">False</property>
-        <property name="row-spacing">5</property>
         <child>
-          <!-- n-columns=6 n-rows=2 -->
-          <object class="GtkGrid" id="grid_parameters_2">
-            <property name="name">grid_parameters</property>
+          <object class="GtkLabel" id="label_t_start1">
+            <property name="name">label_t_start</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label_t_start1">
-                <property name="name">label_t_start</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">t_start</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_t_start1">
-                <property name="name">spin_t_start</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="text" translatable="yes">1.00</property>
-                <property name="adjustment">adjustment:_t_start</property>
-                <property name="digits">2</property>
-                <property name="value">1</property>
-                <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_t_end1">
-                <property name="name">label_t_end</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">t_end</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_t_end1">
-                <property name="name">spin_t_end</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="text" translatable="yes">3.00</property>
-                <property name="adjustment">adjustment_t_end</property>
-                <property name="digits">2</property>
-                <property name="value">3</property>
-                <signal name="value-changed" handler="on_spin_t_end_pde_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="check_diffusion">
-                <property name="label" translatable="yes">Diffusion</property>
-                <property name="name">check_diffusion</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_diffusion">
-                <property name="name">spin_diffusion</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_diffusion</property>
-                <signal name="value-changed" handler="on_spin_diffusion_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="check_diffusion1">
-                <property name="label" translatable="yes">Stepsize: Spatial and Temporal</property>
-                <property name="name">check_diffusion</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_pde_stepsize">
-                <property name="name">spin_pde_stepsize</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_pde_stepsize</property>
-                <property name="digits">5</property>
-                    <property name="value">0.1</property>
-                <signal name="value-changed" handler="on_spin_stepsize_pde_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_gauss1">
-                <property name="label" translatable="yes">Run Gaus-Newton</property>
-                <property name="name">button_gauss</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="resize-mode">immediate</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_pso1">
-                <property name="label" translatable="yes">Run PSO</property>
-                <property name="name">button_pso</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="resize-mode">immediate</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_simulation">
-                <property name="label" translatable="yes">Run Simulation</property>
-                <property name="name">button_simulation</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="resize-mode">immediate</property>
-                <signal name="clicked" handler="on_run_sim_pde_button" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_set_constraints_optimized">
-                <property name="label" translatable="yes">Set Constraints</property>
-                <property name="name">button_set_constraints_optimized</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="resize-mode">immediate</property>
-                <signal name="clicked" handler="on_show_menu_pde" object="window_bounds" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
+            <property name="label" translatable="yes">t_start</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
-            <property name="top-attach">2</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
-          <!-- n-columns=4 n-rows=1 -->
-          <object class="GtkGrid" id="grid_bottom_pde">
-            <property name="name">grid_bottom_pde</property>
+          <object class="GtkSpinButton" id="spin_t_start1">
+            <property name="name">spin_t_start</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">1.00</property>
+            <property name="adjustment">adjustment:_t_start</property>
+            <property name="digits">2</property>
+            <property name="value">1</property>
+            <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_t_end1">
+            <property name="name">label_t_end</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <child>
-              <object class="GtkScrollbar" id="scrollbar_pde">
-                <property name="name">scrollbar_pde</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_time">
-                <property name="name">label_time</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">time</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_time">
-                <property name="name">spin_time</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_time</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_cancel_pde">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="name">button_cancel_pde</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="resize-mode">immediate</property>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
+            <property name="label" translatable="yes">t_end</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
-            <property name="top-attach">5</property>
+            <property name="top-attach">1</property>
           </packing>
         </child>
         <child>
-          <!-- n-columns=7 n-rows=2 -->
-          <object class="GtkGrid" id="grid_heatmaps">
-            <property name="name">grid_heatmaps</property>
+          <object class="GtkSpinButton" id="spin_t_end1">
+            <property name="name">spin_t_end</property>
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="row-spacing">3</property>
-            <property name="column-spacing">3</property>
-            <child>
-              <object class="GtkLabel" id="label_susceptibles">
-                <property name="name">label_susceptibles</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Susceptibles</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_exposed">
-                <property name="name">label_exposed</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Exposed</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_infected">
-                <property name="name">label_infected</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Infected</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_min">
-                <property name="name">label_min</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Min.</property>
-              </object>
-              <packing>
-                <property name="left-attach">6</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_max">
-                <property name="name">label_max</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Max.</property>
-              </object>
-              <packing>
-                <property name="left-attach">6</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_recovered">
-                <property name="name">label_recovered</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Recovered</property>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_deceased">
-                <property name="name">label_deceased</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Deceased</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_sucsceptibles">
-                <property name="name">frame_sucsceptibles</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea">
-                        <property name="width-request">200</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_exposed">
-                <property name="name">frame_exposed</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment" >
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
-                        <property name="width-request">200</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_infected">
-                <property name="name">frame_infected</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea">
-                        <property name="width-request">200</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_min_max">
-                <property name="name">frame_min_max</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea" id="legend_pde">
-                          <property name="name">legend_pde</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_legend_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_deceased">
-                <property name="name">frame_deceased</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea">
-                        <property name="width-request">200</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_recovered">
-                <property name="name">frame_recovered</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label-xalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkAlignment">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="left-padding">12</property>
-                    <child>
-                      <object class="GtkDrawingArea">
-                        <property name="width-request">200</property>
-                        <property name="height-request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
+            <property name="can-focus">True</property>
+            <property name="text" translatable="yes">3.00</property>
+            <property name="adjustment">adjustment_t_end</property>
+            <property name="digits">2</property>
+            <property name="value">3</property>
+            <signal name="value-changed" handler="on_spin_t_end_pde_value_changed" swapped="no"/>
           </object>
           <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">4</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkMenuBar" id="menu_bar_pde">
-            <property name="name">menu_bar</property>
+          <object class="GtkCheckButton" id="check_diffusion">
+            <property name="label" translatable="yes">Diffusion</property>
+            <property name="name">check_diffusion</property>
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="margin-bottom">0</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_diffusion">
+            <property name="name">spin_diffusion</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">adjustment_diffusion</property>
+            <signal name="value-changed" handler="on_spin_diffusion_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="check_diffusion1">
+            <property name="label" translatable="yes">Stepsize: Spatial and Temporal</property>
+            <property name="name">check_diffusion</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_pde_stepsize">
+            <property name="name">spin_pde_stepsize</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">adjustment_pde_stepsize</property>
+            <property name="digits">5</property>
+            <property name="value">0.10</property>
+            <signal name="value-changed" handler="on_spin_stepsize_pde_value_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_gauss1">
+            <property name="label" translatable="yes">Run Gaus-Newton</property>
+            <property name="name">button_gauss</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <property name="child-pack-direction">rtl</property>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_pso1">
+            <property name="label" translatable="yes">Run PSO</property>
+            <property name="name">button_pso</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_simulation">
+            <property name="label" translatable="yes">Run Simulation</property>
+            <property name="name">button_simulation</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="on_run_sim_pde_button" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">5</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_set_constraints_optimized">
+            <property name="label" translatable="yes">Set Constraints</property>
+            <property name="name">button_set_constraints_optimized</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="on_show_menu_pde" object="window_bounds" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">5</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <!-- n-columns=4 n-rows=1 -->
+      <object class="GtkGrid" id="grid_bottom_pde">
+        <property name="name">grid_bottom_pde</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkScrollbar" id="scrollbar_pde">
+            <property name="name">scrollbar_pde</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_time">
+            <property name="name">label_time</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">time</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_time">
+            <property name="name">spin_time</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">adjustment_time</property>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_cancel_pde">
+            <property name="label" translatable="yes">Cancel</property>
+            <property name="name">button_cancel_pde</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">5</property>
+      </packing>
+    </child>
+    <child>
+      <!-- n-columns=7 n-rows=2 -->
+      <object class="GtkGrid" id="grid_heatmaps">
+        <property name="name">grid_heatmaps</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="row-spacing">3</property>
+        <property name="column-spacing">3</property>
+        <child>
+          <object class="GtkLabel" id="label_susceptibles">
+            <property name="name">label_susceptibles</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Susceptibles</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_exposed">
+            <property name="name">label_exposed</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Exposed</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_infected">
+            <property name="name">label_infected</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Infected</property>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_min">
+            <property name="name">label_min</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Min.</property>
+          </object>
+          <packing>
+            <property name="left-attach">6</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_max">
+            <property name="name">label_max</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Max.</property>
+          </object>
+          <packing>
+            <property name="left-attach">6</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_recovered">
+            <property name="name">label_recovered</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Recovered</property>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_deceased">
+            <property name="name">label_deceased</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Deceased</property>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="frame_sucsceptibles">
+            <property name="name">frame_sucsceptibles</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">etched-out</property>
             <child>
-              <object class="GtkMenuItem" id="file_pde">
-                <property name="name">file</property>
+              <object class="GtkAlignment">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="border-width">5</property>
-                <property name="resize-mode">immediate</property>
-                <property name="label" translatable="yes">File</property>
-                <child type="submenu">
-                  <object class="GtkMenu">
+                <property name="left-padding">12</property>
+                <child>
+                  <object class="GtkDrawingArea">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="set_data_directory_pde">
-                        <property name="label">Set Data Directory</property>
-                        <property name="name">set_data_directory</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="image">image3</property>
-                        <property name="use-stock">False</property>
-						<signal name="activate" handler="on_show_popup_menu_pde" swapped="no"/>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="load_data_pde">
-                        <property name="label">Load Data</property>
-                        <property name="name">load_data</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="image">image4</property>
-                        <property name="use-stock">False</property>
-                      </object>
-                    </child>
+                    <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
                   </object>
                 </child>
               </object>
             </child>
-            <child>
-              <object class="GtkMenuItem" id="pso_settings_pde">
-                <property name="name">pso_settings</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="border-width">5</property>
-                <property name="resize-mode">immediate</property>
-                <property name="label" translatable="yes">Settings for PSO</property>
-				<signal name="activate" handler="on_show_menu_pde" object="window_settings_pso" swapped="no"/>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="gauss_settings_pde">
-                <property name="name">gauss_settings</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="border-width">5</property>
-                <property name="resize-mode">immediate</property>
-                <property name="label" translatable="yes">Settings for Gauss-Newton</property>
-				<signal name="activate" handler="on_show_menu_pde" object="window_settings_gauss" swapped="no"/>
-              </object>
+            <child type="label_item">
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -1584,478 +1333,756 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="frame_parameters_pde">
-            <property name="name">frame_parameters_pde</property>
+          <object class="GtkFrame" id="frame_exposed">
+            <property name="name">frame_exposed</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <property name="shadow-type">etched-out</property>
             <child>
-              <object class="GtkBox" id="grid_parameters">
-                <property name="name">grid_parameters</property>
+              <object class="GtkAlignment">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkCheckButton" id="check_alpha_pde">
-                    <property name="label" translatable="yes">alpha</property>
-                    <property name="name">check_alpha</property>
+                  <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
-                    
+                    <property name="can-focus">False</property>
+                    <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_alpha_pde">
-                    <property name="name">spin_alpha</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="max-width-chars">3</property>
-                    <property name="text" translatable="yes">0.000003</property>
-                    <property name="adjustment">adjustment_alpha</property>
-                    <property name="climb-rate">0.009999999776482582</property>
-                    <property name="digits">9</property>
-                    <property name="value">3.0001e-06</property>
-                    <signal name="value-changed" handler="on_spin_alpha_pde_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="check_kappa_pde">
-                    <property name="label" translatable="yes">kappa</property>
-                    <property name="name">check_kappa</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
-                    
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_kappa_pde">
-                    <property name="name">spin_kappa</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="text" translatable="yes">0.100000</property>
-                    <property name="adjustment">adjustment_kappa</property>
-                    <property name="digits">6</property>
-                    <property name="value">0.10</property>
-                    <signal name="value-changed" handler="on_spin_kappa_pde_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="check_theta_pde">
-                    <property name="label" translatable="yes">theta</property>
-                    <property name="name">check_theta</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
-                    
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_theta_pde">
-                    <property name="name">spin_theta</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="text" translatable="yes">0.009840</property>
-                    <property name="adjustment">adjustment_theta</property>
-                    <property name="digits">6</property>
-                    <property name="value">0.009840000000000006</property>
-                    <signal name="value-changed" handler="on_spin_theta_pde_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="check_qq_pde">
-                    <property name="label" translatable="yes">qq</property>
-                    <property name="name">check_qq</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
-                    
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_qq_pde">
-                    <property name="name">spin_qq</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="text" translatable="yes">1</property>
-                    <property name="adjustment">adjustment_qq</property>
-                    <property name="value">1</property>
-                    <signal name="value-changed" handler="on_spin_qq_pde_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="check_pp_pde">
-                    <property name="label" translatable="yes">pp</property>
-                    <property name="name">check_pp</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
-                    
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_pp_pde">
-                    <property name="name">spin_pp</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="text" translatable="yes">1</property>
-                    <property name="adjustment">adjustment_pp</property>
-                    <property name="value">1</property>
-                    <signal name="value-changed" handler="on_spin_pp_pde_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">9</property>
-                  </packing>
                 </child>
               </object>
             </child>
-            <child type="label">
-              <object class="GtkLabel" id="label_parameters_pde">
-                <property name="name">label_parameters_pde</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Parameters</property>
-              </object>
+            <child type="label_item">
+              <placeholder/>
             </child>
           </object>
           <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="frame_initial_values_pde">
-            <property name="name">frame_initial_values_pde</property>
+          <object class="GtkFrame" id="frame_infected">
+            <property name="name">frame_infected</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <property name="shadow-type">etched-out</property>
             <child>
-              <!-- n-columns=10 n-rows=2 -->
-              <object class="GtkGrid" id="grid_initial_values">
-                <property name="name">grid_initial_values</property>
+              <object class="GtkAlignment">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkLabel" id="label_r1">
-                    <property name="name">label_r1</property>
+                  <object class="GtkDrawingArea">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">r1</property>
+                    <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_r1">
-                    <property name="name">spin_r1</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_r1</property>
-                    <signal name="value-changed" handler="on_spin_r1_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_v1">
-                    <property name="name">label_v1</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">v1</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_v1">
-                    <property name="name">spin_v1</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_v1</property>
-                    <signal name="value-changed" handler="on_spin_v1_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_r2">
-                    <property name="name">label_r2</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">r2</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">2</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_v2">
-                    <property name="name">label_v2</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">v2</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">2</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_r2">
-                    <property name="name">spin_r2</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_r2</property>
-                    <signal name="value-changed" handler="on_spin_r2_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">3</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_v2">
-                    <property name="name">spin_v2</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_v2</property>
-                    <signal name="value-changed" handler="on_spin_v2_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">3</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_r3">
-                    <property name="name">label_r3</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">r3</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">4</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_r3">
-                    <property name="name">spin_r3</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_r3</property>
-                    <signal name="value-changed" handler="on_spin_r3_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">5</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_v4">
-                    <property name="name">label_v4</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">v4</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">6</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_r4">
-                    <property name="name">label_r4</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">r4</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">6</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_v3">
-                    <property name="name">label_v3</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">v3</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">4</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_v3">
-                    <property name="name">spin_v3</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_v3</property>
-                    <signal name="value-changed" handler="on_spin_v3_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">5</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_r4">
-                    <property name="name">spin_r5</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_r4</property>
-                    <signal name="value-changed" handler="on_spin_r4_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">7</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_v4">
-                    <property name="name">spin_v4</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_v4</property>
-                    <signal name="value-changed" handler="on_spin_v4_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">7</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_r5">
-                    <property name="name">label_r5</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">r5</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">8</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_v5">
-                    <property name="name">label_v5</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">v5</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">8</property>
-                    <property name="top-attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_r5">
-                    <property name="name">spin_r5</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_r5</property>
-                    <signal name="value-changed" handler="on_spin_r5_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">9</property>
-                    <property name="top-attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="spin_v5">
-                    <property name="name">spin_v5</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="adjustment">adjustment_v5</property>
-                    <signal name="value-changed" handler="on_spin_v5_value_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left-attach">9</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
               </object>
             </child>
-            <child type="label">
-              <object class="GtkLabel" id="label_initial_values_pde">
-                <property name="name">label_initial_values_pde</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Initial Values</property>
-              </object>
+            <child type="label_item">
+              <placeholder/>
             </child>
           </object>
           <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">3</property>
+            <property name="left-attach">2</property>
+            <property name="top-attach">0</property>
           </packing>
         </child>
-        
+        <child>
+          <object class="GtkFrame" id="frame_min_max">
+            <property name="name">frame_min_max</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">etched-out</property>
+            <child>
+              <object class="GtkAlignment">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="left-padding">12</property>
+                <child>
+                  <object class="GtkDrawingArea" id="legend_pde">
+                    <property name="name">legend_pde</property>
+                    <property name="height-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <signal name="draw" handler="on_drawing_legend_pde" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">5</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="frame_deceased">
+            <property name="name">frame_deceased</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">etched-out</property>
+            <child>
+              <object class="GtkAlignment">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="left-padding">12</property>
+                <child>
+                  <object class="GtkDrawingArea">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">4</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="frame_recovered">
+            <property name="name">frame_recovered</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">etched-out</property>
+            <child>
+              <object class="GtkAlignment">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="left-padding">12</property>
+                <child>
+                  <object class="GtkDrawingArea">
+                    <property name="width-request">200</property>
+                    <property name="height-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
       </object>
-
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">4</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkMenuBar" id="menu_bar_pde">
+        <property name="name">menu_bar</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="valign">start</property>
+        <property name="resize-mode">immediate</property>
+        <property name="child-pack-direction">rtl</property>
+        <child>
+          <object class="GtkMenuItem" id="file_pde">
+            <property name="name">file</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="border-width">5</property>
+            <property name="resize-mode">immediate</property>
+            <property name="label" translatable="yes">File</property>
+            <child type="submenu">
+              <object class="GtkMenu">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkImageMenuItem" id="set_data_directory_pde">
+                    <property name="label">Set Data Directory</property>
+                    <property name="name">set_data_directory</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="image">image3</property>
+                    <property name="use-stock">False</property>
+                    <signal name="activate" handler="on_show_popup_menu_pde" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImageMenuItem" id="load_data_pde">
+                    <property name="label">Load Data</property>
+                    <property name="name">load_data</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="image">image4</property>
+                    <property name="use-stock">False</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuItem" id="pso_settings_pde">
+            <property name="name">pso_settings</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="border-width">5</property>
+            <property name="resize-mode">immediate</property>
+            <property name="label" translatable="yes">Settings for PSO</property>
+            <signal name="activate" handler="on_show_menu_pde" object="window_settings_pso" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuItem" id="gauss_settings_pde">
+            <property name="name">gauss_settings</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="border-width">5</property>
+            <property name="resize-mode">immediate</property>
+            <property name="label" translatable="yes">Settings for Gauss-Newton</property>
+            <signal name="activate" handler="on_show_menu_pde" object="window_settings_gauss" swapped="no"/>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFrame" id="frame_parameters_pde">
+        <property name="name">frame_parameters_pde</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="label-xalign">0</property>
+        <property name="shadow-type">etched-out</property>
+        <child>
+          <object class="GtkBox" id="grid_parameters">
+            <property name="name">grid_parameters</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkCheckButton" id="check_alpha_pde">
+                <property name="label" translatable="yes">alpha</property>
+                <property name="name">check_alpha</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_alpha_pde">
+                <property name="name">spin_alpha</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="max-width-chars">3</property>
+                <property name="text" translatable="yes">0.000003</property>
+                <property name="adjustment">adjustment_alpha</property>
+                <property name="climb-rate">0.009999999776482582</property>
+                <property name="digits">9</property>
+                <property name="value">3.0000999999999999e-06</property>
+                <signal name="value-changed" handler="on_spin_alpha_pde_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_kappa_pde">
+                <property name="label" translatable="yes">kappa</property>
+                <property name="name">check_kappa</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_kappa_pde">
+                <property name="name">spin_kappa</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="text" translatable="yes">0.100000</property>
+                <property name="adjustment">adjustment_kappa</property>
+                <property name="digits">6</property>
+                <property name="value">0.10</property>
+                <signal name="value-changed" handler="on_spin_kappa_pde_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_theta_pde">
+                <property name="label" translatable="yes">theta</property>
+                <property name="name">check_theta</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_theta_pde">
+                <property name="name">spin_theta</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="text" translatable="yes">0.009840</property>
+                <property name="adjustment">adjustment_theta</property>
+                <property name="digits">6</property>
+                <property name="value">0.009840000000000006</property>
+                <signal name="value-changed" handler="on_spin_theta_pde_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_qq_pde">
+                <property name="label" translatable="yes">qq</property>
+                <property name="name">check_qq</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_qq_pde">
+                <property name="name">spin_qq</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="adjustment">adjustment_qq</property>
+                <property name="value">1</property>
+                <signal name="value-changed" handler="on_spin_qq_pde_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_pp_pde">
+                <property name="label" translatable="yes">pp</property>
+                <property name="name">check_pp</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">8</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_pp_pde">
+                <property name="name">spin_pp</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="text" translatable="yes">1</property>
+                <property name="adjustment">adjustment_pp</property>
+                <property name="value">1</property>
+                <signal name="value-changed" handler="on_spin_pp_pde_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">9</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child type="label">
+          <object class="GtkLabel" id="label_parameters_pde">
+            <property name="name">label_parameters_pde</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Parameters</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkFrame" id="frame_initial_values_pde">
+        <property name="name">frame_initial_values_pde</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="label-xalign">0</property>
+        <property name="shadow-type">etched-out</property>
+        <child>
+          <!-- n-columns=10 n-rows=2 -->
+          <object class="GtkGrid" id="grid_initial_values">
+            <property name="name">grid_initial_values</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label_r1">
+                <property name="name">label_r1</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">r1</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_r1">
+                <property name="name">spin_r1</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_r1</property>
+                <signal name="value-changed" handler="on_spin_r1_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_v1">
+                <property name="name">label_v1</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">v1</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_v1">
+                <property name="name">spin_v1</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_v1</property>
+                <signal name="value-changed" handler="on_spin_v1_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_r2">
+                <property name="name">label_r2</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">r2</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_v2">
+                <property name="name">label_v2</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">v2</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_r2">
+                <property name="name">spin_r2</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_r2</property>
+                <signal name="value-changed" handler="on_spin_r2_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_v2">
+                <property name="name">spin_v2</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_v2</property>
+                <signal name="value-changed" handler="on_spin_v2_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_r3">
+                <property name="name">label_r3</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">r3</property>
+              </object>
+              <packing>
+                <property name="left-attach">4</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_r3">
+                <property name="name">spin_r3</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_r3</property>
+                <signal name="value-changed" handler="on_spin_r3_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_v4">
+                <property name="name">label_v4</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">v4</property>
+              </object>
+              <packing>
+                <property name="left-attach">6</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_r4">
+                <property name="name">label_r4</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">r4</property>
+              </object>
+              <packing>
+                <property name="left-attach">6</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_v3">
+                <property name="name">label_v3</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">v3</property>
+              </object>
+              <packing>
+                <property name="left-attach">4</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_v3">
+                <property name="name">spin_v3</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_v3</property>
+                <signal name="value-changed" handler="on_spin_v3_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_r4">
+                <property name="name">spin_r5</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_r4</property>
+                <signal name="value-changed" handler="on_spin_r4_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">7</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_v4">
+                <property name="name">spin_v4</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_v4</property>
+                <signal name="value-changed" handler="on_spin_v4_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">7</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_r5">
+                <property name="name">label_r5</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">r5</property>
+              </object>
+              <packing>
+                <property name="left-attach">8</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_v5">
+                <property name="name">label_v5</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">v5</property>
+              </object>
+              <packing>
+                <property name="left-attach">8</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_r5">
+                <property name="name">spin_r5</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_r5</property>
+                <signal name="value-changed" handler="on_spin_r5_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">9</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_v5">
+                <property name="name">spin_v5</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_v5</property>
+                <signal name="value-changed" handler="on_spin_v5_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">9</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child type="label">
+          <object class="GtkLabel" id="label_initial_values_pde">
+            <property name="name">label_initial_values_pde</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Initial Values</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">3</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
 </interface>
