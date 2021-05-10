@@ -1319,6 +1319,7 @@
                         <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1350,6 +1351,7 @@
                         <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1381,6 +1383,7 @@
                         <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1444,6 +1447,7 @@
                         <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1475,6 +1479,7 @@
                         <property name="height-request">200</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
                       </object>
                     </child>
                   </object>

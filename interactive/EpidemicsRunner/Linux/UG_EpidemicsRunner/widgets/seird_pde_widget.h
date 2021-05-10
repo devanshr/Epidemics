@@ -154,6 +154,7 @@ namespace ug{
 				
 				glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_exposed"));
 				glade_widgets.frame_exposed_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_exposed_drawing_area_pde"));
+				glade_widgets.frame_min_max = GTK_FRAME(gtk_builder_get_object(builder,"frame_min_max"));
 				glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
 				
 				//update_simulation();			
@@ -184,6 +185,7 @@ namespace ug{
 			GtkWidget* name_widget=gtk_label_new("SEIRD PDE");
 			
 			cairo_surface_t *image_legend;
+			cairo_surface_t* heatmap_images[5]; //handles to the heatmap images displayed in the gui
 			
 		/* This struct is given to a glade builder to automatically connect signals.
 		 The members need to have the same name as the "name" property in the glade files*/
@@ -229,6 +231,7 @@ namespace ug{
 				GtkSpinButton *w_spin_pso_no_groups;
 				GtkFrame *frame_exposed;
 				GtkDrawingArea *frame_exposed_drawing_area_pde;
+				GtkFrame *frame_min_max;
 				GtkDrawingArea *legend_pde; 
 				
 				SEIRDPDEWidget* seird_pde_object;
@@ -398,21 +401,20 @@ namespace ug{
 					double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
 					double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
 
-					//max_label->Text = gcnew String(std::to_string(max_val).c_str());
-					//min_label->Text = gcnew String(std::to_string(min_val).c_str());
-
-					//Bitmap^ legend = gcnew Bitmap(22, 200);
-					int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,22);
+				
+					int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,200);
 					guint8* imgdata=new guint8[img_y*stride];
 					
 					//Set everything full
 					  for (int i=0;i<img_y*stride;i++){
 						  
-							imgdata[i]=0;
+							imgdata[i]=126;
 					 }
 					 std::cout<<"Filled Image\n";
-				widget->image_legend=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,22,img_y,stride);
-				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"legend_pde")));
+				widget->image_legend=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);
+				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"frame_exposed_drawing_area_pde")));
+				//gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"legend_pde")));
+				
 				}
 /*
 				int img_x =  200; //dimensions of picturebox
@@ -515,18 +517,99 @@ namespace ug{
 				*/
 			}
 			
+		static bool load_datapoints(SEIRDPDEWidget* seird_pde_object,std::string filenum){
+			seird_pde_object->datapoints=std::vector<double>();
+			double dimX = 1.0;
+			double dimY = 1.0;
+			int gridx = (dimX / seird_pde_object->_stepsize) + 1;		
+			std::string path = seird_pde_object->user_selected_optimization_path + "/output"+filenum+".txt";
+			auto err = co::utility::parse_csv(path, seird_pde_object->datapoints, "/t", &gridx);
+			if (err==co::ErrorCode::NoError){
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}	
 			
+		static void generate_heatmap(SEIRDPDEWidget* widget,std::string filenum,int mapindex) {
+				double t_start =widget-> _simulation_starttime;
+				double t_end = widget->_simulation_endtime;
+				double stepsize = widget->_stepsize;
+				
+				int img_x = 200;
+				int img_y = 200;
+				double dimX = 1.0;
+				double dimY = 1.0;
+				size_t grid_x = (dimX / stepsize) + 1;
+				size_t grid_y = (dimY / stepsize) + 1;
+
+				std::string delimiter = "\t";
+				int gridx = (int)grid_x;
+
+				int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,img_x);
+				guint8* imgdata=new guint8[img_y*stride];
+					
+				double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
+				double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
+				int offset = (widget->datapoints).size() / 5;
+
+						for (int i = 0; i < img_y; i++) {
+							for (int j = 0; j < img_x; j++) {
+								int i_g;
+								int j_g;
+								widget->image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+								int r;
+								int g;
+								int b;
+
+								widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
+							std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
+								r=153+(r/255.0)*102;
+								b=153-(b/255.0)*120;
+								g=255 - b;
+									std::cout<<"r:"<<r<<" g:"<<g<<"\n";
+								int index=i*stride+j*4;
+								imgdata[index]=r;
+								imgdata[index+1]=g;
+								imgdata[index+2]=b;
+								imgdata[index+3]=255;
+							}
+						}
+
+					
+		
+					 std::cout<<"Filled Image\n";
+				widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);			
+
+			}			
 			
 			
 			app_widgets glade_widgets;		
 			//Evenhandler functions
 			static gboolean do_drawing_legend(GtkWidget *widget,cairo_t *cr,SEIRDPDEWidget* _this)
 			{
-				std::cout<<"In do__drawing_legend\n";
-			  cairo_set_source_surface(cr,_this->image_legend, 10, 10);
-			  cairo_paint(cr);   
-			  return 1;		 
+				std::cout<<"In do_drawing_legend\n";
+					
+				if(_this->datapoints.size()!=0){
+					cairo_set_source_surface(cr,_this->image_legend, 0, 0);
+					cairo_paint(cr);   
+				}
+				return 1;		 
 			}
+			
+			static gboolean do_drawing_heatmap(GtkWidget *widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex)
+			{
+				std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
+				if(_this->datapoints.size()!=0){
+					//TODK: Instead of "0" the chosen filenumber should be passed
+					_this->generate_heatmap(_this,"0",mapindex);
+					cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
+					cairo_paint(cr);   
+				}
+				return 1;		 
+			}			
 			/*
 			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* _this)
 			{
@@ -1288,17 +1371,71 @@ namespace ug{
 		{
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 			glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);	
-			glade_widgets->seird_pde_object->plot_heatmaps(glade_widgets->seird_pde_object,"/output0.txt");
+			glade_widgets->seird_pde_object->load_datapoints(glade_widgets->seird_pde_object,"0");	
+
+			//glade_widgets->seird_pde_object->plot_heatmapa(glade_widgets->seird_pde_object,"/output0.txt");
 		}
 		
 		extern "C" G_MODULE_EXPORT void on_drawing_legend_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback draw\n";
+		  std::cout<<"In callback Legend draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_legend(widget,cr,glade_widgets->seird_pde_object);
+			glade_widgets->seird_pde_object->do_drawing_legend(widget,cr,glade_widgets->seird_pde_object);
+
+			//Draw the heatmaps
+		
+		}
+		
+				
+		extern "C" G_MODULE_EXPORT void on_drawing_susceptibles_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback Susceptibles draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,0);
 
 		  
 		}
+		
+
+		extern "C" G_MODULE_EXPORT void on_drawing_exposed_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback Exposed draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,1);
+
+		  
+		}
+		
+				
+		extern "C" G_MODULE_EXPORT void on_drawing_infected_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback Infected draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,2);
+
+		  
+		}
+		
+				
+		extern "C" G_MODULE_EXPORT void on_drawing_recovered_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback recovered draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,3);
+
+		  
+		}
+		
+				
+		extern "C" G_MODULE_EXPORT void on_drawing_deceased_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  std::cout<<"In callback Deceased draw\n";
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,4);
+
+		  
+		}
+
 		
 	}
 }
