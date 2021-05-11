@@ -609,39 +609,7 @@ namespace ug{
 				}
 				return 1;		 
 			}			
-			/*
-			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* _this)
-			{
-				std::cout<<"Redrawing SEIRD graph\n";
-				if (_this->datapoints.size()!=0){
-					int dim_data=(_this->datapoints.size())/(_this->timepoints.size());			
-					for (int i=0;i<dim_data;i++){
-						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
-					}
-					
-					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints);	
-				}			
-				return 1;			
-			}	
-			static gboolean on_drawing_squared_error_draw (GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* _this)
-			{
-				std::cout<<"Redrawing squared error graph\n";
-				//std::cout<<_this->sq_error[0]<<"\n";
-				std::vector<double> iterations; 
-				for (int i = 0; i < _this->sq_error.size(); ++i)
-				{
-					iterations.push_back(i);
-				}
-
-
-				if (_this->sq_error.size()!=0)
-				{
-					ug::epi::util::plot_values(_widget,cr,iterations,_this->sq_error,0);
-					ug::epi::util::plot_axis(_widget,cr,iterations, _this->sq_error);    
-				}           
-				return 1;	
-			}
-			*/
+			
 			static void set_convergence_threshold(double val,SEIRDPDEWidget* _this)
 			{
 			_this->newton_convergence_threshold=val;	
@@ -663,17 +631,17 @@ namespace ug{
 				_this->_pso_no_groups=val;
 			}	
 			
-/*
+
 			void run_pso(SEIRDPDEWidget* widget)
 			{
-				double alpha = _alpha;
-				double kappa = _kappa;
-				double theta = _theta;
-				double qq = _qq;
-				double pp = _pp;
-				double diffusion=_diffusion;
+				double alpha = widget->_alpha;
+				double kappa = widget->_kappa;
+				double theta = widget->_theta;
+				double qq = widget->_qq;
+				double pp = widget->_pp;
+				double diffusion=widget->_diffusion;
 				printf("Run PSO - HERE\n");
-
+				size_t count = 0;
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
@@ -754,9 +722,10 @@ namespace ug{
 			   if (gtk_toggle_button_get_active(glade_widgets.w_check_diffusion)) {
 				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_diffusion) << "\n";
 				   names_of_variables.push_back("diffusion");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_diffusion)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_diffusion)));
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_diffusion)));
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_diffusion)));
 
+					//TODO add Diffusion bounds in set constraints window.
 			   }
 			   else
 			   {
@@ -764,30 +733,51 @@ namespace ug{
 				   values_of_constants.push_back(diffusion);
 			   }
 			   
-
-				
-			   values_of_inits = { glade_widgets->seird_pde_object->stepsize,t_start,t_end};
+				if (count <= 0) {
+			   //MessageBox::Show(L"No parameters are selected!");
+			    std::cout<<"No parameters Checked\n";
+				return;
+				}
+			   values_of_inits = {widget->_stepsize,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
+				   widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,
+				   widget->_initial_v5};
 
 			   std::string textbody = R"(
-			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-			RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
-								)";
+initial_vars=InitialValueManager()
 
-				if (user_selected_optimization_path == "") 
+initial_vars:set_h(h)
+initial_vars:set_t_end(t_end)
+initial_vars:set_t_start(t_start)
+initial_vars:set_r1(r1)
+initial_vars:set_r2(r2)
+initial_vars:set_r3(r3)
+initial_vars:set_r4(r4)
+initial_vars:set_r5(r5)
+
+initial_vars:set_v1(v1)
+initial_vars:set_v2(v2)
+initial_vars:set_v3(v3)
+initial_vars:set_v4(v4)
+initial_vars:set_v5(v5)
+seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
+RunSEIRDPDE(seird_model,initial_vars,"./","output")
+							)";
+
+				if (widget->user_selected_optimization_path.size() == 0) 
 				{
 				   // MessageBox::Show(L"Please specify the directory for the experimental data");
 					printf("Nope, kein Pfad.\n");
 				}
 				else 
 				{
-					ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
+					ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits,widget->_stepsize);
 
 					co::PSOOptions options;
-					options.set_max_iterations(_pso_max_iter);
-					options.set_n_groups(_pso_no_groups);
-					options.set_n_particles(_pso_no_particles);
-					co::EpidemicsEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
-					co::ParticleSwarmOptimizer<co::EpidemicsEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
+					options.set_max_iterations(widget->_pso_max_iter);
+					options.set_n_groups(widget->_pso_no_groups);
+					options.set_n_particles(widget->_pso_no_particles);
+					co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(widget->user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+					co::ParticleSwarmOptimizer<co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
 					co::EVarManager<co::EFloat64> estimated_parameters;
 
 				   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
@@ -826,31 +816,32 @@ namespace ug{
 					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
 
 					sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));	
+					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));	
 
 				}
 							
 			}
-			*/
 			
-		/*	
-			void run_newton() 
+			
+			
+			void run_newton(SEIRDPDEWidget* widget) 
 			{    
 
-				double alpha = _alpha;
-				double kappa = _kappa;
-				double theta = _theta;
-				double qq = _qq;
-				double pp = _pp;
+				double alpha = widget->_alpha;
+				double kappa = widget->_kappa;
+				double theta = widget->_theta;
+				double qq = widget->_qq;
+				double pp = widget->_pp;
+				double diffusion=widget->_diffusion;
 				printf("Run Newton\n");
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
 
-				std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+				std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
 				std::vector<double> values_of_inits;
 
-				   co::EVar64Manager initial_vars;
+				co::EVar64Manager initial_vars;
 
 				   if (gtk_toggle_button_get_active(glade_widgets.w_check_alpha)) 
 				   {
@@ -912,35 +903,64 @@ namespace ug{
 					   names_of_constants.push_back("pp");
 					   values_of_constants.push_back(pp);
 				   }
-
-
-
-
-				   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
-
-				   std::string textbody = R"(
-
-			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-			RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
-									)";
-				   
-				   if (user_selected_optimization_path == "") 
-				   {
-					   printf("No Path Set\n");
+					if (gtk_toggle_button_get_active(glade_widgets.w_check_diffusion)) {
+					   names_of_variables.push_back("diffusion");
+					   //change values for diffusion
+					   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
+					   initial_vars.add("diffusion", v_diffusion);
+					   
+						//TODO add Diffusion bounds in set constraints window.
 				   }
 				   else
 				   {
-					   ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
+					   names_of_constants.push_back("diffusion");
+					   values_of_constants.push_back(diffusion);
+				   }
+
+
+
+				   values_of_inits = {widget->_stepsize,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
+				   widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,
+				   widget->_initial_v5};
+
+				   std::string textbody = R"(
+initial_vars=InitialValueManager()
+
+initial_vars:set_h(h)
+initial_vars:set_t_end(t_end)
+initial_vars:set_t_start(t_start)
+initial_vars:set_r1(r1)
+initial_vars:set_r2(r2)
+initial_vars:set_r3(r3)
+initial_vars:set_r4(r4)
+initial_vars:set_r5(r5)
+
+initial_vars:set_v1(v1)
+initial_vars:set_v2(v2)
+initial_vars:set_v3(v3)
+initial_vars:set_v4(v4)
+initial_vars:set_v5(v5)
+seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
+RunSEIRDPDE(seird_model,initial_vars,"./","output")
+							)";
+				   
+				if (widget->user_selected_optimization_path.size() == 0) 
+				{
+				   // MessageBox::Show(L"Please specify the directory for the experimental data");
+					printf("Nope, kein Pfad.\n");
+				}
+				else
+				{
+					   ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, widget->_stepsize);
 	
 					   co::NewtonOptions options;
 					   options.set_stepsize_alpha(1);
 					  
-					   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+					   co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(widget->user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
 					   co::EVarManager<co::EFloat64> estimated_parameters;
 					   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
-					   //   MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
 
-					   solver.set_convergence_threshold(newton_convergence_threshold);
+					   solver.set_convergence_threshold(widget->newton_convergence_threshold);
 
 					   auto result = solver.run(initial_vars, estimated_parameters);
 						//TODO Handle errors
@@ -980,11 +1000,12 @@ namespace ug{
 						}
     
                    sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));
+				   gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));
 					}
 				}
 			}	
-*/
+			
+			
 			//Sets path used in the Newton and PSO optimizations
 			void set_optimization_path(std::string path)
 			{
@@ -1277,12 +1298,12 @@ namespace ug{
 
 		}   
 		
-/*		extern "C" G_MODULE_EXPORT void run_pso(GtkButton* button, gpointer* data) {
+		extern "C" G_MODULE_EXPORT void run_pso_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_pso();				
+			glade_widgets->seird_pde_object->run_pso(glade_widgets->seird_pde_object);				
 			
 		}
-*/		
+		
 		extern "C" G_MODULE_EXPORT void on_spin_iterations_pde_value_changed(GtkSpinButton* button, gpointer* data)
 		{
 			double val=gtk_spin_button_get_value(button);
@@ -1308,12 +1329,12 @@ namespace ug{
 
 		}  		
 		
-/*		extern "C" G_MODULE_EXPORT void run_newton(GtkButton* button, gpointer* data) {
+		extern "C" G_MODULE_EXPORT void run_newton_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_newton();				
+			glade_widgets->seird_pde_object->run_newton(glade_widgets->seird_pde_object);				
 			
 		}
-*/		
+		
 		extern "C" G_MODULE_EXPORT void on_spin_convergence_threshold_pde_value_changed(GtkSpinButton* button, gpointer* data)
 		{
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
