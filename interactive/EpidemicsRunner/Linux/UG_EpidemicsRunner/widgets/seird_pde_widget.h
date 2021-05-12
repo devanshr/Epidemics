@@ -580,13 +580,13 @@ namespace ug{
 								widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
 							//std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
 								r=153+(r/255.0)*102;
-								b=153-(b/255.0)*120;
-								g=255 - b;
+								g=153-(g/255.0)*120;
+								b=255 - b;
 									
 								int index=i*stride+j*4;
-								imgdata[index]=r;
+								imgdata[index]=b;
 								imgdata[index+1]=g;
-								imgdata[index+2]=b;
+								imgdata[index+2]=r;
 								imgdata[index+3]=255;
 							}
 						}
