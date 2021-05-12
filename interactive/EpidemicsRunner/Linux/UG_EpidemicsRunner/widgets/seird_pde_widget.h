@@ -54,8 +54,6 @@ namespace ug{
 			std::vector<double> timepoints; //time values of simulation
 			std::vector<double> datapoints; //data values of simulation
 			
-			std::string user_selected_optimization_path = ""; //path used in optimizations
-
 			int pso_values[3];
 			int& _pso_max_iter = pso_values[0];
 			int& _pso_no_particles = pso_values[1];
@@ -110,6 +108,10 @@ namespace ug{
 				glade_widgets.w_spin_stepsize = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_stepsize"));
 				glade_widgets.w_spin_t_start = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_start1"));
 				glade_widgets.w_spin_t_end = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_end1"));
+				glade_widgets.w_spin_time= GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_seird_pde_time"));
+
+				glade_widgets.w_label_max= GTK_LABEL(gtk_builder_get_object(builder,"label_seird_pde_max"));
+				glade_widgets.w_label_min= GTK_LABEL(gtk_builder_get_object(builder,"label_seird_pde_min"));
 
 				glade_widgets.w_spin_lower_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_alpha"));
 				glade_widgets.w_spin_upper_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_alpha"));
@@ -155,7 +157,7 @@ namespace ug{
 				glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_exposed"));
 				glade_widgets.frame_exposed_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_exposed_drawing_area_pde"));
 				glade_widgets.frame_min_max = GTK_FRAME(gtk_builder_get_object(builder,"frame_min_max"));
-				glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
+				//glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
 				
 				//update_simulation();			
 				
@@ -163,6 +165,9 @@ namespace ug{
 
 	
 			public:
+			
+			std::string user_selected_optimization_path; //path used in optimizations
+
 			
 			SEIRDPDEWidget(){
 				initialize_widget();
@@ -229,6 +234,9 @@ namespace ug{
 				GtkSpinButton *w_spin_pso_iterations;
 				GtkSpinButton *w_spin_pso_no_particles;
 				GtkSpinButton *w_spin_pso_no_groups;
+				GtkSpinButton *w_spin_time;
+				GtkLabel *w_label_max;
+				GtkLabel *w_label_min;
 				GtkFrame *frame_exposed;
 				GtkDrawingArea *frame_exposed_drawing_area_pde;
 				GtkFrame *frame_min_max;
@@ -517,7 +525,7 @@ namespace ug{
 				*/
 			}
 			
-		static bool load_datapoints(SEIRDPDEWidget* seird_pde_object,std::string filenum){
+		static bool load_datapoints(SEIRDPDEWidget::app_widgets* glade_widgets, SEIRDPDEWidget* seird_pde_object,std::string filenum){
 			seird_pde_object->datapoints=std::vector<double>();
 			double dimX = 1.0;
 			double dimY = 1.0;
@@ -525,15 +533,22 @@ namespace ug{
 			std::string path = seird_pde_object->user_selected_optimization_path + "/output"+filenum+".txt";
 			auto err = co::utility::parse_csv(path, seird_pde_object->datapoints, "/t", &gridx);
 			if (err==co::ErrorCode::NoError){
+				double min_val = *std::min_element(seird_pde_object->datapoints.begin(), seird_pde_object->datapoints.end());
+				double max_val = *std::max_element(seird_pde_object->datapoints.begin(), seird_pde_object->datapoints.end());
+				gtk_label_set_text(glade_widgets->w_label_min, std::to_string(min_val).c_str());	
+				gtk_label_set_text(glade_widgets->w_label_max, std::to_string(max_val).c_str());	
+	
+	
 				return true;
 			}
 			else
 			{
 				return false;
 			}
-		}	
+		}
+		
 			
-		static void generate_heatmap(SEIRDPDEWidget* widget,std::string filenum,int mapindex) {
+		static void generate_heatmap(SEIRDPDEWidget* widget,int mapindex) {
 				double t_start =widget-> _simulation_starttime;
 				double t_end = widget->_simulation_endtime;
 				double stepsize = widget->_stepsize;
@@ -545,7 +560,6 @@ namespace ug{
 				size_t grid_x = (dimX / stepsize) + 1;
 				size_t grid_y = (dimY / stepsize) + 1;
 
-				std::string delimiter = "\t";
 				int gridx = (int)grid_x;
 
 				int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,img_x);
@@ -563,7 +577,6 @@ namespace ug{
 								int r;
 								int g;
 								int b;
-
 								widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
 							//std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
 								r=153+(r/255.0)*102;
@@ -580,7 +593,6 @@ namespace ug{
 
 					
 		
-					 std::cout<<"Filled Image\n";
 				widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);			
 
 			}			
@@ -588,22 +600,23 @@ namespace ug{
 			
 			app_widgets glade_widgets;		
 			//Evenhandler functions
-			static gboolean do_drawing_legend(GtkWidget *widget,cairo_t *cr,SEIRDPDEWidget* _this)
+			static gboolean do_drawing_legend(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this)
 			{
 				std::cout<<"In do_drawing_legend\n";
 					
 				if(_this->datapoints.size()!=0){
+				
 					cairo_set_source_surface(cr,_this->image_legend, 0, 0);
 					cairo_paint(cr);   
 				}
 				return 1;		 
 			}
 			
-			static gboolean do_drawing_heatmap(GtkWidget *widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex)
+			static gboolean do_drawing_heatmap(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex)
 			{
 				std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
 				if(_this->datapoints.size()!=0){
-					_this->generate_heatmap(_this,"0",mapindex);
+					_this->generate_heatmap(_this,mapindex);
 					cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
 					cairo_paint(cr);   
 				}
@@ -632,14 +645,14 @@ namespace ug{
 			}	
 			
 
-			void run_pso(SEIRDPDEWidget* widget)
+			void run_pso(SEIRDPDEWidget::app_widgets* glade_widgets, SEIRDPDEWidget* seird_pde_object)
 			{
-				double alpha = widget->_alpha;
-				double kappa = widget->_kappa;
-				double theta = widget->_theta;
-				double qq = widget->_qq;
-				double pp = widget->_pp;
-				double diffusion=widget->_diffusion;
+				double alpha = seird_pde_object->_alpha;
+				double kappa = seird_pde_object->_kappa;
+				double theta = seird_pde_object->_theta;
+				double qq = seird_pde_object->_qq;
+				double pp = seird_pde_object->_pp;
+				double diffusion=seird_pde_object->_diffusion;
 				printf("Run PSO - HERE\n");
 				size_t count = 0;
 				std::vector<std::string > names_of_constants;
@@ -652,12 +665,13 @@ namespace ug{
 
 				std::vector<co::EFloat64> bounds;
 
-				if (gtk_toggle_button_get_active(glade_widgets.w_check_alpha)) 
+				if (gtk_toggle_button_get_active(glade_widgets->w_check_alpha)) 
 				{
-				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_alpha) << "\n";
+				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_alpha) << "\n";
 				   names_of_variables.push_back("alpha");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_alpha))); 
-				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_alpha)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha))); 
+				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
+					count++;
 				}
 
 				else
@@ -666,13 +680,13 @@ namespace ug{
 				   values_of_constants.push_back(alpha);
 				}
 
-				if (gtk_toggle_button_get_active(glade_widgets.w_check_kappa)) 
+				if (gtk_toggle_button_get_active(glade_widgets->w_check_kappa)) 
 				{
-				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_kappa) << "\n";
+				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_kappa) << "\n";
 				   names_of_variables.push_back("kappa");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_kappa)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_kappa)));
-
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
+					count++;
 				}
 				else 
 				{
@@ -680,12 +694,12 @@ namespace ug{
 				   values_of_constants.push_back(kappa);
 				}
 
-				if (gtk_toggle_button_get_active(glade_widgets.w_check_theta)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_theta) << "\n";
+				if (gtk_toggle_button_get_active(glade_widgets->w_check_theta)) {
+				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_theta) << "\n";
 				   names_of_variables.push_back("theta");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_theta)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_theta)));
-
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
+					count++;
 			   }
 			   else 
 			   {
@@ -693,12 +707,12 @@ namespace ug{
 				   values_of_constants.push_back(theta);
 			   }
 
-			   if (gtk_toggle_button_get_active(glade_widgets.w_check_qq)) {
-				   std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_qq) << "\n";
+			   if (gtk_toggle_button_get_active(glade_widgets->w_check_qq)) {
+				   std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_qq) << "\n";
 				   names_of_variables.push_back("qq");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_qq)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_qq)));
-
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
+					count++;
 			   }
 			   else
 			   {
@@ -706,12 +720,12 @@ namespace ug{
 				   values_of_constants.push_back(qq);
 			   }
 
-			   if (gtk_toggle_button_get_active(glade_widgets.w_check_pp)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_pp) << "\n";
+			   if (gtk_toggle_button_get_active(glade_widgets->w_check_pp)) {
+				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_pp) << "\n";
 				   names_of_variables.push_back("pp");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
-
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
+					count++;
 			   }
 			   else
 			   {
@@ -719,12 +733,12 @@ namespace ug{
 				   values_of_constants.push_back(pp);
 			   }
 			   
-			   if (gtk_toggle_button_get_active(glade_widgets.w_check_diffusion)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets.w_check_diffusion) << "\n";
+			   if (gtk_toggle_button_get_active(glade_widgets->w_check_diffusion)) {
+				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_diffusion) << "\n";
 				   names_of_variables.push_back("diffusion");
-				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_diffusion)));
-				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_diffusion)));
-
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_diffusion)));
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_diffusion)));
+					count++;
 					//TODO add Diffusion bounds in set constraints window.
 			   }
 			   else
@@ -738,9 +752,9 @@ namespace ug{
 			    std::cout<<"No parameters Checked\n";
 				return;
 				}
-			   values_of_inits = {widget->_stepsize,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
-				   widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,
-				   widget->_initial_v5};
+			   values_of_inits = {seird_pde_object->_stepsize,seird_pde_object->_simulation_endtime,seird_pde_object->_simulation_starttime,seird_pde_object->_initial_r1,seird_pde_object->_initial_r2,
+				   seird_pde_object->_initial_r3,seird_pde_object->_initial_r4,seird_pde_object->_initial_r5,seird_pde_object->_initial_v1,seird_pde_object->_initial_v2,seird_pde_object->_initial_v3,seird_pde_object->_initial_v4,
+				   seird_pde_object->_initial_v5};
 
 			   std::string textbody = R"(
 initial_vars=InitialValueManager()
@@ -763,20 +777,20 @@ seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
 RunSEIRDPDE(seird_model,initial_vars,"./","output")
 							)";
 
-				if (widget->user_selected_optimization_path.size() == 0) 
+				if (seird_pde_object->user_selected_optimization_path.size() == 0) 
 				{
 				   // MessageBox::Show(L"Please specify the directory for the experimental data");
 					printf("Nope, kein Pfad.\n");
 				}
 				else 
 				{
-					ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits,widget->_stepsize);
+					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits,seird_pde_object->_stepsize);
 
 					co::PSOOptions options;
-					options.set_max_iterations(widget->_pso_max_iter);
-					options.set_n_groups(widget->_pso_no_groups);
-					options.set_n_particles(widget->_pso_no_particles);
-					co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(widget->user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
+					options.set_max_iterations(seird_pde_object->_pso_max_iter);
+					options.set_n_groups(seird_pde_object->_pso_no_groups);
+					options.set_n_particles(seird_pde_object->_pso_no_particles);
+					co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(seird_pde_object->user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
 					co::ParticleSwarmOptimizer<co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
 					co::EVarManager<co::EFloat64> estimated_parameters;
 
@@ -788,23 +802,23 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					{
 							if (estimated_parameters.get_name(i) == "alpha") {
 								parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
-								gtk_spin_button_set_value(glade_widgets.w_spin_alpha, parameter_values[0]);
+								gtk_spin_button_set_value(glade_widgets->w_spin_alpha, parameter_values[0]);
 							}
 							if (estimated_parameters.get_name(i) == "kappa") {
 								parameter_values[1] =estimated_parameters.get_param(i).get_value_as_double();
-								gtk_spin_button_set_value(glade_widgets.w_spin_kappa, parameter_values[1]);
+								gtk_spin_button_set_value(glade_widgets->w_spin_kappa, parameter_values[1]);
 							}
 							if (estimated_parameters.get_name(i) == "theta") {
 								parameter_values[2] = estimated_parameters.get_param(i).get_value_as_double();
-								gtk_spin_button_set_value(glade_widgets.w_spin_theta, parameter_values[2]);
+								gtk_spin_button_set_value(glade_widgets->w_spin_theta, parameter_values[2]);
 							}
 							if (estimated_parameters.get_name(i) == "qq") {
 								parameter_values[3] = estimated_parameters.get_param(i).get_value_as_double();
-								gtk_spin_button_set_value(glade_widgets.w_spin_qq, parameter_values[3]);
+								gtk_spin_button_set_value(glade_widgets->w_spin_qq, parameter_values[3]);
 							}
 							if (estimated_parameters.get_name(i) == "pp") {
 								parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
-								gtk_spin_button_set_value(glade_widgets.w_spin_pp, parameter_values[4]);
+								gtk_spin_button_set_value(glade_widgets->w_spin_pp, parameter_values[4]);
 							}
 					}
 
@@ -815,8 +829,12 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					// else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
 					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
 
-					sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));	
+					seird_pde_object->sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+					//gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"on_drawing_susceptibles_pde")));	
+					
+					//Redraw image by loading current data
+					seird_pde_object->update_simulation(seird_pde_object);	
+			        seird_pde_object->load_datapoints(glade_widgets,seird_pde_object,"0");	
 
 				}
 							
@@ -824,15 +842,15 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			
 			
 			
-			void run_newton(SEIRDPDEWidget* widget) 
+			void run_newton(SEIRDPDEWidget::app_widgets* glade_widgets, SEIRDPDEWidget* widget) 
 			{    
-
 				double alpha = widget->_alpha;
 				double kappa = widget->_kappa;
 				double theta = widget->_theta;
 				double qq = widget->_qq;
 				double pp = widget->_pp;
 				double diffusion=widget->_diffusion;
+
 				printf("Run Newton\n");
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
@@ -843,10 +861,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 				co::EVar64Manager initial_vars;
 
-				   if (gtk_toggle_button_get_active(glade_widgets.w_check_alpha)) 
+				   if (gtk_toggle_button_get_active(glade_widgets->w_check_alpha)) 
 				   {
 					   names_of_variables.push_back("alpha");
-					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_alpha)));
+					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
 					   initial_vars.add("alpha", v_alpha);
 				   }
 				   else 
@@ -855,11 +873,11 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   values_of_constants.push_back(alpha);
 				   }
 
-				   if (gtk_toggle_button_get_active(glade_widgets.w_check_kappa))
+				   if (gtk_toggle_button_get_active(glade_widgets->w_check_kappa))
 				   {
 					   names_of_variables.push_back("kappa");
 					   //EFloats for bounds aswelll!!
-					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_kappa)));
+					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
 					   initial_vars.add("kappa", v_kappa);
 				   }
 				   else 
@@ -868,10 +886,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   values_of_constants.push_back(kappa);
 				   }
 
-				   if (gtk_toggle_button_get_active(glade_widgets.w_check_theta)) 
+				   if (gtk_toggle_button_get_active(glade_widgets->w_check_theta)) 
 				   {
 					   names_of_variables.push_back("theta");
-					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_theta)));
+					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
 					   initial_vars.add("theta", v_theta);
 				   }
 				   else 
@@ -880,10 +898,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   values_of_constants.push_back(theta);
 				   }
 
-				   if (gtk_toggle_button_get_active(glade_widgets.w_check_qq)) 
+				   if (gtk_toggle_button_get_active(glade_widgets->w_check_qq)) 
 				   {
 					   names_of_variables.push_back("qq");
-					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_qq)));
+					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
 					   initial_vars.add("qq", v_qq);
 				   }
 				   else 
@@ -892,10 +910,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   values_of_constants.push_back(qq);
 				   }
 
-				   if (gtk_toggle_button_get_active(glade_widgets.w_check_pp)) 
+				   if (gtk_toggle_button_get_active(glade_widgets->w_check_pp)) 
 				   {
 					   names_of_variables.push_back("pp");
-					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
+					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
 					   initial_vars.add("pp", v_pp);
 				   }
 				   else 
@@ -903,10 +921,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   names_of_constants.push_back("pp");
 					   values_of_constants.push_back(pp);
 				   }
-					if (gtk_toggle_button_get_active(glade_widgets.w_check_diffusion)) {
+					if (gtk_toggle_button_get_active(glade_widgets->w_check_diffusion)) {
 					   names_of_variables.push_back("diffusion");
 					   //change values for diffusion
-					   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
+					   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
 					   initial_vars.add("diffusion", v_diffusion);
 					   
 						//TODO add Diffusion bounds in set constraints window.
@@ -975,32 +993,37 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 								if (estimated_parameters.get_name(i) == "alpha") 
 								{
 									parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_alpha, parameter_values[0]);
+									gtk_spin_button_set_value(glade_widgets->w_spin_alpha, parameter_values[0]);
 								}
 								if (estimated_parameters.get_name(i) == "kappa") 
 								{
 									parameter_values[1] =estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_kappa, parameter_values[1]);
+									gtk_spin_button_set_value(glade_widgets->w_spin_kappa, parameter_values[1]);
 								}
 								if (estimated_parameters.get_name(i) == "theta") 
 								{
 									parameter_values[2] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_theta, parameter_values[2]);
+									gtk_spin_button_set_value(glade_widgets->w_spin_theta, parameter_values[2]);
 								}
 								if (estimated_parameters.get_name(i) == "qq") 
 								{
 									parameter_values[3] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_qq, parameter_values[3]);
+									gtk_spin_button_set_value(glade_widgets->w_spin_qq, parameter_values[3]);
 								}
 								if (estimated_parameters.get_name(i) == "pp") 
 								{
 									parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_pp, parameter_values[4]);
+									gtk_spin_button_set_value(glade_widgets->w_spin_pp, parameter_values[4]);
 								}
 						}
     
                    sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-				   gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));
+				   //gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));
+					//Redraw image by loading current data
+					widget->update_simulation(widget);	
+			        widget->load_datapoints(glade_widgets,widget,"0");	
+
+
 					}
 				}
 			}	
@@ -1300,8 +1323,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void run_pso_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_pso(glade_widgets->seird_pde_object);				
-			
+			glade_widgets->seird_pde_object->run_pso(glade_widgets,glade_widgets->seird_pde_object);				
 		}
 		
 		extern "C" G_MODULE_EXPORT void on_spin_iterations_pde_value_changed(GtkSpinButton* button, gpointer* data)
@@ -1331,7 +1353,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void run_newton_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_newton(glade_widgets->seird_pde_object);				
+			glade_widgets->seird_pde_object->run_newton(glade_widgets,glade_widgets->seird_pde_object);				
 			
 		}
 		
@@ -1345,7 +1367,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		}   
 		
 		//Menu callbacks
-		//TODO: Leads to memory error
+		//TODO: Might leak memory because the dialog is only hidden and not destroyed
 		extern "C" G_MODULE_EXPORT void select_optimization_path_pde(int resp_id, GtkFileChooserDialog* dialog,gpointer* data)
 		{
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);				
@@ -1405,10 +1427,29 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void on_run_sim_pde_button(GtkSpinButton* button, gpointer* data)
 		{
+	
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);	
-			glade_widgets->seird_pde_object->load_datapoints(glade_widgets->seird_pde_object,"0");	
+		
+			if (glade_widgets->seird_pde_object->user_selected_optimization_path.empty()==false){		
+				glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);	
+				glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,"0");	
+				gtk_spin_button_set_value(glade_widgets->w_spin_time,0);
+			}
+			else{
+				GtkWidget *dialog;
+				GtkDialogFlags flags = GTK_DIALOG_MODAL;
+				dialog = gtk_dialog_new_with_buttons ("Error",
+													  nullptr,
+													 flags,
+													  "_No Path Selected!",
+													  GTK_RESPONSE_ACCEPT,
+													  NULL);			  
+				gtk_dialog_run(GTK_DIALOG(dialog));
+													  
+				gtk_widget_destroy(dialog);
 
+			}
+			
 			//glade_widgets->seird_pde_object->plot_heatmapa(glade_widgets->seird_pde_object,"/output0.txt");
 		}
 		
@@ -1416,9 +1457,9 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Legend draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->do_drawing_legend(widget,cr,glade_widgets->seird_pde_object);
+			//glade_widgets->seird_pde_object->do_drawing_legend(glade_widgets,cr,glade_widgets->seird_pde_object);
 
-			//Draw the heatmaps
+			//Draw the legend
 		
 		}
 		
@@ -1427,7 +1468,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Susceptibles draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,0);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,0);
 
 		  
 		}
@@ -1437,7 +1478,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Exposed draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,1);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,1);
 
 		  
 		}
@@ -1447,7 +1488,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Infected draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,2);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,2);
 
 		  
 		}
@@ -1457,7 +1498,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback recovered draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,3);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,3);
 
 		  
 		}
@@ -1467,9 +1508,18 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Deceased draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  glade_widgets->seird_pde_object->do_drawing_heatmap(widget,cr,glade_widgets->seird_pde_object,4);
+		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,4);
 
 		  
+		}
+		
+		extern "C" G_MODULE_EXPORT void seird_pde_time_spin(GtkWidget *widget, gpointer* data)
+		{      
+		  std::cout<<"In callback seird_pde_time_spin\n";
+			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+			std::string time_index=std::to_string((int)gtk_spin_button_get_value(glade_widgets->w_spin_time));
+			glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,time_index);	
+		
 		}
 
 		

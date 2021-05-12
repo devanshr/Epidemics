@@ -12,13 +12,12 @@
   <object class="GtkAdjustment" id="adjustment:_t_start">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
-    <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_alpha">
     <property name="upper">1</property>
-    <property name="value">3.0000000000000001e-06</property>
+    <property name="value">3.0000000000000001e-01</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -169,30 +168,30 @@
   <object class="GtkAdjustment" id="adjustment_lower_alpha">
     <property name="upper">1</property>
     <property name="value">3.0000000000000001e-06</property>
-    <property name="step-increment">9.9999999999999995e-08</property>
+    <property name="step-increment">9.9999999999999995e-09</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_kappa">
     <property name="upper">1</property>
-    <property name="value">0.10</property>
-    <property name="step-increment">1.0000000000000001e-05</property>
+    <property name="value">0.0000001</property>
+    <property name="step-increment">1.0000000000000001e-02</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_pp">
     <property name="upper">100</property>
-    <property name="value">1</property>
+    <property name="value">0.0001</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_qq">
     <property name="upper">100</property>
-    <property name="value">1</property>
+    <property name="value">0.00002</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_theta">
     <property name="upper">1</property>
-    <property name="value">0.01</property>
+    <property name="value">0.000000000001</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -414,11 +413,13 @@
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_r2">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_r3">
     <property name="upper">100</property>
@@ -438,7 +439,6 @@
   <object class="GtkAdjustment" id="adjustment_t_end">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
-    <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -461,7 +461,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_upper_alpha">
     <property name="upper">1</property>
-    <property name="value">3.0000000000000001e-06</property>
+    <property name="value">1</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -479,7 +479,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_upper_qq">
     <property name="upper">100</property>
-    <property name="value">1</property>
+    <property name="value">20</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -806,7 +806,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="adjustment">adjustment_upper_alpha</property>
-            <property name="digits">7</property>
+            <property name="digits">10</property>
             <signal name="value-changed" handler="on_spin_upper_bound_pde_alpha_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -833,7 +833,7 @@
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
             <property name="adjustment">adjustment_lower_alpha</property>
-            <property name="digits">7</property>
+            <property name="digits">10</property>
             <signal name="value-changed" handler="on_spin_lower_bound_pde_alpha_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -869,11 +869,13 @@
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_v2">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_v3">
     <property name="upper">100</property>
@@ -992,7 +994,7 @@
             <property name="text" translatable="yes">1.00</property>
             <property name="adjustment">adjustment:_t_start</property>
             <property name="digits">2</property>
-            <property name="value">1</property>
+            <property name="value">0</property>
             <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -1020,7 +1022,7 @@
             <property name="text" translatable="yes">3.00</property>
             <property name="adjustment">adjustment_t_end</property>
             <property name="digits">2</property>
-            <property name="value">3</property>
+            <property name="value">0.6</property>
             <signal name="value-changed" handler="on_spin_t_end_pde_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -1180,11 +1182,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_time">
+          <object class="GtkSpinButton" id="spin_seird_pde_time">
             <property name="name">spin_time</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="adjustment">adjustment_time</property>
+          <property name="value">0</property>
+            <signal name="value-changed" handler="seird_pde_time_spin" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -1256,27 +1260,27 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_min">
+          <object class="GtkLabel" id="label_seird_pde_min">
             <property name="name">label_min</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Min.</property>
           </object>
           <packing>
-            <property name="left-attach">6</property>
+            <property name="left-attach">5</property>
             <property name="top-attach">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_max">
+          <object class="GtkLabel" id="label_seird_pde_max">
             <property name="name">label_max</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Max.</property>
           </object>
           <packing>
-            <property name="left-attach">6</property>
-            <property name="top-attach">0</property>
+            <property name="left-attach">5</property>
+            <property name="top-attach">-1</property>
           </packing>
         </child>
         <child>
@@ -1412,8 +1416,8 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="legend_pde">
-                    <property name="name">legend_pde</property>
+                  <object class="GtkDrawingArea">
+                    <property name="width-request">12</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -1621,7 +1625,6 @@
                 <property name="adjustment">adjustment_alpha</property>
                 <property name="climb-rate">0.009999999776482582</property>
                 <property name="digits">9</property>
-                <property name="value">3.0000999999999999e-06</property>
                 <signal name="value-changed" handler="on_spin_alpha_pde_value_changed" swapped="no"/>
               </object>
               <packing>
