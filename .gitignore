@@ -1,4 +1,5 @@
 *.exe
+!Epidemics.exe
 *.obj
 *.out
 *.doc
