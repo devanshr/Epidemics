@@ -1,1 +1,7 @@
+Linux:
+
 rm Epidemics.bin; g++ -O3 -o Epidemics.bin main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./Epidemics.bin;clear
+
+Windows:
+
+g++ -O3 -o Epidemics.exe main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic -march=native;./Epidemics.exe
