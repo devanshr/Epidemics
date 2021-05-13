@@ -189,9 +189,9 @@ namespace ug{
 			GtkWidget* main_widget; //main widget
 			GtkWidget* name_widget=gtk_label_new("SEIRD PDE");
 			
-			cairo_surface_t *image_legend;
+			cairo_surface_t *image_legend; //can be removed
 			cairo_surface_t* heatmap_images[5]; //handles to the heatmap images displayed in the gui
-			
+			cairo_surface_t *legend_images[1];
 		/* This struct is given to a glade builder to automatically connect signals.
 		 The members need to have the same name as the "name" property in the glade files*/
 			struct app_widgets{
@@ -372,6 +372,8 @@ namespace ug{
 				g = start_g + (255 - start_g) * ratio;
 				b = start_b + (255 - start_b) * ratio;
 			}
+
+
 			
 			static void plot_heatmaps(SEIRDPDEWidget* widget,std::string filenum) {
 				double t_start =widget-> _simulation_starttime;
@@ -537,14 +539,25 @@ namespace ug{
 				double max_val = *std::max_element(seird_pde_object->datapoints.begin(), seird_pde_object->datapoints.end());
 				gtk_label_set_text(glade_widgets->w_label_min, std::to_string(min_val).c_str());	
 				gtk_label_set_text(glade_widgets->w_label_max, std::to_string(max_val).c_str());	
-	
-	
+				
 				return true;
 			}
 			else
 			{
 				return false;
 			}
+		}
+		
+		static void update_time_spin(SEIRDPDEWidget::app_widgets* glade_widgets){
+			
+				int maxrange=(glade_widgets->seird_pde_object->_simulation_endtime-glade_widgets->seird_pde_object->_simulation_starttime)/glade_widgets->seird_pde_object->_stepsize;
+				double a;
+				double b;
+				gtk_spin_button_get_range(glade_widgets->w_spin_time,&a,&b);
+				std::cout<<"a:"<<a<<"   b:"<<b<<"\n";
+				gtk_spin_button_set_range(glade_widgets->w_spin_time,0,maxrange);
+				gtk_spin_button_get_range(glade_widgets->w_spin_time,&a,&b);
+				std::cout<<"a:"<<a<<"   b:"<<b<<"\n";
 		}
 		
 			
@@ -597,16 +610,51 @@ namespace ug{
 
 			}			
 			
+					
+		static void generate_legend(SEIRDPDEWidget* widget,int width,int height,int mapindex) {
+
+
+				int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,width);
+				guint8* imgdata=new guint8[height*stride];
+					
+				double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
+				double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
+
+						for (int i = 0; i < height; i++) {
+							for (int j = 0; j < width; j++) {
+
+								int r=255*(1-(static_cast<double>(i)/height));
+								int g=255*(1-(static_cast<double>(i)/height));
+								int b=255*(1-(static_cast<double>(i)/height));
+							//std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
+								r=153+(r/255.0)*102;
+								g=153-(g/255.0)*120;
+								b=255 - b;
+									
+								int index=i*stride+j*4;
+								imgdata[index]=b;
+								imgdata[index+1]=g;
+								imgdata[index+2]=r;
+								imgdata[index+3]=255;
+							}
+						}
+
+					
+		
+				widget->legend_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,width,height,stride);			
+
+			}			
+			
 			
 			app_widgets glade_widgets;		
 			//Evenhandler functions
-			static gboolean do_drawing_legend(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this)
+			static gboolean do_drawing_legend(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int width, int height, int index)
 			{
 				std::cout<<"In do_drawing_legend\n";
 					
 				if(_this->datapoints.size()!=0){
-				
-					cairo_set_source_surface(cr,_this->image_legend, 0, 0);
+					_this->generate_legend(_this,width,height,index);
+					cairo_set_source_surface(cr,_this->legend_images[index], 0, 0);
 					cairo_paint(cr);   
 				}
 				return 1;		 
@@ -835,7 +883,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					//Redraw image by loading current data
 					seird_pde_object->update_simulation(seird_pde_object);	
 			        seird_pde_object->load_datapoints(glade_widgets,seird_pde_object,"0");	
-
+					gtk_spin_button_set_value(glade_widgets->w_spin_time,0);	
 				}
 							
 			}
@@ -1022,7 +1070,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					//Redraw image by loading current data
 					widget->update_simulation(widget);	
 			        widget->load_datapoints(glade_widgets,widget,"0");	
-
+					gtk_spin_button_set_value(glade_widgets->w_spin_time,0);	
 
 					}
 				}
@@ -1432,8 +1480,9 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 			if (glade_widgets->seird_pde_object->user_selected_optimization_path.empty()==false){		
 				glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);	
-				glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,"0");	
-				gtk_spin_button_set_value(glade_widgets->w_spin_time,0);
+				glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,"0");
+				gtk_spin_button_set_value(glade_widgets->w_spin_time,0);		
+				glade_widgets->seird_pde_object->update_time_spin(glade_widgets);	
 			}
 			else{
 				GtkWidget *dialog;
@@ -1457,7 +1506,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 		  std::cout<<"In callback Legend draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			//glade_widgets->seird_pde_object->do_drawing_legend(glade_widgets,cr,glade_widgets->seird_pde_object);
+		glade_widgets->seird_pde_object->do_drawing_legend(glade_widgets,cr,glade_widgets->seird_pde_object,12,200,0);
 
 			//Draw the legend
 		
