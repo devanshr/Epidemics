@@ -287,12 +287,13 @@ namespace ug{
 				double theta = _theta;
 				double qq = _qq;
 				double pp = _pp;
-				printf("Run PSO - HERE\n");
+				printf("Run PSO\n");
 
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
-
+				
+				size_t count =0;	
 				std::vector<std::string> names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 				std::vector<double> values_of_inits;
 
@@ -304,6 +305,7 @@ namespace ug{
 				   names_of_variables.push_back("alpha");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_alpha))); 
 				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_alpha)));
+				   count++;
 				}
 
 				else
@@ -318,6 +320,7 @@ namespace ug{
 				   names_of_variables.push_back("kappa");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_kappa)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_kappa)));
+				   count++;
 
 				}
 				else 
@@ -331,6 +334,7 @@ namespace ug{
 				   names_of_variables.push_back("theta");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_theta)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_theta)));
+				   count++;
 
 			   }
 			   else 
@@ -344,6 +348,7 @@ namespace ug{
 				   names_of_variables.push_back("qq");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_qq)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_qq)));
+				   count++;
 
 			   }
 			   else
@@ -357,6 +362,7 @@ namespace ug{
 				   names_of_variables.push_back("pp");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
+				   count++;
 
 			   }
 			   else
@@ -364,7 +370,22 @@ namespace ug{
 				   names_of_constants.push_back("pp");
 				   values_of_constants.push_back(pp);
 			   }
-
+			   
+			   if (count <= 0) {
+					GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_No Parameters Checked!",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
+					std::cout<<"No parameters Checked\n";
+					return;
+				}
 				
 			   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
 
@@ -375,7 +396,19 @@ namespace ug{
 
 				if (user_selected_optimization_path == "") 
 				{
-				   // MessageBox::Show(L"Please specify the directory for the experimental data");
+				 
+					GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_Please specify the directory for the experimental data",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
+					
 					printf("Nope, kein Pfad.\n");
 				}
 				else 
@@ -392,10 +425,65 @@ namespace ug{
 
 				   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
-
-
-					for (int i = 0; i < estimated_parameters.len(); i++) 
-					{
+					if (result == co::ErrorCode::OptimizationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Optimization Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Optimization Error\n"; 
+					}
+					else if (result == co::ErrorCode::PathError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Path Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Path Error\n"; 
+					}
+					else if (result == co::ErrorCode::ComputationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Computation Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Computation Error\n";
+					}
+					else if (result == co::ErrorCode::ParseError) { 
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Parse Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Parse Error!\n"; 
+					}
+					else{
+						for (int i = 0; i < estimated_parameters.len(); i++) 
+						{
 							if (estimated_parameters.get_name(i) == "alpha") {
 								parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
 								gtk_spin_button_set_value(glade_widgets.w_spin_alpha, parameter_values[0]);
@@ -416,17 +504,14 @@ namespace ug{
 								parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
 								gtk_spin_button_set_value(glade_widgets.w_spin_pp, parameter_values[4]);
 							}
+						}
+
+						sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));	
+						
 					}
 
-//TODO: Errors must be handled
-					// if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
-					// else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
-					// else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
-					// else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
-					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
-
-					sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));	
+					
 
 				}
 							
@@ -463,7 +548,7 @@ namespace ug{
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
-
+				size_t count = 0;
 				std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 				std::vector<double> values_of_inits;
 
@@ -474,6 +559,8 @@ namespace ug{
 					   names_of_variables.push_back("alpha");
 					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_alpha)));
 					   initial_vars.add("alpha", v_alpha);
+					   count++;
+					   
 				   }
 				   else 
 				   {
@@ -487,6 +574,7 @@ namespace ug{
 					   //EFloats for bounds aswelll!!
 					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_kappa)));
 					   initial_vars.add("kappa", v_kappa);
+					   count++;
 				   }
 				   else 
 				   {
@@ -499,6 +587,7 @@ namespace ug{
 					   names_of_variables.push_back("theta");
 					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_theta)));
 					   initial_vars.add("theta", v_theta);
+					   count++;
 				   }
 				   else 
 				   {
@@ -511,6 +600,7 @@ namespace ug{
 					   names_of_variables.push_back("qq");
 					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_qq)));
 					   initial_vars.add("qq", v_qq);
+					   count++;
 				   }
 				   else 
 				   {
@@ -523,15 +613,29 @@ namespace ug{
 					   names_of_variables.push_back("pp");
 					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets.w_spin_upper_bound_pp)));
 					   initial_vars.add("pp", v_pp);
+					   count++;
 				   }
 				   else 
 				   {
 					   names_of_constants.push_back("pp");
 					   values_of_constants.push_back(pp);
 				   }
-
-
-
+				   
+				   if (count <= 0) {
+					GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_No Parameters Checked!",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
+					std::cout<<"No parameters Checked\n";
+					return;
+				}
 
 				   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
 
@@ -543,7 +647,19 @@ namespace ug{
 				   
 				   if (user_selected_optimization_path == "") 
 				   {
-					   printf("No Path Set\n");
+					    GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Please specify the directory for the experimental data",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+					   
+					    printf("No Path Set\n");
 				   }
 				   else
 				   {
@@ -555,51 +671,104 @@ namespace ug{
 					   co::BiogasEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File> evaluator(user_selected_optimization_path, "subset_target.lua", "subset_sim.lua");
 					   co::EVarManager<co::EFloat64> estimated_parameters;
 					   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
-					   //   MessageBox::Show(gcnew String(user_selected_optimization_path->c_str())); //display path
+	
 
 					   solver.set_convergence_threshold(newton_convergence_threshold);
 
 					   auto result = solver.run(initial_vars, estimated_parameters);
-						//TODO Handle errors
-					   if (result == co::ErrorCode::OptimizationError) { std::cout<<"Optimization Error\n"; }
-					    else if (result == co::ErrorCode::PathError) { std::cout<<"Path Error\n"; }
-					    else if (result == co::ErrorCode::ComputationError) { std::cout<<"ComputationError\n"; }
-					    else if (result == co::ErrorCode::ParseError) { std::cout<<"Parse Error!\n"; }
-					    else{
-
-						for (int i = 0; i < estimated_parameters.len(); i++) 
-						{
-								if (estimated_parameters.get_name(i) == "alpha") 
-								{
-									parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_alpha, parameter_values[0]);
-								}
-								if (estimated_parameters.get_name(i) == "kappa") 
-								{
-									parameter_values[1] =estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_kappa, parameter_values[1]);
-								}
-								if (estimated_parameters.get_name(i) == "theta") 
-								{
-									parameter_values[2] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_theta, parameter_values[2]);
-								}
-								if (estimated_parameters.get_name(i) == "qq") 
-								{
-									parameter_values[3] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_qq, parameter_values[3]);
-								}
-								if (estimated_parameters.get_name(i) == "pp") 
-								{
-									parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
-									gtk_spin_button_set_value(glade_widgets.w_spin_pp, parameter_values[4]);
-								}
-						}
-    
-                   sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-					gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));
+						
+						//Handle errors
+					   if (result == co::ErrorCode::OptimizationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Optimization Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Optimization Error\n"; 
 					}
-				}
+					else if (result == co::ErrorCode::PathError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Path Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Path Error\n"; 
+					}
+					else if (result == co::ErrorCode::ComputationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Computation Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Computation Error\n";
+					}
+					else if (result == co::ErrorCode::ParseError) { 
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Parse Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Parse Error!\n"; 
+					}
+					else{
+
+							for (int i = 0; i < estimated_parameters.len(); i++) 
+							{
+									if (estimated_parameters.get_name(i) == "alpha") 
+									{
+										parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
+										gtk_spin_button_set_value(glade_widgets.w_spin_alpha, parameter_values[0]);
+									}
+									if (estimated_parameters.get_name(i) == "kappa") 
+									{
+										parameter_values[1] =estimated_parameters.get_param(i).get_value_as_double();
+										gtk_spin_button_set_value(glade_widgets.w_spin_kappa, parameter_values[1]);
+									}
+									if (estimated_parameters.get_name(i) == "theta") 
+									{
+										parameter_values[2] = estimated_parameters.get_param(i).get_value_as_double();
+										gtk_spin_button_set_value(glade_widgets.w_spin_theta, parameter_values[2]);
+									}
+									if (estimated_parameters.get_name(i) == "qq") 
+									{
+										parameter_values[3] = estimated_parameters.get_param(i).get_value_as_double();
+										gtk_spin_button_set_value(glade_widgets.w_spin_qq, parameter_values[3]);
+									}
+									if (estimated_parameters.get_name(i) == "pp") 
+									{
+										parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
+										gtk_spin_button_set_value(glade_widgets.w_spin_pp, parameter_values[4]);
+									}
+							}
+    
+					    sq_error = solver.get_saved_losses_in_past_iteration_as_double();
+						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));
+						}
+					}
 			}	
 			
 			//Sets path used in the Newton and PSO optimizations

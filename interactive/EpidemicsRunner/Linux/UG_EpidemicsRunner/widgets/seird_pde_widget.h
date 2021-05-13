@@ -653,7 +653,7 @@ namespace ug{
 				double qq = seird_pde_object->_qq;
 				double pp = seird_pde_object->_pp;
 				double diffusion=seird_pde_object->_diffusion;
-				printf("Run PSO - HERE\n");
+				printf("Run PSO\n");
 				size_t count = 0;
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
@@ -748,9 +748,19 @@ namespace ug{
 			   }
 			   
 				if (count <= 0) {
-			   //MessageBox::Show(L"No parameters are selected!");
-			    std::cout<<"No parameters Checked\n";
-				return;
+					GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_No Parameters Checked!!",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
+					std::cout<<"No parameters Checked\n";
+					return;
 				}
 			   values_of_inits = {seird_pde_object->_stepsize,seird_pde_object->_simulation_endtime,seird_pde_object->_simulation_starttime,seird_pde_object->_initial_r1,seird_pde_object->_initial_r2,
 				   seird_pde_object->_initial_r3,seird_pde_object->_initial_r4,seird_pde_object->_initial_r5,seird_pde_object->_initial_v1,seird_pde_object->_initial_v2,seird_pde_object->_initial_v3,seird_pde_object->_initial_v4,
@@ -779,7 +789,17 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 				if (seird_pde_object->user_selected_optimization_path.size() == 0) 
 				{
-				   // MessageBox::Show(L"Please specify the directory for the experimental data");
+				   GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_Please specify the directory for the experimental data",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
 					printf("Nope, kein Pfad.\n");
 				}
 				else 
@@ -794,12 +814,68 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					co::ParticleSwarmOptimizer<co::EpidemicsPDEEvaluation<co::EFloat64, co::ConfigComputation::Local, co::ConfigOutput::File>> pso(options, evaluator);
 					co::EVarManager<co::EFloat64> estimated_parameters;
 
-				   auto result = pso.run(estimated_parameters, names_of_variables, bounds);
+				    auto result = pso.run(estimated_parameters, names_of_variables, bounds);
 
-
-
-					for (int i = 0; i < estimated_parameters.len(); i++) 
-					{
+					// Handle errors
+				   if (result == co::ErrorCode::OptimizationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Optimization Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Optimization Error\n"; 
+					}
+					else if (result == co::ErrorCode::PathError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Path Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Path Error\n"; 
+					}
+					else if (result == co::ErrorCode::ComputationError) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Computation Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Computation Error\n";
+					}
+					else if (result == co::ErrorCode::ParseError) { 
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_Parse Error",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"Parse Error!\n"; 
+					}
+					else {
+						for (int i = 0; i < estimated_parameters.len(); i++) 
+						{
 							if (estimated_parameters.get_name(i) == "alpha") {
 								parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
 								gtk_spin_button_set_value(glade_widgets->w_spin_alpha, parameter_values[0]);
@@ -820,22 +896,15 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 								parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
 								gtk_spin_button_set_value(glade_widgets->w_spin_pp, parameter_values[4]);
 							}
-					}
-
-//TODO: Errors must be handled
-					// if (result == co::ErrorCode::OptimizationError) { MessageBox::Show(L"Optimization Error"); }
-					// else if (result == co::ErrorCode::PathError) { MessageBox::Show(L"Path Error"); }
-					// else if (result == co::ErrorCode::ComputationError) { MessageBox::Show(L"ComputationError"); }
-					// else if (result == co::ErrorCode::ParseError) { MessageBox::Show(L"Parse Error!"); }
-					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
-
-					seird_pde_object->sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-					//gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"on_drawing_susceptibles_pde")));	
+						}
+						
+						seird_pde_object->sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+				
+						//Redraw image by loading current data
+						seird_pde_object->update_simulation(seird_pde_object);	
+						seird_pde_object->load_datapoints(glade_widgets,seird_pde_object,"0");	
 					
-					//Redraw image by loading current data
-					seird_pde_object->update_simulation(seird_pde_object);	
-			        seird_pde_object->load_datapoints(glade_widgets,seird_pde_object,"0");	
-
+					}
 				}
 							
 			}
@@ -850,6 +919,8 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				double qq = widget->_qq;
 				double pp = widget->_pp;
 				double diffusion=widget->_diffusion;
+				
+				size_t count = 0;
 
 				printf("Run Newton\n");
 				std::vector<std::string > names_of_constants;
@@ -866,6 +937,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   names_of_variables.push_back("alpha");
 					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
 					   initial_vars.add("alpha", v_alpha);
+					   count++;
 				   }
 				   else 
 				   {
@@ -879,6 +951,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   //EFloats for bounds aswelll!!
 					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
 					   initial_vars.add("kappa", v_kappa);
+					   count++;
 				   }
 				   else 
 				   {
@@ -891,6 +964,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   names_of_variables.push_back("theta");
 					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
 					   initial_vars.add("theta", v_theta);
+					   count++;
 				   }
 				   else 
 				   {
@@ -903,6 +977,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   names_of_variables.push_back("qq");
 					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
 					   initial_vars.add("qq", v_qq);
+					   count++;
 				   }
 				   else 
 				   {
@@ -915,6 +990,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   names_of_variables.push_back("pp");
 					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
 					   initial_vars.add("pp", v_pp);
+					   count++;
 				   }
 				   else 
 				   {
@@ -928,14 +1004,29 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   initial_vars.add("diffusion", v_diffusion);
 					   
 						//TODO add Diffusion bounds in set constraints window.
+						count++;
 				   }
 				   else
 				   {
 					   names_of_constants.push_back("diffusion");
 					   values_of_constants.push_back(diffusion);
 				   }
-
-
+				   
+				   if (count <= 0) {
+						GtkWidget *dialog;
+						GtkDialogFlags flags = GTK_DIALOG_MODAL;
+						dialog = gtk_dialog_new_with_buttons ("Error",
+															  nullptr,
+															 flags,
+															  "_No Parameters Checked!!",
+															  GTK_RESPONSE_ACCEPT,
+															  NULL);			  
+						gtk_dialog_run(GTK_DIALOG(dialog));
+															  
+						gtk_widget_destroy(dialog);
+						std::cout<<"No parameters Checked\n";
+						return;
+					}
 
 				   values_of_inits = {widget->_stepsize,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
 				   widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,
@@ -964,7 +1055,17 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   
 				if (widget->user_selected_optimization_path.size() == 0) 
 				{
-				   // MessageBox::Show(L"Please specify the directory for the experimental data");
+					GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_No Path Selected!",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
 					printf("Nope, kein Pfad.\n");
 				}
 				else
@@ -981,15 +1082,68 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					   solver.set_convergence_threshold(widget->newton_convergence_threshold);
 
 					   auto result = solver.run(initial_vars, estimated_parameters);
-						//TODO Handle errors
-					   if (result == co::ErrorCode::OptimizationError) { std::cout<<"Optimization Error\n"; }
-					    else if (result == co::ErrorCode::PathError) { std::cout<<"Path Error\n"; }
-					    else if (result == co::ErrorCode::ComputationError) { std::cout<<"ComputationError\n"; }
-					    else if (result == co::ErrorCode::ParseError) { std::cout<<"Parse Error!\n"; }
+						
+						// Handle errors
+					   if (result == co::ErrorCode::OptimizationError) {
+							GtkWidget *dialog;
+							GtkDialogFlags flags = GTK_DIALOG_MODAL;
+							dialog = gtk_dialog_new_with_buttons ("Error",
+																  nullptr,
+																 flags,
+																  "_Optimization Error",
+																  GTK_RESPONSE_ACCEPT,
+																  NULL);			  
+							gtk_dialog_run(GTK_DIALOG(dialog));
+																  
+							gtk_widget_destroy(dialog);
+							std::cout<<"Optimization Error\n"; 
+						}
+					    else if (result == co::ErrorCode::PathError) {
+							GtkWidget *dialog;
+							GtkDialogFlags flags = GTK_DIALOG_MODAL;
+							dialog = gtk_dialog_new_with_buttons ("Error",
+																  nullptr,
+																 flags,
+																  "_Path Error",
+																  GTK_RESPONSE_ACCEPT,
+																  NULL);			  
+							gtk_dialog_run(GTK_DIALOG(dialog));
+																  
+							gtk_widget_destroy(dialog);
+							std::cout<<"Path Error\n"; 
+						}
+					    else if (result == co::ErrorCode::ComputationError) {
+							GtkWidget *dialog;
+							GtkDialogFlags flags = GTK_DIALOG_MODAL;
+							dialog = gtk_dialog_new_with_buttons ("Error",
+																  nullptr,
+																 flags,
+																  "_Computation Error",
+																  GTK_RESPONSE_ACCEPT,
+																  NULL);			  
+							gtk_dialog_run(GTK_DIALOG(dialog));
+																  
+							gtk_widget_destroy(dialog);
+							std::cout<<"Computation Error\n";
+						}
+					    else if (result == co::ErrorCode::ParseError) { 
+							GtkWidget *dialog;
+							GtkDialogFlags flags = GTK_DIALOG_MODAL;
+							dialog = gtk_dialog_new_with_buttons ("Error",
+																  nullptr,
+																 flags,
+																  "_Parse Error",
+																  GTK_RESPONSE_ACCEPT,
+																  NULL);			  
+							gtk_dialog_run(GTK_DIALOG(dialog));
+																  
+							gtk_widget_destroy(dialog);
+							std::cout<<"Parse Error!\n"; 
+						}
 					    else{
 
-						for (int i = 0; i < estimated_parameters.len(); i++) 
-						{
+							for (int i = 0; i < estimated_parameters.len(); i++) 
+							{
 								if (estimated_parameters.get_name(i) == "alpha") 
 								{
 									parameter_values[0] = estimated_parameters.get_param(i).get_value_as_double();
@@ -1015,16 +1169,15 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 									parameter_values[4] = estimated_parameters.get_param(i).get_value_as_double();
 									gtk_spin_button_set_value(glade_widgets->w_spin_pp, parameter_values[4]);
 								}
-						}
+							}
     
-                   sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-				   //gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));
-					//Redraw image by loading current data
-					widget->update_simulation(widget);	
-			        widget->load_datapoints(glade_widgets,widget,"0");	
+						   sq_error = solver.get_saved_losses_in_past_iteration_as_double();
+						  
+							//Redraw image by loading current data
+							widget->update_simulation(widget);	
+							widget->load_datapoints(glade_widgets,widget,"0");	
 
-
-					}
+						}
 				}
 			}	
 			
