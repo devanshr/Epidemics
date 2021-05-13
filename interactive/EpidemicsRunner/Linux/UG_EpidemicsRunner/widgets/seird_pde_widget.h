@@ -172,8 +172,8 @@ namespace ug{
 			SEIRDPDEWidget(){
 				initialize_widget();
 				initialize_values();
-				std::cout<<"Initialization done\n";
-			std::cout<<"PtrB:"<<this<<"\n";
+				//std::cout<<"Initialization done\n";
+			//std::cout<<"PtrB:"<<this<<"\n";
 			}
 			
 			~SEIRDPDEWidget(){
@@ -380,7 +380,7 @@ namespace ug{
 				double t_end = widget->_simulation_endtime;
 				double stepsize = widget->_stepsize;
 				
-				std::cout<< "\nInPlot Heatmaps\n";
+				//std::cout<< "\nInPlot Heatmaps\n";
 				int img_x = 200;
 				int img_y = 200;
 				double dimX = 1.0;
@@ -420,111 +420,12 @@ namespace ug{
 						  
 							imgdata[i]=126;
 					 }
-					 std::cout<<"Filled Image\n";
+					 //std::cout<<"Filled Image\n";
 				widget->image_legend=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);
 				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"frame_exposed_drawing_area_pde")));
 				//gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(widget->builder,"legend_pde")));
 				
 				}
-/*
-				int img_x =  200; //dimensions of picturebox
-				int img_y = 200; //dimensions of picturebox
-				double dimX = 1.0;
-				double dimY = 1.0;
-				size_t grid_x = (dimX / stepsize) + 1;
-				size_t grid_y = (dimY / stepsize) + 1;
-
-				std::string delimiter = "\t";
-				int gridx = (int)grid_x;
-
-				if (user_datapoints == nullptr) {
-					user_datapoints = new std::vector<double>();
-				}
-				else {
-					delete user_datapoints;
-					user_datapoints = new std::vector<double>();
-				}
-
-				if (user_selected_optimization_path == nullptr) {
-					MessageBox::Show(L"Please specify the directory for Output generation");
-				}
-				else {
-
-					co::ErrorCode err;
-					try {
-						std::string path = *user_selected_optimization_path + filenum;
-						err = co::utility::parse_csv(path, *user_datapoints, delimiter, &gridx);
-
-						//MessageBox::Show(gcnew String(path.c_str()));
-
-					}
-					catch (System::Exception^ e) {
-						MessageBox::Show(L"Could not read file" + e);
-					}
-					//if (err != co::ErrorCode::NoError)MessageBox::Show(L"Error");
-					if (err == co::ErrorCode::ParseError)MessageBox::Show(L" Parse Error - Could not locate file");
-
-
-					//MessageBox::Show(gcnew String(std::to_string().c_str()));
-
-					int offset = (*user_datapoints).size() / 5;
-
-					double min_val = *std::min_element(user_datapoints->begin(), user_datapoints->end());
-					double max_val = *std::max_element(user_datapoints->begin(), user_datapoints->end());
-
-					max_label->Text = gcnew String(std::to_string(max_val).c_str());
-					min_label->Text = gcnew String(std::to_string(min_val).c_str());
-
-					Bitmap^ legend = gcnew Bitmap(22, 200);
-
-					for (int i = 0; i < legend->Size.Height; i++) {
-						for (int j = 0; j < legend->Size.Width; j++) {
-
-							double aux = 1.0 - (static_cast<double>(i) / (legend->Size.Height - 1.0));
-
-							System::Drawing::Color c = System::Drawing::Color::FromArgb(153 + (aux) * 102, 153 - (aux) * 120, 255 - aux*255);
-							legend->SetPixel(j, i, c);
-						}
-					}
-					legend_box->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(legend));
-
-
-					List<System::Windows::Forms::PictureBox^>^ list = gcnew List<System::Windows::Forms::PictureBox^>();
-					list->Add(pictureBox1);
-					list->Add(pictureBox2);
-					list->Add(pictureBox3);
-					list->Add(pictureBox4);
-					list->Add(pictureBox5);
-
-					for (int pic = 0; pic < list->Count; pic++) {
-						//create img 
-						Bitmap^ img = gcnew Bitmap(img_x, img_y);
-						for (int i = 0; i < img_y; i++) {
-							for (int j = 0; j < img_x; j++) {
-								int i_g;
-								int j_g;
-								image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
-								int r;
-								int g;
-								int b;
-
-								determine_color((*user_datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset], min_val, max_val, r, g, b);
-
-								//MessageBox::Show(gcnew String(std::to_string(heatvals[i_g * grid_x + j_g + static_cast<unsigned long long>(pic) * offset]).c_str()));
-								//MessageBox::Show(gcnew String(std::to_string(min_val).c_str()));
-								//MessageBox::Show(gcnew String(std::to_string(max_val).c_str()));
-
-								System::Drawing::Color c = System::Drawing::Color::FromArgb(153+(r/255.0)*102, 153-(b/255.0)*120, 255 - b);
-								img->SetPixel(j, i, c);
-							}
-						}
-
-						//img->SetPixel(0, 0, System::Drawing::Color::Blue);
-						list[pic]->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(img));
-
-					}
-				}
-				*/
 			}
 			
 		static bool load_datapoints(SEIRDPDEWidget::app_widgets* glade_widgets, SEIRDPDEWidget* seird_pde_object,std::string filenum){
@@ -551,13 +452,6 @@ namespace ug{
 		static void update_time_spin(SEIRDPDEWidget::app_widgets* glade_widgets){
 			
 				int maxrange=(glade_widgets->seird_pde_object->_simulation_endtime-glade_widgets->seird_pde_object->_simulation_starttime)/glade_widgets->seird_pde_object->_stepsize;
-				double a;
-				double b;
-				gtk_spin_button_get_range(glade_widgets->w_spin_time,&a,&b);
-				std::cout<<"a:"<<a<<"   b:"<<b<<"\n";
-				gtk_spin_button_set_range(glade_widgets->w_spin_time,0,maxrange);
-				gtk_spin_button_get_range(glade_widgets->w_spin_time,&a,&b);
-				std::cout<<"a:"<<a<<"   b:"<<b<<"\n";
 		}
 		
 			
@@ -645,12 +539,22 @@ namespace ug{
 
 			}			
 			
-			
+			static bool save_heatmaps(SEIRDPDEWidget* _this, std::string path){
+				
+				cairo_surface_write_to_png(_this->heatmap_images[0], (path+"/Susceptibles.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[1], (path+"/Exposed.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[2], (path+"/Infected.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[3], (path+"/Recovered.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[4], (path+"/Deaths.png").c_str());
+				cairo_surface_write_to_png(_this->legend_images[0], (path+"/legend.png").c_str());
+
+				return true;
+			}
 			app_widgets glade_widgets;		
 			//Evenhandler functions
 			static gboolean do_drawing_legend(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int width, int height, int index)
 			{
-				std::cout<<"In do_drawing_legend\n";
+				//std::cout<<"In do_drawing_legend\n";
 					
 				if(_this->datapoints.size()!=0){
 					_this->generate_legend(_this,width,height,index);
@@ -662,7 +566,7 @@ namespace ug{
 			
 			static gboolean do_drawing_heatmap(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex)
 			{
-				std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
+				//std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
 				if(_this->datapoints.size()!=0){
 					_this->generate_heatmap(_this,mapindex);
 					cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
@@ -677,8 +581,8 @@ namespace ug{
 			}
 			static void set_pso_iterations(int val, SEIRDPDEWidget* _this)
 			{
-				std::cout<<"set iter"<<"\n";
-				std::cout<<val<<"\n";
+				//std::cout<<"set iter"<<"\n";
+				//std::cout<<val<<"\n";
 				_this->_pso_max_iter=val;
 			}	
 			
@@ -715,7 +619,7 @@ namespace ug{
 
 				if (gtk_toggle_button_get_active(glade_widgets->w_check_alpha)) 
 				{
-				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_alpha) << "\n";
+				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_alpha) << "\n";
 				   names_of_variables.push_back("alpha");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha))); 
 				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
@@ -730,7 +634,7 @@ namespace ug{
 
 				if (gtk_toggle_button_get_active(glade_widgets->w_check_kappa)) 
 				{
-				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_kappa) << "\n";
+				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_kappa) << "\n";
 				   names_of_variables.push_back("kappa");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
@@ -743,7 +647,7 @@ namespace ug{
 				}
 
 				if (gtk_toggle_button_get_active(glade_widgets->w_check_theta)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_theta) << "\n";
+				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_theta) << "\n";
 				   names_of_variables.push_back("theta");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
@@ -756,7 +660,7 @@ namespace ug{
 			   }
 
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_qq)) {
-				   std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_qq) << "\n";
+				   //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_qq) << "\n";
 				   names_of_variables.push_back("qq");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
@@ -769,7 +673,7 @@ namespace ug{
 			   }
 
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_pp)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_pp) << "\n";
+				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_pp) << "\n";
 				   names_of_variables.push_back("pp");
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)));
 				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
@@ -782,7 +686,7 @@ namespace ug{
 			   }
 			   
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_diffusion)) {
-				  std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_diffusion) << "\n";
+				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_diffusion) << "\n";
 				   names_of_variables.push_back("diffusion");
 				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_diffusion)));
 				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_diffusion)));
@@ -1421,8 +1325,8 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);				
 			GtkWidget* dia= reinterpret_cast<GtkWidget*>(dialog);
 			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-			std::cout << "Set path to " << temp << "\n";
-			std::cout<<"Ptr1:"<<glade_widgets->seird_pde_object<<"\n";
+			//std::cout << "Set path to " << temp << "\n";
+			//std::cout<<"Ptr1:"<<glade_widgets->seird_pde_object<<"\n";
 			glade_widgets->seird_pde_object->set_optimization_path(temp);
 			gtk_widget_hide(dia);
 		}	
@@ -1448,7 +1352,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
 			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
-			std::cout << "Set path to " << temp << "\n";
+			//std::cout << "Set path to " << temp << "\n";
 			
 			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
 			
@@ -1504,7 +1408,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void on_drawing_legend_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback Legend draw\n";
+		  //std::cout<<"In callback Legend draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		glade_widgets->seird_pde_object->do_drawing_legend(glade_widgets,cr,glade_widgets->seird_pde_object,12,200,0);
 
@@ -1515,7 +1419,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				
 		extern "C" G_MODULE_EXPORT void on_drawing_susceptibles_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback Susceptibles draw\n";
+		  //std::cout<<"In callback Susceptibles draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,0);
 
@@ -1525,7 +1429,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 		extern "C" G_MODULE_EXPORT void on_drawing_exposed_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback Exposed draw\n";
+		  //std::cout<<"In callback Exposed draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,1);
 
@@ -1535,7 +1439,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				
 		extern "C" G_MODULE_EXPORT void on_drawing_infected_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback Infected draw\n";
+		  //std::cout<<"In callback Infected draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,2);
 
@@ -1545,17 +1449,22 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				
 		extern "C" G_MODULE_EXPORT void on_drawing_recovered_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback recovered draw\n";
+		  //std::cout<<"In callback recovered draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,3);
 
 		  
 		}
 		
-				
+		extern "C" G_MODULE_EXPORT void seird_pde_optimization_details(GtkWidget *widget, cairo_t *cr,gpointer* data)
+		{      
+		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+		  //TODO: Add squared error
+		}
+						
 		extern "C" G_MODULE_EXPORT void on_drawing_deceased_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
-		  std::cout<<"In callback Deceased draw\n";
+		  //std::cout<<"In callback Deceased draw\n";
 		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 		  glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets,cr,glade_widgets->seird_pde_object,4);
 
@@ -1564,11 +1473,35 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void seird_pde_time_spin(GtkWidget *widget, gpointer* data)
 		{      
-		  std::cout<<"In callback seird_pde_time_spin\n";
+		  //std::cout<<"In callback seird_pde_time_spin\n";
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 			std::string time_index=std::to_string((int)gtk_spin_button_get_value(glade_widgets->w_spin_time));
 			glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,time_index);	
 		
+		}
+		
+		
+		
+		extern "C" G_MODULE_EXPORT void seird_pde_save_heatmaps(GtkWidget *widget, gpointer* data)
+		{      
+			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+			auto seird_pde_object=glade_widgets->seird_pde_object;
+			
+			GtkFileChooserNative *native;
+			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+			gint res;
+	
+			native = gtk_file_chooser_native_new("Select folder",
+												0,
+												action,
+												"_Select"
+												,"_Cancel");
+
+			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
+			auto path=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+	
+			seird_pde_object->save_heatmaps(seird_pde_object,path);
+			
 		}
 
 		

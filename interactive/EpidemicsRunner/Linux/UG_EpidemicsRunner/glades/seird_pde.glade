@@ -1196,16 +1196,31 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button_cancel_pde">
-            <property name="label" translatable="yes">Cancel</property>
+          <object class="GtkButton" id="button_save_pde">
+            <property name="label" translatable="yes">Save Heatmaps</property>
             <property name="name">button_cancel_pde</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="seird_pde_save_heatmaps" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">3</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_estimation_details_pde">
+            <property name="label" translatable="yes">Estimation Details</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="seird_pde_optimization_details" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">5</property>
             <property name="top-attach">0</property>
           </packing>
         </child>
