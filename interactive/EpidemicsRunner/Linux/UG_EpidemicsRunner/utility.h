@@ -161,6 +161,9 @@ end
 					
 				}
 				int n_ticks=5;
+				if (timepoints.size()<n_ticks){
+					n_ticks=timepoints.size();
+				}
 				int len_t=timepoints.size();
 				int tick_stride=len_t/n_ticks;
 				
