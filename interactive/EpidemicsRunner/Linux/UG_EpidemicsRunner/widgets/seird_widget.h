@@ -255,7 +255,7 @@ namespace ug{
 					for (int i=0;i<dim_data;i++){
 						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
 					}
-					if (_this->datapoints_experimental.size()>=0){
+					if (_this->datapoints_experimental.size()>0){
 						util::plot_values(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,0);
 					}
 					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints);	
