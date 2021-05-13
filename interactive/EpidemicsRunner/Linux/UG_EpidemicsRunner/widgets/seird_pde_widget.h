@@ -9,10 +9,13 @@
 
 #include "../utility.h"
 
-
-
 namespace ug{
 	namespace epi{
+		
+class SEIRDPDEWidget;
+
+	extern "C" G_MODULE_EXPORT void on_drawing_squared_error_pde_draw(GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* seird_pde_object);
+		
 		
 		class SEIRDPDEWidget{
 		
@@ -552,6 +555,31 @@ namespace ug{
 			}
 			app_widgets glade_widgets;		
 			//Evenhandler functions
+			
+			static gboolean on_drawing_squared_error_draw (GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* _this)
+			{
+				std::cout<<"Redrawing squared error graph\n";
+				//std::cout<<_this->sq_error[0]<<"\n";
+				std::vector<double> iterations; 
+				for (int i = 0; i < _this->sq_error.size(); ++i)
+				{
+					iterations.push_back(i);
+				}
+
+
+				if (_this->sq_error.size()!=0)
+				{
+					for (double x:_this->sq_error){
+						std::cout<<x<<"  ";
+					} 
+					ug::epi::util::plot_values(_widget,cr,iterations,_this->sq_error,0);
+					ug::epi::util::plot_axis(_widget,cr,iterations, _this->sq_error);    
+				}           
+				return 1;	
+			}	
+	
+			
+			
 			static gboolean do_drawing_legend(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int width, int height, int index)
 			{
 				//std::cout<<"In do_drawing_legend\n";
@@ -782,6 +810,12 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					// else if (result == co::ErrorCode::NoError) {  MessageBox::Show(L"Optimization Complete!"); 
 
 					seird_pde_object->sq_error = pso.get_saved_losses_in_past_iteration_as_double();
+					/*
+					for (double x:seird_pde_object->sq_error){
+						std::cout<<x<<"  ";
+					}
+					*/
+					
 					//gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"on_drawing_susceptibles_pde")));	
 					
 					//Redraw image by loading current data
@@ -969,7 +1003,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 								}
 						}
     
-                   sq_error = solver.get_saved_losses_in_past_iteration_as_double();
+                   widget->sq_error = solver.get_saved_losses_in_past_iteration_as_double();
+				   
+				   
+				   
 				   //gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"do_drawing_heatmap")));
 					//Redraw image by loading current data
 					widget->update_simulation(widget);	
@@ -987,6 +1024,46 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				user_selected_optimization_path = path;
 
 			}			
+			
+			static void optimization_details(SEIRDPDEWidget* _this){
+				GtkWidget *dialog;
+				GtkDialogFlags flags = GTK_DIALOG_MODAL;
+				dialog = gtk_dialog_new_with_buttons ("Optimization Details",
+													  nullptr,
+													 flags,
+													  "_OK",
+													  GTK_RESPONSE_ACCEPT,
+													  NULL);	
+													  		  
+				GtkWidget* content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+				if (_this->sq_error.size()!=0){
+					
+						GtkWidget* grid_widget=gtk_grid_new();
+					
+						gtk_container_add (GTK_CONTAINER (content_area), grid_widget);
+					
+						GtkWidget* drawing_widget = gtk_drawing_area_new ();
+						gtk_widget_set_size_request (drawing_widget, 600, 600);				
+						gtk_grid_attach(GTK_GRID(grid_widget),drawing_widget,0,5,6,6);	
+						g_signal_connect (G_OBJECT (drawing_widget), "draw",  G_CALLBACK (on_drawing_squared_error_pde_draw), _this);
+					
+				}
+				else
+				{GtkWidget* label = gtk_label_new ("No optimization has been conducted yet!");
+				// Ensure that the dialog box is destroyed when the user responds
+
+				 g_signal_connect_swapped (dialog,
+										   "response",
+										   G_CALLBACK (gtk_widget_destroy),
+										   dialog);
+
+				 // Add the label, and show everything we’ve added
+
+				 gtk_container_add (GTK_CONTAINER (content_area), label);
+				}			
+				gtk_widget_show_all (dialog);
+				gtk_dialog_run(GTK_DIALOG(dialog));					  
+			}
 									
 		};
 		
@@ -1406,6 +1483,11 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			//glade_widgets->seird_pde_object->plot_heatmapa(glade_widgets->seird_pde_object,"/output0.txt");
 		}
 		
+		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_pde_draw(GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* seird_pde_object){
+		
+			seird_pde_object->on_drawing_squared_error_draw(_widget,cr,seird_pde_object);
+		}	
+		
 		extern "C" G_MODULE_EXPORT void on_drawing_legend_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
 		  //std::cout<<"In callback Legend draw\n";
@@ -1455,12 +1537,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 		  
 		}
-		
-		extern "C" G_MODULE_EXPORT void seird_pde_optimization_details(GtkWidget *widget, cairo_t *cr,gpointer* data)
-		{      
-		  SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-		  //TODO: Add squared error
-		}
+	
 						
 		extern "C" G_MODULE_EXPORT void on_drawing_deceased_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      
@@ -1502,6 +1579,13 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 	
 			seird_pde_object->save_heatmaps(seird_pde_object,path);
 			
+		}
+		
+		extern "C" G_MODULE_EXPORT void seird_pde_optimization_details(GtkWidget *widget, gpointer* data)
+		{      
+			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+			SEIRDPDEWidget* seird_pde_object=glade_widgets->seird_pde_object;
+			seird_pde_object->optimization_details(seird_pde_object);
 		}
 
 		
