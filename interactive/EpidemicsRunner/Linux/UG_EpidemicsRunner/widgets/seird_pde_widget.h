@@ -569,9 +569,7 @@ class SEIRDPDEWidget;
 
 				if (_this->sq_error.size()!=0)
 				{
-					for (double x:_this->sq_error){
-						std::cout<<x<<"  ";
-					} 
+					
 					ug::epi::util::plot_values(_widget,cr,iterations,_this->sq_error,0);
 					ug::epi::util::plot_axis(_widget,cr,iterations, _this->sq_error);    
 				}           
@@ -1554,7 +1552,6 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 			std::string time_index=std::to_string((int)gtk_spin_button_get_value(glade_widgets->w_spin_time));
 			glade_widgets->seird_pde_object->load_datapoints(glade_widgets,glade_widgets->seird_pde_object,time_index);	
-		
 		}
 		
 		
