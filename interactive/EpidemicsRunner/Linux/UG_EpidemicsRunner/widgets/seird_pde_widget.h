@@ -455,6 +455,7 @@ class SEIRDPDEWidget;
 		static void update_time_spin(SEIRDPDEWidget::app_widgets* glade_widgets){
 			
 				int maxrange=(glade_widgets->seird_pde_object->_simulation_endtime-glade_widgets->seird_pde_object->_simulation_starttime)/glade_widgets->seird_pde_object->_stepsize;
+				gtk_spin_button_set_range(glade_widgets->w_spin_time,0,maxrange);
 		}
 		
 			

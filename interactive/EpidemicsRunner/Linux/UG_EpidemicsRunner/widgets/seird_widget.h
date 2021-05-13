@@ -44,6 +44,9 @@ namespace ug{
 			
 			std::vector<double> timepoints; //time values of simulation
 			std::vector<double> datapoints; //data values of simulation
+			std::vector<double> timepoints_experimental; //time values of experimental data
+			std::vector<double> datapoints_experimental; //data values of experimental data
+			
 			
 			std::string user_selected_optimization_path = ""; //path used in optimizations
 
@@ -252,7 +255,9 @@ namespace ug{
 					for (int i=0;i<dim_data;i++){
 						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
 					}
-					
+					if (_this->datapoints_experimental.size()>=0){
+						util::plot_values(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,0);
+					}
 					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints);	
 				}			
 				return 1;			
