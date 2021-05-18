@@ -544,22 +544,21 @@ class SEIRDPDEWidget;
 
 			}			
 			
-			static bool save_heatmaps(SEIRDPDEWidget* _this, std::string path, int tstep){
+			static bool save_heatmaps(SEIRDPDEWidget* _this, std::string path, int time_step){
 			
 				const int tlen = 80;	
 				char tstamp[tlen];
 				time_t time = std::time(0);
 				std::strftime(tstamp, tlen, "%Y.%m.%d_%H:%M:%S", localtime(&time));
+				//std::cout << "tstamp test: " << tstamp << "\n";
+				std::cout << "out test: " << time_step << "\n";
 
-				std::string ctstep;
-				ctstep = std::to_string(tstep);
-
-				cairo_surface_write_to_png(_this->heatmap_images[0], (path+"/"+ tstamp + "_TimeStep" + ctstep + "_Susceptibles.png").c_str());
-				cairo_surface_write_to_png(_this->heatmap_images[1], (path+"/"+ tstamp + "_TimeStep"  + ctstep + "_Exposed.png").c_str());
-				cairo_surface_write_to_png(_this->heatmap_images[2], (path+"/"+ tstamp + "_TimeStep" + ctstep  + "_Infected.png").c_str());
-				cairo_surface_write_to_png(_this->heatmap_images[3], (path+"/"+ tstamp + "_TimeStep" + ctstep  + "_Recovered.png").c_str());
-				cairo_surface_write_to_png(_this->heatmap_images[4], (path+"/"+ tstamp + "_TimeStep" + ctstep  + "_Deaths.png").c_str());
-				cairo_surface_write_to_png(_this->legend_images[0], (path+"/"+ tstamp + "_TimeStep" + ctstep  + "_legend.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[0], (path+"/"+ tstamp + "_Susceptibles.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[1], (path+"/"+ tstamp + "_Exposed.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[2], (path+"/"+ tstamp + "_Infected.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[3], (path+"/"+ tstamp + "_Recovered.png").c_str());
+				cairo_surface_write_to_png(_this->heatmap_images[4], (path+"/"+ tstamp + "_Deaths.png").c_str());
+				cairo_surface_write_to_png(_this->legend_images[0], (path+"/"+ tstamp + "_legend.png").c_str());
 
 				return true;
 			}
@@ -1716,8 +1715,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		{      
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 			auto seird_pde_object=glade_widgets->seird_pde_object;
-		 	int tstep = gtk_spin_button_get_value(glade_widgets->w_spin_time);
-
+			
 			GtkFileChooserNative *native;
 			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 			gint res;
@@ -1731,7 +1729,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
 			auto path=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
 	
-			seird_pde_object->save_heatmaps(seird_pde_object,path, tstep);
+			seird_pde_object->save_heatmaps(seird_pde_object,path,glade_widgets->w_spin_time);
 			
 		}
 		
