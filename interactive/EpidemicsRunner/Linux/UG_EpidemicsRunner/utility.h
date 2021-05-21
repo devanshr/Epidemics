@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <gtk/gtk.h>
 #include <cairo.h>
+#include<stdlib.h>
 
 namespace ug{	
 	namespace epi{
@@ -113,6 +114,72 @@ end
 				cairo_stroke(cr);
 									
 			}
+			
+			void plot_values(GtkWidget* _drawing_widget,cairo_t* cr,const std::vector<double>& timepoints, const std::vector<double>& datapoints, bool* selected_dims,std::vector<double>& colors){
+				int dim_data=datapoints.size()/timepoints.size();
+				guint width, height;
+				width = gtk_widget_get_allocated_width (_drawing_widget);
+				height = gtk_widget_get_allocated_height (_drawing_widget);
+							
+				double yrange_min=std::numeric_limits<double>::max();
+				double yrange_max=-std::numeric_limits<double>::max();
+				for (int j=0;j<dim_data;j++){
+					if (selected_dims[j]==true){
+						for (int i=0;i<timepoints.size();i++){
+						double val=datapoints[i*dim_data+j];
+							
+							if (val>yrange_max){
+								yrange_max=val;
+							}
+							if (val<yrange_min){
+								yrange_min=val;
+							}								
+							
+						}			
+					}		
+				}
+
+				double xrange_min=*std::min_element(timepoints.begin(), timepoints.end());
+				double xrange_max=*std::max_element(timepoints.begin(), timepoints.end());	
+				
+				colors=std::vector<double>();
+
+				double xrange_inv=1/(xrange_max-xrange_min);
+				double yrange_inv=1/(yrange_max-yrange_min);
+				auto get_canvas_coordinates=[&](double x, double y,double* xg, double* yg){
+					*xg=(x-xrange_min)*xrange_inv*width;
+					*yg=height-(y-yrange_min)*yrange_inv*height;					
+				};
+				
+				srand(0);
+
+				double xg;
+				double yg;
+
+				cairo_set_line_width(cr, 2);				
+			//	std::cout<<"drin\n";
+				for (int j=0;j<dim_data;j++){
+					if (selected_dims[j]==true){
+						double rgbR=(rand()%255)/255.0;
+						double rgbG=(rand()%255)/255.0;
+						double rgbB=(rand()%255)/255.0;
+						colors.push_back(rgbR);
+						colors.push_back(rgbG);
+						colors.push_back(rgbB);
+						cairo_set_source_rgb(cr,rgbR,rgbG,rgbB);
+						get_canvas_coordinates(timepoints[0],datapoints[j],&xg,&yg);  
+						cairo_move_to(cr,xg,yg);
+						for (size_t i = 0; i < timepoints.size() ; i++ ) {
+							get_canvas_coordinates(timepoints[i],datapoints[i*dim_data+j],&xg,&yg);  
+							cairo_line_to(cr, xg, yg);
+						}   	
+						cairo_stroke(cr);								
+					}		
+				}
+
+									
+			}
+					
 			void plot_axis(GtkWidget* _drawing_widget,cairo_t* cr,const std::vector<double>& timepoints, const std::vector<double>& datapoints){
 				cairo_set_source_rgb(cr,0.0, 0.0, 0.0);
 				
@@ -183,7 +250,94 @@ end
 				}							
 				cairo_stroke(cr);
 									
-			}				
+			}			
+
+			void plot_axis(GtkWidget* _drawing_widget,cairo_t* cr,const std::vector<double>& timepoints, const std::vector<double>& datapoints,bool* selected_dims){
+				cairo_set_source_rgb(cr,0.0, 0.0, 0.0);
+				
+
+				guint width, height;
+				width = gtk_widget_get_allocated_width (_drawing_widget);
+				height = gtk_widget_get_allocated_height (_drawing_widget);
+				
+				double xrange_min=*std::min_element(timepoints.begin(), timepoints.end());
+				double xrange_max=*std::max_element(timepoints.begin(), timepoints.end());	
+				
+				int dim_data=datapoints.size()/timepoints.size();	
+				double yrange_min=std::numeric_limits<double>::max();
+				double yrange_max=-std::numeric_limits<double>::max();
+				for (int j=0;j<dim_data;j++){
+					if (selected_dims[j]==true){
+						for (int i=0;i<timepoints.size();i++){
+						double val=datapoints[i*dim_data+j];
+							
+							if (val>yrange_max){
+								yrange_max=val;
+							}
+							if (val<yrange_min){
+								yrange_min=val;
+							}								
+							
+						}			
+					}		
+				}	
+				double xrange_inv=1/(xrange_max-xrange_min);
+				double yrange_inv=1/(yrange_max-yrange_min);
+				auto get_canvas_coordinates=[&](double x, double y,double* xg, double* yg){
+					*xg=(x-xrange_min)*xrange_inv*width;
+					*yg=height-(y-yrange_min)*yrange_inv*height;					
+				};
+								
+				double xg;
+				double yg;
+				
+				//x axis
+				cairo_set_line_width(cr, 2);				
+
+				if (yrange_max>=0){
+					get_canvas_coordinates(timepoints[0],0.0,&xg,&yg); 		
+					cairo_line_to(cr, xg, yg);
+					cairo_show_text(cr,std::to_string(xrange_min).c_str());					
+					get_canvas_coordinates(timepoints[timepoints.size()-1],0.0,&xg,&yg); 		
+					cairo_line_to(cr, xg, yg);						
+					cairo_show_text(cr,std::to_string(xrange_max).c_str());					
+				}
+				//y axis
+				if (xrange_min <= 0){
+					get_canvas_coordinates(0,yrange_min,&xg,&yg); 		
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_min).c_str());
+					cairo_line_to(cr, xg, yg);					
+					get_canvas_coordinates(0,yrange_max,&xg,&yg); 		
+					cairo_line_to(cr, xg, yg);
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_max).c_str());
+					
+				}
+				int n_ticks=5;
+				if (timepoints.size()<n_ticks){
+					n_ticks=timepoints.size();
+				}
+				int len_t=timepoints.size();
+				int tick_stride=len_t/n_ticks;
+				
+				//x ticks
+				for (int i=0;i<n_ticks;i++){
+					get_canvas_coordinates(timepoints[i*tick_stride],yrange_min,&xg,&yg); 		
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(timepoints[i*tick_stride]).c_str());
+				}	
+				//y ticks
+				tick_stride=(yrange_max-yrange_min)/n_ticks;;
+				for (int i=0;i<n_ticks;i++){
+					//std::cout<<datapoints[i*tick_stride*dim_data+max_column]<<"\n";
+					get_canvas_coordinates(0,yrange_min+tick_stride*i,&xg,&yg); 		
+					cairo_move_to(cr,xg,yg);
+					cairo_show_text(cr,std::to_string(yrange_min+tick_stride*i).c_str());
+				}							
+				cairo_stroke(cr);
+									
+			}			
 						
 		}
 			

@@ -685,14 +685,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_cancel_optimized">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="name">button_cancel</property>
+              <object class="GtkButton" id="button_estimation_details_ode">
+                <property name="label" translatable="yes">Estimation Details</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="resize-mode">immediate</property>
-                <signal name="clicked" handler="on_cancel" object="grid_main_seird" swapped="no"/>
+                <signal name="clicked" handler="seird_ode_optimization_details" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -1360,6 +1359,7 @@
               </packing>
             </child>
             <child>
+                
               <object class="GtkFrame" id="visual_1">
                 <property name="name">visual2_frame</property>
                 <property name="visible">True</property>
@@ -1395,41 +1395,194 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFrame" id="visual_2">
-                <property name="name">visual2_frame</property>
+                <object class="GtkAspectFrame" id="aspect_legend">
+                <property name="name">aspect</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="hexpand">True</property>
+                <property name="halign">start</property>
+                <property name="hexpand">False</property>
                 <property name="vexpand">True</property>
                 <property name="resize-mode">immediate</property>
                 <property name="label-xalign">0</property>
                 <property name="label-yalign">0</property>
-                <property name="shadow-type">etched-out</property>
-                <child>
-                  <object class="GtkDrawingArea" id="drawing_squared_error">
-                    <property name="name">drawing_squared_error</property>
+                <property name="shadow-type">out</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+                <property name="ratio">0.76999998092651367</property>
+                 <child>
+                  <object class="GtkBox" id="legend_box_ode">
+                     <property name="name">param_box_main</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <signal name="draw" handler="on_drawing_squared_error_draw" swapped="no"/>
-                  </object>
+                    <property name="halign">start</property>
+                    <property name="hexpand">False</property>
+                    <property name="vexpand">True</property>
+                    <property name="resize-mode">immediate</property>
+                    <property name="orientation">vertical</property>
+                           <child>
+                          <!-- n-columns=2 n-rows=1 -->
+                          <object class="GtkGrid" id="grid_susceptibles_legend">
+                            <property name="name">grid_alpha</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="resize-mode">immediate</property>
+                            <child>
+                              <object class="GtkCheckButton" id="check_susceptibles_legend">
+                                <property name="label" translatable="yes">Susceptibles</property>
+                                <property name="name">check_alpha</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="on_check_legend_susceptibles_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>    
+                          <child>
+                          <!-- n-columns=2 n-rows=1 -->
+                          <object class="GtkGrid" id="grid_exposed_legend">
+                            <property name="name">grid_alpha</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="resize-mode">immediate</property>
+                            <child>
+                              <object class="GtkCheckButton" id="check_exposed_legend">
+                                <property name="label" translatable="yes">Exposed</property>
+                                <property name="name">check_alpha</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="on_check_legend_exposed_value_changed" swapped="no"/>
+                             
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>              
+              
+                        <child>
+                          <!-- n-columns=2 n-rows=1 -->
+                          <object class="GtkGrid" id="grid_infected_legend">
+                            <property name="name">grid_alpha</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="resize-mode">immediate</property>
+                            <child>
+                              <object class="GtkCheckButton" id="check_infected_legend">
+                                <property name="label" translatable="yes">Infected</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="on_check_legend_infected_value_changed" swapped="no"/>
+                             
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>             
+                      <child>
+                          <!-- n-columns=2 n-rows=1 -->
+                          <object class="GtkGrid" id="grid_recovered_legend">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="resize-mode">immediate</property>
+                            <child>
+                              <object class="GtkCheckButton" id="check_recovered_legend">
+                                <property name="label" translatable="yes">Recovered</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="on_check_legend_recovered_value_changed" swapped="no"/>
+                                                           
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>             
+
+                      <child>
+                          <!-- n-columns=2 n-rows=1 -->
+                          <object class="GtkGrid" id="grid_deaths_legend">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">15</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="resize-mode">immediate</property>
+                            <child>
+                              <object class="GtkCheckButton" id="check_deaths_legend">
+                                <property name="label" translatable="yes">Deaths</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="draw-indicator">True</property>
+                                <signal name="toggled" handler="on_check_legend_deaths_value_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>             
+
+                                                  
+                   </object> 
+               </child>               
+                </object>       
                 </child>
-                <child type="label">
-                  <object class="GtkLabel" id="label_visual_frame_2">
-                    <property name="name">label_visual_frame_1</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="valign">start</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Loss Function Values</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
+                
           </object>
+          
           <packing>
             <property name="left-attach">0</property>
             <property name="top-attach">1</property>

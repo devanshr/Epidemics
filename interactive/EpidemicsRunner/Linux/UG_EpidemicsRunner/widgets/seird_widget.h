@@ -13,6 +13,9 @@
 
 namespace ug{
 	namespace epi{
+		class SEIRDWidget;
+		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_ode_draw(GtkWidget *_widget,cairo_t* cr, SEIRDWidget* seird_object);	
+	
 		
 		class SEIRDWidget{
 		
@@ -46,7 +49,8 @@ namespace ug{
 			std::vector<double> datapoints; //data values of simulation
 			std::vector<double> timepoints_experimental; //time values of experimental data
 			std::vector<double> datapoints_experimental; //data values of experimental data
-			
+			bool selected_data_dimensions[5]={true,true,true,true,true};
+			std::vector<double> graph_colors;
 			
 			std::string user_selected_optimization_path = ""; //path used in optimizations
 
@@ -86,7 +90,19 @@ namespace ug{
 				glade_widgets.w_check_theta = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_theta"));
 				glade_widgets.w_check_qq = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_qq"));
 				glade_widgets.w_check_pp = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_pp"));
+
+				glade_widgets.w_check_legend_susceptibles = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_susceptibles_legend"));
+				glade_widgets.w_check_legend_exposed = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_exposed_legend"));
+				glade_widgets.w_check_legend_infected = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_infected_legend"));
+				glade_widgets.w_check_legend_recovered = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_recovered_legend"));
+				glade_widgets.w_check_legend_deaths = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder,"check_deaths_legend"));
+				glade_widgets.w_check_legend[0]=glade_widgets.w_check_legend_susceptibles;
+				glade_widgets.w_check_legend[1]=glade_widgets.w_check_legend_exposed;
+				glade_widgets.w_check_legend[2]=glade_widgets.w_check_legend_infected;
+				glade_widgets.w_check_legend[3]=glade_widgets.w_check_legend_recovered;
+				glade_widgets.w_check_legend[4]=glade_widgets.w_check_legend_deaths;
 				
+				initialize_legend_checkboxes();
 				
 				glade_widgets.w_spin_initial_susceptibles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_susceptibles"));
 				glade_widgets.w_spin_initial_exposed = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_initial_exposed"));
@@ -133,7 +149,18 @@ namespace ug{
 				update_simulation();			
 				
 			}
-			
+					
+			void initialize_legend_checkboxes(){		
+				for (int i=0;i<5;i++){
+					if (glade_widgets.w_check_legend[i]){
+						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(glade_widgets.w_check_legend[i]),true);
+					
+				}
+					else{
+						gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(glade_widgets.w_check_legend[i]),false);
+					}						
+				}				
+			}
 		void update_simulation()
 		{
 
@@ -204,6 +231,12 @@ namespace ug{
 				GtkToggleButton *w_check_theta;
 				GtkToggleButton *w_check_qq;
 				GtkToggleButton *w_check_pp;
+				GtkToggleButton *w_check_legend_susceptibles;
+				GtkToggleButton *w_check_legend_exposed;
+				GtkToggleButton *w_check_legend_infected;
+				GtkToggleButton *w_check_legend_recovered;
+				GtkToggleButton *w_check_legend_deaths;		
+				GtkToggleButton *w_check_legend[5];
 				GtkSpinButton *w_spin_lower_bound_alpha;
 				GtkSpinButton *w_spin_upper_bound_alpha;
 				GtkSpinButton *w_spin_lower_bound_kappa;
@@ -221,7 +254,20 @@ namespace ug{
 				SEIRDWidget* seird_object;
 			};	
 			
+			
 			//These are helper functions for the event handlers
+			void check_legend_value_changed(SEIRDWidget* _this, int index) {
+				bool val;
+				if (gtk_toggle_button_get_active(_this->glade_widgets.w_check_legend[index])){
+					val=true;
+				}
+				else{
+					val=false;
+				}
+				_this->selected_data_dimensions[index]=val;
+				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird")));				
+			}	
+			
 			void parameter_value_changed(double val, int n) {
 				parameter_values[n]=val;
 				update_simulation();
@@ -250,15 +296,16 @@ namespace ug{
 			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDWidget* _this)
 			{
 				std::cout<<"Redrawing SEIRD graph\n";
-				if (_this->datapoints.size()!=0){
-					int dim_data=(_this->datapoints.size())/(_this->timepoints.size());			
-					for (int i=0;i<dim_data;i++){
+				if (_this->datapoints.size()!=0){		
+					/*for (int i=0;i<dim_data;i++){
 						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
-					}
+					}*/
+					util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors);
+						
 					if (_this->datapoints_experimental.size()>0){
 						util::plot_values(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,0);
 					}
-					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints);	
+					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions);	
 				}			
 				return 1;			
 			}	
@@ -781,7 +828,46 @@ namespace ug{
 			{
 				user_selected_optimization_path = path;
 
-			}			
+			}	
+			static void optimization_details(SEIRDWidget* _this){
+				GtkWidget *dialog;
+				GtkDialogFlags flags = GTK_DIALOG_MODAL;
+				dialog = gtk_dialog_new_with_buttons ("Optimization Details",
+													  nullptr,
+													 flags,
+													  "_OK",
+													  GTK_RESPONSE_ACCEPT,
+													  NULL);	
+													  		  
+				GtkWidget* content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+				if (_this->sq_error.size()!=0){
+					
+						GtkWidget* grid_widget=gtk_grid_new();
+					
+						gtk_container_add (GTK_CONTAINER (content_area), grid_widget);
+					
+						GtkWidget* drawing_widget = gtk_drawing_area_new ();
+						gtk_widget_set_size_request (drawing_widget, 600, 600);				
+						gtk_grid_attach(GTK_GRID(grid_widget),drawing_widget,0,5,6,6);	
+						g_signal_connect (G_OBJECT (drawing_widget), "draw",  G_CALLBACK (on_drawing_squared_error_ode_draw), _this);
+					
+				}
+				else
+				{GtkWidget* label = gtk_label_new ("No optimization has been conducted yet!");
+				// Ensure that the dialog box is destroyed when the user responds
+
+				 g_signal_connect_swapped (dialog,
+										   "response",
+										   G_CALLBACK (gtk_widget_destroy),
+										   dialog);
+
+				 // Add the label, and show everything we’ve added
+
+				 gtk_container_add (GTK_CONTAINER (content_area), label);
+				}			
+				gtk_widget_show_all (dialog);
+				gtk_dialog_run(GTK_DIALOG(dialog));					  
+			}		
 									
 		};
 		
@@ -798,11 +884,12 @@ namespace ug{
 			glade_widgets->seird_object->on_drawing_seird_draw(_widget,cr,glade_widgets->seird_object);
 		}		
 
-		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_draw(GtkWidget *_widget,cairo_t* cr, gpointer* data){
-			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_ode_draw(GtkWidget *_widget,cairo_t* cr, SEIRDWidget* seird_object){
+			//SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 		
-			glade_widgets->seird_object->on_drawing_squared_error_draw(_widget,cr,glade_widgets->seird_object);
+			seird_object->on_drawing_squared_error_draw(_widget,cr,seird_object);
 		}	
+		
 
 		// Spin Buttons for the parameters
 		extern "C" G_MODULE_EXPORT void on_spin_alpha_value_changed(GtkSpinButton* button, gpointer* data)
@@ -949,7 +1036,6 @@ namespace ug{
 			double val=gtk_spin_button_get_value(button);
 			glade_widgets->seird_object->initial_value_changed(val,0);		
 	
-
 		}     
 		extern "C" G_MODULE_EXPORT void on_spin_initial_exposed_value_changed(GtkSpinButton* button, gpointer* data)
 		{
@@ -996,6 +1082,40 @@ namespace ug{
 			double val=gtk_spin_button_get_value(button);
 			glade_widgets->seird_object->initial_value_changed(val,6);		
 
+		}   
+		
+		extern "C" G_MODULE_EXPORT void on_check_legend_susceptibles_value_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,0);		
+	
+		}     
+		extern "C" G_MODULE_EXPORT void on_check_legend_exposed_value_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,1);		
+	
+		}   
+		
+		extern "C" G_MODULE_EXPORT void on_check_legend_infected_value_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,2);		
+	
+		}   
+		
+		extern "C" G_MODULE_EXPORT void on_check_legend_recovered_value_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,3);		
+	
+		}   
+		
+		extern "C" G_MODULE_EXPORT void on_check_legend_deaths_value_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,4);		
+	
 		}   
 		
 		extern "C" G_MODULE_EXPORT void on_spin_stepsize_value_changed(GtkSpinButton* button, gpointer* data)
@@ -1109,6 +1229,13 @@ namespace ug{
 			printf("Show Menu\n");
 			//Initialize simulation
 			// update_simulation();
+		}
+		
+		extern "C" G_MODULE_EXPORT void seird_ode_optimization_details(GtkWidget *widget, gpointer* data)
+		{      
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			SEIRDWidget* seird_object=glade_widgets->seird_object;
+			seird_object->optimization_details(seird_object);
 		}
 		
 	}
