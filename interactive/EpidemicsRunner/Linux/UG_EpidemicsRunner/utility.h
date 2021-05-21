@@ -162,7 +162,7 @@ end
 					if (selected_dims[j]==true){
 						double rgbR=(rand()%255)/255.0;
 						double rgbG=(rand()%255)/255.0;
-						double rgbB=(rand()%255)/255.0;
+						double rgbB=(rand()%125)/255.0;
 						colors.push_back(rgbR);
 						colors.push_back(rgbG);
 						colors.push_back(rgbB);
