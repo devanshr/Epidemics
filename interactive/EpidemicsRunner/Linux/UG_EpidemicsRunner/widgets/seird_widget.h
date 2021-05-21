@@ -291,6 +291,7 @@ namespace ug{
 			}     		
 			
 			app_widgets glade_widgets;		
+			bool plot_background_color=false;
 			//Evenhandler functions
 
 			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDWidget* _this)
@@ -300,7 +301,7 @@ namespace ug{
 					/*for (int i=0;i<dim_data;i++){
 						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
 					}*/
-					util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors);
+					util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors,_this->plot_background_color);
 						
 					if (_this->datapoints_experimental.size()>0){
 						util::plot_values(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,0);
@@ -1116,7 +1117,16 @@ namespace ug{
 			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
 			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,4);		
 	
-		}   
+		}  
+		
+		extern "C" G_MODULE_EXPORT void on_check_chart_background_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,1);		
+			bool is_active=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+			glade_widgets->seird_object->plot_background_color=is_active;
+			
+		}    
 		
 		extern "C" G_MODULE_EXPORT void on_spin_stepsize_value_changed(GtkSpinButton* button, gpointer* data)
 		{

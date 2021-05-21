@@ -1,6 +1,6 @@
 Linux:
 
-clear; rm Epidemics.bin; g++ -O3 -o Epidemics.bin main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./Epidemics.bin
+clear; rm Epidemics.bin; g++ -O3 -static-libgcc -static-libstdc++ -o Epidemics.bin main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./Epidemics.bin
 
 Windows:
 
