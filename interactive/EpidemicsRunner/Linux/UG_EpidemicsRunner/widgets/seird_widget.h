@@ -292,6 +292,7 @@ namespace ug{
 			
 			app_widgets glade_widgets;		
 			bool plot_background_color=false;
+			bool plot_experimental_data=false;
 			//Evenhandler functions
 
 			static gboolean on_drawing_seird_draw (GtkWidget *_widget,cairo_t* cr, SEIRDWidget* _this)
@@ -303,8 +304,12 @@ namespace ug{
 					}*/
 					util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors,_this->plot_background_color);
 						
-					if (_this->datapoints_experimental.size()>0){
-						util::plot_values(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,0);
+					if (_this->plot_experimental_data && _this->datapoints_experimental.size()>0){
+						std::vector<double> temp;
+						//std::cout<<_this->datapoints_experimental.size()<<"\n";
+						int dim=(_this->datapoints_experimental.size())/(_this->timepoints_experimental.size());
+						bool visible[]={true,true,true,true,true};
+						util::plot_values_square(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,visible,temp,false);
 					}
 					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions);	
 				}			
@@ -328,6 +333,11 @@ namespace ug{
 				}           
 				return 1;	
 			}	
+			
+			void redraw_seird(){
+				gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_seird")));	
+			}
+			
 			static void set_convergence_threshold(double val,SEIRDWidget* _this)
 			{
 			_this->newton_convergence_threshold=val;	
@@ -462,7 +472,6 @@ namespace ug{
 														  
 					gtk_widget_destroy(dialog);
 					
-					printf("Nope, kein Pfad.\n");
 				}
 				else 
 				{
@@ -830,6 +839,11 @@ namespace ug{
 				user_selected_optimization_path = path;
 
 			}	
+			static void load_experimental_data(SEIRDWidget* _this)
+			{
+				//do error handling in if statments co::ErrorCode::NoError
+				auto err= co::utility::parse_csv_table_times(_this->user_selected_optimization_path,"subset_target.lua",_this->datapoints_experimental,_this->timepoints_experimental);				
+			}	
 			static void optimization_details(SEIRDWidget* _this){
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
@@ -1121,12 +1135,20 @@ namespace ug{
 		
 		extern "C" G_MODULE_EXPORT void on_check_chart_background_changed(GtkCheckButton* button, gpointer* data)
 		{
-			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
-			glade_widgets->seird_object->check_legend_value_changed(glade_widgets->seird_object,1);		
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);	
 			bool is_active=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
 			glade_widgets->seird_object->plot_background_color=is_active;
-			
+			glade_widgets->seird_object->redraw_seird();
 		}    
+
+		extern "C" G_MODULE_EXPORT void on_check_show_data_changed(GtkCheckButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);	
+			bool is_active=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+			glade_widgets->seird_object->plot_experimental_data=is_active;
+			glade_widgets->seird_object->redraw_seird();
+		}    		
+		
 		
 		extern "C" G_MODULE_EXPORT void on_spin_stepsize_value_changed(GtkSpinButton* button, gpointer* data)
 		{
@@ -1192,6 +1214,7 @@ namespace ug{
 			std::cout << "Set path to " << temp << "\n";
 			std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
 			glade_widgets->seird_object->set_optimization_path(temp);
+			glade_widgets->seird_object->load_experimental_data(glade_widgets->seird_object);
 			gtk_widget_hide(dia);
 		}	
 			
@@ -1221,6 +1244,7 @@ namespace ug{
 			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
 			
 			glade_widgets->seird_object->set_optimization_path(temp);
+			glade_widgets->seird_object->load_experimental_data(glade_widgets->seird_object);
 		}
 		
 
