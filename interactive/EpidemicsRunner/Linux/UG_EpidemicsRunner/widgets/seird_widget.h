@@ -52,7 +52,7 @@ namespace ug{
 			bool selected_data_dimensions[5]={true,true,true,true,true};
 			std::vector<double> graph_colors;
 			
-			std::string user_selected_optimization_path = ""; //path used in optimizations
+			std::string user_selected_optimization_path = "/home/havelock/Terminus/gcsc/ug4/plugins/Epidemics/Samples/GUI/ODE_Optimization_Sample_1"; //path used in optimizations
 
 			int pso_values[3];
 			int& _pso_max_iter = pso_values[0];
@@ -586,13 +586,18 @@ namespace ug{
 				_this->_pso_max_iter=val;
 			}	
 			
-				static void set_pso_particles(int val, SEIRDWidget* _this)
+			static void set_pso_particles(int val, SEIRDWidget* _this)
 			{
+				std::cout<<"set particles"<<"\n";
+				std::cout<<val<<"\n";
 				_this->_pso_no_particles=val;
 			}	
 			
-				static void set_pso_groups(int val, SEIRDWidget* _this)
+			static void set_pso_groups(int val, SEIRDWidget* _this)
 			{
+
+				std::cout<<"set groups"<<"\n";
+				std::cout<<val<<"\n";
 				_this->_pso_no_groups=val;
 			}	
 			
@@ -844,7 +849,8 @@ namespace ug{
 				//do error handling in if statments co::ErrorCode::NoError
 				auto err= co::utility::parse_csv_table_times(_this->user_selected_optimization_path,"subset_target.lua",_this->datapoints_experimental,_this->timepoints_experimental);				
 			}	
-			static void optimization_details(SEIRDWidget* _this){
+			static void optimization_details(SEIRDWidget* _this)
+			{
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
 				dialog = gtk_dialog_new_with_buttons ("Optimization Details",
@@ -881,8 +887,12 @@ namespace ug{
 				 gtk_container_add (GTK_CONTAINER (content_area), label);
 				}			
 				gtk_widget_show_all (dialog);
+				
 				gtk_dialog_run(GTK_DIALOG(dialog));					  
-			}		
+				
+				gtk_widget_destroy(dialog);
+
+			}	
 									
 		};
 		

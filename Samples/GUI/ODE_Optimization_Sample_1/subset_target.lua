@@ -2,7 +2,7 @@
 # The first 3 columns refer to time, posX,posY
 # Please add addtional files in the order shown. 
 
-filename="expdata/Positive.txt"
+filename="expData/Positive.txt"
 selected_columns=[0,1]
-filename="expdata/Verstorbene.txt"
+filename="expData/Verstorbene.txt"
 selected_columns=[1]

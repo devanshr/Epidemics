@@ -26,20 +26,43 @@ end
 
 --Start of parameter, constants and initial values definitions
 
-h=0.125
+h=0.1
+h=0.1
+t_end=0.6
 t_start=0
-t_end=30
-init_susceptibles=750000
-init_exposed=70
-init_infected=0
-init_recovered=0
-init_deaths=1
-alpha=3e-06
-kappa=0.1
-theta=0.01
+r1=10
+r2=1
+r3=0
+r4=0
+r5=0
+v1=10
+v2=10
+v3=0
+v4=0
+v5=0
+alpha=0.3
+theta=0.00984
 qq=1
 pp=1
+kappa=parameters.kappa:get_value_as_double()
+diffusion=parameters.diffusion:get_value_as_double()
 
-			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
-			RunSEIRD(seird_model,"./","output.txt",init_susceptibles,init_exposed,init_infected,init_recovered,init_deaths,t_start,t_end,h)
-								
+initial_vars=InitialValueManager()
+
+initial_vars:set_h(h)
+initial_vars:set_t_end(t_end)
+initial_vars:set_t_start(t_start)
+initial_vars:set_r1(r1)
+initial_vars:set_r2(r2)
+initial_vars:set_r3(r3)
+initial_vars:set_r4(r4)
+initial_vars:set_r5(r5)
+
+initial_vars:set_v1(v1)
+initial_vars:set_v2(v2)
+initial_vars:set_v3(v3)
+initial_vars:set_v4(v4)
+initial_vars:set_v5(v5)
+seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
+RunSEIRDPDE(seird_model,initial_vars,"./","output")
+							

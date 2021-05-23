@@ -1216,7 +1216,9 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				 gtk_container_add (GTK_CONTAINER (content_area), label);
 				}			
 				gtk_widget_show_all (dialog);
-				gtk_dialog_run(GTK_DIALOG(dialog));					  
+				gtk_dialog_run(GTK_DIALOG(dialog));		
+				gtk_widget_destroy(dialog);
+							  
 			}
 									
 		};
