@@ -1,4 +1,5 @@
 *.exe
+Epidemics.bin
 !Epidemics.exe
 *.obj
 *.out
@@ -10,3 +11,4 @@
 interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/x64/
 interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/Debug/
 interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/.vs/
+Samples
