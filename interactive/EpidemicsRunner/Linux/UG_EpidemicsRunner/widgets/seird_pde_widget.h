@@ -541,10 +541,13 @@ class SEIRDPDEWidget;
 
                     
         
-                widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32, img_x,img_y,stride);          
                 if (big == true)
                 {
                 widget->heatmap_images[5]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);
+                }
+                else
+                {
+                widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32, img_x,img_y,stride);          
                 }
 
             }           
