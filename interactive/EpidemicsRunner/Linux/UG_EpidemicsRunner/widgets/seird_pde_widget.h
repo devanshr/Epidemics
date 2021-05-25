@@ -171,7 +171,7 @@ class SEIRDPDEWidget;
 			public:
 			
 			std::string user_selected_optimization_path; //path used in optimizations
-
+			int zoomed;
 			
 			SEIRDPDEWidget(){
 				initialize_widget();
@@ -1639,6 +1639,10 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			//glade_widgets->seird_pde_object->plot_heatmapa(glade_widgets->seird_pde_object,"/output0.txt");
 		}
 		
+		extern "C" G_MODULE_EXPORT void zoomed(GtkWidget *widget, GdkEvent  *event, gpointer data)
+		{
+
+		}
 		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_pde_draw(GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* seird_pde_object){
 		
 			seird_pde_object->on_drawing_squared_error_draw(_widget,cr,seird_pde_object);
