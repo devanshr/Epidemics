@@ -232,7 +232,6 @@ namespace ug {
 			F hinv = 1 / (hx * hx);
 			for (int i = 0; i<(nRows); i++) {
 				for (int j = 0; j < (nCols);j++) {
-					F diffusion=0;
 							
 					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
 						J_S[i*nCols+j]=-4*D*hinv;
@@ -403,7 +402,7 @@ namespace ug {
 				auto D = R+ vars_per_dim; // Verstorbene (Deaths)
 				
 
-				set_susceptibles(curr,S,E,I,R,D, vars_per_row,vars_per_column,vars_per_row_jacobian);
+				set_susceptibles_jacobian(curr,S,E,I,R,D, vars_per_row,vars_per_column,vars_per_row_jacobian);
 				curr += vars_per_dim*vars_per_row_jacobian;
 				/*
 				set_exposed(curr, E, S, vars_per_row, vars_per_column);
