@@ -225,6 +225,76 @@ namespace ug {
 				dest[i] += h * factor * source[i];
 			}
 		}
+		
+		void set_susceptibles_jacobian(typename T::iterator J_S,typename T::iterator S, typename T::iterator E, int nCols, int nRows, int nRowsJacobian) {
+			auto J=J_S; //Start of Jacobian matrix
+			auto J_E=J_S+nRows*nCols;
+			F hinv = 1 / (hx * hx);
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+					F diffusion=0;
+							
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
+						J_S[i*nCols+j]=-4*D*hinv;
+						J_S[(i - 1) * nCols + j]=1*D*hinv;
+						J_S[(i + 1) * nCols + j]=1*D*hinv;
+						J_S[i * nCols + j - 1]=1*D*hinv;
+						J_S[i * nCols + j + 1]=1*D*hinv;
+					}
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							J_S[(i)*nCols+j]+=2*D*hinv;
+							J_S[(i+1)*nCols+j]+=-5*D*hinv;
+							J_S[(i+2)*nCols+j]+=4*D*hinv;
+							J_S[(i+3)*nCols+j]+=-1*D*hinv;
+						//	std::cout<<"C1:"<<G[(i)*nCols+j]<<"   "<<G[(i+1)*nCols+j]<<"   "<<G[(i+2)*nCols+j]<<"   "<<G[(i+3)*nCols+j]<<"\n";
+						}
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							J_S[i*nCols+j]+=2*D*hinv;
+							J_S[(i-1)*nCols+j]+=-5*D*hinv;
+							J_S[(i-2)*nCols+j]+=4*D*hinv;
+							J_S[(i-3)*nCols+j]+=-1*D*hinv;
+					//		std::cout<<"C2:"<<G[i*nCols+j]<<"   "<<G[(i-1)*nCols+j]<<"  "<<G[(i-2)*nCols+j]<<"   "<<G[(i-3)*nCols+j]<<"\n";
+						}
+						else{
+							J_S[(i - 1) * nCols + j]+=1*D*hinv;
+							J_S[i * nCols + j]+=-2*D*hinv;
+							J_S[(i + 1) * nCols + j]+=1*D*hinv;						
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							J_S[i*nCols+j]+=2*D*hinv;
+							J_S[i*nCols+(j+1)]+=-5*D*hinv;
+							J_S[i*nCols+(j+2)]+=4*D*hinv;
+							J_S[i*nCols+(j+3)]+=-1*D*hinv;	
+							//std::cout<<"c4"<<G[i*nCols+j]<<"   "<<G[i*nCols+j+1]<<"   "<<G[i*nCols+j+2]<<"  "<<G[i*nCols+j+3]<<"\n";
+						}	
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							J_S[i*nCols+j]+=2*D*hinv;
+							J_S[i*nCols+(j-1)]+=-5*D*hinv;
+							J_S[i*nCols+(j-2)]+=4*D*hinv;
+							J_S[i*nCols+(j-3)]+=-1*D*hinv;					
+						//	std::cout<<"C4:"<<G[i*nCols+j]<<"  "<<G[i*nCols+(j-1)]<<"   "<<G[i*nCols+(j-2)]<<"   "<<G[i*nCols+(j-3)]<<"\n";
+						}	
+						else{
+							J_S[i * nCols + j - 1]+=1*D*hinv;
+							J_S[i * nCols + j]+=-2*D*hinv;
+							J_S[i * nCols + j +1]+=1*D*hinv;						
+						}
+					}
+				
+					J_S[i*nCols+j]+=-alpha * E[i * nCols + j];
+					J_E[i*nCols+j]+=-alpha*S[i * nCols + j];
+					J_S+=nRowsJacobian;
+					J_E=J_S+nRows*nCols;
+				}
+			}
+		
+		}
 
 
 		//As ODE system does not depend on time, the ODE is autonomous
@@ -321,9 +391,10 @@ namespace ug {
 
 			T jacobian(T& u) {
 				size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
-				size_t vars_per_row = ((dimX / hx) + 1);
+				size_t vars_per_row_jacobian=dimModel*vars_per_dim;
+				size_t vars_per_row = ((dimX / hx) + 1); //Row means with respect to a single class
 				size_t vars_per_column = ((dimY / hx) + 1);
-				T res(dimModel*vars_per_dim,F(0.0)); //number of vertices in discretization
+				T res(vars_per_row_jacobian*vars_per_row_jacobian,F(0.0)); //jacobian matrix
 				auto curr = res.begin();
 				auto S = u.begin(); // Gesunde (Susceptibles)
 				auto E = S+ vars_per_dim; // Angesteckte (Exposed)
@@ -331,12 +402,10 @@ namespace ug {
 				auto R = I+ vars_per_dim; // Erholte (Recovered)
 				auto D = R+ vars_per_dim; // Verstorbene (Deaths)
 				
-				
-				
+
+				set_susceptibles(curr,S,E,I,R,D, vars_per_row,vars_per_column,vars_per_row_jacobian);
+				curr += vars_per_dim*vars_per_row_jacobian;
 				/*
-	
-				set_susceptibles(curr,S,E, vars_per_row,vars_per_column);
-				curr += vars_per_dim;
 				set_exposed(curr, E, S, vars_per_row, vars_per_column);
 				curr += vars_per_dim;
 				set_infected(curr, I, E, vars_per_row, vars_per_column);
