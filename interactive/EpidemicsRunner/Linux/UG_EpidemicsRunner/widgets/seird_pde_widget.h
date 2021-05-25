@@ -1633,12 +1633,15 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 												,"_Cancel");
 
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
-			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
-			//std::cout << "Set path to " << temp << "\n";
-			
-			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
-			
-			glade_widgets->seird_pde_object->set_optimization_path(temp);
+			if (res == GTK_RESPONSE_ACCEPT)
+			{
+				auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+						//std::cout << "Set path to " << temp << "\n";
+						
+						//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
+						
+						glade_widgets->seird_pde_object->set_optimization_path(temp);
+			}
 		}
 		
 
@@ -1846,11 +1849,15 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 												"_Select"
 												,"_Cancel");
 
+
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
-			auto path=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
-	
-			seird_pde_object->save_heatmaps(seird_pde_object,path, tstep);
+			if (res == GTK_RESPONSE_ACCEPT)
+			{
+				auto path=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+		
+				seird_pde_object->save_heatmaps(seird_pde_object,path, tstep);
 			
+			}
 		}
 		
 		extern "C" G_MODULE_EXPORT void seird_pde_optimization_details(GtkWidget *widget, gpointer* data)

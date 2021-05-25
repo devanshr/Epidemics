@@ -181,8 +181,7 @@ namespace ug{
 
 			auto res = seird_model.run_linear_implicit(t_start, u0, t_end);
 			timepoints=std::get<0>(res);
-			datapoints=std::get<1>(res);
-
+						datapoints=std::get<1>(res);
 			//ug::epi::write_data("/home/devanshr/Desktop/", "_test.txt", timepoints, datapoints,seird_model.names);
 
 		}
@@ -1248,13 +1247,15 @@ namespace ug{
 												,"_Cancel");
 
 			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
-			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
-			std::cout << "Set path to " << temp << "\n";
-			
-			//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
-			
-			glade_widgets->seird_object->set_optimization_path(temp);
-			glade_widgets->seird_object->load_experimental_data(glade_widgets->seird_object);
+			if (res == GTK_RESPONSE_ACCEPT)
+			{			auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+						std::cout << "Set path to " << temp << "\n";
+						
+						//std::cout<<"Ptr1:"<<glade_widgets->seird_object<<"\n";
+						
+						glade_widgets->seird_object->set_optimization_path(temp);
+						glade_widgets->seird_object->load_experimental_data(glade_widgets->seird_object);
+			}
 		}
 		
 
