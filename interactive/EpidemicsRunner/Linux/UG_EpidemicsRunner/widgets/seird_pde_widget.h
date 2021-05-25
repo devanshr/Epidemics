@@ -320,7 +320,7 @@ class SEIRDPDEWidget;
 				
 				std::vector<double> u0 = widget->initialize_pde_values(widget,1,1,widget->_stepsize,widget->_initial_r1,widget->_initial_r2,widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,widget->_initial_v5);
 				
-				std::string filename = "/output";
+				std::string filename = "output";
 
 				if (widget->user_selected_optimization_path.size()==0) {
 					std::cout<<"No data dir";	
@@ -1227,7 +1227,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			//Sets path used in the Newton and PSO optimizations
 			void set_optimization_path(std::string path)
 			{
-				user_selected_optimization_path = path;
+				user_selected_optimization_path = path + "/";
 
 			}			
 			
