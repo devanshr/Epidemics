@@ -66,7 +66,6 @@ class SEIRDPDEWidget;
 			
 			std::vector<double> sq_error; //vector of squared errors
 
-
 			//app_widgets glade_widgets=g_slice_new(app_widgets); //represents the widgets in the seird.glade file
 
 		
@@ -158,10 +157,26 @@ class SEIRDPDEWidget;
 				pso_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_particles);
 				pso_values[2]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_groups);
 				
-				glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_exposed"));
-				glade_widgets.frame_exposed_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_exposed_drawing_area_pde"));
 				glade_widgets.frame_min_max = GTK_FRAME(gtk_builder_get_object(builder,"frame_min_max"));
-				//glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
+
+                glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_susceptibles"));
+                glade_widgets.frame_susceptibles_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_susceptibles_drawing_area_pde"));
+
+
+                glade_widgets.frame_exposed = GTK_FRAME(gtk_builder_get_object(builder,"frame_exposed"));
+                glade_widgets.frame_exposed_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_exposed_drawing_area_pde"));
+                
+                glade_widgets.frame_infected = GTK_FRAME(gtk_builder_get_object(builder,"frame_infected"));
+                glade_widgets.frame_infected_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_infected_drawing_area_pde"));
+                
+                glade_widgets.frame_recovered = GTK_FRAME(gtk_builder_get_object(builder,"frame_recovered"));
+                glade_widgets.frame_recovered_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_recovered_drawing_area_pde"));
+                
+                glade_widgets.frame_deceased = GTK_FRAME(gtk_builder_get_object(builder,"frame_deceased"));
+                glade_widgets.frame_deceased_drawing_area_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"frame_deceased_drawing_area_pde"));
+                glade_widgets.drawing_heatmap_big = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"drawing_heatmap_big"));
+                
+    			//glade_widgets.legend_pde = GTK_DRAWING_AREA(gtk_builder_get_object(builder,"legend_pde"));
 				
 				//update_simulation();			
 				
@@ -172,6 +187,7 @@ class SEIRDPDEWidget;
 			
 			std::string user_selected_optimization_path; //path used in optimizations
 			int zoomed;
+
 			
 			SEIRDPDEWidget(){
 				initialize_widget();
@@ -199,53 +215,63 @@ class SEIRDPDEWidget;
 		/* This struct is given to a glade builder to automatically connect signals.
 		 The members need to have the same name as the "name" property in the glade files*/
 			struct app_widgets{
-				GtkWidget *window_bounds;
-				GtkSpinButton *w_spin_alpha;
-				GtkSpinButton *w_spin_kappa;
-				GtkSpinButton *w_spin_theta;
-				GtkSpinButton *w_spin_qq;
-				GtkSpinButton *w_spin_pp;
-				GtkSpinButton *w_spin_diffusion;
-				GtkSpinButton *w_spin_r1;
-				GtkSpinButton *w_spin_r2;
-				GtkSpinButton *w_spin_r3;
-				GtkSpinButton *w_spin_r4;
-				GtkSpinButton *w_spin_r5;
-				GtkSpinButton *w_spin_v1;
-				GtkSpinButton *w_spin_v2;
-				GtkSpinButton *w_spin_v3;
-				GtkSpinButton *w_spin_v4;
-				GtkSpinButton *w_spin_v5;
-				GtkSpinButton *w_spin_t_start;
-				GtkSpinButton *w_spin_t_end;
-				GtkSpinButton *w_spin_stepsize;
-				GtkToggleButton *w_check_alpha;
-				GtkToggleButton *w_check_kappa;
-				GtkToggleButton *w_check_theta;
-				GtkToggleButton *w_check_qq;
-				GtkToggleButton *w_check_pp;
-				GtkToggleButton *w_check_diffusion;
-				GtkSpinButton *w_spin_lower_bound_alpha;
-				GtkSpinButton *w_spin_upper_bound_alpha;
-				GtkSpinButton *w_spin_lower_bound_kappa;
-				GtkSpinButton *w_spin_upper_bound_kappa;
-				GtkSpinButton *w_spin_lower_bound_theta;
-				GtkSpinButton *w_spin_upper_bound_theta;
-				GtkSpinButton *w_spin_lower_bound_qq;
-				GtkSpinButton *w_spin_upper_bound_qq;
-				GtkSpinButton *w_spin_lower_bound_pp;
-				GtkSpinButton *w_spin_upper_bound_pp;
-				GtkSpinButton *w_spin_pso_iterations;
-				GtkSpinButton *w_spin_pso_no_particles;
-				GtkSpinButton *w_spin_pso_no_groups;
-				GtkSpinButton *w_spin_time;
-				GtkLabel *w_label_max;
-				GtkLabel *w_label_min;
-				GtkFrame *frame_exposed;
-				GtkDrawingArea *frame_exposed_drawing_area_pde;
-				GtkFrame *frame_min_max;
-				GtkDrawingArea *legend_pde; 
-				
+                GtkWidget *window_bounds;
+                GtkSpinButton *w_spin_alpha;
+                GtkSpinButton *w_spin_kappa;
+                GtkSpinButton *w_spin_theta;
+                GtkSpinButton *w_spin_qq;
+                GtkSpinButton *w_spin_pp;
+                GtkSpinButton *w_spin_diffusion;
+                GtkSpinButton *w_spin_r1;
+                GtkSpinButton *w_spin_r2;
+                GtkSpinButton *w_spin_r3;
+                GtkSpinButton *w_spin_r4;
+                GtkSpinButton *w_spin_r5;
+                GtkSpinButton *w_spin_v1;
+                GtkSpinButton *w_spin_v2;
+                GtkSpinButton *w_spin_v3;
+                GtkSpinButton *w_spin_v4;
+                GtkSpinButton *w_spin_v5;
+                GtkSpinButton *w_spin_t_start;
+                GtkSpinButton *w_spin_t_end;
+                GtkSpinButton *w_spin_stepsize;
+                GtkToggleButton *w_check_alpha;
+                GtkToggleButton *w_check_kappa;
+                GtkToggleButton *w_check_theta;
+                GtkToggleButton *w_check_qq;
+                GtkToggleButton *w_check_pp;
+                GtkToggleButton *w_check_diffusion;
+                GtkSpinButton *w_spin_lower_bound_alpha;
+                GtkSpinButton *w_spin_upper_bound_alpha;
+                GtkSpinButton *w_spin_lower_bound_kappa;
+                GtkSpinButton *w_spin_upper_bound_kappa;
+                GtkSpinButton *w_spin_lower_bound_theta;
+                GtkSpinButton *w_spin_upper_bound_theta;
+                GtkSpinButton *w_spin_lower_bound_qq;
+                GtkSpinButton *w_spin_upper_bound_qq;
+                GtkSpinButton *w_spin_lower_bound_pp;
+                GtkSpinButton *w_spin_upper_bound_pp;
+                GtkSpinButton *w_spin_pso_iterations;
+                GtkSpinButton *w_spin_pso_no_particles;
+                GtkSpinButton *w_spin_pso_no_groups;
+                GtkSpinButton *w_spin_time;
+                GtkLabel *w_label_max;
+                GtkLabel *w_label_min;
+                GtkFrame *frame_susceptibles;
+                GtkDrawingArea *frame_susceptibles_drawing_area_pde;
+                GtkFrame *frame_infected;
+                GtkDrawingArea *frame_infected_drawing_area_pde;
+                GtkFrame *frame_deceased;
+                GtkDrawingArea *frame_deceased_drawing_area_pde;
+                GtkFrame *frame_recovered;
+                GtkDrawingArea *frame_recovered_drawing_area_pde;
+                GtkFrame *frame_exposed;
+                GtkDrawingArea *frame_exposed_drawing_area_pde;
+                GtkFrame *frame_min_max;
+                GtkDrawingArea *legend_pde; 
+                GtkDrawingArea *drawing_heatmap_big;
+                
+                
 				SEIRDPDEWidget* seird_pde_object;
 			};	
 			
@@ -460,54 +486,69 @@ class SEIRDPDEWidget;
 		}
 		
 			
-		static void generate_heatmap(SEIRDPDEWidget* widget,int mapindex) {
-				double t_start =widget-> _simulation_starttime;
-				double t_end = widget->_simulation_endtime;
-				double stepsize = widget->_stepsize;
-				
-				int img_x = 200;
-				int img_y = 200;
-				double dimX = 1.0;
-				double dimY = 1.0;
-				size_t grid_x = (dimX / stepsize) + 1;
-				size_t grid_y = (dimY / stepsize) + 1;
+        static void generate_heatmap(SEIRDPDEWidget* widget,int mapindex, bool big=false) {
+                double t_start =widget-> _simulation_starttime;
+                double t_end = widget->_simulation_endtime;
+                double stepsize = widget->_stepsize;
+                int img_x;
+                int img_y;
+                if (big ==  true)
+                {
+                    img_x = 500;
+                    img_y = 500;
+                }
+                else
+                {
+                    img_x = 200;
+                    img_y = 200;
+                }
 
-				int gridx = (int)grid_x;
+                double dimX = 1.0;
+                double dimY = 1.0;
+                size_t grid_x = (dimX / stepsize) + 1;
+                size_t grid_y = (dimY / stepsize) + 1;
 
-				int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,img_x);
-				guint8* imgdata=new guint8[img_y*stride];
-					
-				double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
-				double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
-				int offset = (widget->datapoints).size() / 5;
+                int gridx = (int)grid_x;
 
-						for (int i = 0; i < img_y; i++) {
-							for (int j = 0; j < img_x; j++) {
-								int i_g;
-								int j_g;
-								widget->image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
-								int r;
-								int g;
-								int b;
-								widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
-							//std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
-								r=153+(r/255.0)*102;
-								g=153-(g/255.0)*120;
-								b=255 - b;
-									
-								int index=i*stride+j*4;
-								imgdata[index]=b;
-								imgdata[index+1]=g;
-								imgdata[index+2]=r;
-								imgdata[index+3]=255;
-							}
-						}
+                int stride=cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,img_x);
+                guint8* imgdata=new guint8[img_y*stride];
+                    
+                double min_val = *std::min_element(widget->datapoints.begin(), widget->datapoints.end());
+                double max_val = *std::max_element(widget->datapoints.begin(), widget->datapoints.end());
+                int offset = (widget->datapoints).size() / 5;
 
-					
-		
-				widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);			
+                        for (int i = 0; i < img_y; i++) {
+                            for (int j = 0; j < img_x; j++) {
+                                int i_g;
+                                int j_g;
+                                widget->image_to_grid(j, i, img_x, img_y, grid_x, grid_y, j_g, i_g);
+                                int r;
+                                int g;
+                                int b;
+                                widget->determine_color((widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset], min_val, max_val, r, g, b);
+                            //std::cout<<(widget->datapoints)[i_g * grid_x + j_g + static_cast<unsigned long long>(mapindex) * offset]<<"/n";
+                                r=153+(r/255.0)*102;
+                                g=153-(g/255.0)*120;
+                                b=255 - b;
+                                    
+                                int index=i*stride+j*4;
+                                imgdata[index]=b;
+                                imgdata[index+1]=g;
+                                imgdata[index+2]=r;
+                                imgdata[index+3]=255;
+                            }
+                        }
 
-			}			
+                    
+        
+                widget->heatmap_images[mapindex]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32, img_x,img_y,stride);          
+                if (big == true)
+                {
+                widget->heatmap_images[5]=cairo_image_surface_create_for_data(imgdata,CAIRO_FORMAT_ARGB32,img_x,img_y,stride);
+                }
+
+            }           
+            		
 			
 					
 		static void generate_legend(SEIRDPDEWidget* widget,int width,int height,int mapindex) {
@@ -600,16 +641,24 @@ class SEIRDPDEWidget;
 				return 1;		 
 			}
 			
-			static gboolean do_drawing_heatmap(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex)
-			{
-				//std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
-				if(_this->datapoints.size()!=0){
-					_this->generate_heatmap(_this,mapindex);
-					cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
-					cairo_paint(cr);   
-				}
-				return 1;		 
-			}			
+			static gboolean do_drawing_heatmap(SEIRDPDEWidget::app_widgets* widget,cairo_t *cr,SEIRDPDEWidget* _this,int mapindex,bool big=false)
+			            {
+			                //std::cout<<"Drawing heatmap"<<std::to_string(mapindex)<<"\n";
+			                if(_this->datapoints.size()!=0){
+			                    _this->generate_heatmap(_this,mapindex,big);
+			                    if (big == true)
+			                    {
+			                        cairo_set_source_surface(cr,_this->heatmap_images[5], 0, 0);
+			                    }
+			                    else
+			                    {
+			                        cairo_set_source_surface(cr,_this->heatmap_images[mapindex], 0, 0);
+			                    }
+			                    cairo_paint(cr);   
+			                }
+			                return 1;        
+			            }           
+			            
 			
 			static void set_convergence_threshold(double val,SEIRDPDEWidget* _this)
 			{
@@ -1609,7 +1658,22 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			//Initialize simulation
 			// update_simulation();
 		}
-		
+
+        extern "C" G_MODULE_EXPORT void on_show_map(GtkWidget *widget, GdkEvent *event, gpointer data)
+        {
+            std::cout<<"In callback Show Menu PDE\n";
+
+            GtkWidget* _this = reinterpret_cast<GtkWidget*>(data);
+            GtkWindow* _that = reinterpret_cast<GtkWindow*>(data);
+            std::cout<<"In callback Show Menu PDE\n";
+            gtk_widget_show(_this);
+            gtk_window_present(_that);
+                //Initialize values
+            // initialize_values();
+            printf("Show Menu\n");
+            //Initialize simulation
+            // update_simulation();
+        }
 		extern "C" G_MODULE_EXPORT void on_run_sim_pde_button(GtkSpinButton* button, gpointer* data)
 		{
 	
@@ -1639,10 +1703,6 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			//glade_widgets->seird_pde_object->plot_heatmapa(glade_widgets->seird_pde_object,"/output0.txt");
 		}
 		
-		extern "C" G_MODULE_EXPORT void zoomed(GtkWidget *widget, GdkEvent  *event, gpointer data)
-		{
-
-		}
 		extern "C" G_MODULE_EXPORT void on_drawing_squared_error_pde_draw(GtkWidget *_widget,cairo_t* cr, SEIRDPDEWidget* seird_pde_object){
 		
 			seird_pde_object->on_drawing_squared_error_draw(_widget,cr,seird_pde_object);
@@ -1658,6 +1718,58 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		}
 		
+		        extern "C" G_MODULE_EXPORT void draw_big_map(GtkWidget *widget, GdkEvent  *event, gpointer* data)
+        {
+            std::cout<<"In callback draw_big_map\n";
+            SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+            GtkDrawingArea* heatmap= reinterpret_cast<GtkDrawingArea*>(widget);
+
+            // g_signal_emit (data, "draw", GQuark *detail, orign_map)
+            if (heatmap == glade_widgets -> frame_susceptibles_drawing_area_pde)
+            {
+                std::cout<<"0\n";
+                glade_widgets -> seird_pde_object -> zoomed = 0;
+                
+            }
+            else if (heatmap == glade_widgets -> frame_exposed_drawing_area_pde)
+            {
+                std::cout<<"1\n";
+                            glade_widgets -> seird_pde_object -> zoomed = 1;
+
+            }
+            else if (heatmap == glade_widgets -> frame_infected_drawing_area_pde)
+            {
+                std::cout<<"2\n";
+                glade_widgets -> seird_pde_object -> zoomed = 2;
+
+            }
+            else if (heatmap == glade_widgets -> frame_recovered_drawing_area_pde)
+            {
+                std::cout<<"3\n";
+                glade_widgets -> seird_pde_object -> zoomed = 3;
+
+            }
+            else if (heatmap == glade_widgets -> frame_deceased_drawing_area_pde)
+            {
+                std::cout<<"4\n";
+                glade_widgets -> seird_pde_object -> zoomed = 4;
+            }
+        }
+
+        extern "C" G_MODULE_EXPORT void on_drawing_heatmap_big_draw(GtkWidget *widget, cairo_t *cr,gpointer* data)
+        {
+            std::cout<<"In callback Heatmap Big draw\n";
+
+            // SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+            // GtkDrawingArea* heatmap = reinterpret_cast<GtkDrawingArea*>(data);
+
+            SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+
+            glade_widgets->seird_pde_object->do_drawing_heatmap(glade_widgets, cr,glade_widgets->seird_pde_object, glade_widgets -> seird_pde_object -> zoomed, true);
+            std::cout<<"In callback Heatmap Big draw\n";
+
+        }
+
 				
 		extern "C" G_MODULE_EXPORT void on_drawing_susceptibles_pde(GtkWidget *widget, cairo_t *cr,gpointer* data)
 		{      

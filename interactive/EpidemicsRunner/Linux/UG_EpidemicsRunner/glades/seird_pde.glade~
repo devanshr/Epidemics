@@ -852,24 +852,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="left-attach">2</property>
-            <property name="top-attach">5</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -1352,11 +1335,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_susceptibles_drawing_area_pde">
+                    <property name="name">frame_susceptibles_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1385,10 +1372,14 @@
                 <property name="left-padding">12</property>
                 <child>
                   <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
+                    <property name="name">frame_exposed_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1416,11 +1407,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_infected_drawing_area_pde">
+                    <property name="name">frame_infected_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1480,11 +1475,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_deceased_drawing_area_pde">
+                    <property name="name">frame_deceased_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1512,11 +1511,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_recovered_drawing_area_pde">
+                    <property name="name">frame_recovered_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
                   </object>
                 </child>
@@ -2124,6 +2127,23 @@
     </child>
     <child>
       <placeholder/>
+    </child>
+  </object>
+  <object class="GtkWindow" id="window_heatmap_big">
+    <property name="name">window_heatmap_big</property>
+    <property name="can-focus">False</property>
+    <signal name="delete-event" handler="gtk_widget_hide" swapped="no"/>
+    <signal name="destroy" handler="gtk_widget_hide" swapped="no"/>
+    <signal name="destroy-event" handler="gtk_widget_hide" swapped="no"/>
+    <child>
+      <object class="GtkDrawingArea" id="drawing_heatmap_big">
+        <property name="name">drawing_heatmap_big</property>
+        <property name="width-request">500</property>
+        <property name="height-request">500</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <signal name="draw" handler="on_drawing_heatmap_big_draw" swapped="no"/>
+      </object>
     </child>
   </object>
 </interface>

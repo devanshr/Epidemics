@@ -17,7 +17,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_alpha">
     <property name="upper">1</property>
-    <property name="value">3.0000000000000001e-01</property>
+    <property name="value">0.29999999999999999</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -138,7 +138,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_diffusion">
     <property name="upper">100</property>
-    <property name="step-increment">0.1</property>
+    <property name="step-increment">0.10</property>
     <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_groups">
@@ -167,13 +167,13 @@
   <object class="GtkAdjustment" id="adjustment_lower_alpha">
     <property name="upper">1</property>
     <property name="value">3.0000000000000001e-06</property>
-    <property name="step-increment">9.9999999999999995e-09</property>
+    <property name="step-increment">1e-08</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_kappa">
     <property name="upper">1</property>
-    <property name="value">0.0000001</property>
-    <property name="step-increment">1.0000000000000001e-02</property>
+    <property name="value">9.9999999999999995e-08</property>
+    <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_pp">
@@ -184,13 +184,13 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_qq">
     <property name="upper">100</property>
-    <property name="value">0.00002</property>
+    <property name="value">2.0000000000000002e-05</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_lower_theta">
     <property name="upper">1</property>
-    <property name="value">0.000000000001</property>
+    <property name="value">9.9999999999999998e-13</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -410,15 +410,15 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_r1">
     <property name="upper">100</property>
+    <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_r2">
     <property name="upper">100</property>
+    <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_r3">
     <property name="upper">100</property>
@@ -865,15 +865,15 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_v1">
     <property name="upper">100</property>
+    <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_v2">
     <property name="upper">100</property>
+    <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="value">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_v3">
     <property name="upper">100</property>
@@ -992,7 +992,6 @@
             <property name="text" translatable="yes">1.00</property>
             <property name="adjustment">adjustment:_t_start</property>
             <property name="digits">2</property>
-            <property name="value">0</property>
             <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -1020,7 +1019,7 @@
             <property name="text" translatable="yes">3.00</property>
             <property name="adjustment">adjustment_t_end</property>
             <property name="digits">2</property>
-            <property name="value">0.6</property>
+            <property name="value">0.59999999999999998</property>
             <signal name="value-changed" handler="on_spin_t_end_pde_value_changed" swapped="no"/>
           </object>
           <packing>
@@ -1048,9 +1047,8 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="adjustment">adjustment_diffusion</property>
-            <signal name="value-changed" handler="on_spin_diffusion_value_changed" swapped="no"/>
             <property name="digits">8</property>
-            <property name="value">0.0</property>
+            <signal name="value-changed" handler="on_spin_diffusion_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">3</property>
@@ -1153,7 +1151,7 @@
       </packing>
     </child>
     <child>
-      <!-- n-columns=4 n-rows=1 -->
+      <!-- n-columns=6 n-rows=1 -->
       <object class="GtkGrid" id="grid_bottom_pde">
         <property name="name">grid_bottom_pde</property>
         <property name="visible">True</property>
@@ -1187,7 +1185,6 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="adjustment">adjustment_time</property>
-          <property name="value">0</property>
             <signal name="value-changed" handler="seird_pde_time_spin" swapped="no"/>
           </object>
           <packing>
@@ -1223,6 +1220,9 @@
             <property name="left-attach">5</property>
             <property name="top-attach">0</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>
@@ -1335,11 +1335,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_susceptibles_drawing_area_pde">
+                    <property name="name">frame_susceptibles_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1368,10 +1372,14 @@
                 <property name="left-padding">12</property>
                 <child>
                   <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
+                    <property name="name">frame_exposed_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1399,11 +1407,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_infected_drawing_area_pde">
+                    <property name="name">frame_infected_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1463,11 +1475,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_deceased_drawing_area_pde">
+                    <property name="name">frame_deceased_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1495,11 +1511,15 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea">
+                  <object class="GtkDrawingArea" id="frame_recovered_drawing_area_pde">
+                    <property name="name">frame_recovered_drawing_area_pde</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
                     <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
                   </object>
                 </child>
@@ -1513,6 +1533,9 @@
             <property name="left-attach">3</property>
             <property name="top-attach">0</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -2104,6 +2127,23 @@
     </child>
     <child>
       <placeholder/>
+    </child>
+  </object>
+  <object class="GtkWindow" id="window_heatmap_big">
+    <property name="name">window_heatmap_big</property>
+    <property name="can-focus">False</property>
+    <signal name="delete-event" handler="gtk_widget_hide" swapped="no"/>
+    <signal name="destroy" handler="gtk_widget_hide" swapped="no"/>
+    <signal name="destroy-event" handler="gtk_widget_hide" swapped="no"/>
+    <child>
+      <object class="GtkDrawingArea" id="drawing_heatmap_big">
+        <property name="name">drawing_heatmap_big</property>
+        <property name="width-request">500</property>
+        <property name="height-request">500</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <signal name="draw" handler="on_drawing_heatmap_big_draw" swapped="no"/>
+      </object>
     </child>
   </object>
 </interface>
