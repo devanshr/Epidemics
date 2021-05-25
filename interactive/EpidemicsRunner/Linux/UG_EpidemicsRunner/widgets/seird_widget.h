@@ -52,7 +52,7 @@ namespace ug{
 			bool selected_data_dimensions[5]={true,true,true,true,true};
 			std::vector<double> graph_colors;
 			
-			std::string user_selected_optimization_path = "/home/havelock/Terminus/gcsc/ug4/plugins/Epidemics/Samples/GUI/ODE_Optimization_Sample_1"; //path used in optimizations
+			std::string user_selected_optimization_path = ""; //path used in optimizations
 
 			int pso_values[3];
 			int& _pso_max_iter = pso_values[0];
