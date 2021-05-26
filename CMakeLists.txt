@@ -5,10 +5,13 @@ set(pluginName	Epidemics)
 set(SOURCES		epidemics_plugin.cpp
 			)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS"${CMAKE_CXX_FLAGS}-pthread -std=c++17 -march=native")
-add_cxx_flag("-std=c++17")
-add_cxx_flag("-march=native")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	add_cxx_flag("-pthread")
+	add_cxx_flag("-std=c++17")
+	set(CMAKE_CXX_STANDARD 17)
+	set(CMAKE_CXX_FLAGS"${CMAKE_CXX_FLAGS}-pthread -std=c++17 -march=native")
+	add_cxx_flag("-march=native")
+endif()
 
 IF(NOT ConstrainedOptimization)
 	message(FATAL_ERROR "\nEpidemics needs ConstrainedOptimization plugin activated:\ncmake -DConstrainedOptimization=ON ..")
