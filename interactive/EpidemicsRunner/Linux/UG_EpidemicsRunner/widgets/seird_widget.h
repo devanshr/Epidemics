@@ -568,7 +568,7 @@ namespace ug{
 						}
 
 						sq_error = pso.get_saved_losses_in_past_iteration_as_double();
-						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));	
+						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_optimization_details")));	
 						
 					}
 
@@ -832,7 +832,7 @@ namespace ug{
 							}
     
 					    sq_error = solver.get_saved_losses_in_past_iteration_as_double();
-						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_squared_error")));
+						gtk_widget_queue_draw(GTK_WIDGET(gtk_builder_get_object(builder,"drawing_optimization_details")));
 						}
 					}
 			}	
