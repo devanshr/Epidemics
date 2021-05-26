@@ -71,7 +71,7 @@ namespace ug{
 			void change_step_size(F _h){
 				h=_h;
 			}
-			auto run(F t0, const T u0, F tend){
+			std::tuple<std::vector<F>,std::vector<F>> run(F t0, const T u0, F tend){
 				std::vector<F> res;
 				std::vector<F> ts;
 				

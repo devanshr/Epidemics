@@ -66,7 +66,7 @@ namespace ug{
 			void change_step_size(F _h) {
 				h = _h;
 			}
-			auto run(F t0, const T u0, F tend){
+			std::tuple<std::vector<F>,std::vector<F>> run(F t0, const T u0, F tend){
 				std::vector<F> res;
 				std::vector<F> ts;
 				
@@ -133,7 +133,7 @@ namespace ug{
 
 				return res;
 			}
-			auto run_linear_implicit(F t0, const T& u0, F tend) {
+			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0, const T& u0, F tend) {
 				std::array<F, 5> u = { u0[0],u0[1],u0[2],u0[3],u0[4] };
 				utility::LinearImplicitSolver23<std::array<F,5>,std::array<F,25>,SEIRD,F> solver(this,5);
 				solver.change_step_size(h);

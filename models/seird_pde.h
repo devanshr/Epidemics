@@ -418,7 +418,7 @@ namespace ug {
 
 
 			
-			auto run(F t0,  T& u0, F tend) {
+			std::tuple<std::vector<F>,std::vector<F>> run(F t0,  T& u0, F tend) {
 				size_t vars_per_dim = ((dimX/hx)+1)*((dimY/hx)+1);
 				
 				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
@@ -459,7 +459,7 @@ namespace ug {
 			}
 			
 			
-			auto run_linear_implicit(F t0,  T& u0, F tend) {
+			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0,  T& u0, F tend) {
 				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
 				size_t dim=nVars*5;
 				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD_PDE,F> solver(this,dim);

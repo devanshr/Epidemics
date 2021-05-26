@@ -21,7 +21,9 @@ int main(int argc, char *argv[]){
 	double t_start=0;
 	double t_end=42;
 
-	auto [timepoints, data]=seird_model.run_linear_implicit(t_start,u0,t_end);
+	auto result=seird_model.run_linear_implicit(t_start,u0,t_end);
+	auto timepoints=std::get<0>(result);
+	auto data=std::get<1>(result);	
 	std::cout<<"Optimization done\n";
 	ug::epi::write_data(argv[0], "_test.txt", timepoints, data,seird_model.names);
 }

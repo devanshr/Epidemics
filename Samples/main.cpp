@@ -19,7 +19,8 @@ int main(int argc, char *argv[]){
 	double t_start=0;
 	double t_end=42;
 
-	auto [timepoints, data] =sir_model.run(t_start,u0,t_end);
-
+	auto result =sir_model.run(t_start,u0,t_end);
+	auto timepoints=std::get<0>(result);
+	auto data=std::get<1>(result);
 	ug::epi::write_data(argv[0], "_test.txt", timepoints, data,sir_model.names);
 }
