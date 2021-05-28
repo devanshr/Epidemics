@@ -228,7 +228,7 @@ namespace ug {
 		
 		void set_susceptibles_jacobian(typename T::iterator J_S,typename T::iterator S, typename T::iterator E, int nCols, int nRows, int nRowsJacobian) {
 			auto J=J_S; //Start of Jacobian matrix
-			auto J_E=J_S+nRows*nCols;
+			auto J_e=J_S+nRows*nCols;
 			F hinv = 1 / (hx * hx);
 			for (int i = 0; i<(nRows); i++) {
 				for (int j = 0; j < (nCols);j++) {
@@ -287,13 +287,199 @@ namespace ug {
 					}
 				
 					J_S[i*nCols+j]+=-alpha * E[i * nCols + j];
-					J_E[i*nCols+j]+=-alpha*S[i * nCols + j];
+					J_e[i*nCols+j]+=-alpha*S[i * nCols + j];
 					J_S+=nRowsJacobian;
-					J_E=J_S+nRows*nCols;
+					J_e+=nRowsJacobian;
 				}
 			}
 		
 		}
+
+
+
+		// copy of example
+		void set_exposed_jacobian(typename T::iterator J_E,typename T::iterator S, typename T::iterator E, int nCols, int nRows, int nRowsJacobian) {
+			auto J=J_E; //Start of Exposed rows in Jacobian matrix
+			auto J_e=J_E+nRows*nCols; //Start of exposed derivative of Exposed rows
+			F hinv = 1 / (hx * hx);
+			F tinv = 1 / tau;
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+							
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
+						J_e[i*nCols+j]=-4*D*hinv;
+						J_e[(i - 1) * nCols + j]=1*D*hinv;
+						J_e[(i + 1) * nCols + j]=1*D*hinv;
+						J_e[i * nCols + j - 1]=1*D*hinv;
+						J_e[i * nCols + j + 1]=1*D*hinv;
+					}
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							J_e[(i)*nCols+j]+=2*D*hinv;
+							J_e[(i+1)*nCols+j]+=-5*D*hinv;
+							J_e[(i+2)*nCols+j]+=4*D*hinv;
+							J_e[(i+3)*nCols+j]+=-1*D*hinv;
+						//	std::cout<<"C1:"<<G[(i)*nCols+j]<<"   "<<G[(i+1)*nCols+j]<<"   "<<G[(i+2)*nCols+j]<<"   "<<G[(i+3)*nCols+j]<<"\n";
+						}
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							J_e[i*nCols+j]+=2*D*hinv;
+							J_e[(i-1)*nCols+j]+=-5*D*hinv;
+							J_e[(i-2)*nCols+j]+=4*D*hinv;
+							J_e[(i-3)*nCols+j]+=-1*D*hinv;
+					//		std::cout<<"C2:"<<G[i*nCols+j]<<"   "<<G[(i-1)*nCols+j]<<"  "<<G[(i-2)*nCols+j]<<"   "<<G[(i-3)*nCols+j]<<"\n";
+						}
+						else{
+							J_e[(i - 1) * nCols + j]+=1*D*hinv;
+							J_e[i * nCols + j]+=-2*D*hinv;
+							J_e[(i + 1) * nCols + j]+=1*D*hinv;						
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							J_e[i*nCols+j]+=2*D*hinv;
+							J_e[i*nCols+(j+1)]+=-5*D*hinv;
+							J_e[i*nCols+(j+2)]+=4*D*hinv;
+							J_e[i*nCols+(j+3)]+=-1*D*hinv;	
+							//std::cout<<"c4"<<G[i*nCols+j]<<"   "<<G[i*nCols+j+1]<<"   "<<G[i*nCols+j+2]<<"  "<<G[i*nCols+j+3]<<"\n";
+						}	
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							J_e[i*nCols+j]+=2*D*hinv;
+							J_e[i*nCols+(j-1)]+=-5*D*hinv;
+							J_e[i*nCols+(j-2)]+=4*D*hinv;
+							J_e[i*nCols+(j-3)]+=-1*D*hinv;					
+						//	std::cout<<"C4:"<<G[i*nCols+j]<<"  "<<G[i*nCols+(j-1)]<<"   "<<G[i*nCols+(j-2)]<<"   "<<G[i*nCols+(j-3)]<<"\n";
+						}	
+						else{
+							J_e[i * nCols + j - 1]+=1*D*hinv;
+							J_e[i * nCols + j]+=-2*D*hinv;
+							J_e[i * nCols + j +1]+=1*D*hinv;						
+						}
+					}
+				
+					J_E[i*nCols+j]+=alpha*E[i * nCols + j];
+					J_e[i*nCols+j]+=alpha*S[i * nCols + j] - tinv;
+					J_E+=nRowsJacobian;
+					J_e+=nRowsJacobian;
+				}
+			}
+		
+		}
+
+
+		// copy of example
+		void set_infected_jacobian(typename T::iterator J_I, int nCols, int nRows, int nRowsJacobian) {
+			auto J=J_I; //Start of Infected rows in Jacobian matrix
+			auto J_e=J_I+nRows*nCols; //Start of exposed derivative of Infected rows
+			auto J_i=J_e+nRows*nCols; //Start of infected derivative of Infrected rows
+			F tinv = 1 / tau;
+			F sinv = 1 / sigma;
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+							
+					J_e[i*nCols+j]=kappa*tinv;
+					J_i[i*nCols+j]=-1*sinv;
+					J_e+=nRowsJacobian;
+					J_i+=nRowsJacobian;
+				}
+			}
+		}
+
+
+
+		// copy of example
+		void set_recovered_jacobian(typename T::iterator J_R,typename T::iterator E, int nCols, int nRows, int nRowsJacobian) {
+			auto J=J_R; //Start of Recovered rows in Jacobian matrix
+			auto J_e=J_R+nRows*nCols; //Start of exposed derivative of Recovered rows
+			auto J_i=J_e+nRows*nCols; //Start of infected derivative of Recovered rows
+			F hinv = 1 / (hx * hx);
+			F tinv = 1 / tau;
+			F sinv = 1 / sigma;
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+							
+					if (((i-1)>=0)&&((i+1)<nRows)&&((j-1)>=0)&&((j+1)<nCols)){
+						J_e[i*nCols+j]=4*D*hinv;
+						J_e[(i - 1) * nCols + j]=-1*D*hinv;
+						J_e[(i + 1) * nCols + j]=-1*D*hinv;
+						J_e[i * nCols + j - 1]=-1*D*hinv;
+						J_e[i * nCols + j + 1]=-1*D*hinv;
+					}
+					else{
+						//Upper boundary. Forward difference for y dimension
+						if ((i-1)<0){
+							J_e[(i)*nCols+j]+=-2*D*hinv;
+							J_e[(i+1)*nCols+j]+=5*D*hinv;
+							J_e[(i+2)*nCols+j]+=-4*D*hinv;
+							J_e[(i+3)*nCols+j]+=1*D*hinv;
+						//	std::cout<<"C1:"<<G[(i)*nCols+j]<<"   "<<G[(i+1)*nCols+j]<<"   "<<G[(i+2)*nCols+j]<<"   "<<G[(i+3)*nCols+j]<<"\n";
+						}
+						//Lower boundary. Backwards difference for y dimension
+						else if ((i+1)>=nRows){
+							J_e[i*nCols+j]+=-2*D*hinv;
+							J_e[(i-1)*nCols+j]+=5*D*hinv;
+							J_e[(i-2)*nCols+j]+=-4*D*hinv;
+							J_e[(i-3)*nCols+j]+=1*D*hinv;
+					//		std::cout<<"C2:"<<G[i*nCols+j]<<"   "<<G[(i-1)*nCols+j]<<"  "<<G[(i-2)*nCols+j]<<"   "<<G[(i-3)*nCols+j]<<"\n";
+						}
+						else{
+							J_e[(i - 1) * nCols + j]+=-1*D*hinv;
+							J_e[i * nCols + j]+=2*D*hinv;
+							J_e[(i + 1) * nCols + j]+=-1*D*hinv;						
+						}
+						
+						//Left boundary. Forward difference for x dimension
+						if ((j-1)<0){
+							J_e[i*nCols+j]+=-2*D*hinv;
+							J_e[i*nCols+(j+1)]+=5*D*hinv;
+							J_e[i*nCols+(j+2)]+=-4*D*hinv;
+							J_e[i*nCols+(j+3)]+=1*D*hinv;	
+							//std::cout<<"c4"<<G[i*nCols+j]<<"   "<<G[i*nCols+j+1]<<"   "<<G[i*nCols+j+2]<<"  "<<G[i*nCols+j+3]<<"\n";
+						}	
+						//Right boundary. Backwards boundary for x dimension
+						else if ((j+1)>=nCols){
+							J_e[i*nCols+j]+=-2*D*hinv;
+							J_e[i*nCols+(j-1)]+=5*D*hinv;
+							J_e[i*nCols+(j-2)]+=-4*D*hinv;
+							J_e[i*nCols+(j-3)]+=1*D*hinv;					
+						//	std::cout<<"C4:"<<G[i*nCols+j]<<"  "<<G[i*nCols+(j-1)]<<"   "<<G[i*nCols+(j-2)]<<"   "<<G[i*nCols+(j-3)]<<"\n";
+						}	
+						else{
+							J_e[i * nCols + j - 1]+=-1*D*hinv;
+							J_e[i * nCols + j]+=2*D*hinv;
+							J_e[i * nCols + j +1]+=-1*D*hinv;						
+						}
+					}
+				
+					J_e[i*nCols+j]+=alpha*(1-kappa)*tinv;
+					J_i[i*nCols+j]+=sinv*(1-theta);
+					J_e+=nRowsJacobian;
+					J_i+=nRowsJacobian;
+				}
+			}
+		
+		}
+
+
+
+		// copy of example
+		void set_deceased_jacobian(typename T::iterator J_D, int nCols, int nRows, int nRowsJacobian) {
+			auto J=J_D; //Start of Deceased rows in Jacobian matrix
+			auto J_i=J_D+(nRows*nCols*2); //Start of infected derivative of Deceased rows
+			F sinv = 1 / sigma;
+			for (int i = 0; i<(nRows); i++) {
+				for (int j = 0; j < (nCols);j++) {
+							
+					J_i[i*nCols+j]=sinv*kappa;
+					J_i+=nRowsJacobian;
+				}
+			}
+		}
+
+
+
 
 
 		//As ODE system does not depend on time, the ODE is autonomous
@@ -402,17 +588,20 @@ namespace ug {
 				auto D = R+ vars_per_dim; // Verstorbene (Deaths)
 				
 
-				set_susceptibles_jacobian(curr,S,E,I,R,D, vars_per_row,vars_per_column,vars_per_row_jacobian);
-				curr += vars_per_dim*vars_per_row_jacobian;
-				/*
-				set_exposed(curr, E, S, vars_per_row, vars_per_column);
-				curr += vars_per_dim;
-				set_infected(curr, I, E, vars_per_row, vars_per_column);
-				curr += vars_per_dim;
-				set_recovered(curr, E, I, vars_per_row, vars_per_column);
-				curr += vars_per_dim;
-				set_deaths(curr, I, vars_per_row, vars_per_column);
-				*/
+				set_susceptibles_jacobian(curr, S, E, vars_per_row, vars_per_column, vars_per_row_jacobian);
+
+				curr += vars_per_dim*vars_per_row_jacobian; // move to exposed
+				set_exposed_jacobian(curr, S, E, vars_per_row,vars_per_column,vars_per_row_jacobian);
+
+				curr += vars_per_dim*vars_per_row_jacobian; // move to infected
+				set_infected_jacobian(curr, vars_per_row,vars_per_column,vars_per_row_jacobian);
+
+				curr += vars_per_dim*vars_per_row_jacobian; // move to recovered
+				set_recovered_jacobian(curr, E, vars_per_row,vars_per_column,vars_per_row_jacobian);
+
+				curr += vars_per_dim*vars_per_row_jacobian; // move to deceased
+				set_deceased_jacobian(curr, vars_per_row,vars_per_column,vars_per_row_jacobian);
+
 				return res;
 			}	
 
