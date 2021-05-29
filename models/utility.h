@@ -58,6 +58,9 @@ namespace ug {
 					if (u.size() != dim) {
 						std::cerr << "Error: Input dimension of u0 in LinearImplicitSolver23 is different than the dimension previously given in the constructor\n";
 					}
+					if (StoreToFile){
+						(*ow).write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u);
+					}
 					std::vector<F> datapoints;
 
 					for (int i = 0; i < dim; i++) {
@@ -81,7 +84,7 @@ namespace ug {
 					F d31 = -(4 + 1.41) / (2 + 1.41);
 					F d32 = (6+1.41)/ (2+1.41);
 					std::vector<F> u_copy(dim);
-					int iter = 0;
+					int iter = 1;
 				
 					while (t <= tend) {
 						std::copy(u.begin(), u.end(), u_copy.begin());
@@ -95,13 +98,35 @@ namespace ug {
 						std::copy(temp2.begin(), temp2.end(), J.begin());
 						M=sumAB(F(1), I, F(-a * h), J);
 						co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
+						//co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
 						co::dc::backwards_substitution<F>(R.begin(), k1.begin(), 1, q1.begin(), dim);
 						
 						//k2
 						for (int i = 0; i < dim; i++) {
 							u[i] = u_copy[i] + 0.5 * h * k1[i];
+							//std::cout<<I[i]<<"\t";
 						}
+					/*	
+					int dim2=36;
+						
+					std::vector<F> I(dim2*dim2);
+					std::vector<F> J(dim2 * dim2,F(0.0));
+					std::vector<F> Qt2(dim2 * dim2);
+					
+					for (int i = 0; i < dim2; i++) {
+						I[i + i * dim2] = F(1.0);
+					}
+					
+					co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
+					
+					std::cout<<Qt2<<"\t";
+					
+					for (int i = 0; i < dim; i++) {
+							
+							std::cout<<dim<<"\t";
+						}
+					*/
 						temp = model->system(u); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::copy(temp.begin(), temp.end(), fy.begin());
 						co::mul::dgemm_nn(dim, 1, dim, -a*h, J.begin(), 1, dim, k1.begin(), 1, 1, F(1.0), fy.begin(), 1, 1);
@@ -134,7 +159,7 @@ namespace ug {
 								u[i] = u_copy[i] + h*k2[i];
 							}							
 							
-						//	(*ow).write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,((dimX/h)+1),((dimY/h)+1));
+							(*ow).write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u);
 						}
 						iter++;
 					//	co::mul::printmat(temp2.begin(), dim, dim);

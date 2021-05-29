@@ -507,7 +507,7 @@ namespace ug {
 			else{
 				std::cout<<"Writing to file\n";
 				//std::cin.get();
-				ow.write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,((dimX/hx)+1),((dimY/hx)+1));
+				ow.write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,hx);
 			}
 
 			
@@ -538,9 +538,9 @@ namespace ug {
 			}
 			
 			T system(T& u) {
-				size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
-				size_t vars_per_row = ((dimX / hx) + 1);
-				size_t vars_per_column = ((dimY / hx) + 1);
+				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
+				size_t vars_per_row = (std::ceil(dimX / hx) + 1);
+				size_t vars_per_column = (std::ceil(dimY / hx) + 1);
 				T res(dimModel*vars_per_dim,F(0.0)); //number of vertices in discretization
 				auto curr = res.begin();
 				auto G = u.begin(); // Gesunde (Susceptibles)
@@ -575,10 +575,10 @@ namespace ug {
 			}	
 
 			T jacobian(T& u) {
-				size_t vars_per_dim = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t vars_per_row_jacobian=dimModel*vars_per_dim;
-				size_t vars_per_row = ((dimX / hx) + 1); //Row means with respect to a single class
-				size_t vars_per_column = ((dimY / hx) + 1);
+				size_t vars_per_row = (std::ceil(dimX / hx) + 1); //Row means with respect to a single class
+				size_t vars_per_column = (std::ceil(dimY / hx) + 1);
 				T res(vars_per_row_jacobian*vars_per_row_jacobian,F(0.0)); //jacobian matrix
 				auto curr = res.begin();
 				auto S = u.begin(); // Gesunde (Susceptibles)
@@ -595,20 +595,22 @@ namespace ug {
 
 				curr += vars_per_dim*vars_per_row_jacobian; // move to infected
 				set_infected_jacobian(curr, vars_per_row,vars_per_column,vars_per_row_jacobian);
-
 				curr += vars_per_dim*vars_per_row_jacobian; // move to recovered
 				set_recovered_jacobian(curr, E, vars_per_row,vars_per_column,vars_per_row_jacobian);
 
 				curr += vars_per_dim*vars_per_row_jacobian; // move to deceased
 				set_deceased_jacobian(curr, vars_per_row,vars_per_column,vars_per_row_jacobian);
-
+				std::cout<<"Jacobian min, max:\n";
+				std::cout<<*std::min_element(res.begin(), res.end())<<"\n";
+				std::cout<<*std::max_element(res.begin(), res.end())<<"\n";
+				//std::cin.get();
 				return res;
 			}	
 
 
 			
 			std::tuple<std::vector<F>,std::vector<F>> run(F t0,  T& u0, F tend) {
-				size_t vars_per_dim = ((dimX/hx)+1)*((dimY/hx)+1);
+				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				
 				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
 				
@@ -620,8 +622,8 @@ namespace ug {
 					ts.push_back(t0);
 				}
 				else{
-					writer.write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u,((dimX/hx)+1),((dimY/hx)+1));
-					writer.write_gridmapping(filepath, filename+".txt",t0,u,((dimX/hx)+1),((dimY/hx)+1));
+					writer.write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u);
+					writer.write_gridmapping(filepath, filename+".txt",t0,u);
 				}
 				F t = t0 + ht;
 				std::vector<F> temp(u.size());
@@ -649,15 +651,17 @@ namespace ug {
 			
 			
 			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0,  T& u0, F tend) {
-				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t nVars = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t dim=nVars*5;
 				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD_PDE,F> solver(this,dim);
 				solver.change_step_size(hx);
 				
-				std::cout<<nVars;
-				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
+				std::cout<<"Staring linear implicit solver\n";
+				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names,hx,hx);
 				solver.set_store_to_file(true, filepath, filename,&writer);
 				auto result=solver.run(t0, u0, tend);
+				std::cout<<"Ended linear implicit solver\n";
+				std::cout<<result.second.size();
 
 				return std::make_tuple(result.first,result.second);
 			}			

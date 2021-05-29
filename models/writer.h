@@ -10,7 +10,7 @@ namespace ug{
 		template<class T, class F>
 		class OutputWriter{
 			public:
-			virtual void write_to_file(std::string path, std::string name, F t, const T& u, int points_x, int points_y)=0;
+			virtual void write_to_file(std::string path, std::string name, F t, const T& u)=0;
 			
 		};
 		template<class T, class F>
@@ -21,16 +21,19 @@ namespace ug{
 			
 			F dimX=-1; //horizontal dimension of rectangle in world coordinates
 			F dimY=-1; //vertical dimension of rectangle in world coordinates
-			
+			F hx;
+			F hy;
 			std::vector<std::string> names;
 			
 			public:
 			OutputPDEWriter(){
 			}
-			OutputPDEWriter(int _dim, F _dimX, F _dimY, std::vector<std::string> _names): names(_names), dim(_dim),dimX(_dimX), dimY(_dimY){
+			OutputPDEWriter(int _dim, F _dimX, F _dimY, std::vector<std::string> _names, F _hx, F _hy): names(_names), dim(_dim),dimX(_dimX), dimY(_dimY), hx(_hx),hy(_hy){
 			}
 			
-			virtual void write_to_file(std::string path, std::string name, F t, const T& u, int points_x, int points_y) override{
+			virtual void write_to_file(std::string path, std::string name, F t, const T& u) override{
+				int points_x=(std::ceil(dimX/hx)+1);
+				int points_y=(std::ceil(dimY/hx)+1);
 				std::ofstream output;	
 				output.precision(15);
 				//Write outputs
@@ -63,7 +66,9 @@ namespace ug{
 
 			}
 			
-			void write_gridmapping(std::string path, std::string name, F t, const T& u, int points_x, int points_y){
+			void write_gridmapping(std::string path, std::string name, F t, const T& u){
+				int points_x=(std::ceil(dimX/hx)+1);
+				int points_y=(std::ceil(dimY/hx)+1);
 				std::ofstream output;				
 				//Write grid to world coordinates mapping
 				output.open(path+"gridmapping_"+name);

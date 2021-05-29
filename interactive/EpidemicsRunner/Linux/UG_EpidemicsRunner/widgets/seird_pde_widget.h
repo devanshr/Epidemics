@@ -331,7 +331,7 @@ class SEIRDPDEWidget;
 
 					seird_model.set_store_to_file(true,widget->user_selected_optimization_path, filename);
 
-					seird_model.run(t_start, u0, t_end);
+					seird_model.run_linear_implicit(t_start, u0, t_end);
 					//return true;
 				}
 			
@@ -344,10 +344,10 @@ class SEIRDPDEWidget;
 				typename std::vector<double>::value_type v5 ) {
 				using F = typename std::vector<double>::value_type;
 				
-				size_t x_points = (dimX / hx) + 1; //1001
-				size_t y_points = (dimY / hx) + 1;
+				size_t x_points = std::ceil(dimX / hx) + 1; //1001
+				size_t y_points = std::ceil(dimY / hx) + 1;
 
-				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t nVars = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				
 				std::vector<F> u0(nVars * 5, F(0)); //number of vertices in discretization
 				
@@ -415,8 +415,8 @@ class SEIRDPDEWidget;
 				int img_y = 200;
 				double dimX = 1.0;
 				double dimY = 1.0;
-				size_t grid_x = (dimX / stepsize) + 1;
-				size_t grid_y = (dimY / stepsize) + 1;
+				size_t grid_x = std::ceil(dimX / stepsize) + 1;
+				size_t grid_y = std::ceil(dimY / stepsize) + 1;
 
 				std::string delimiter = "\t";
 				int gridx = (int)grid_x;
@@ -462,7 +462,7 @@ class SEIRDPDEWidget;
 			seird_pde_object->datapoints=std::vector<double>();
 			double dimX = 1.0;
 			double dimY = 1.0;
-			int gridx = (dimX / seird_pde_object->_stepsize) + 1;		
+			int gridx = std::ceil(dimX / seird_pde_object->_stepsize) + 1;		
 			std::string path = seird_pde_object->user_selected_optimization_path + "/output"+filenum+".txt";
 			auto err = co::utility::parse_csv(path, seird_pde_object->datapoints, "/t", &gridx);
 			if (err==co::ErrorCode::NoError){
@@ -505,8 +505,8 @@ class SEIRDPDEWidget;
 
                 double dimX = 1.0;
                 double dimY = 1.0;
-                size_t grid_x = (dimX / stepsize) + 1;
-                size_t grid_y = (dimY / stepsize) + 1;
+                size_t grid_x = std::ceil(dimX / stepsize) + 1;
+                size_t grid_y = std::ceil(dimY / stepsize) + 1;
 
                 int gridx = (int)grid_x;
 
