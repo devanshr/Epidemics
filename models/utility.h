@@ -107,26 +107,8 @@ namespace ug {
 							u[i] = u_copy[i] + 0.5 * h * k1[i];
 							//std::cout<<I[i]<<"\t";
 						}
-					/*	
-					int dim2=36;
-						
-					std::vector<F> I(dim2*dim2);
-					std::vector<F> J(dim2 * dim2,F(0.0));
-					std::vector<F> Qt2(dim2 * dim2);
+				
 					
-					for (int i = 0; i < dim2; i++) {
-						I[i + i * dim2] = F(1.0);
-					}
-					
-					co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
-					
-					std::cout<<Qt2<<"\t";
-					
-					for (int i = 0; i < dim; i++) {
-							
-							std::cout<<dim<<"\t";
-						}
-					*/
 						temp = model->system(u); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::copy(temp.begin(), temp.end(), fy.begin());
 						co::mul::dgemm_nn(dim, 1, dim, -a*h, J.begin(), 1, dim, k1.begin(), 1, 1, F(1.0), fy.begin(), 1, 1);
