@@ -1151,44 +1151,22 @@
       </packing>
     </child>
     <child>
-      <!-- n-columns=6 n-rows=1 -->
+      <!-- n-columns=10 n-rows=1 -->
       <object class="GtkGrid" id="grid_bottom_pde">
         <property name="name">grid_bottom_pde</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
-          <object class="GtkScrollbar" id="scrollbar_pde">
-            <property name="name">scrollbar_pde</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label_time">
-            <property name="name">label_time</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">time</property>
-          </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSpinButton" id="spin_seird_pde_time">
-            <property name="name">spin_time</property>
+          <object class="GtkButton" id="button_estimation_details_pde">
+            <property name="label" translatable="yes">Estimation Details</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_time</property>
-            <signal name="value-changed" handler="seird_pde_time_spin" swapped="no"/>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="seird_pde_optimization_details" swapped="no"/>
           </object>
           <packing>
-            <property name="left-attach">2</property>
+            <property name="left-attach">9</property>
             <property name="top-attach">0</property>
           </packing>
         </child>
@@ -1203,23 +1181,104 @@
             <signal name="clicked" handler="seird_pde_save_heatmaps" swapped="no"/>
           </object>
           <packing>
-            <property name="left-attach">3</property>
+            <property name="left-attach">8</property>
             <property name="top-attach">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button_estimation_details_pde">
-            <property name="label" translatable="yes">Estimation Details</property>
+          <object class="GtkLabel" id="label_time">
+            <property name="name">label_time</property>
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="seird_pde_optimization_details" swapped="no"/>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">time</property>
           </object>
           <packing>
-            <property name="left-attach">5</property>
+            <property name="left-attach">0</property>
             <property name="top-attach">0</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="spin_seird_pde_time">
+            <property name="name">spin_time</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-start">100</property>
+            <property name="adjustment">adjustment_time</property>
+            <signal name="value-changed" handler="seird_pde_time_spin" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">7</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">25</property>
+            <property name="margin-end">25</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="spacing">74</property>
+            <child>
+              <object class="GtkFrame">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label-xalign">0</property>
+                <property name="shadow-type">etched-out</property>
+                <child>
+                  <object class="GtkAlignment">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="left-padding">70</property>
+                    <property name="right-padding">46</property>
+                    <child>
+                      <object class="GtkScrollbar" id="scrollbar_pde">
+                        <property name="name">scrollbar_pde</property>
+                        <property name="visible">True</property>
+                        <property name="app-paintable">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-left">25</property>
+                        <property name="margin-right">25</property>
+                        <property name="margin-start">25</property>
+                        <property name="margin-end">25</property>
+                        <property name="adjustment">adjustment_time</property>
+                        <property name="lower-stepper-sensitivity">on</property>
+                        <property name="upper-stepper-sensitivity">on</property>
+                        <property name="show-fill-level">True</property>
+                        <property name="round-digits">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label_item">
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">39</property>
+                <property name="position">34</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
