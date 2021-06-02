@@ -301,16 +301,29 @@ namespace ug{
 					/*for (int i=0;i<dim_data;i++){
 						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,i);
 					}*/
-					util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors,_this->plot_background_color);
+					if (!_this->plot_experimental_data){
+						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors,_this->plot_background_color);
+						util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions);					
+					}
+			
+					else if (_this->plot_experimental_data && _this->datapoints_experimental.size()>0){
+						double xrange_min;
+						double xrange_max;
+						double yrange_min;
+						double yrange_max;
+						std::vector<double>* exp_timepoints= &(_this->timepoints_experimental);
+						std::vector<double>* exp_datapoints=&(_this->datapoints_experimental);
+						util::get_plotting_dimensions(_this->timepoints, _this->datapoints,_this->selected_data_dimensions,xrange_min, xrange_max, yrange_min, yrange_max, exp_timepoints, exp_datapoints);
 						
-					if (_this->plot_experimental_data && _this->datapoints_experimental.size()>0){
+						util::plot_values(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,_this->graph_colors,_this->plot_background_color,xrange_min,xrange_max,yrange_min,yrange_max);
 						std::vector<double> temp;
 						//std::cout<<_this->datapoints_experimental.size()<<"\n";
 						int dim=(_this->datapoints_experimental.size())/(_this->timepoints_experimental.size());
 						bool visible[]={true,true,true,true,true};
-						util::plot_values_square(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,visible,temp,false);
+						util::plot_values_square(_widget,cr,_this->timepoints_experimental,_this->datapoints_experimental,visible,temp,false,xrange_min,xrange_max,yrange_min,yrange_max);
+						util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions,xrange_min,xrange_max,yrange_min,yrange_max);	
 					}
-					util::plot_axis(_widget,cr,_this->timepoints,_this->datapoints,_this->selected_data_dimensions);	
+
 				}			
 				return 1;			
 			}	
@@ -472,7 +485,7 @@ namespace ug{
 					gtk_widget_destroy(dialog);
 					
 				}
-				else 
+				else
 				{
 					ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
 
