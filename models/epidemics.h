@@ -278,7 +278,7 @@ template<seird::Geometry T, class F>
 
 				seird_model.set_store_to_file(true,path,filename);
 
-				seird_model.run(t_start, u0, t_end);
+				seird_model.run_linear_implicit(t_start, u0, t_end);
 	
 			}
 		}

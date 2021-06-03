@@ -23,7 +23,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_convergence_threshold">
     <property name="upper">10000000000</property>
-    <property name="value">0.0001</property>
+    <property name="value">0.001</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">1</property>
   </object>
