@@ -865,6 +865,8 @@ namespace ug{
 			}	
 			static void load_experimental_data(SEIRDWidget* _this)
 			{
+				_this->timepoints_experimental=std::vector<double>();
+				_this->datapoints_experimental=std::vector<double>();
 				//do error handling in if statments co::ErrorCode::NoError
 				auto err= co::utility::parse_csv_table_times(_this->user_selected_optimization_path,"subset_target.lua",_this->datapoints_experimental,_this->timepoints_experimental);				
 			}	

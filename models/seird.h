@@ -124,7 +124,7 @@ namespace ug{
 				res[0] = -alpha*E;
 				res[1] = -alpha * S;
 				res[5] = alpha * E;
-				res[6] = alpha * S - 1 + qq;
+				res[6] = alpha * S - (1/qq);
 				res[11] = kappa / qq;
 				res[12] = -(1 / pp);
 				res[16] = (1 - kappa) / qq;
