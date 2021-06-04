@@ -99,7 +99,7 @@ namespace ug{
 			std::ofstream lua_output;
 			std::ofstream general_output;
 
-			general_output.precision(7);
+			general_output.precision(15);
 			general_output.open(path+name);
 			general_output<<output;
 			general_output<<delimiter<<"time\t";

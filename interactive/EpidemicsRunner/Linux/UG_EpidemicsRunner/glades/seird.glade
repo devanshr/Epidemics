@@ -23,8 +23,15 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_convergence_threshold">
     <property name="upper">10000000000</property>
-    <property name="value">0.001</property>
+    <property name="value">0.01</property>
     <property name="step-increment">0.01</property>
+    <property name="page-increment">1</property>
+  </object>
+   <object class="GtkAdjustment" id="adjustment_finite_difference_delta">
+    <property name="upper">100</property>
+     <property name="lower">1e-10</property>
+    <property name="value">0.0000001</property>
+    <property name="step-increment">0.000001</property>
     <property name="page-increment">1</property>
   </object>
   <object class="GtkWindow" id="window_settings_gauss">
@@ -71,6 +78,31 @@
               <packing>
                 <property name="left-attach">1</property>
                 <property name="top-attach">0</property>
+              </packing>
+            </child>
+ <child>
+              <object class="GtkLabel" id="label_finite_difference_delta">
+                <property name="name">label_finite_difference_delta</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Finite Difference Stepsize:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="spin_finite_difference_delta">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">adjustment_finite_difference_delta</property>
+                <property name="digits">10</property>
+                <signal name="value-changed" handler="on_spin_finite_difference_delta_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
               </packing>
             </child>
           </object>

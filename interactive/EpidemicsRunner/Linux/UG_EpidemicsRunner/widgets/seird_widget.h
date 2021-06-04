@@ -59,7 +59,7 @@ namespace ug{
 			int& _pso_no_particles = pso_values[1];
 			int& _pso_no_groups = pso_values[2];
 			double newton_convergence_threshold;
-			
+			double newton_finite_difference_delta;
 			std::vector<double> sq_error; //vector of squared errors
 
 
@@ -146,6 +146,8 @@ namespace ug{
 				pso_values[0]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_iterations); 
 				pso_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_particles);
 				pso_values[2]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_groups);
+				
+				newton_finite_difference_delta=gtk_spin_button_get_value(GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_finite_difference_delta")));
 				update_simulation();			
 				
 			}
@@ -353,7 +355,12 @@ namespace ug{
 			static void set_convergence_threshold(double val,SEIRDWidget* _this)
 			{
 			_this->newton_convergence_threshold=val;	
-			}				
+			}
+			
+			static void set_finite_difference_delta_value(double val,SEIRDWidget* _this)
+			{
+			_this->newton_finite_difference_delta=val;	
+			}						
 			
 			
 			void run_pso(){
@@ -751,9 +758,9 @@ namespace ug{
 					   co::EVarManager<co::EFloat64> estimated_parameters;
 					   co::NewtonOptimizer<decltype(evaluator)> solver(options, evaluator);
 	
-
+					
 					   solver.set_convergence_threshold(newton_convergence_threshold);
-
+					   solver.change_derivative_step_size(newton_finite_difference_delta);
 					   auto result = solver.run(initial_vars, estimated_parameters);
 						
 						//Handle errors
@@ -935,7 +942,6 @@ namespace ug{
 			double val=gtk_spin_button_get_value(button);
 			glade_widgets->seird_object->parameter_value_changed(val,0);		
 			//printf("alpha changed \n");
-
 		}    
 		extern "C" G_MODULE_EXPORT void on_spin_kappa_value_changed(GtkSpinButton* button, gpointer* data)
 		{
@@ -1223,6 +1229,14 @@ namespace ug{
 
 			double val = gtk_spin_button_get_value(button);
 			glade_widgets->seird_object->set_convergence_threshold(val,glade_widgets->seird_object);	
+
+		}   
+		extern "C" G_MODULE_EXPORT void on_spin_finite_difference_delta_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDWidget::app_widgets*>(data);
+
+			double val = gtk_spin_button_get_value(button);
+			glade_widgets->seird_object->set_finite_difference_delta_value(val,glade_widgets->seird_object);	
 
 		}   
 		

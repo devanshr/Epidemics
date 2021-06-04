@@ -85,7 +85,7 @@ namespace ug{
 					t+=h;
 				}
 				if (t!=tend){
-					calc_values(t,u,res);
+					calc_values(tend,u,res);
 					ts.push_back(tend);
 				}
 				return std::make_tuple(ts,res);			
