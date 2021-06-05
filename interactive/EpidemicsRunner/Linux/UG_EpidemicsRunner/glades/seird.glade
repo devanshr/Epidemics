@@ -175,29 +175,29 @@
     <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_death">
-    <property name="upper">10000000</property>
+    <property name="upper">9999999999</property>
     <property name="value">1</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_exposed">
-    <property name="upper">100000</property>
+    <property name="upper">9999999999</property>
     <property name="value">70</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_infected">
-    <property name="upper">1000000</property>
+    <property name="upper">9999999999</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_recovered">
-    <property name="upper">1000000</property>
+    <property name="upper">9999999999</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_susceptibles">
-    <property name="upper">10000000</property>
+    <property name="upper">9999999999</property>
     <property name="value">750000</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
