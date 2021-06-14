@@ -955,11 +955,6 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="stock">gtk-missing-image</property>
-  </object>
   <!-- n-columns=4 n-rows=6 -->
   <object class="GtkGrid" id="grid_main_pde">
     <property name="name">grid_main_pde</property>
@@ -1059,20 +1054,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkCheckButton" id="check_diffusion1">
-            <property name="label" translatable="yes">Stepsize: Spatial and Temporal</property>
-            <property name="name">check_diffusion</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">False</property>
-            <property name="draw-indicator">True</property>
-          </object>
-          <packing>
-            <property name="left-attach">2</property>
-            <property name="top-attach">1</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkSpinButton" id="spin_pde_stepsize">
             <property name="name">spin_pde_stepsize</property>
             <property name="visible">True</property>
@@ -1098,7 +1079,7 @@
             <signal name="clicked" handler="run_newton_pde" swapped="no"/>
           </object>
           <packing>
-            <property name="left-attach">4</property>
+            <property name="left-attach">5</property>
             <property name="top-attach">0</property>
           </packing>
         </child>
@@ -1128,9 +1109,12 @@
             <signal name="clicked" handler="on_run_sim_pde_button" swapped="no"/>
           </object>
           <packing>
-            <property name="left-attach">5</property>
+            <property name="left-attach">4</property>
             <property name="top-attach">0</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -1222,6 +1206,7 @@
                 <property name="name">frame_scrollbar_time</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="receives-default">True</property>
                 <property name="label-xalign">0</property>
                 <property name="shadow-type">none</property>
                 <child>
@@ -1229,9 +1214,12 @@
                     <property name="name">scrollbar_time</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
                     <property name="halign">baseline</property>
                     <property name="valign">baseline</property>
                     <property name="adjustment">adjustment_time</property>
+                    <property name="lower-stepper-sensitivity">on</property>
+                    <property name="upper-stepper-sensitivity">on</property>
                     <property name="round-digits">0</property>
                     <property name="digits">0</property>
                     <property name="draw-value">False</property>
@@ -1624,16 +1612,6 @@
                     <property name="image">image3</property>
                     <property name="use-stock">False</property>
                     <signal name="activate" handler="on_show_popup_menu_pde" swapped="no"/>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkImageMenuItem" id="load_data_pde">
-                    <property name="label">Load Data</property>
-                    <property name="name">load_data</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="image">image4</property>
-                    <property name="use-stock">False</property>
                   </object>
                 </child>
               </object>

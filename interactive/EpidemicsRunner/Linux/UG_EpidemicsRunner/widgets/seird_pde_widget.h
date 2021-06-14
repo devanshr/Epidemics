@@ -1560,7 +1560,11 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void run_pso_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_pso(glade_widgets,glade_widgets->seird_pde_object);				
+			glade_widgets->seird_pde_object->run_pso(glade_widgets,glade_widgets->seird_pde_object);
+			glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);
+			gtk_spin_button_set_value(glade_widgets->w_spin_time,0);		
+			glade_widgets->seird_pde_object->update_time_spin(glade_widgets);	
+	
 		}
 		
 		extern "C" G_MODULE_EXPORT void on_spin_iterations_pde_value_changed(GtkSpinButton* button, gpointer* data)
@@ -1590,8 +1594,11 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 		
 		extern "C" G_MODULE_EXPORT void run_newton_pde(GtkButton* button, gpointer* data) {
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
-			glade_widgets->seird_pde_object->run_newton(glade_widgets,glade_widgets->seird_pde_object);				
-			
+			glade_widgets->seird_pde_object->run_newton(glade_widgets,glade_widgets->seird_pde_object);
+			glade_widgets->seird_pde_object->update_simulation(glade_widgets->seird_pde_object);
+			gtk_spin_button_set_value(glade_widgets->w_spin_time,0);		
+			glade_widgets->seird_pde_object->update_time_spin(glade_widgets);	
+	
 		}
 		
 		extern "C" G_MODULE_EXPORT void on_spin_convergence_threshold_pde_value_changed(GtkSpinButton* button, gpointer* data)
