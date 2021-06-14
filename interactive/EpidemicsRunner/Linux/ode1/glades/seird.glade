@@ -181,7 +181,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_initial_exposed">
     <property name="upper">9999999999</property>
-    <property name="value">1755</property>
+    <property name="value">2018</property>
     <property name="step-increment">100</property>
     <property name="page-increment">0.10</property>
   </object>
@@ -485,7 +485,7 @@
   <object class="GtkAdjustment" id="adjustment_t_end">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
-    <property name="value">84</property>
+    <property name="value">36</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
