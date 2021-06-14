@@ -156,7 +156,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
@@ -202,7 +202,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
@@ -270,7 +270,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
@@ -319,7 +319,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
