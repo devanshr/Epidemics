@@ -156,18 +156,70 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
+                double rgbR;
+                double rgbG;
+                double rgbB;
 
 				cairo_set_line_width(cr, 2);				
 			//	std::cout<<"drin\n";
 				for (int j=0;j<dim_data;j++){
 					if (selected_dims[j]==true){
-						double rgbR=(rand()%255)/255.0;
-						double rgbG=(rand()%255)/255.0;
-						double rgbB=(rand()%125)/255.0;
+                        if (j == 0)
+                        {
+                            rgbR=255;
+                            rgbG=0;
+                            rgbB=0;
+                        }
+
+                        else if (j == 1)
+                        {
+                            rgbR=0;
+                            rgbG=128;
+                            rgbB=0;
+
+                        }
+
+                        else if (j == 2)
+                        {
+                            rgbR=0;
+                            rgbG=0;
+                            rgbB=255;
+
+                        }
+
+                        else if (j == 3)
+                        {
+                            rgbR=255;
+                            rgbG=255;
+                            rgbB=0;
+
+                        }
+
+                        else if (j == 4)
+                        {
+                            rgbR=75;
+                            rgbG=0;
+                            rgbB=130;
+
+                        }
+                        else if (j == 5)
+                        {
+                            rgbR=238;
+                            rgbG=130;
+                            rgbB=238;
+
+                        }
+                        else
+                        {
+                            srand(rand());
+                            rgbR=(rand()%255)/255.0;
+                            rgbG=(rand()%255)/255.0;
+                            rgbB=(rand()%125)/255.0;
+                        }
 						colors.push_back(rgbR);
 						colors.push_back(rgbG);
 						colors.push_back(rgbB);
@@ -202,7 +254,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
@@ -270,7 +322,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
@@ -319,7 +371,7 @@ end
 					cairo_rectangle (cr, 0, 0, width,height);
 					cairo_fill (cr);	
 				}	
-				srand(0);
+				srand(173);
 
 				double xg;
 				double yg;
