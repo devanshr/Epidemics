@@ -1,8 +1,0 @@
-Linux:
-clear; rm Epidemics.bin; g++ -O3 -static-libgcc -static-libstdc++ -o Epidemics.bin main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic;./Epidemics.bin
-
-MacOS:
-clear; rm Epidemics.bin; g++ -O3 -std=c++17 -o Epidemics.bin main.cpp `pkg-config --cflags --libs gtk+-3.0`;./Epidemics.bin
-
-Windows:
-g++ -O3 -o Epidemics.exe main.cpp `pkg-config --cflags --libs gtk+-3.0` -export-dynamic -march=native;./Epidemics.exe
