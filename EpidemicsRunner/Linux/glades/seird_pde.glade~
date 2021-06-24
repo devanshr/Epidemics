@@ -391,7 +391,12 @@
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment_pde_stepsize">
+  <object class="GtkAdjustment" id="adjustment_pde_stepsize_spatial">
+    <property name="upper">2</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_pde_stepsize_time">
     <property name="upper">2</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">10</property>
@@ -1058,7 +1063,7 @@
             <property name="name">spin_pde_stepsize_time</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_pde_stepsize</property>
+            <property name="adjustment">adjustment_pde_stepsize_time</property>
             <property name="digits">5</property>
             <property name="value">0.10</property>
             <signal name="value-changed" handler="on_spin_stepsize_time_pde_value_changed" swapped="no"/>
@@ -1119,7 +1124,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0.10000</property>
-            <property name="adjustment">adjustment_pde_stepsize</property>
+            <property name="adjustment">adjustment_pde_stepsize_spatial</property>
             <property name="digits">5</property>
             <property name="value">0.10</property>
             <signal name="value-changed" handler="on_spin_stepsize_spatial_pde_value_changed" swapped="no"/>
