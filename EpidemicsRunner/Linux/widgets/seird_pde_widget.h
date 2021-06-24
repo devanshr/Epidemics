@@ -816,7 +816,8 @@ class SEIRDPDEWidget;
 			   std::string textbody = R"(
 initial_vars=InitialValueManager()
 
-initial_vars:set_h(h)
+initial_vars:set_hx(hx)
+initial_vars:set_ht(ht)
 initial_vars:set_t_end(t_end)
 initial_vars:set_t_start(t_start)
 initial_vars:set_r1(r1)
@@ -1083,7 +1084,8 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   std::string textbody = R"(
 initial_vars=InitialValueManager()
 
-initial_vars:set_h(h)
+initial_vars:set_hx(hx)
+initial_vars:set_ht(ht)
 initial_vars:set_t_end(t_end)
 initial_vars:set_t_start(t_start)
 initial_vars:set_r1(r1)

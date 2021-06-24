@@ -44,7 +44,8 @@ template<seird::Geometry T, class F>
 				F v4=10;
 				F v5=10;
 				
-				F h=0.1;
+				F hx=0.1;
+				F ht=0.1;
 				F t_start=0;
 				F t_end=5;
 				
@@ -124,11 +125,17 @@ template<seird::Geometry T, class F>
 				void set_v5(F _val){
 					v5=_val;
 				}	
-				F get_h() const{
-					return h;
+				F get_hx() const{
+					return hx;
 				}						
-				void set_h(F _val){
-					h=_val;
+				F get_ht() const{
+					return ht;
+				}						
+				void set_hx(F _val){
+					hx=_val;
+				}	
+				void set_ht(F _val){
+					ht=_val;
 				}	
 				F get_t_start() const{
 					return t_start;
@@ -205,7 +212,7 @@ template<seird::Geometry T, class F>
 				F dimX=initial_manager.get_dimX();
 				F dimY=initial_manager.get_dimY();
 				
-				F hx=initial_manager.get_h();
+				F hx=initial_manager.get_hx();
 
 				size_t x_points = (dimX / hx) + 1;
 				size_t y_points = (dimY / hx) + 1;
@@ -253,10 +260,10 @@ template<seird::Geometry T, class F>
 				
 			}
 
-			void RunSEIRD(ug::epi::SEIRD<std::vector<double>>& seird_model,std::string path, std::string name, double v1, double v2, double v3, double v4, double v5, double t_start, double t_end, double stepsize){		
+			void RunSEIRD(ug::epi::SEIRD<std::vector<double>>& seird_model,std::string path, std::string name, double v1, double v2, double v3, double v4, double v5, double t_start, double t_end, double stepsize_time){		
 				std::vector<double> u0={v1,v2,v3,v4,v5};
 
-				seird_model.change_step_size(stepsize);
+				seird_model.change_step_size_time(stepsize_time);
 				auto result =seird_model.run_linear_implicit(t_start,u0,t_end);
 				auto timepoints=std::get<0>(result);
 				auto data=std::get<1>(result);
@@ -268,11 +275,12 @@ template<seird::Geometry T, class F>
 	
 				double t_start=initial_manager.get_t_start();
 				double t_end=initial_manager.get_t_end();
-				double h=initial_manager.get_h();
+				double hx=initial_manager.get_hx();
+				double ht=initial_manager.get_ht();
 				std::vector<double> u0 =  initial_values<std::vector<double>>(initial_manager);
 
-				seird_model.change_step_size_spatial(h);
-				seird_model.change_step_size_time(h);	
+				seird_model.change_step_size_spatial(hx);
+				seird_model.change_step_size_time(ht);	
 
 				std::string filename=name;
 

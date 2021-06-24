@@ -175,7 +175,7 @@ namespace ug{
 
 			ug::epi::SEIRD<std::vector<double>> seird_model(alpha,kappa,theta,qq,pp);
 
-			seird_model.change_step_size(_stepsize);
+			seird_model.change_step_size_time(_stepsize);
 
 			std::vector<double> u0 = {_initial_susceptibles, _initial_exposed, _initial_infected,_initial_recovered,_initial_deaths};
 			double t_start = _simulation_starttime;

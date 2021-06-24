@@ -18,7 +18,7 @@ namespace ug{
 			F theta;
 			F qq;
 			F pp;
-			F h=0.01;
+			F ht=0.01;
 
 			void calc_values(F t, std::array<F,5>& u, std::vector<F>& res){
 				std::array<F,5> k1=system(u);
@@ -63,8 +63,8 @@ namespace ug{
 			
 			}	
 
-			void change_step_size(F _h) {
-				h = _h;
+			void change_step_size_time(F _ht) {
+				ht = _ht;
 			}
 			std::tuple<std::vector<F>,std::vector<F>> run(F t0, const T u0, F tend){
 				std::vector<F> res;
@@ -136,7 +136,7 @@ namespace ug{
 			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0, const T& u0, F tend) {
 				std::array<F, 5> u = { u0[0],u0[1],u0[2],u0[3],u0[4] };
 				utility::LinearImplicitSolver23<std::array<F,5>,std::array<F,25>,SEIRD,F> solver(this,5);
-				solver.change_step_size(h);
+				solver.change_step_size_time(ht);
 				auto result=solver.run(t0, u, tend);
 				return std::make_tuple(result.first,result.second);
 			}
