@@ -2,10 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../../../../../models/seird.h"
-#include "../../../../../models/writer.h"
-#include "../../../../../../ConstrainedOptimization/core/parameter_estimation.h"
-#include "../../../../../../ConstrainedOptimization/core/parameters.h"
+#include "../../../models/seird.h"
+#include "../../../models/writer.h"
+#include "../../../../ConstrainedOptimization/core/parameter_estimation.h"
+#include "../../../../ConstrainedOptimization/core/parameters.h"
 
 #include "../utility.h"
 

@@ -44,7 +44,7 @@ end
 --Start of parameter, constants and initial values definitions
 
 )";
-			lua_output << "h=" << stepsize << "\n";
+			//lua_output << "h=" << stepsize << "\n";
 			
 			for (size_t i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";

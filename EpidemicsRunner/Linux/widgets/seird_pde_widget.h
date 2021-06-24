@@ -3,10 +3,10 @@
 #include <vector>
 #include <string>
 #include <ctime> // experimental, may not work on MAC/Win?
-#include "../../../../../models/seird_pde.h"
-#include "../../../../../models/writer.h"
-#include "../../../../../../ConstrainedOptimization/core/parameter_estimation.h"
-#include "../../../../../../ConstrainedOptimization/core/parameters.h"
+#include "../../../models/seird_pde.h"
+#include "../../../models/writer.h"
+#include "../../../../ConstrainedOptimization/core/parameter_estimation.h"
+#include "../../../../ConstrainedOptimization/core/parameters.h"
 
 #include "../utility.h"
 
@@ -25,7 +25,7 @@ class SEIRDPDEWidget;
 			
 			//These variables store all the data values and parameter settings
 			double parameter_values[6]={0};
-			double initial_values[13]={0};
+			double initial_values[14]={0};
 			double upper_bound_values[5] = {0};
 			double lower_bound_values[5] = {0};
 			
@@ -48,11 +48,12 @@ class SEIRDPDEWidget;
 			double& _initial_v5 =initial_values[9];
 
 			
-			double& _simulation_starttime=initial_values[10];	
-			double& _simulation_endtime=initial_values[11];	
-			double& _stepsize=initial_values[12];	
+			double& _simulation_starttime=initial_values[10];
+			double& _simulation_endtime=initial_values[11];
+			double& _stepsize_time=initial_values[12];
+			double& _stepsize_spatial=initial_values[13];
 			
-			std::vector<std::string> param_names={"alpha","kappa","theta","qq","pp","diffusion"};	
+			std::vector<std::string> param_names={"alpha","kappa","theta","qq","pp","diffusion"};
 			std::vector<std::string> initial_names={"r1","v1","r2","v2","r3","v3","r4","v4","r5","v5","Simulation Endtime","RK4 Stepsize h"};				
 			
 			std::vector<double> timepoints; //time values of simulation
@@ -107,8 +108,9 @@ class SEIRDPDEWidget;
 				glade_widgets.w_spin_v3 = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_v3"));
 				glade_widgets.w_spin_v4 = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_v4"));
 				glade_widgets.w_spin_v5 = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_v5"));
-				
-				glade_widgets.w_spin_stepsize = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_stepsize"));
+				// new	
+				glade_widgets.w_spin_stepsize_time = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_stepsize_time"));
+				glade_widgets.w_spin_stepsize_spatial = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_stepsize_spatial"));
 				glade_widgets.w_spin_t_start = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_start1"));
 				glade_widgets.w_spin_t_end = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_t_end1"));
 				glade_widgets.w_spin_time= GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_seird_pde_time"));
@@ -151,7 +153,8 @@ class SEIRDPDEWidget;
 				
 				initial_values[10]=gtk_spin_button_get_value(glade_widgets.w_spin_t_start);
 				initial_values[11]=gtk_spin_button_get_value(glade_widgets.w_spin_t_end);
-				initial_values[12]=gtk_spin_button_get_value(glade_widgets.w_spin_stepsize);
+				initial_values[12]=gtk_spin_button_get_value(glade_widgets.w_spin_stepsize_time);
+				initial_values[13]=gtk_spin_button_get_value(glade_widgets.w_spin_stepsize_spatial);
 				
 				pso_values[0]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_iterations); 
 				pso_values[1]=gtk_spin_button_get_value(glade_widgets.w_spin_pso_no_particles);
@@ -234,7 +237,8 @@ class SEIRDPDEWidget;
                 GtkSpinButton *w_spin_v5;
                 GtkSpinButton *w_spin_t_start;
                 GtkSpinButton *w_spin_t_end;
-                GtkSpinButton *w_spin_stepsize;
+                GtkSpinButton *w_spin_stepsize_time;
+                GtkSpinButton *w_spin_stepsize_spatial;
                 GtkToggleButton *w_check_alpha;
                 GtkToggleButton *w_check_kappa;
                 GtkToggleButton *w_check_theta;
@@ -314,11 +318,13 @@ class SEIRDPDEWidget;
 
 				ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, pp,qq,diffusion);
 
-				seird_model.change_step_size_spatial(widget->_stepsize);
-				seird_model.change_step_size_time(widget->_stepsize);
+				//seird_model.change_step_size_spatial(widget->_stepsize);
+				//seird_model.change_step_size_time(widget->_stepsize);	
+				seird_model.change_step_size_time(widget->_stepsize_time);	
+				seird_model.change_step_size_spatial(widget->_stepsize_spatial);
 				
 				
-				std::vector<double> u0 = widget->initialize_pde_values(widget,1,1,widget->_stepsize,widget->_initial_r1,widget->_initial_r2,widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,widget->_initial_v5);
+				std::vector<double> u0 = widget->initialize_pde_values(widget,1,1,widget->_stepsize_spatial,widget->_initial_r1,widget->_initial_r2,widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,widget->_initial_v5);
 				
 				std::string filename = "output";
 
@@ -352,20 +358,21 @@ class SEIRDPDEWidget;
 				std::vector<F> u0(nVars * 5, F(0)); //number of vertices in discretization
 				
 				
-					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r1, v1, 0);
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, r1, v1, 0);
 			
-					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r2, v2, 1);
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, r2, v2, 1);
 	
-					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r3, v3, 2);
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, r3, v3, 2);
 		
-					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r4, v4, 3);
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, r4, v4, 3);
 	
-					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, hx, r5, v5, 4);
+					widget->set_gaussian_values(widget,u0, x_points, y_points, dimX, dimY, r5, v5, 4);
 
 				return u0;
 			}
-	
-			static void set_gaussian_values(SEIRDPDEWidget* widget,std::vector<double>& u0, typename std::vector<double>::value_type x_points, typename std::vector<double>::value_type y_points, typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type hx, typename std::vector<double>::value_type radius, typename std::vector<double>::value_type val, int current_dimension) {
+
+		// define circle of start values	
+			static void set_gaussian_values(SEIRDPDEWidget* widget,std::vector<double>& u0, typename std::vector<double>::value_type x_points, typename std::vector<double>::value_type y_points, typename std::vector<double>::value_type dimX, typename std::vector<double>::value_type dimY, typename std::vector<double>::value_type radius, typename std::vector<double>::value_type val, int current_dimension) {
 				using F = typename std::vector<double>::value_type;
 				for (int i = 0; i < y_points; i++) {
 					for (int j = 0; j < x_points; j++) {
@@ -408,15 +415,15 @@ class SEIRDPDEWidget;
 			static void plot_heatmaps(SEIRDPDEWidget* widget,std::string filenum) {
 				double t_start =widget-> _simulation_starttime;
 				double t_end = widget->_simulation_endtime;
-				double stepsize = widget->_stepsize;
+				double stepsize_spatial = widget->_stepsize_spatial;
 				
 				//std::cout<< "\nInPlot Heatmaps\n";
 				int img_x = 200;
 				int img_y = 200;
 				double dimX = 1.0;
 				double dimY = 1.0;
-				size_t grid_x = std::ceil(dimX / stepsize) + 1;
-				size_t grid_y = std::ceil(dimY / stepsize) + 1;
+				size_t grid_x = std::ceil(dimX / stepsize_spatial) + 1;
+				size_t grid_y = std::ceil(dimY / stepsize_spatial) + 1;
 
 				std::string delimiter = "\t";
 				int gridx = (int)grid_x;
@@ -462,7 +469,7 @@ class SEIRDPDEWidget;
 			seird_pde_object->datapoints=std::vector<double>();
 			double dimX = 1.0;
 			double dimY = 1.0;
-			int gridx = std::ceil(dimX / seird_pde_object->_stepsize) + 1;		
+			int gridx = std::ceil(dimX / seird_pde_object->_stepsize_spatial) + 1;		
 			std::string path = seird_pde_object->user_selected_optimization_path + "/output"+filenum+".txt";
 			auto err = co::utility::parse_csv(path, seird_pde_object->datapoints, "/t", &gridx);
 			if (err==co::ErrorCode::NoError){
@@ -481,7 +488,7 @@ class SEIRDPDEWidget;
 		
 		static void update_time_spin(SEIRDPDEWidget::app_widgets* glade_widgets){
 			
-				int maxrange=(glade_widgets->seird_pde_object->_simulation_endtime-glade_widgets->seird_pde_object->_simulation_starttime)/glade_widgets->seird_pde_object->_stepsize;
+				int maxrange=(glade_widgets->seird_pde_object->_simulation_endtime-glade_widgets->seird_pde_object->_simulation_starttime)/glade_widgets->seird_pde_object->_stepsize_time;
 				gtk_spin_button_set_range(glade_widgets->w_spin_time,0,maxrange);
 		}
 		
@@ -489,7 +496,7 @@ class SEIRDPDEWidget;
         static void generate_heatmap(SEIRDPDEWidget* widget,int mapindex, bool big=false) {
                 double t_start =widget-> _simulation_starttime;
                 double t_end = widget->_simulation_endtime;
-                double stepsize = widget->_stepsize;
+                double stepsize_spatial = widget->_stepsize_spatial;
                 int img_x;
                 int img_y;
                 if (big ==  true)
@@ -505,8 +512,8 @@ class SEIRDPDEWidget;
 
                 double dimX = 1.0;
                 double dimY = 1.0;
-                size_t grid_x = std::ceil(dimX / stepsize) + 1;
-                size_t grid_y = std::ceil(dimY / stepsize) + 1;
+                size_t grid_x = std::ceil(dimX / stepsize_spatial) + 1;
+                size_t grid_y = std::ceil(dimY / stepsize_spatial) + 1;
 
                 int gridx = (int)grid_x;
 
@@ -699,7 +706,7 @@ class SEIRDPDEWidget;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
 
-				std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
+				std::vector<std::string>name_of_inits = { "ht", "hx","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
 
 				std::vector<double> values_of_inits;
 
@@ -802,7 +809,7 @@ class SEIRDPDEWidget;
 					std::cout<<"No parameters Checked\n";
 					return;
 				}
-			   values_of_inits = {seird_pde_object->_stepsize,seird_pde_object->_simulation_endtime,seird_pde_object->_simulation_starttime,seird_pde_object->_initial_r1,seird_pde_object->_initial_r2,
+			   values_of_inits = {seird_pde_object->_stepsize_time, seird_pde_object->_stepsize_spatial, seird_pde_object->_simulation_endtime,seird_pde_object->_simulation_starttime,seird_pde_object->_initial_r1,seird_pde_object->_initial_r2,
 				   seird_pde_object->_initial_r3,seird_pde_object->_initial_r4,seird_pde_object->_initial_r5,seird_pde_object->_initial_v1,seird_pde_object->_initial_v2,seird_pde_object->_initial_v3,seird_pde_object->_initial_v4,
 				   seird_pde_object->_initial_v5};
 
@@ -844,7 +851,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				}
 				else 
 				{
-					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits,seird_pde_object->_stepsize);
+					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits);
 
 					co::PSOOptions options;
 					options.set_max_iterations(seird_pde_object->_pso_max_iter);
@@ -968,7 +975,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
 
-				std::vector<std::string>name_of_inits = { "h","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
+				std::vector<std::string>name_of_inits = { "ht", "hx","t_end","t_start","r1","r2","r3","r4","r5","v1","v2","v3","v4","v5" };
 				std::vector<double> values_of_inits;
 
 				co::EVar64Manager initial_vars;
@@ -1069,7 +1076,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 						return;
 					}
 
-				   values_of_inits = {widget->_stepsize,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
+				   values_of_inits = {widget->_stepsize_time, widget->_stepsize_spatial,widget->_simulation_endtime,widget->_simulation_starttime,widget->_initial_r1,widget->_initial_r2,
 				   widget->_initial_r3,widget->_initial_r4,widget->_initial_r5,widget->_initial_v1,widget->_initial_v2,widget->_initial_v3,widget->_initial_v4,
 				   widget->_initial_v5};
 
@@ -1111,7 +1118,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				}
 				else
 				{
-					   ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, widget->_stepsize);
+					   ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits);
 	
 					   co::NewtonOptions options;
 					   options.set_stepsize_alpha(1);
@@ -1549,12 +1556,21 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 		}   
 		
-		extern "C" G_MODULE_EXPORT void on_spin_stepsize_pde_value_changed(GtkSpinButton* button, gpointer* data)
+		extern "C" G_MODULE_EXPORT void on_spin_stepsize_time_pde_value_changed(GtkSpinButton* button, gpointer* data)
 		{
 			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
 			double val=gtk_spin_button_get_value(button);
 			glade_widgets->seird_pde_object->initial_value_changed(val,12);
-			printf( "Stepsize pde: %4.2f\n", val);		
+			printf( "Stepsize_time pde: %4.2f\n", val);
+
+		}   
+
+		extern "C" G_MODULE_EXPORT void on_spin_stepsize_spatial_pde_value_changed(GtkSpinButton* button, gpointer* data)
+		{
+			SEIRDPDEWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDEWidget::app_widgets*>(data);
+			double val=gtk_spin_button_get_value(button);
+			glade_widgets->seird_pde_object->initial_value_changed(val,13);
+			printf( "Stepsize_spatial pde: %4.2f\n", val);
 
 		}   
 		
