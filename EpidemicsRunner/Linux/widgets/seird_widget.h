@@ -376,7 +376,7 @@ namespace ug{
 				std::vector<std::string> names_of_variables;
 				
 				size_t count =0;	
-				std::vector<std::string> names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+				std::vector<std::string> names_of_inits = {"h", "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 				std::vector<double> values_of_inits;
 
 				std::vector<co::EFloat64> bounds;
@@ -469,7 +469,7 @@ namespace ug{
 					return;
 				}
 				
-			   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
+			   values_of_inits = {_stepsize, _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
 
 			   std::string textbody = R"(
 			seird_model=SEIRD(alpha,kappa,theta,qq,pp)
@@ -494,7 +494,7 @@ namespace ug{
 				}
 				else
 				{
-					ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
+					ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
 
 					co::PSOOptions options;
 					options.set_max_iterations(_pso_max_iter);
@@ -635,7 +635,7 @@ namespace ug{
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
 				size_t count = 0;
-				std::vector<std::string > names_of_inits = { "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
+				std::vector<std::string > names_of_inits = {"h", "t_start","t_end","init_susceptibles","init_exposed","init_infected","init_recovered","init_deaths" };
 				std::vector<double> values_of_inits;
 
 				   co::EVar64Manager initial_vars;
@@ -723,7 +723,7 @@ namespace ug{
 					return;
 				}
 
-				   values_of_inits = { _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
+				   values_of_inits = {_stepsize, _simulation_starttime, _simulation_endtime, _initial_susceptibles, _initial_exposed, _initial_infected, _initial_recovered, _initial_deaths };
 
 				   std::string textbody = R"(
 
@@ -749,7 +749,7 @@ namespace ug{
 				   }
 				   else
 				   {
-					   ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits, _stepsize);
+					   ug::epi::create_evaluate_lua(user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, names_of_inits, values_of_inits);
 	
 					   co::NewtonOptions options;
 					   options.set_stepsize_alpha(1);
