@@ -1,14 +1,9 @@
 *.exe
-Epidemics.bin
-!Epidemics.exe
+*.bin
 *.obj
 *.out
 *.doc
 *.docx
 *.vs
-.vs
 **/evaluations/**
-interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/x64/
-interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/Debug/
-interactive/EpidemicsRunner/Windows/UG_EpidemicsRunner/.vs/
 Samples
