@@ -125,8 +125,11 @@ template<seird::Geometry T, class F>
 				void set_v5(F _val){
 					v5=_val;
 				}	
-				F get_h() const{
-					return h;
+				F get_hx() const{
+					return hx;
+				}						
+				F get_ht() const{
+					return ht;
 				}						
 				void set_hx(F _val){
 					hx=_val;
@@ -209,7 +212,7 @@ template<seird::Geometry T, class F>
 				F dimX=initial_manager.get_dimX();
 				F dimY=initial_manager.get_dimY();
 				
-				F hx=initial_manager.get_h();
+				F hx=initial_manager.get_hx();
 
 				size_t x_points = (dimX / hx) + 1;
 				size_t y_points = (dimY / hx) + 1;
