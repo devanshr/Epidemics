@@ -507,7 +507,7 @@ namespace ug {
 			else{
 				std::cout<<"Writing to file\n";
 				//std::cin.get();
-				ow.write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u,hx);
+				ow.write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u);
 			}
 
 			
@@ -612,7 +612,7 @@ namespace ug {
 			std::tuple<std::vector<F>,std::vector<F>> run(F t0,  T& u0, F tend) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				
-				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names);
+				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names,hx,ht);
 				
 				std::vector<F> u = u0;
 				std::vector<F> res;
