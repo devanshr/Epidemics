@@ -537,7 +537,7 @@ namespace ug {
 				hx= _hx;
 			}
 			
-			T system(T& u) {
+			T system(T& u, F t=0) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t vars_per_row = (std::ceil(dimX / hx) + 1);
 				size_t vars_per_column = (std::ceil(dimY / hx) + 1);
@@ -574,7 +574,7 @@ namespace ug {
 				return res;
 			}	
 
-			T jacobian(T& u) {
+			T jacobian(T& u, F t=0) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t vars_per_row_jacobian=dimModel*vars_per_dim;
 				size_t vars_per_row = (std::ceil(dimX / hx) + 1); //Row means with respect to a single class

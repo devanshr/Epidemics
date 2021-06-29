@@ -89,12 +89,12 @@ namespace ug {
 					while (t <= tend) {
 						std::copy(u.begin(), u.end(), u_copy.begin());
 						//k1
-						T1 temp = model->system(u); //it only has dim entries but otherwise type errors in this old version of dgemm
+						T1 temp = model->system(u,t); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::vector<F> fy(dim);
 						std::copy(temp.begin(),temp.end(), fy.begin());
 						
 						I = create_identity_matrix();
-						T2 temp2=model->jacobian(u);
+						T2 temp2=model->jacobian(u,t);
 						std::copy(temp2.begin(), temp2.end(), J.begin());
 						M=sumAB(F(1), I, F(-a * h), J);
 						co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
@@ -109,23 +109,25 @@ namespace ug {
 						}
 				
 					
-						temp = model->system(u); //it only has dim entries but otherwise type errors in this old version of dgemm
+						temp = model->system(u,t+0.5*h); //it only has dim entries but otherwise type errors in this old version of dgemm
+						temp2=model->jacobian(u,t+0.5*h);
 						std::copy(temp.begin(), temp.end(), fy.begin());
 						co::mul::dgemm_nn(dim, 1, dim, -a*h, J.begin(), 1, dim, k1.begin(), 1, 1, F(1.0), fy.begin(), 1, 1);
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
 						co::dc::backwards_substitution<F>(R.begin(), k2.begin(), 1, q1.begin(), dim);
 
-						//k3
+						//k3 (useful for adaptive stepsizes)
+						/*
 						for (int i = 0; i < dim; i++) {
 							u[i] = u_copy[i] +h * k2[i];
 						}
-						temp = model->system(u); //it only has dim entries but otherwise type errors in this old version of dgemm
+						temp = model->system(u,t+h); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::copy(temp.begin(), temp.end(), fy.begin());
 						co::mul::dgemm_nn(dim, 1, dim, -d31* h, J.begin(), 1, dim, k1.begin(), 1, 1, F(1.0), fy.begin(), 1, 1); //f(yi+h*k2)=f(yi+h*k2)-d31*h*J*k1
 						co::mul::dgemm_nn(dim, 1, dim, -d32  *h, J.begin(), 1, dim, k2.begin(), 1, 1, F(1.0), fy.begin(), 1, 1);
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
 						co::dc::backwards_substitution<F>(R.begin(), k3.begin(), 1, q1.begin(), dim);
-						
+						*/
 						//calculating yi+1
 						if (StoreToFile==false){
 							for (int i = 0; i < dim; i++) {
