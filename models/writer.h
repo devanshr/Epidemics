@@ -49,6 +49,10 @@ namespace ug{
 				auto pos=u.begin();
 				
 				for (int k=0;k<dim;k++){
+					
+
+					
+					
 					for (int i=0;i<points_y;i++){
 						for (int j=0;j<points_x;j++){
 							output<<(double)pos[i*points_x+j]<<"\t";
