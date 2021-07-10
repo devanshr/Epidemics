@@ -651,14 +651,20 @@ namespace ug {
 			
 			
 			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0,  T& u0, F tend) {
+				std::printf("hx = %f\n", hx);
 				size_t nVars = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t dim=nVars*5;
 				utility::LinearImplicitSolver23<std::vector<F>,std::vector<F>,SEIRD_PDE,F> solver(this,dim);
+				
+			
 				solver.change_step_size(hx);
 				
 				std::cout<<"Staring linear implicit solver\n";
 				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names,hx,hx);
 				solver.set_store_to_file(true, filepath, filename,&writer);
+
+				writer.write_gridmapping(filepath, filename+".txt",t0,u0);
+				
 				solver.change_step_size(ht);
 				auto result=solver.run(t0, u0, tend);
 				std::cout<<"Ended linear implicit solver\n";

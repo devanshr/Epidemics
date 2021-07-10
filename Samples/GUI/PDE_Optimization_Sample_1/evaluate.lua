@@ -26,8 +26,8 @@ end
 
 --Start of parameter, constants and initial values definitions
 
-ht=0.1
-hx=0.2
+ht=0.3
+hx=0.3
 t_end=0.6
 t_start=0
 r1=10

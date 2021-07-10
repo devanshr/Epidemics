@@ -350,6 +350,7 @@ class SEIRDPDEWidget;
 				typename std::vector<double>::value_type v5 ) {
 				using F = typename std::vector<double>::value_type;
 				
+				std::printf("initialize_pde_values, hx = %f\n", hx);	
 				size_t x_points = std::ceil(dimX / hx) + 1; //1001
 				size_t y_points = std::ceil(dimY / hx) + 1;
 

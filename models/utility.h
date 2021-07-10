@@ -55,8 +55,11 @@ namespace ug {
 				}
 
 				std::pair<std::vector<F>,std::vector<F>> run(F t0,  T1 u,  F tend) {
+					std::cout << "(u.size() != dim) " << u.size() << " != " << dim << std::endl;
 					if (u.size() != dim) {
 						std::cerr << "Error: Input dimension of u0 in LinearImplicitSolver23 is different than the dimension previously given in the constructor\n";
+						std::cerr << "u.size() = " << u.size() << std::endl;
+						std::cerr << "dim = " << dim << std::endl;
 					}
 					if (StoreToFile){
 						(*ow).write_to_file(filepath, filename+std::to_string(0)+".txt",t0,u);

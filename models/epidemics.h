@@ -214,10 +214,10 @@ template<seird::Geometry T, class F>
 				
 				F hx=initial_manager.get_hx();
 
-				size_t x_points = (dimX / hx) + 1;
-				size_t y_points = (dimY / hx) + 1;
+				size_t x_points = static_cast<int>(std::ceil(dimX / hx) + 1);
+				size_t y_points = static_cast<int>(std::ceil(dimY / hx) + 1);
 
-				size_t nVars = ((dimX / hx) + 1) * ((dimY / hx) + 1);
+				size_t nVars = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				std::vector<F> u0(nVars*5,F(0)); //number of vertices in discretization
 
 				//Sets initial values for first dimension
@@ -277,6 +277,8 @@ template<seird::Geometry T, class F>
 				double t_end=initial_manager.get_t_end();
 				double hx=initial_manager.get_hx();
 				double ht=initial_manager.get_ht();
+				std::cout << "RunSEIRDPDE, hx = " << hx << std::endl; 
+				std::cout << "RunSEIRDPDE, ht = " << ht << std::endl; 
 				std::vector<double> u0 =  initial_values<std::vector<double>>(initial_manager);
 
 				seird_model.change_step_size_spatial(hx);
