@@ -659,6 +659,7 @@ namespace ug {
 				std::cout<<"Staring linear implicit solver\n";
 				OutputPDEWriter<std::vector<double>,double> writer(5,dimX,dimY,names,hx,hx);
 				solver.set_store_to_file(true, filepath, filename,&writer);
+				solver.change_step_size(ht);
 				auto result=solver.run(t0, u0, tend);
 				std::cout<<"Ended linear implicit solver\n";
 				std::cout<<result.second.size();
