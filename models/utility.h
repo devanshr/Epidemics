@@ -55,7 +55,6 @@ namespace ug {
 				}
 
 				std::pair<std::vector<F>,std::vector<F>> run(F t0,  T1 u,  F tend) {
-					std::cout << "(u.size() != dim) " << u.size() << " != " << dim << std::endl;
 					if (u.size() != dim) {
 						std::cerr << "Error: Input dimension of u0 in LinearImplicitSolver23 is different than the dimension previously given in the constructor\n";
 						std::cerr << "u.size() = " << u.size() << std::endl;
