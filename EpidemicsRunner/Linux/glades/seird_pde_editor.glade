@@ -3,25 +3,25 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkAction" id="action1">
-    <signal name="activate" handler="on_show_menu_pde" object="folder_chooser_dialog" swapped="no"/>
+    <signal name="activate" handler="on_show_menu_pde_editor" object="folder_chooser_dialog_pde_editor" swapped="no"/>
   </object>
   <object class="GtkAction" id="action_gauss">
-    <signal name="activate" handler="on_show_menu_pde" object="window_settings_gauss" swapped="no"/>
+    <signal name="activate" handler="on_show_menu_pde_editor" object="window_settings_gauss" swapped="no"/>
   </object>
-  <object class="GtkAction" id="action_pso"/>
-  <object class="GtkAdjustment" id="adjustment:_t_start">
+  <object class="GtkAction" id="action_pso_pde_editor"/>
+  <object class="GtkAdjustment" id="adjustment_pde_editor_t_start">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_alpha">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_alpha">
     <property name="upper">1</property>
     <property name="value">0.29999999999999999</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_convergence_threshold">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_convergence_threshold">
     <property name="upper">100</property>
     <property name="value">0.001</property>
     <property name="step-increment">1.0000000000000001e-05</property>
@@ -48,8 +48,8 @@
             <property name="can-focus">False</property>
             <property name="margin-bottom">5</property>
             <child>
-              <object class="GtkLabel" id="label_convergence_threshold">
-                <property name="name">label_convergence_threshold</property>
+              <object class="GtkLabel" id="label_pde_editor_convergence_threshold">
+                <property name="name">label_pde_editor_convergence_threshold</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Convergence Threshold:</property>
@@ -60,13 +60,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_convergence_threshold">
-                <property name="name">spin_convergence_threshold</property>
+              <object class="GtkSpinButton" id="spin_pde_editor_convergence_threshold">
+                <property name="name">spin_pde_editor_pde_editor_convergence_threshold</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_convergence_threshold</property>
+                <property name="adjustment">adjustment_pde_editor_convergence_threshold</property>
                 <property name="digits">8</property>
-                <signal name="value-changed" handler="on_spin_convergence_threshold_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_convergence_threshold_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -97,7 +97,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="on_cancel_pde" object="window_settings_gauss" swapped="no"/>
+                    <signal name="clicked" handler="on_cancel_pde_editor" object="window_settings_gauss" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -112,7 +112,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="on_cancel_pde" object="window_settings_gauss" swapped="no"/>
+                    <signal name="clicked" handler="on_cancel_pde_editor" object="window_settings_gauss" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -136,72 +136,72 @@
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment_diffusion">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_diffusion">
     <property name="upper">100</property>
     <property name="step-increment">0.10</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_groups">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_groups">
     <property name="upper">100</property>
     <property name="value">2</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_iterations">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_iterations">
     <property name="upper">100</property>
     <property name="value">4</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_kappa">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_kappa">
     <property name="upper">1</property>
     <property name="value">0.10</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower_alpha">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower_alpha">
     <property name="upper">1</property>
     <property name="value">3.0000000000000001e-06</property>
     <property name="step-increment">1e-08</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower_kappa">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower_kappa">
     <property name="upper">1</property>
     <property name="value">9.9999999999999995e-08</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower_pp">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower_pp">
     <property name="upper">100</property>
     <property name="value">0.0001</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower_qq">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower_qq">
     <property name="upper">100</property>
     <property name="value">2.0000000000000002e-05</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lower_theta">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_lower_theta">
     <property name="upper">1</property>
     <property name="value">9.9999999999999998e-13</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_ode_stepsize">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_ode_stepsize">
     <property name="lower">1.0000000000000001e-05</property>
     <property name="upper">1</property>
     <property name="value">0.59999999999999998</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_particles">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_particles">
     <property name="upper">100</property>
     <property name="value">8</property>
     <property name="step-increment">1</property>
@@ -227,8 +227,8 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkLabel" id="label_iterations">
-                <property name="name">label_iterations</property>
+              <object class="GtkLabel" id="label_pde_editor_iterations">
+                <property name="name">label_pde_editor_iterations</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Max. Iterations:</property>
@@ -239,12 +239,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_iterations">
-                <property name="name">spin_iterations</property>
+              <object class="GtkSpinButton" id="spin_iterations_pde_editor">
+                <property name="name">spin_iterations_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_iterations</property>
-                <signal name="value-changed" handler="on_spin_iterations_pde_value_changed" swapped="no"/>
+                <property name="adjustment">adjustment_pde_editor_iterations</property>
+                <signal name="value-changed" handler="on_spin_iterations_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -265,8 +265,8 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkLabel" id="label_particles">
-                <property name="name">label_particles</property>
+              <object class="GtkLabel" id="label_pde_editor_particles">
+                <property name="name">label_pde_editor_particles</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">No. of Particles</property>
@@ -277,12 +277,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_particles">
-                <property name="name">spin_particles</property>
+              <object class="GtkSpinButton" id="spin_particles_pde_editor">
+                <property name="name">spin_particles_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_particles</property>
-                <signal name="value-changed" handler="on_spin_particles_pde_value_changed" swapped="no"/>
+                <property name="adjustment">adjustment_pde_editor_particles</property>
+                <signal name="value-changed" handler="on_spin_particles_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -304,8 +304,8 @@
             <property name="can-focus">False</property>
             <property name="margin-bottom">5</property>
             <child>
-              <object class="GtkLabel" id="label_groups">
-                <property name="name">label_groups</property>
+              <object class="GtkLabel" id="label_pde_editor_groups">
+                <property name="name">label_pde_editor_groups</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">No. of Groups</property>
@@ -316,12 +316,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_groups">
-                <property name="name">spin_groups</property>
+              <object class="GtkSpinButton" id="spin_groups_pde_editor">
+                <property name="name">spin_groups_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_groups</property>
-                <signal name="value-changed" handler="on_spin_groups_pde_value_changed" swapped="no"/>
+                <property name="adjustment">adjustment_pde_editor_groups</property>
+                <signal name="value-changed" handler="on_spin_groups_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -352,7 +352,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="on_cancel_pde" object="window_settings_pso" swapped="no"/>
+                    <signal name="clicked" handler="on_cancel_pde_editor" object="window_settings_pso" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -367,7 +367,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="on_cancel_pde" object="window_settings_pso" swapped="no"/>
+                    <signal name="clicked" handler="on_cancel_pde_editor" object="window_settings_pso" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -391,102 +391,102 @@
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment_pde_stepsize_spatial">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_pde_editor_stepsize_spatial">
     <property name="upper">2</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_pde_stepsize_time">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_pde_editor_stepsize_time">
     <property name="upper">2</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_pp">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_pp">
     <property name="upper">100</property>
     <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_qq">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_qq">
     <property name="upper">100</property>
     <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_r1">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_r1">
     <property name="upper">100</property>
     <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_r2">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_r2">
     <property name="upper">100</property>
     <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_r3">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_r3">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_r4">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_r4">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_r5">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_r5">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_t_end">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_t_end">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_tau">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_tau">
     <property name="upper">1</property>
     <property name="value">0.029999999999999999</property>
     <property name="step-increment">9.9999999999999995e-07</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_theta">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_theta">
     <property name="upper">1</property>
     <property name="value">0.01</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_time">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_time">
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_upper_alpha">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_upper_alpha">
     <property name="upper">1</property>
     <property name="value">1</property>
     <property name="step-increment">9.9999999999999995e-08</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_upper_kappa">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_upper_kappa">
     <property name="upper">1</property>
     <property name="value">0.10</property>
     <property name="step-increment">1.0000000000000001e-05</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_upper_pp">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_upper_pp">
     <property name="upper">100</property>
     <property name="value">1</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_upper_qq">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_upper_qq">
     <property name="upper">100</property>
     <property name="value">20</property>
     <property name="step-increment">1</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_upper_theta">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_upper_theta">
     <property name="upper">1</property>
     <property name="value">0.01</property>
     <property name="step-increment">1.0000000000000001e-05</property>
@@ -514,7 +514,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <signal name="clicked" handler="on_cancel_pde" object="window_bounds" swapped="no"/>
+            <signal name="clicked" handler="on_cancel_pde_editor" object="window_bounds" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -528,7 +528,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <signal name="clicked" handler="on_cancel_pde" swapped="no"/>
+            <signal name="clicked" handler="on_cancel_pde_editor" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">1</property>
@@ -536,8 +536,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_lower_bound">
-            <property name="name">label_lower_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_lower_bound">
+            <property name="name">label_pde_editor_lower_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Lower Bound</property>
@@ -548,13 +548,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_lower_bound_kappa">
-            <property name="name">spin_lower_bound_kappa</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_lower_bound_kappa">
+            <property name="name">spin_pde_editor_lower_bound_kappa</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_lower_kappa</property>
+            <property name="adjustment">adjustment_pde_editor_lower_kappa</property>
             <property name="digits">5</property>
-            <signal name="value-changed" handler="on_spin_lower_bound_pde_kappa_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_lower_bound_pde_editor_kappa_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -562,8 +562,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_upper_bound1">
-            <property name="name">label_upper_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_upper_bound1">
+            <property name="name">label_pde_editor_upper_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Upper Bound</property>
@@ -574,8 +574,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_upper_bound3">
-            <property name="name">label_upper_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_upper_bound3">
+            <property name="name">label_pde_editor_upper_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Upper Bound</property>
@@ -586,8 +586,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_upper_bound4">
-            <property name="name">label_upper_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_upper_bound4">
+            <property name="name">label_pde_editor_upper_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Upper Bound</property>
@@ -598,8 +598,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_upper_bound5">
-            <property name="name">label_upper_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_upper_bound5">
+            <property name="name">label_pde_editor_upper_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Upper Bound</property>
@@ -610,8 +610,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_lower_bound3">
-            <property name="name">label_lower_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_lower_bound3">
+            <property name="name">label_pde_editor_lower_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Lower Bound</property>
@@ -622,8 +622,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_lower_bound4">
-            <property name="name">label_lower_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_lower_bound4">
+            <property name="name">label_pde_editor_lower_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Lower Bound</property>
@@ -634,8 +634,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_lower_bound5">
-            <property name="name">label_lower_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_lower_bound5">
+            <property name="name">label_pde_editor_lower_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Lower Bound</property>
@@ -646,14 +646,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_upper_bound_kappa">
-            <property name="name">spin_upper_bound_kappa</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_upper_bound_kappa">
+            <property name="name">spin_pde_editor_upper_bound_kappa</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_upper_kappa</property>
+            <property name="adjustment">adjustment_pde_editor_upper_kappa</property>
             <property name="digits">5</property>
-            <signal name="value-changed" handler="on_spin_upper_bound_pde_kappa_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_upper_bound_pde_editor_kappa_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -661,14 +661,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_upper_bound_theta">
-            <property name="name">spin_upper_bound_theta</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_upper_bound_theta">
+            <property name="name">spin_pde_editor_upper_bound_theta</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_upper_theta</property>
+            <property name="adjustment">adjustment_pde_editor_upper_theta</property>
             <property name="digits">5</property>
-            <signal name="value-changed" handler="on_spin_upper_bound_pde_theta_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_upper_bound_pde_editor_theta_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -676,13 +676,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_upper_bound_qq">
-            <property name="name">spin_upper_bound_qq</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_upper_bound_qq">
+            <property name="name">spin_pde_editor_upper_bound_qq</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_upper_qq</property>
-            <signal name="value-changed" handler="on_spin_upper_bound_pde_qq_value_changed" swapped="no"/>
+            <property name="adjustment">adjustment_pde_editor_upper_qq</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_pde_editor_qq_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -690,13 +690,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_upper_bound_pp">
-            <property name="name">spin_upper_bound_pp</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_upper_bound_pp">
+            <property name="name">spin_pde_editor_upper_bound_pp</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_upper_pp</property>
-            <signal name="value-changed" handler="on_spin_upper_bound_pde_pp_value_changed" swapped="no"/>
+            <property name="adjustment">adjustment_pde_editor_upper_pp</property>
+            <signal name="value-changed" handler="on_spin_upper_bound_pde_editor_pp_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -704,14 +704,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_lower_bound_theta">
-            <property name="name">spin_lower_bound_theta</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_lower_bound_theta">
+            <property name="name">spin_pde_editor_lower_bound_theta</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_lower_theta</property>
+            <property name="adjustment">adjustment_pde_editor_lower_theta</property>
             <property name="digits">5</property>
-            <signal name="value-changed" handler="on_spin_lower_bound_pde_theta_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_lower_bound_pde_editor_theta_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -719,13 +719,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_lower_bound_qq">
-            <property name="name">spin_lower_bound_qq</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_lower_bound_qq">
+            <property name="name">spin_pde_editor_lower_bound_qq</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_lower_qq</property>
-            <signal name="value-changed" handler="on_spin_lower_bound_pde_qq_value_changed" swapped="no"/>
+            <property name="adjustment">adjustment_pde_editor_lower_qq</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_pde_editor_qq_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -733,13 +733,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_lower_bound_pp">
-            <property name="name">spin_lower_bound_pp</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_lower_bound_pp">
+            <property name="name">spin_pde_editor_lower_bound_pp</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_lower_pp</property>
-            <signal name="value-changed" handler="on_spin_lower_bound_pde_pp_value_changed" swapped="no"/>
+            <property name="adjustment">adjustment_pde_editor_lower_pp</property>
+            <signal name="value-changed" handler="on_spin_lower_bound_pde_editor_pp_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -747,8 +747,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_alpha">
-            <property name="name">label_alpha</property>
+          <object class="GtkLabel" id="label_pde_editor_alpha">
+            <property name="name">label_pde_editor_alpha</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">alpha</property>
@@ -759,8 +759,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_kappa">
-            <property name="name">label_kappa</property>
+          <object class="GtkLabel" id="label_pde_editor_kappa">
+            <property name="name">label_pde_editor_kappa</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">kappa</property>
@@ -771,8 +771,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_theta">
-            <property name="name">label_theta</property>
+          <object class="GtkLabel" id="label_pde_editor_theta">
+            <property name="name">label_pde_editor_theta</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">theta</property>
@@ -783,8 +783,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_qq">
-            <property name="name">label_qq</property>
+          <object class="GtkLabel" id="label_pde_editor_qq">
+            <property name="name">label_pde_editor_qq</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">qq</property>
@@ -795,8 +795,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_pp">
-            <property name="name">label_pp</property>
+          <object class="GtkLabel" id="label_pde_editor_pp">
+            <property name="name">label_pde_editor_pp</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">pp</property>
@@ -807,13 +807,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_upper_bound_alpha">
-            <property name="name">spin_upper_bound_alpha</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_upper_bound_alpha">
+            <property name="name">spin_pde_editor_upper_bound_alpha</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_upper_alpha</property>
+            <property name="adjustment">adjustment_pde_editor_upper_alpha</property>
             <property name="digits">10</property>
-            <signal name="value-changed" handler="on_spin_upper_bound_pde_alpha_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_upper_bound_pde_editor_alpha_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -821,8 +821,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_lower_bound1">
-            <property name="name">label_lower_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_lower_bound1">
+            <property name="name">label_pde_editor_lower_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Lower Bound</property>
@@ -833,14 +833,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_lower_bound_alpha">
-            <property name="name">spin_lower_bound_alpha</property>
+          <object class="GtkSpinButton" id="spin_pde_editor_lower_bound_alpha">
+            <property name="name">spin_pde_editor_lower_bound_alpha</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0</property>
-            <property name="adjustment">adjustment_lower_alpha</property>
+            <property name="adjustment">adjustment_pde_editor_lower_alpha</property>
             <property name="digits">10</property>
-            <signal name="value-changed" handler="on_spin_lower_bound_pde_alpha_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_lower_bound_pde_editor_alpha_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">2</property>
@@ -848,8 +848,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_upper_bound2">
-            <property name="name">label_upper_bound</property>
+          <object class="GtkLabel" id="label_pde_editor_upper_bound2">
+            <property name="name">label_pde_editor_upper_bound</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Upper Bound</property>
@@ -871,41 +871,41 @@
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment_v1">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_v1">
     <property name="upper">10000000</property>
     <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_v2">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_v2">
     <property name="upper">10000000</property>
     <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_v3">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_v3">
     <property name="upper">10000000</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_v4">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_v4">
     <property name="upper">10000000</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_v5">
+  <object class="GtkAdjustment" id="adjustment_pde_editor_v5">
     <property name="upper">10000000</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkFileChooserDialog" id="folder_chooser_dialog">
-    <property name="name">folder_chooser_dialog</property>
+  <object class="GtkFileChooserDialog" id="folder_chooser_dialog_pde_editor">
+    <property name="name">folder_chooser_dialog_pde_editor</property>
     <property name="can-focus">False</property>
     <property name="type-hint">dialog</property>
     <property name="action">select-folder</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="folder_chooser">
-        <property name="name">folder_chooser</property>
+      <object class="GtkBox" id="folder_chooser_pde_editor">
+        <property name="name">folder_chooser_pde_editor</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -914,13 +914,13 @@
             <property name="can-focus">False</property>
             <property name="layout-style">end</property>
             <child>
-              <object class="GtkButton" id="button_ok_folder_chooser">
+              <object class="GtkButton" id="button_ok_folder_chooser_pde_editor">
                 <property name="label" translatable="yes">OK</property>
-                <property name="name">button_ok_folder_chooser</property>
+                <property name="name">button_ok_folder_chooser_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="select_optimization_path_pde" object="folder_chooser_dialog" swapped="no"/>
+                <signal name="clicked" handler="select_optimization_path_pde_editor" object="folder_chooser_dialog_pde_editor" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -929,9 +929,9 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_cancel_folder_chooser">
+              <object class="GtkButton" id="button_cancel_folder_chooser_pde_editor">
                 <property name="label" translatable="yes">Cancel</property>
-                <property name="name">button_cancel_folder_chooser</property>
+                <property name="name">button_cancel_folder_chooser_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
@@ -961,8 +961,8 @@
     <property name="stock">gtk-missing-image</property>
   </object>
   <!-- n-columns=4 n-rows=6 -->
-  <object class="GtkGrid" id="grid_main_pde">
-    <property name="name">grid_main_pde</property>
+  <object class="GtkGrid" id="grid_main_pde_editor">
+    <property name="name">grid_main_pde_editor</property>
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="margin-bottom">5</property>
@@ -976,8 +976,8 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
-          <object class="GtkLabel" id="label_t_start1">
-            <property name="name">label_t_start</property>
+          <object class="GtkLabel" id="label_pde_editor_t_start">
+            <property name="name">label_pde_editor_t_start</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">t_start</property>
@@ -988,14 +988,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_t_start1">
-            <property name="name">spin_t_start</property>
+          <object class="GtkSpinButton" id="spin_t_start_pde_editor">
+            <property name="name">spin_t_start_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">1.00</property>
-            <property name="adjustment">adjustment:_t_start</property>
+            <property name="adjustment">adjustment_pde_editor_t_start</property>
             <property name="digits">2</property>
-            <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_t_start_pde_editor_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">1</property>
@@ -1003,8 +1003,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_t_end1">
-            <property name="name">label_t_end</property>
+          <object class="GtkLabel" id="label_pde_editor_t_end">
+            <property name="name">label_pde_editor_t_end</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">t_end</property>
@@ -1015,15 +1015,15 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_t_end1">
-            <property name="name">spin_t_end</property>
+          <object class="GtkSpinButton" id="spin_t_end_pde_editor">
+            <property name="name">spin_t_end_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">3.00</property>
-            <property name="adjustment">adjustment_t_end</property>
+            <property name="adjustment">adjustment_pde_editor_t_end</property>
             <property name="digits">2</property>
             <property name="value">0.59999999999999998</property>
-            <signal name="value-changed" handler="on_spin_t_end_pde_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_t_end_pde_editor_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">1</property>
@@ -1031,9 +1031,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkCheckButton" id="check_diffusion">
+          <object class="GtkCheckButton" id="check_diffusion_pde_editor">
             <property name="label" translatable="yes">Diffusion</property>
-            <property name="name">check_diffusion</property>
+            <property name="name">check_diffusion_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">False</property>
@@ -1045,13 +1045,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_diffusion">
-            <property name="name">spin_diffusion</property>
+          <object class="GtkSpinButton" id="spin_diffusion_pde_editor">
+            <property name="name">spin_iffusion_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_diffusion</property>
+            <property name="adjustment">adjustment_pde_editor_diffusion</property>
             <property name="digits">8</property>
-            <signal name="value-changed" handler="on_spin_diffusion_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_diffusion_pde_editor_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">3</property>
@@ -1059,14 +1059,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_pde_stepsize_time">
-            <property name="name">spin_pde_stepsize_time</property>
+          <object class="GtkSpinButton" id="spin_stepsize_time_pde_editor">
+            <property name="name">spin_stepsize_time_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="adjustment">adjustment_pde_stepsize_time</property>
+            <property name="adjustment">adjustment_pde_editor_pde_editor_stepsize_time</property>
             <property name="digits">5</property>
             <property name="value">0.10</property>
-            <signal name="value-changed" handler="on_spin_stepsize_time_pde_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_stepsize_time_pde_editor_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">3</property>
@@ -1081,7 +1081,7 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="run_newton_pde" swapped="no"/>
+            <signal name="clicked" handler="run_newton_pde_editor" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">5</property>
@@ -1089,17 +1089,32 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button_pso1">
+          <object class="GtkButton" id="button_pso_pde_editor">
             <property name="label" translatable="yes">Run PSO</property>
-            <property name="name">button_pso</property>
+            <property name="name">button_pso_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="run_pso_pde" swapped="no"/>
+            <signal name="clicked" handler="run_pso_pde_editor" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">6</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button_editor">
+            <property name="label" translatable="yes">Start Editor</property>
+            <property name="name">button_pde_editor</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="resize-mode">immediate</property>
+            <signal name="clicked" handler="on_run_sim_pde_editor_button" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">9</property>
             <property name="top-attach">0</property>
           </packing>
         </child>
@@ -1111,7 +1126,7 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="on_run_sim_pde_button" swapped="no"/>
+            <signal name="clicked" handler="run_pde_editor" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">4</property>
@@ -1119,15 +1134,15 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_pde_stepsize_spatial">
-            <property name="name">spin_pde_stepsize_spatial</property>
+          <object class="GtkSpinButton" id="spin_stepsize_spatial_pde_editor">
+            <property name="name">spin_stepsize_spatial_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">0.10000</property>
-            <property name="adjustment">adjustment_pde_stepsize_spatial</property>
+            <property name="adjustment">adjustment_pde_editor_pde_editor_stepsize_spatial</property>
             <property name="digits">5</property>
             <property name="value">0.10</property>
-            <signal name="value-changed" handler="on_spin_stepsize_spatial_pde_value_changed" swapped="no"/>
+            <signal name="value-changed" handler="on_spin_stepsize_spatial_pde_editor_value_changed" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">5</property>
@@ -1135,8 +1150,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_pde_stepsize_time">
-            <property name="name">label_pde_stepsize_time</property>
+          <object class="GtkLabel" id="label_pde_editor_stepsize_time">
+            <property name="name">label_pde_editor_stepsize_time</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="xpad">6</property>
@@ -1148,8 +1163,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_pde_stepsize_spatial">
-            <property name="name">label_pde_stepsize_spatial</property>
+          <object class="GtkLabel" id="label_pde_editor_stepsize_spatial">
+            <property name="name">label_pde_editor_stepsize_spatial</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Stepsize Spatial</property>
@@ -1170,18 +1185,18 @@
     </child>
     <child>
       <!-- n-columns=10 n-rows=1 -->
-      <object class="GtkGrid" id="grid_bottom_pde">
-        <property name="name">grid_bottom_pde</property>
+      <object class="GtkGrid" id="grid_bottom_pde_editor">
+        <property name="name">grid_bottom_pde_editor</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
-          <object class="GtkButton" id="button_estimation_details_pde">
+          <object class="GtkButton" id="button_estimation_details_pde_editor">
             <property name="label" translatable="yes">Estimation Details</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="seird_pde_optimization_details" swapped="no"/>
+            <signal name="clicked" handler="seird_pde_editor_optimization_details" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">9</property>
@@ -1189,14 +1204,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button_save_pde">
+          <object class="GtkButton" id="button_save_pde_editor">
             <property name="label" translatable="yes">Save Heatmaps</property>
-            <property name="name">button_cancel_pde</property>
+            <property name="name">button_cancel_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="resize-mode">immediate</property>
-            <signal name="clicked" handler="seird_pde_save_heatmaps" swapped="no"/>
+            <signal name="clicked" handler="seird_pde_editor_save_heatmaps" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">8</property>
@@ -1204,8 +1219,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_time">
-            <property name="name">label_time</property>
+          <object class="GtkLabel" id="label_pde_editor_time">
+            <property name="name">label_pde_editor_time</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">time</property>
@@ -1216,13 +1231,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSpinButton" id="spin_seird_pde_time">
-            <property name="name">spin_time</property>
+          <object class="GtkSpinButton" id="spin_time_pde_editor">
+            <property name="name">spin_time_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="margin-start">100</property>
-            <property name="adjustment">adjustment_time</property>
-            <signal name="value-changed" handler="seird_pde_time_spin" swapped="no"/>
+            <property name="adjustment">adjustment_pde_editor_time</property>
+            <signal name="value-changed" handler="seird_pde_editor_time_spin" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">7</property>
@@ -1254,7 +1269,7 @@
                     <property name="receives-default">True</property>
                     <property name="halign">baseline</property>
                     <property name="valign">baseline</property>
-                    <property name="adjustment">adjustment_time</property>
+                    <property name="adjustment">adjustment_pde_editor_time</property>
                     <property name="lower-stepper-sensitivity">on</property>
                     <property name="upper-stepper-sensitivity">on</property>
                     <property name="round-digits">0</property>
@@ -1310,8 +1325,8 @@
         <property name="row-spacing">3</property>
         <property name="column-spacing">3</property>
         <child>
-          <object class="GtkLabel" id="label_susceptibles">
-            <property name="name">label_susceptibles</property>
+          <object class="GtkLabel" id="label_pde_editor_susceptibles">
+            <property name="name">label_pde_editor_susceptibles</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Susceptibles</property>
@@ -1322,8 +1337,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_exposed">
-            <property name="name">label_exposed</property>
+          <object class="GtkLabel" id="label_pde_editor_exposed">
+            <property name="name">label_pde_editor_exposed</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Exposed</property>
@@ -1334,8 +1349,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_infected">
-            <property name="name">label_infected</property>
+          <object class="GtkLabel" id="label_pde_editor_infected">
+            <property name="name">label_pde_editor_infected</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Infected</property>
@@ -1346,8 +1361,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_seird_pde_min">
-            <property name="name">label_min</property>
+          <object class="GtkLabel" id="label_seird_pde_editor_min">
+            <property name="name">label_pde_editor_min</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Min.</property>
@@ -1358,8 +1373,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_seird_pde_max">
-            <property name="name">label_max</property>
+          <object class="GtkLabel" id="label_seird_pde_editor_max">
+            <property name="name">label_pde_editor_max</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Max.</property>
@@ -1370,8 +1385,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_recovered">
-            <property name="name">label_recovered</property>
+          <object class="GtkLabel" id="label_pde_editor_recovered">
+            <property name="name">label_pde_editor_recovered</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Recovered</property>
@@ -1382,8 +1397,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_deceased">
-            <property name="name">label_deceased</property>
+          <object class="GtkLabel" id="label_pde_editor_deceased">
+            <property name="name">label_pde_editor_deceased</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Deceased</property>
@@ -1406,16 +1421,16 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="frame_susceptibles_drawing_area_pde">
-                    <property name="name">frame_susceptibles_drawing_area_pde</property>
+                  <object class="GtkDrawingArea" id="frame_susceptibles_drawing_area_pde_editor">
+                    <property name="name">frame_susceptibles_drawing_area_pde_editor</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
-                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
-                    <signal name="draw" handler="on_drawing_susceptibles_pde" swapped="no"/>
+                    <signal name="button-press-event" handler="draw_big_map_pde_editor" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map_pde_editor" object="window_heatmap_big" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_susceptibles_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1442,16 +1457,16 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde">
-                    <property name="name">frame_exposed_drawing_area_pde</property>
+                  <object class="GtkDrawingArea" id="frame_exposed_drawing_area_pde_editor">
+                    <property name="name">frame_exposed_drawing_area_pde_editor</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
-                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
-                    <signal name="draw" handler="on_drawing_exposed_pde" swapped="no"/>
+                    <signal name="button-press-event" handler="draw_big_map_pde_editor" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map_pde_editor" object="window_heatmap_big" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_exposed_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1478,16 +1493,16 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="frame_infected_drawing_area_pde">
-                    <property name="name">frame_infected_drawing_area_pde</property>
+                  <object class="GtkDrawingArea" id="frame_infected_drawing_area_pde_editor">
+                    <property name="name">frame_infected_drawing_area_pde_editor</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
-                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
-                    <signal name="draw" handler="on_drawing_infected_pde" swapped="no"/>
+                    <signal name="button-press-event" handler="draw_big_map_pde_editor" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map_pde_editor" object="window_heatmap_big" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_infected_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1519,7 +1534,7 @@
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <signal name="draw" handler="on_drawing_legend_pde" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_legend_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1546,16 +1561,16 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="frame_deceased_drawing_area_pde">
-                    <property name="name">frame_deceased_drawing_area_pde</property>
+                  <object class="GtkDrawingArea" id="frame_deceased_drawing_area_pde_editor">
+                    <property name="name">frame_deceased_drawing_area_pde_editor</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
-                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
-                    <signal name="draw" handler="on_drawing_deceased_pde" swapped="no"/>
+                    <signal name="button-press-event" handler="draw_big_map_pde_editor" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map_pde_editor" object="window_heatmap_big" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_deceased_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1582,16 +1597,16 @@
                 <property name="can-focus">False</property>
                 <property name="left-padding">12</property>
                 <child>
-                  <object class="GtkDrawingArea" id="frame_recovered_drawing_area_pde">
-                    <property name="name">frame_recovered_drawing_area_pde</property>
+                  <object class="GtkDrawingArea" id="frame_recovered_drawing_area_pde_editor">
+                    <property name="name">frame_recovered_drawing_area_pde_editor</property>
                     <property name="width-request">200</property>
                     <property name="height-request">200</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
-                    <signal name="button-press-event" handler="draw_big_map" swapped="no"/>
-                    <signal name="button-release-event" handler="on_show_map" object="window_heatmap_big" swapped="no"/>
-                    <signal name="draw" handler="on_drawing_recovered_pde" swapped="no"/>
+                    <signal name="button-press-event" handler="draw_big_map_pde_editor" swapped="no"/>
+                    <signal name="button-release-event" handler="on_show_map_pde_editor" object="window_heatmap_big" swapped="no"/>
+                    <signal name="draw" handler="on_drawing_recovered_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1618,7 +1633,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkMenuBar" id="menu_bar_pde">
+      <object class="GtkMenuBar" id="menu_bar_pde_editor">
         <property name="name">menu_bar</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
@@ -1627,7 +1642,7 @@
         <property name="resize-mode">immediate</property>
         <property name="child-pack-direction">rtl</property>
         <child>
-          <object class="GtkMenuItem" id="file_pde">
+          <object class="GtkMenuItem" id="file_pde_editor">
             <property name="name">file</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -1641,14 +1656,14 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkImageMenuItem" id="set_data_directory_pde">
+                  <object class="GtkImageMenuItem" id="set_data_directory_pde_editor">
                     <property name="label">Set Data Directory</property>
                     <property name="name">set_data_directory</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="image">image3</property>
                     <property name="use-stock">False</property>
-                    <signal name="activate" handler="on_show_popup_menu_pde" swapped="no"/>
+                    <signal name="activate" handler="on_show_popup_menu_pde_editor" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -1656,7 +1671,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkMenuItem" id="pso_settings_pde">
+          <object class="GtkMenuItem" id="pso_settings_pde_editor">
             <property name="name">pso_settings</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -1665,11 +1680,11 @@
             <property name="border-width">5</property>
             <property name="resize-mode">immediate</property>
             <property name="label" translatable="yes">Settings for PSO</property>
-            <signal name="activate" handler="on_show_menu_pde" object="window_settings_pso" swapped="no"/>
+            <signal name="activate" handler="on_show_menu_pde_editor" object="window_settings_pso" swapped="no"/>
           </object>
         </child>
         <child>
-          <object class="GtkMenuItem" id="gauss_settings_pde">
+          <object class="GtkMenuItem" id="gauss_settings_pde_editor">
             <property name="name">gauss_settings</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -1678,7 +1693,7 @@
             <property name="border-width">5</property>
             <property name="resize-mode">immediate</property>
             <property name="label" translatable="yes">Settings for Gauss-Newton</property>
-            <signal name="activate" handler="on_show_menu_pde" object="window_settings_gauss" swapped="no"/>
+            <signal name="activate" handler="on_show_menu_pde_editor" object="window_settings_gauss" swapped="no"/>
           </object>
         </child>
         <child>
@@ -1691,7 +1706,7 @@
             <property name="border-width">5</property>
             <property name="resize-mode">immediate</property>
             <property name="label" translatable="yes">Set Constraints</property>
-            <signal name="activate" handler="on_show_menu_pde" object="window_bounds" swapped="no"/>
+            <signal name="activate" handler="on_show_menu_pde_editor" object="window_bounds" swapped="no"/>
           </object>
         </child>
       </object>
@@ -1701,8 +1716,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkFrame" id="frame_parameters_pde">
-        <property name="name">frame_parameters_pde</property>
+      <object class="GtkFrame" id="frame_parameters_pde_editor">
+        <property name="name">frame_parameters_pde_editor</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label-xalign">0</property>
@@ -1713,7 +1728,7 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkCheckButton" id="check_alpha_pde">
+              <object class="GtkCheckButton" id="check_alpha_pde_editor">
                 <property name="label" translatable="yes">alpha</property>
                 <property name="name">check_alpha</property>
                 <property name="visible">True</property>
@@ -1728,16 +1743,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_alpha_pde">
-                <property name="name">spin_alpha</property>
+              <object class="GtkSpinButton" id="spin_alpha_pde_editor">
+                <property name="name">spin_alpha_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="max-width-chars">3</property>
                 <property name="text" translatable="yes">0.000003</property>
-                <property name="adjustment">adjustment_alpha</property>
+                <property name="adjustment">adjustment_pde_editor_alpha</property>
                 <property name="climb-rate">0.009999999776482582</property>
                 <property name="digits">9</property>
-                <signal name="value-changed" handler="on_spin_alpha_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_alpha_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1746,7 +1761,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_kappa_pde">
+              <object class="GtkCheckButton" id="check_kappa_pde_editor">
                 <property name="label" translatable="yes">kappa</property>
                 <property name="name">check_kappa</property>
                 <property name="visible">True</property>
@@ -1761,15 +1776,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_kappa_pde">
-                <property name="name">spin_kappa</property>
+              <object class="GtkSpinButton" id="spin_kappa_pde_editor">
+                <property name="name">spin_kappa_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="text" translatable="yes">0.100000</property>
-                <property name="adjustment">adjustment_kappa</property>
+                <property name="adjustment">adjustment_pde_editor_kappa</property>
                 <property name="digits">6</property>
                 <property name="value">0.10</property>
-                <signal name="value-changed" handler="on_spin_kappa_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_kappa_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1778,7 +1793,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_theta_pde">
+              <object class="GtkCheckButton" id="check_theta_pde_editor">
                 <property name="label" translatable="yes">theta</property>
                 <property name="name">check_theta</property>
                 <property name="visible">True</property>
@@ -1793,15 +1808,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_theta_pde">
-                <property name="name">spin_theta</property>
+              <object class="GtkSpinButton" id="spin_theta_pde_editor">
+                <property name="name">spin_theta_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="text" translatable="yes">0.009840</property>
-                <property name="adjustment">adjustment_theta</property>
+                <property name="adjustment">adjustment_pde_editor_theta</property>
                 <property name="digits">6</property>
                 <property name="value">0.009840000000000006</property>
-                <signal name="value-changed" handler="on_spin_theta_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_theta_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1810,7 +1825,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_qq_pde">
+              <object class="GtkCheckButton" id="check_qq_pde_editor">
                 <property name="label" translatable="yes">qq</property>
                 <property name="name">check_qq</property>
                 <property name="visible">True</property>
@@ -1825,14 +1840,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_qq_pde">
-                <property name="name">spin_qq</property>
+              <object class="GtkSpinButton" id="spin_qq_pde_editor">
+                <property name="name">spin_qq_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="text" translatable="yes">1</property>
-                <property name="adjustment">adjustment_qq</property>
+                <property name="adjustment">adjustment_pde_editor_qq</property>
                 <property name="value">1</property>
-                <signal name="value-changed" handler="on_spin_qq_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_qq_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1841,7 +1856,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_pp_pde">
+              <object class="GtkCheckButton" id="check_pp_pde_editor">
                 <property name="label" translatable="yes">pp</property>
                 <property name="name">check_pp</property>
                 <property name="visible">True</property>
@@ -1856,14 +1871,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="spin_pp_pde">
-                <property name="name">spin_pp</property>
+              <object class="GtkSpinButton" id="spin_pp_pde_editor">
+                <property name="name">spin_pp_pde_editor</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="text" translatable="yes">1</property>
-                <property name="adjustment">adjustment_pp</property>
+                <property name="adjustment">adjustment_pde_editor_pp</property>
                 <property name="value">1</property>
-                <signal name="value-changed" handler="on_spin_pp_pde_value_changed" swapped="no"/>
+                <signal name="value-changed" handler="on_spin_pp_pde_editor_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1874,8 +1889,8 @@
           </object>
         </child>
         <child type="label">
-          <object class="GtkLabel" id="label_parameters_pde">
-            <property name="name">label_parameters_pde</property>
+          <object class="GtkLabel" id="label_parameters_pde_editor">
+            <property name="name">label_parameters_pde_editor</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Parameters</property>
@@ -1887,285 +1902,7 @@
         <property name="top-attach">1</property>
       </packing>
     </child>
-    <child>
-      <object class="GtkFrame" id="frame_initial_values_pde">
-        <property name="name">frame_initial_values_pde</property>
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="label-xalign">0</property>
-        <property name="shadow-type">etched-out</property>
-        <child>
-          <!-- n-columns=10 n-rows=2 -->
-          <object class="GtkGrid" id="grid_initial_values">
-            <property name="name">grid_initial_values</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label_r1">
-                <property name="name">label_r1</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">r1</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_r1">
-                <property name="name">spin_r1</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_r1</property>
-                <signal name="value-changed" handler="on_spin_r1_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_v1">
-                <property name="name">label_v1</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">v1</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_v1">
-                <property name="name">spin_v1</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_v1</property>
-                <signal name="value-changed" handler="on_spin_v1_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_r2">
-                <property name="name">label_r2</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">r2</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_v2">
-                <property name="name">label_v2</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">v2</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_r2">
-                <property name="name">spin_r2</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_r2</property>
-                <signal name="value-changed" handler="on_spin_r2_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_v2">
-                <property name="name">spin_v2</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_v2</property>
-                <signal name="value-changed" handler="on_spin_v2_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_r3">
-                <property name="name">label_r3</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">r3</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_r3">
-                <property name="name">spin_r3</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_r3</property>
-                <signal name="value-changed" handler="on_spin_r3_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_v4">
-                <property name="name">label_v4</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">v4</property>
-              </object>
-              <packing>
-                <property name="left-attach">6</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_r4">
-                <property name="name">label_r4</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">r4</property>
-              </object>
-              <packing>
-                <property name="left-attach">6</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_v3">
-                <property name="name">label_v3</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">v3</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_v3">
-                <property name="name">spin_v3</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_v3</property>
-                <signal name="value-changed" handler="on_spin_v3_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_r4">
-                <property name="name">spin_r5</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_r4</property>
-                <signal name="value-changed" handler="on_spin_r4_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">7</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_v4">
-                <property name="name">spin_v4</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_v4</property>
-                <signal name="value-changed" handler="on_spin_v4_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">7</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_r5">
-                <property name="name">label_r5</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">r5</property>
-              </object>
-              <packing>
-                <property name="left-attach">8</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_v5">
-                <property name="name">label_v5</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">v5</property>
-              </object>
-              <packing>
-                <property name="left-attach">8</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_r5">
-                <property name="name">spin_r5</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_r5</property>
-                <signal name="value-changed" handler="on_spin_r5_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">9</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spin_v5">
-                <property name="name">spin_v5</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">adjustment_v5</property>
-                <signal name="value-changed" handler="on_spin_v5_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">9</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-          </object>
-        </child>
-        <child type="label">
-          <object class="GtkLabel" id="label_initial_values_pde">
-            <property name="name">label_initial_values_pde</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Initial Values</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">3</property>
-      </packing>
-    </child>
+
     <child>
       <placeholder/>
     </child>
@@ -2234,7 +1971,7 @@
         <property name="height-request">500</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <signal name="draw" handler="on_drawing_heatmap_big_draw" swapped="no"/>
+        <signal name="draw" handler="on_drawing_heatmap_big_draw_pde_editor" swapped="no"/>
       </object>
     </child>
   </object>

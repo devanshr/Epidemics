@@ -9,7 +9,7 @@
     <signal name="activate" handler="on_show_menu_pde" object="window_settings_gauss" swapped="no"/>
   </object>
   <object class="GtkAction" id="action_pso"/>
-  <object class="GtkAdjustment" id="adjustment:_t_start">
+  <object class="GtkAdjustment" id="adjustment_t_start">
     <property name="lower">-100000</property>
     <property name="upper">1000000</property>
     <property name="step-increment">1</property>
@@ -993,7 +993,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="text" translatable="yes">1.00</property>
-            <property name="adjustment">adjustment:_t_start</property>
+            <property name="adjustment">adjustment_t_start</property>
             <property name="digits">2</property>
             <signal name="value-changed" handler="on_spin_t_start_pde_value_changed" swapped="no"/>
           </object>

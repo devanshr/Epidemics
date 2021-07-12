@@ -1,3 +1,5 @@
+#pragma once
+
 #include <gtk/gtk.h>
 #include <iostream>
 #include <vector>
