@@ -280,8 +280,6 @@ class SEIRDPDE_EDITORWidget;
 
 				ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane> seird_model(alpha, kappa, theta, pp,qq,diffusion);
 
-				//seird_model.change_step_size_spatial(widget->_stepsize);
-				//seird_model.change_step_size_time(widget->_stepsize);	
 				seird_model.change_step_size_time(widget->_stepsize_time);	
 				seird_model.change_step_size_spatial(widget->_stepsize_spatial);
 				
@@ -292,16 +290,19 @@ class SEIRDPDE_EDITORWidget;
 					std::cout<<"No data dir";	
 					//return false;
 				}
-				else if (widget->u0.size()==0){
-					std::cout<<"No data dir";
-				}
 				else {
-					//MessageBox::Show(gcnew String(*user_selected_optimization_path));
+					if(widget->user_selected_u0_path.empty()==false){
+						widget->get_u0_from_image(widget);
+						seird_model.set_store_to_file(true,widget->user_selected_optimization_path, filename);
 
-					seird_model.set_store_to_file(true,widget->user_selected_optimization_path, filename);
+						seird_model.run_linear_implicit(t_start, widget->u0, t_end);
+						//seird_model.run(t_start, widget->u0, t_end);
+						widget->set_u0(std::vector<double>());		
+					}
+					else{
+						std::cout<<"No initial data u0\n";
+					}
 
-					seird_model.run_linear_implicit(t_start, widget->u0, t_end);
-					//return true;
 				}
 			
 
@@ -614,6 +615,12 @@ class SEIRDPDE_EDITORWidget;
 			{
 				return u0;
 			}	
+			
+			void set_u0(std::vector<double> v) 
+			{
+				u0=v;
+			}				
+			
 			
 			void run_pso(SEIRDPDE_EDITORWidget::app_widgets* glade_widgets, SEIRDPDE_EDITORWidget* seird_pde_object)
 			{
@@ -1137,6 +1144,12 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 
 			}			
 			
+			
+			void set_u0_path(std::string path)
+			{
+				user_selected_u0_path = path;
+
+			}	
 			static void optimization_details(SEIRDPDE_EDITORWidget* _this){
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
@@ -1178,6 +1191,43 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				gtk_widget_destroy(dialog);
 							  
 			}
+			
+			//Loads initial values from png image. Converts greyscale into gridvalues
+			static void get_u0_from_image(SEIRDPDE_EDITORWidget* _this){
+				const char* u0_path=_this->user_selected_u0_path.c_str();
+				GError** error;
+				GdkPixbuf* pixbuf =gdk_pixbuf_new_from_file(u0_path,error);
+				int dimX=1;
+				int dimY=1;
+				int n_channels=gdk_pixbuf_get_n_channels(pixbuf);
+				int width=gdk_pixbuf_get_width(pixbuf);
+				int height=gdk_pixbuf_get_height(pixbuf);
+				double hx=_this->_stepsize_spatial;
+				
+				size_t x_points = std::ceil(dimX / hx) + 1;
+				size_t y_points = std::ceil(dimY /hx) + 1;
+
+				size_t nVars = static_cast<int>(x_points)* static_cast<int>(y_points);
+				int row_stride=gdk_pixbuf_get_rowstride(pixbuf);
+				_this->u0=std::vector<double>(5*nVars,0.0);
+		//		std::cout<<"N channels:"<<n_channels<<"   "<<row_stride<<"  "<<width<<"   "<<height<<"\n";	
+				guchar* pixels=gdk_pixbuf_get_pixels(pixbuf);
+				for (int i=0;i<y_points;i++){
+					for (int j=0;j<x_points;j++){
+						double worldY = dimY - ((i) / (y_points - 1.0)) * dimY;
+						double worldX = (j / (x_points - 1.0)) * dimX;
+						int img_gridX=worldX*(width-1);
+						int img_gridY=worldY*(height-1);
+						int stride=img_gridY*row_stride+img_gridX*n_channels;					
+						_this->u0[i*x_points+j]=(((float)pixels[stride])/255.0)*_this->maxDensity;		
+					}
+				}
+				
+				
+			}
+			
+			std::string user_selected_u0_path;
+			double maxDensity=1.0;
 									
 		};
 		
@@ -1501,7 +1551,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 	
 			SEIRDPDE_EDITORWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDE_EDITORWidget::app_widgets*>(data);
 			
-			if(glade_widgets->seird_pde_object->user_selected_optimization_path.empty()==false){
+			if(glade_widgets->seird_pde_object->user_selected_optimization_path.empty()==true){
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
 				dialog = gtk_dialog_new_with_buttons ("Error",
@@ -1514,7 +1564,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 													  
 				gtk_widget_destroy(dialog);
 			}
-			else if (glade_widgets->seird_pde_object->get_u0().size()==0){
+			else if (glade_widgets->seird_pde_object->user_selected_u0_path.empty()==true){
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
 				dialog = gtk_dialog_new_with_buttons ("Error",
@@ -1699,15 +1749,55 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			seird_pde_object->optimization_details(seird_pde_object);
 		}
 		
-		extern "C" G_MODULE_EXPORT void run_pde_editor(GtkWidget *widget, gpointer* data)
+		extern "C" G_MODULE_EXPORT void on_run_pde_editor_button(GtkWidget *widget, gpointer* data)
 		{      
 			SEIRDPDE_EDITORWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDE_EDITORWidget::app_widgets*>(data);
 			SEIRDPDE_EDITORWidget* seird_pde_object=glade_widgets->seird_pde_object;
 
-			seird_pde_object->optimization_details(seird_pde_object);
+			//seird_pde_object->optimization_details(seird_pde_object);
+			
+			GtkWidget *dialog;
+					GtkDialogFlags flags = GTK_DIALOG_MODAL;
+					dialog = gtk_dialog_new_with_buttons ("Error",
+														  nullptr,
+														 flags,
+														  "_Editor not implemented yet!",
+														  GTK_RESPONSE_ACCEPT,
+														  NULL);			  
+					gtk_dialog_run(GTK_DIALOG(dialog));
+														  
+					gtk_widget_destroy(dialog);
 			
 		
-		}		
+		}	
+		
+		extern "C" G_MODULE_EXPORT void on_show_popup_menu_load_initial_data_pde_editor(GtkWidget *widget, gpointer* data)
+		{      
+			SEIRDPDE_EDITORWidget::app_widgets* glade_widgets= reinterpret_cast<SEIRDPDE_EDITORWidget::app_widgets*>(data);
+			SEIRDPDE_EDITORWidget* seird_pde_object=glade_widgets->seird_pde_object;
+			
+			GtkFileChooserNative *native;
+			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+			gint res;
+			
+			//auto parent_window=gtk_builder_get_object(glade_widgets->seird_object->builder,"grid_seird");
+
+			native = gtk_file_chooser_native_new("Open file",
+												0,
+												action,
+												"_Open"
+												,"_Cancel");
+
+			res = gtk_native_dialog_run(GTK_NATIVE_DIALOG(native));
+			if (res == GTK_RESPONSE_ACCEPT)
+			{
+				auto temp=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(native));
+				seird_pde_object->set_u0_path(temp);
+				//std::cout<<temp<<"\n";
+			}
+			
+		
+		}			
 
 		
 	}

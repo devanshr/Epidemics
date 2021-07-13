@@ -379,14 +379,17 @@ class SEIRDPDEWidget;
 				using F = typename std::vector<double>::value_type;
 				for (int i = 0; i < y_points; i++) {
 					for (int j = 0; j < x_points; j++) {
-						F worldX = dimY - ((i) / (y_points - 1.0)) * dimY;
-						F worldY = ((j) / (x_points - 1.0)) * dimX;
+						F worldY = dimY - ((i) / (y_points - 1.0)) * dimY;
+						F worldX = ((j) / (x_points - 1.0)) * dimX;
 						int offset = current_dimension * x_points * y_points;
-						F a = (worldX - 0.5 * dimX);
-						F b = (worldY - 0.5 * dimY);
+						F a = (worldX - 0.3 * dimX);
+						F b = (worldY - 0.3 * dimY);
+						F a2=(worldX - 0.7 * dimX);
+						F b2=(worldY - 0.7 * dimY);
 						F sigma = radius;
 						F x = (a * a + b * b);
-						u0[i * x_points + j + offset] = val * (std::exp(-sigma * x));
+						F x2=(a2*a2+b2*b2);
+						u0[i * x_points + j + offset] = val * (std::exp(-sigma * x)+std::exp(-sigma * x2));
 
 					}
 
