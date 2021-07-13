@@ -1233,7 +1233,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 						guchar* pixels=gdk_pixbuf_get_pixels(pixbuf);
 						for (int i=0;i<y_points;i++){
 							for (int j=0;j<x_points;j++){
-								double worldY = dimY - ((i) / (y_points - 1.0)) * dimY;
+								double worldY = ((i) / (y_points - 1.0)) * dimY;
 								double worldX = (j / (x_points - 1.0)) * dimX;
 								int img_gridX=worldX*(width-1);
 								int img_gridY=worldY*(height-1);
