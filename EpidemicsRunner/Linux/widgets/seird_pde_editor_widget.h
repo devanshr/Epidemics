@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 #include <ctime> // experimental, may not work on MAC/Win?
 #include "../../../models/seird_pde.h"
 #include "../../../models/writer.h"
@@ -1147,9 +1148,16 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			
 			void set_u0_path(std::string path)
 			{
-				user_selected_u0_path = path;
+				user_selected_u0_path = path+"/";
 
 			}	
+			
+			
+			std::string get_u0_path() const
+			{
+				return user_selected_u0_path;
+
+			}				
 			static void optimization_details(SEIRDPDE_EDITORWidget* _this){
 				GtkWidget *dialog;
 				GtkDialogFlags flags = GTK_DIALOG_MODAL;
@@ -1194,35 +1202,50 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			
 			//Loads initial values from png image. Converts greyscale into gridvalues
 			static void get_u0_from_image(SEIRDPDE_EDITORWidget* _this){
-				const char* u0_path=_this->user_selected_u0_path.c_str();
-				GError** error;
-				GdkPixbuf* pixbuf =gdk_pixbuf_new_from_file(u0_path,error);
+				
 				int dimX=1;
 				int dimY=1;
-				int n_channels=gdk_pixbuf_get_n_channels(pixbuf);
-				int width=gdk_pixbuf_get_width(pixbuf);
-				int height=gdk_pixbuf_get_height(pixbuf);
+
 				double hx=_this->_stepsize_spatial;
 				
 				size_t x_points = std::ceil(dimX / hx) + 1;
 				size_t y_points = std::ceil(dimY /hx) + 1;
 
 				size_t nVars = static_cast<int>(x_points)* static_cast<int>(y_points);
-				int row_stride=gdk_pixbuf_get_rowstride(pixbuf);
+
 				_this->u0=std::vector<double>(5*nVars,0.0);
-		//		std::cout<<"N channels:"<<n_channels<<"   "<<row_stride<<"  "<<width<<"   "<<height<<"\n";	
-				guchar* pixels=gdk_pixbuf_get_pixels(pixbuf);
-				for (int i=0;i<y_points;i++){
-					for (int j=0;j<x_points;j++){
-						double worldY = dimY - ((i) / (y_points - 1.0)) * dimY;
-						double worldX = (j / (x_points - 1.0)) * dimX;
-						int img_gridX=worldX*(width-1);
-						int img_gridY=worldY*(height-1);
-						int stride=img_gridY*row_stride+img_gridX*n_channels;					
-						_this->u0[i*x_points+j]=(((float)pixels[stride])/255.0)*_this->maxDensity;		
+				
+				std::vector<std::string> names={"Initial_Susceptibles.png","Initial_Exposed.png","Initial_Infected.png","Initial_Recovered.png","Initial_Deaths.png"}; 
+				
+				for (int k=0;k<5;k++){
+					std::string temp=_this->user_selected_u0_path+names[k];
+					const char* u0_path=temp.c_str();				
+	
+						
+					if (FILE* file=fopen(u0_path,"r")){	
+						fclose(file);			
+						GError** error;
+						GdkPixbuf* pixbuf =gdk_pixbuf_new_from_file(u0_path,error);						
+						int n_channels=gdk_pixbuf_get_n_channels(pixbuf);
+						int width=gdk_pixbuf_get_width(pixbuf);
+						int height=gdk_pixbuf_get_height(pixbuf);
+						int row_stride=gdk_pixbuf_get_rowstride(pixbuf);
+						guchar* pixels=gdk_pixbuf_get_pixels(pixbuf);
+						for (int i=0;i<y_points;i++){
+							for (int j=0;j<x_points;j++){
+								double worldY = dimY - ((i) / (y_points - 1.0)) * dimY;
+								double worldX = (j / (x_points - 1.0)) * dimX;
+								int img_gridX=worldX*(width-1);
+								int img_gridY=worldY*(height-1);
+								int stride=img_gridY*row_stride+img_gridX*n_channels;					
+								_this->u0[k*(nVars)+i*x_points+j]=(((float)pixels[stride])/255.0)*_this->maxDensity;		
+							}
+						}
+					}
+					else{
+						std::cout<<temp<<" not found. Default values assumed as initial conditions.\n";
 					}
 				}
-				
 				
 			}
 			
@@ -1777,12 +1800,12 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 			SEIRDPDE_EDITORWidget* seird_pde_object=glade_widgets->seird_pde_object;
 			
 			GtkFileChooserNative *native;
-			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+			GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 			gint res;
 			
 			//auto parent_window=gtk_builder_get_object(glade_widgets->seird_object->builder,"grid_seird");
 
-			native = gtk_file_chooser_native_new("Open file",
+			native = gtk_file_chooser_native_new("Select folder",
 												0,
 												action,
 												"_Open"

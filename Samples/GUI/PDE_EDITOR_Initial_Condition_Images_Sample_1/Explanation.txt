@@ -1,0 +1,2 @@
+These files can be used to preload the initial values vector u0 loaded from the SEIRDPDE_Editor class.
+Images must be in square format and .png.
