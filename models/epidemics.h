@@ -51,6 +51,8 @@ template<seird::Geometry T, class F>
 				
 				F dimX=1.0;
 				F dimY=1.0;
+
+				std::vector<F> u0 = {};
 				
 				public:
 				InitialValueManager<ug::epi::seird::Geometry::Plane,F>(){
@@ -158,7 +160,16 @@ template<seird::Geometry T, class F>
 					return dimY;
 					
 				}
+
+				std::vector<F> get_u0() const{
+					return u0;
+				}
 				
+				void set_u0(std::vector<F> _u0){
+					u0 = _u0;
+				}
+
+
 			};
 
 			template<class T>
@@ -279,8 +290,12 @@ template<seird::Geometry T, class F>
 				double ht=initial_manager.get_ht();
 				std::cout << "RunSEIRDPDE, hx = " << hx << std::endl; 
 				std::cout << "RunSEIRDPDE, ht = " << ht << std::endl; 
-				std::vector<double> u0 =  initial_values<std::vector<double>>(initial_manager);
 
+				std::vector<double> u0 = initial_manager.get_u0();
+
+				if(u0.size() == 0){
+					u0 =  initial_values<std::vector<double>>(initial_manager);
+				}
 				seird_model.change_step_size_spatial(hx);
 				seird_model.change_step_size_time(ht);	
 

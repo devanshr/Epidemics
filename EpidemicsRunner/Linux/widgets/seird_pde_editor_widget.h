@@ -749,6 +749,7 @@ initial_vars:set_hx(hx)
 initial_vars:set_ht(ht)
 initial_vars:set_t_end(t_end)
 initial_vars:set_t_start(t_start)
+initial_vars:set_u0(grid)
 seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
 RunSEIRDPDE(seird_model,initial_vars,"./","output")
 							)";
@@ -770,7 +771,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				}
 				else 
 				{
-					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits);
+					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, seird_pde_object->u0);
 
 					co::PSOOptions options;
 					options.set_max_iterations(seird_pde_object->_pso_max_iter);
@@ -1004,6 +1005,7 @@ initial_vars:set_hx(hx)
 initial_vars:set_ht(ht)
 initial_vars:set_t_end(t_end)
 initial_vars:set_t_start(t_start)
+initial_vars:set_u0(grid)
 seird_model=SEIRD_PDE(alpha,kappa,theta,qq,pp,diffusion)
 RunSEIRDPDE(seird_model,initial_vars,"./","output")
 							)";
@@ -1025,7 +1027,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				}
 				else
 				{
-					   ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits);
+					   ug::epi::create_evaluate_lua(widget->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, widget->u0);
 	
 					   co::NewtonOptions options;
 					   options.set_stepsize_alpha(1);
