@@ -292,8 +292,9 @@ template<seird::Geometry T, class F>
 				std::cout << "RunSEIRDPDE, ht = " << ht << std::endl; 
 
 				std::vector<double> u0 = initial_manager.get_u0();
-
+				std::printf("RunSEIRDPDE in lua, checking for size of u0\n");
 				if(u0.size() == 0){
+					std::printf("RunSEIRDPDE in lua, no u0 given, initialize it\n");
 					u0 =  initial_values<std::vector<double>>(initial_manager);
 				}
 				seird_model.change_step_size_spatial(hx);

@@ -47,20 +47,25 @@ end
 
 )";
 			//lua_output << "h=" << stepsize << "\n";
-			
+			std::printf("utitlity debug print0\n");
 			for (size_t i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";
 			}
 			
+			std::printf("utitlity debug print1\n");
 			for (size_t i= 0; i < names_of_constants.size(); i++) {
 				lua_output << names_of_constants[i] << "=" << values_of_constants[i] << "\n";
 			}
 
+			std::printf("utitlity debug print2\n");
+
 			for (size_t i = 0; i < names_of_variables.size(); i++) {
 				lua_output << names_of_variables[i] << "=parameters."<<names_of_variables[i]<<":get_value_as_double()\n";
 			}
-
+			std::printf("utitlity debug print3, grid_vec.size() = %d\n", grid_vec.size());
+			
 			if(grid_vec.size()!=0){
+				std::printf("utitlity debug print3.1\n");
 				lua_output << "grid={" << grid_vec[0];
 				for (int i=1; i<grid_vec.size(); i++){
 					lua_output << "," << grid_vec[i];

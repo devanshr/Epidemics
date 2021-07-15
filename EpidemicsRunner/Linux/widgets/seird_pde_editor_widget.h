@@ -298,7 +298,7 @@ class SEIRDPDE_EDITORWidget;
 
 						seird_model.run_linear_implicit(t_start, widget->u0, t_end);
 						//seird_model.run(t_start, widget->u0, t_end);
-						widget->set_u0(std::vector<double>());		
+						widget->set_u0(std::vector<double>());
 					}
 					else{
 						std::cout<<"No initial data u0\n";
@@ -633,6 +633,7 @@ class SEIRDPDE_EDITORWidget;
 				double diffusion=seird_pde_object->_diffusion;
 				printf("Run PSO\n");
 				size_t count = 0;
+				seird_pde_object->get_u0_from_image(seird_pde_object);
 				std::vector<std::string > names_of_constants;
 				std::vector<double> values_of_constants;
 				std::vector<std::string> names_of_variables;
@@ -771,6 +772,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				}
 				else 
 				{
+					std::printf("calling create_evaluate_lua, with seird_pde_object->u0 size: %d\n", (int)seird_pde_object->u0.size());
 					ug::epi::create_evaluate_lua(seird_pde_object->user_selected_optimization_path, textbody, names_of_constants, values_of_constants, names_of_variables, name_of_inits, values_of_inits, seird_pde_object->u0);
 
 					co::PSOOptions options;
@@ -887,6 +889,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				double qq = widget->_qq;
 				double pp = widget->_pp;
 				double diffusion=widget->_diffusion;
+				widget->get_u0_from_image(widget);
 				
 				size_t count = 0;
 
@@ -1248,7 +1251,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 						std::cout<<temp<<" not found. Default values assumed as initial conditions.\n";
 					}
 				}
-				
+				std::printf("set_u0 finished current size of u0 = %d\n", (int)_this->u0.size());
 			}
 			
 			std::string user_selected_u0_path;
