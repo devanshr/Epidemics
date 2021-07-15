@@ -62,7 +62,7 @@ end
 			for (size_t i = 0; i < names_of_variables.size(); i++) {
 				lua_output << names_of_variables[i] << "=parameters."<<names_of_variables[i]<<":get_value_as_double()\n";
 			}
-			std::printf("utitlity debug print3, grid_vec.size() = %d\n", grid_vec.size());
+			std::printf("utitlity debug print3, grid_vec.size() = %d\n", (int)grid_vec.size());
 			
 			if(grid_vec.size()!=0){
 				std::printf("utitlity debug print3.1\n");

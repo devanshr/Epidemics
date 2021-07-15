@@ -101,16 +101,16 @@ class SEIRDPDE_EDITORWidget;
 				glade_widgets.w_label_max= GTK_LABEL(gtk_builder_get_object(builder,"label_seird_pde_editor_max"));
 				glade_widgets.w_label_min= GTK_LABEL(gtk_builder_get_object(builder,"label_seird_pde_editor_min"));
 
-				glade_widgets.w_spin_lower_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_alpha_pde_editor"));
-				glade_widgets.w_spin_upper_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_alpha_pde_editor"));
-				glade_widgets.w_spin_lower_bound_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_kappa_pde_editor"));
-				glade_widgets.w_spin_upper_bound_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_kappa_pde_editor"));
-				glade_widgets.w_spin_lower_bound_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_theta_pde_editor"));
-				glade_widgets.w_spin_upper_bound_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_theta_pde_editor"));
-				glade_widgets.w_spin_lower_bound_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_qq_pde_editor"));
-				glade_widgets.w_spin_upper_bound_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_qq_pde_editor"));
-				glade_widgets.w_spin_lower_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_lower_bound_pp_pde_editor"));
-				glade_widgets.w_spin_upper_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_upper_bound_pp_pde_editor"));
+				glade_widgets.w_spin_pde_editor_lower_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_lower_bound_alpha"));
+				glade_widgets.w_spin_pde_editor_upper_bound_alpha = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_upper_bound_alpha"));
+				glade_widgets.w_spin_pde_editor_lower_bound_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_lower_bound_kappa"));
+				glade_widgets.w_spin_pde_editor_upper_bound_kappa = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_upper_bound_kappa"));
+				glade_widgets.w_spin_pde_editor_lower_bound_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_lower_bound_theta"));
+				glade_widgets.w_spin_pde_editor_upper_bound_theta = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_upper_bound_theta"));
+				glade_widgets.w_spin_pde_editor_lower_bound_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_lower_bound_qq"));
+				glade_widgets.w_spin_pde_editor_upper_bound_qq = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_upper_bound_qq"));
+				glade_widgets.w_spin_pde_editor_lower_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_lower_bound_pp"));
+				glade_widgets.w_spin_pde_editor_upper_bound_pp = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_pde_editor_upper_bound_pp"));
 
 				glade_widgets.w_spin_pso_iterations = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_iterations_pde_editor"));
 				glade_widgets.w_spin_pso_no_particles = GTK_SPIN_BUTTON(gtk_builder_get_object(builder,"spin_particles_pde_editor"));
@@ -208,16 +208,16 @@ class SEIRDPDE_EDITORWidget;
                 GtkToggleButton *w_check_qq;
                 GtkToggleButton *w_check_pp;
                 GtkToggleButton *w_check_diffusion;
-                GtkSpinButton *w_spin_lower_bound_alpha;
-                GtkSpinButton *w_spin_upper_bound_alpha;
-                GtkSpinButton *w_spin_lower_bound_kappa;
-                GtkSpinButton *w_spin_upper_bound_kappa;
-                GtkSpinButton *w_spin_lower_bound_theta;
-                GtkSpinButton *w_spin_upper_bound_theta;
-                GtkSpinButton *w_spin_lower_bound_qq;
-                GtkSpinButton *w_spin_upper_bound_qq;
-                GtkSpinButton *w_spin_lower_bound_pp;
-                GtkSpinButton *w_spin_upper_bound_pp;
+                GtkSpinButton *w_spin_pde_editor_lower_bound_alpha;
+                GtkSpinButton *w_spin_pde_editor_upper_bound_alpha;
+                GtkSpinButton *w_spin_pde_editor_lower_bound_kappa;
+                GtkSpinButton *w_spin_pde_editor_upper_bound_kappa;
+                GtkSpinButton *w_spin_pde_editor_lower_bound_theta;
+                GtkSpinButton *w_spin_pde_editor_upper_bound_theta;
+                GtkSpinButton *w_spin_pde_editor_lower_bound_qq;
+                GtkSpinButton *w_spin_pde_editor_upper_bound_qq;
+                GtkSpinButton *w_spin_pde_editor_lower_bound_pp;
+                GtkSpinButton *w_spin_pde_editor_upper_bound_pp;
                 GtkSpinButton *w_spin_pso_iterations;
                 GtkSpinButton *w_spin_pso_no_particles;
                 GtkSpinButton *w_spin_pso_no_groups;
@@ -648,8 +648,8 @@ class SEIRDPDE_EDITORWidget;
 				{
 				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_alpha) << "\n";
 				   names_of_variables.push_back("alpha");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha))); 
-				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_alpha))); 
+				   bounds.push_back( co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_alpha)));
 					count++;
 				}
 
@@ -663,8 +663,8 @@ class SEIRDPDE_EDITORWidget;
 				{
 				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_kappa) << "\n";
 				   names_of_variables.push_back("kappa");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_kappa)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_kappa)));
 					count++;
 				}
 				else 
@@ -676,8 +676,8 @@ class SEIRDPDE_EDITORWidget;
 				if (gtk_toggle_button_get_active(glade_widgets->w_check_theta)) {
 				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_theta) << "\n";
 				   names_of_variables.push_back("theta");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_theta)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_theta)));
 					count++;
 			   }
 			   else 
@@ -689,8 +689,8 @@ class SEIRDPDE_EDITORWidget;
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_qq)) {
 				   //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_qq) << "\n";
 				   names_of_variables.push_back("qq");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_qq)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_qq)));
 					count++;
 			   }
 			   else
@@ -702,8 +702,8 @@ class SEIRDPDE_EDITORWidget;
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_pp)) {
 				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_pp) << "\n";
 				   names_of_variables.push_back("pp");
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)));
-				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_pp)));
+				   bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_pp)));
 					count++;
 			   }
 			   else
@@ -715,8 +715,8 @@ class SEIRDPDE_EDITORWidget;
 			   if (gtk_toggle_button_get_active(glade_widgets->w_check_diffusion)) {
 				  //std::cout << gtk_toggle_button_get_active(glade_widgets->w_check_diffusion) << "\n";
 				   names_of_variables.push_back("diffusion");
-				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_diffusion)));
-				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_diffusion)));
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_diffusion)));
+				   //bounds.push_back(co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_diffusion)));
 					count++;
 					//TODO add Diffusion bounds in set constraints window.
 			   }
@@ -906,7 +906,8 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   if (gtk_toggle_button_get_active(glade_widgets->w_check_alpha)) 
 				   {
 					   names_of_variables.push_back("alpha");
-					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_alpha)));
+					   co::EVar64 v_alpha=co::EVar64(co::EFloat64(alpha), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_alpha)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_alpha)));
+					   std::cout << "Evar65 = " << v_alpha << std::endl;
 					   initial_vars.add("alpha", v_alpha);
 					   count++;
 				   }
@@ -920,7 +921,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   {
 					   names_of_variables.push_back("kappa");
 					   //EFloats for bounds aswelll!!
-					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_kappa)));
+					   co::EVar64 v_kappa= co::EVar64(co::EFloat64(kappa), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_kappa)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_kappa)));
 					   initial_vars.add("kappa", v_kappa);
 					   count++;
 				   }
@@ -933,7 +934,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   if (gtk_toggle_button_get_active(glade_widgets->w_check_theta)) 
 				   {
 					   names_of_variables.push_back("theta");
-					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_theta)));
+					   co::EVar64 v_theta = co::EVar64(co::EFloat64(theta), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_theta)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_theta)));
 					   initial_vars.add("theta", v_theta);
 					   count++;
 				   }
@@ -946,7 +947,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   if (gtk_toggle_button_get_active(glade_widgets->w_check_qq)) 
 				   {
 					   names_of_variables.push_back("qq");
-					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_qq)));
+					   co::EVar64 v_qq = co::EVar64(co::EFloat64(qq), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_qq)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_qq)));
 					   initial_vars.add("qq", v_qq);
 					   count++;
 				   }
@@ -959,7 +960,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 				   if (gtk_toggle_button_get_active(glade_widgets->w_check_pp)) 
 				   {
 					   names_of_variables.push_back("pp");
-					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
+					   co::EVar64 v_pp = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_pp)));
 					   initial_vars.add("pp", v_pp);
 					   count++;
 				   }
@@ -971,7 +972,7 @@ RunSEIRDPDE(seird_model,initial_vars,"./","output")
 					if (gtk_toggle_button_get_active(glade_widgets->w_check_diffusion)) {
 					   names_of_variables.push_back("diffusion");
 					   //change values for diffusion
-					   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_upper_bound_pp)));
+					   co::EVar64 v_diffusion = co::EVar64(co::EFloat64(pp), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_lower_bound_pp)), co::EFloat64(gtk_spin_button_get_value(glade_widgets->w_spin_pde_editor_upper_bound_pp)));
 					   initial_vars.add("diffusion", v_diffusion);
 					   
 						//TODO add Diffusion bounds in set constraints window.
