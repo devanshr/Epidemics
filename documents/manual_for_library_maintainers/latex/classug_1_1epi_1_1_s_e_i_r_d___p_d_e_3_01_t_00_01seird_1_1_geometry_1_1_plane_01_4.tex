@@ -1,0 +1,40 @@
+\hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4}{}\doxysection{ug\+::epi\+::SEIRD\+\_\+\+PDE$<$ T, seird\+::Geometry\+::Plane $>$ Class Template Reference}
+\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4}\index{ug::epi::SEIRD\_PDE$<$ T, seird::Geometry::Plane $>$@{ug::epi::SEIRD\_PDE$<$ T, seird::Geometry::Plane $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_aa399c391e02e88e7ad5524552810ba13}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_aa399c391e02e88e7ad5524552810ba13}} 
+void {\bfseries set\+\_\+store\+\_\+to\+\_\+file} (bool \+\_\+store\+\_\+to\+\_\+file, std\+::string \+\_\+filepath, std\+::string \+\_\+filename)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_acee8173ad6d681ca2333dcccb7e60512}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_acee8173ad6d681ca2333dcccb7e60512}} 
+{\bfseries SEIRD\+\_\+\+PDE} (F \+\_\+alpha, F \+\_\+kappa, F \+\_\+theta, F \+\_\+sigma, F \+\_\+tau, F \+\_\+diffusion)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a61447688b8d2efc8f873655d4ac608d5}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a61447688b8d2efc8f873655d4ac608d5}} 
+void {\bfseries change\+\_\+step\+\_\+size\+\_\+time} (F \+\_\+ht)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ac05da5b9ad1c004a4f727f92f8e9a6bd}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ac05da5b9ad1c004a4f727f92f8e9a6bd}} 
+void {\bfseries change\+\_\+step\+\_\+size\+\_\+spatial} (F \+\_\+hx)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a674b90eb5d894a5552591332f5ec7400}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a674b90eb5d894a5552591332f5ec7400}} 
+T {\bfseries system} (T \&u, F t=0)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ab3d8ae9995810401b7f0e0424aab0522}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ab3d8ae9995810401b7f0e0424aab0522}} 
+T {\bfseries jacobian} (T \&u, F t=0)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ab79b175504e0ed645711bf3ef8edcac5}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_ab79b175504e0ed645711bf3ef8edcac5}} 
+std\+::tuple$<$ std\+::vector$<$ F $>$, std\+::vector$<$ F $>$ $>$ {\bfseries run} (F t0, T \&u0, F tend)
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a2ce486c85f7932c90cce4a11ecb7f05b}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a2ce486c85f7932c90cce4a11ecb7f05b}} 
+std\+::tuple$<$ std\+::vector$<$ F $>$, std\+::vector$<$ F $>$ $>$ {\bfseries run\+\_\+linear\+\_\+implicit} (F t0, T \&u0, F tend)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a38c997d8d89e2fece3bb806ecf841c57}\label{classug_1_1epi_1_1_s_e_i_r_d___p_d_e_3_01_t_00_01seird_1_1_geometry_1_1_plane_01_4_a38c997d8d89e2fece3bb806ecf841c57}} 
+const std\+::vector$<$ std\+::string $>$ {\bfseries names} = \{ \char`\"{}Susceptibles\char`\"{},\char`\"{}Exposed\char`\"{}, \char`\"{}Infected\char`\"{}, \char`\"{}Recovered\char`\"{}, \char`\"{}Deaths\char`\"{} \}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+models/\mbox{\hyperlink{seird__pde_8h}{seird\+\_\+pde.\+h}}\end{DoxyCompactItemize}

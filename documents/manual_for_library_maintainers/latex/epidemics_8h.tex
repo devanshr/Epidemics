@@ -1,0 +1,112 @@
+\hypertarget{epidemics_8h}{}\doxysection{models/epidemics.h File Reference}
+\label{epidemics_8h}\index{models/epidemics.h@{models/epidemics.h}}
+{\ttfamily \#include \char`\"{}sir.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}seird.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}seird\+\_\+pde.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}writer.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classug_1_1epi_1_1_initial_value_manager}{ug\+::epi\+::\+Initial\+Value\+Manager$<$ T, F $>$}}
+\item 
+class \mbox{\hyperlink{classug_1_1epi_1_1_initial_value_manager_3_01seird_1_1_geometry_1_1_plane_00_01_f_01_4}{ug\+::epi\+::\+Initial\+Value\+Manager$<$ seird\+::\+Geometry\+::\+Plane, F $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{epidemics_8h_a178f79f8fbdbc797c9a6a830475321ef}\label{epidemics_8h_a178f79f8fbdbc797c9a6a830475321ef}} 
+{\footnotesize template$<$class T $>$ }\\void {\bfseries ug\+::epi\+::set\+\_\+radial\+\_\+values} (T \&u0, typename T\+::value\+\_\+type x\+\_\+points, typename T\+::value\+\_\+type y\+\_\+points, typename T\+::value\+\_\+type dimX, typename T\+::value\+\_\+type dimY, typename T\+::value\+\_\+type hx, typename T\+::value\+\_\+type radius, typename T\+::value\+\_\+type val, int current\+\_\+dimension)
+\item 
+\mbox{\Hypertarget{epidemics_8h_ae17dffa239dca08264e30bf0d702317d}\label{epidemics_8h_ae17dffa239dca08264e30bf0d702317d}} 
+{\footnotesize template$<$class T $>$ }\\void {\bfseries ug\+::epi\+::set\+\_\+gaussian\+\_\+values} (T \&u0, typename T\+::value\+\_\+type x\+\_\+points, typename T\+::value\+\_\+type y\+\_\+points, typename T\+::value\+\_\+type dimX, typename T\+::value\+\_\+type dimY, typename T\+::value\+\_\+type hx, typename T\+::value\+\_\+type radius, typename T\+::value\+\_\+type val, int current\+\_\+dimension)
+\item 
+\mbox{\Hypertarget{epidemics_8h_a33ee4bb68f9dee8808b892b5bb28eb09}\label{epidemics_8h_a33ee4bb68f9dee8808b892b5bb28eb09}} 
+{\footnotesize template$<$class T $>$ }\\T {\bfseries ug\+::epi\+::initial\+\_\+values} (Initial\+Value\+Manager$<$ seird\+::\+Geometry\+::\+Plane, typename T\+::value\+\_\+type $>$ \&initial\+\_\+manager)
+\item 
+void \mbox{\hyperlink{epidemics_8h_a366ca52a5a891efccd9652aae3bea6d6}{ug\+::epi\+::\+Run\+SIR}} (ug\+::epi\+::\+SIR$<$ std\+::vector$<$ double $>$$>$ \&sir\+\_\+model, std\+::string path, std\+::string name, double v1, double v2, double v3, double v4, double t\+\_\+start, double t\+\_\+end, double stepsize)
+\item 
+void \mbox{\hyperlink{epidemics_8h_a64c95ecd0a9d15bae801453b73d44370}{ug\+::epi\+::\+Run\+SEIRD}} (ug\+::epi\+::\+SEIRD$<$ std\+::vector$<$ double $>$$>$ \&seird\+\_\+model, std\+::string path, std\+::string name, double v1, double v2, double v3, double v4, double v5, double t\+\_\+start, double t\+\_\+end, double stepsize\+\_\+time)
+\item 
+\mbox{\Hypertarget{epidemics_8h_a9ea8870d38ce439ca1b3bfb0de9df65e}\label{epidemics_8h_a9ea8870d38ce439ca1b3bfb0de9df65e}} 
+void {\bfseries ug\+::epi\+::\+Run\+SEIRDPDE} (\mbox{\hyperlink{classug_1_1epi_1_1_s_e_i_r_d___p_d_e}{ug\+::epi\+::\+SEIRD\+\_\+\+PDE}}$<$ std\+::vector$<$ double $>$, ug\+::epi\+::seird\+::\+Geometry\+::\+Plane $>$ \&seird\+\_\+model, Initial\+Value\+Manager$<$ seird\+::\+Geometry\+::\+Plane, double $>$ \&initial\+\_\+manager, std\+::string path, std\+::string name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{epidemics_8h_a0b89541eb4413f38e01b1de204ba0a60}\label{epidemics_8h_a0b89541eb4413f38e01b1de204ba0a60}} 
+constexpr int {\bfseries ug\+::epi\+::version\+\_\+number} =0.\+35
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file is used if the optimization functions are indirectly called. Indirectly means that the user only passes secondary information like path, options and shell commands instead of directly calling the model functions. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{epidemics_8h_a64c95ecd0a9d15bae801453b73d44370}\label{epidemics_8h_a64c95ecd0a9d15bae801453b73d44370}} 
+\index{epidemics.h@{epidemics.h}!RunSEIRD@{RunSEIRD}}
+\index{RunSEIRD@{RunSEIRD}!epidemics.h@{epidemics.h}}
+\doxysubsubsection{\texorpdfstring{RunSEIRD()}{RunSEIRD()}}
+{\footnotesize\ttfamily void ug\+::epi\+::\+Run\+SEIRD (\begin{DoxyParamCaption}\item[{ug\+::epi\+::\+SEIRD$<$ std\+::vector$<$ double $>$$>$ \&}]{seird\+\_\+model,  }\item[{std\+::string}]{path,  }\item[{std\+::string}]{name,  }\item[{double}]{v1,  }\item[{double}]{v2,  }\item[{double}]{v3,  }\item[{double}]{v4,  }\item[{double}]{v5,  }\item[{double}]{t\+\_\+start,  }\item[{double}]{t\+\_\+end,  }\item[{double}]{stepsize\+\_\+time }\end{DoxyParamCaption})}
+
+Runs the SEIRD model. This function can also be called from UG4, as it was registered in epidemics\+\_\+plugin.\+cpp. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em seird\+\_\+model} & Instance of a SEIRD model instance ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em path} & Path where output data is written to \\
+\hline
+\mbox{\texttt{ in}}  & {\em name} & name of the file that contains simulation output \\
+\hline
+\mbox{\texttt{ in}}  & {\em v1} & Initial numbers of suceptibles in the SEIRD model \\
+\hline
+\mbox{\texttt{ in}}  & {\em v2} & Initial numbers of exposed in the SEIRD model \\
+\hline
+\mbox{\texttt{ in}}  & {\em v3} & Initial numbers of infected in the SEIRD model ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em v4} & Initial numbers of recovered in the SEIRD model ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em v5} & Initial numbers of deaths in the SEIRD model ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em t\+\_\+start} & Simulation start time \\
+\hline
+\mbox{\texttt{ in}}  & {\em t\+\_\+end} & Simulation end time \\
+\hline
+\mbox{\texttt{ in}}  & {\em stepsize} & Stepsize of the implicit linear implicit solver (2th order) ~\newline
+ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{epidemics_8h_a366ca52a5a891efccd9652aae3bea6d6}\label{epidemics_8h_a366ca52a5a891efccd9652aae3bea6d6}} 
+\index{epidemics.h@{epidemics.h}!RunSIR@{RunSIR}}
+\index{RunSIR@{RunSIR}!epidemics.h@{epidemics.h}}
+\doxysubsubsection{\texorpdfstring{RunSIR()}{RunSIR()}}
+{\footnotesize\ttfamily void ug\+::epi\+::\+Run\+SIR (\begin{DoxyParamCaption}\item[{ug\+::epi\+::\+SIR$<$ std\+::vector$<$ double $>$$>$ \&}]{sir\+\_\+model,  }\item[{std\+::string}]{path,  }\item[{std\+::string}]{name,  }\item[{double}]{v1,  }\item[{double}]{v2,  }\item[{double}]{v3,  }\item[{double}]{v4,  }\item[{double}]{t\+\_\+start,  }\item[{double}]{t\+\_\+end,  }\item[{double}]{stepsize }\end{DoxyParamCaption})}
+
+Runs the SIR model. This function can also be called from UG4, as it was registered in epidemics\+\_\+plugin.\+cpp. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sir\+\_\+model} & Instance of a SIR model object ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em path} & Path where output data is written to \\
+\hline
+\mbox{\texttt{ in}}  & {\em name} & name of the file that contains simulation output \\
+\hline
+\mbox{\texttt{ in}}  & {\em v1} & Initial numbers of suceptibles in the SIR model \\
+\hline
+\mbox{\texttt{ in}}  & {\em v2} & Initial numbers of infected in the SIR model \\
+\hline
+\mbox{\texttt{ in}}  & {\em v3} & Initial numbers of recovered in the SIR model \\
+\hline
+\mbox{\texttt{ in}}  & {\em v4} & Initial numbers of deaths in the SIR model ~\newline
+ \\
+\hline
+\mbox{\texttt{ in}}  & {\em t\+\_\+start} & Simulation start time \\
+\hline
+\mbox{\texttt{ in}}  & {\em t\+\_\+end} & Simulation end time \\
+\hline
+\mbox{\texttt{ in}}  & {\em stepsize} & Stepsize of the explicit Runge Kutta solver (4th order) ~\newline
+ \\
+\hline
+\end{DoxyParams}

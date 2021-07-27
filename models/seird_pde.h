@@ -1,3 +1,9 @@
+/** \file seird_pde.h
+ * This file defines necessary classes and enums in order to be able to run the
+ * partial differential equations version of the SEIRD model. 
+ * The model is discretized using finite differences on a structured planar grid.
+ */
+
 #pragma once
 #include <vector>
 #include <string>

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2011-2021:  G-CSC, Goethe University Frankfurt
+ * Only functions that are registered here are later able to be called from the UG4 Lua runtime.
  */
 
 #include "bridge/util.h"
@@ -26,7 +27,7 @@ struct Functionality
  * All Functions and Classes not depending on Domain and Algebra
  * are to be placed here when registering.
  *
- * @param reg				registrySSSS
+ * @param reg				registry
  * @param parentGroup		group for sorting of functionality
  */
 static void Common(Registry& reg, string grp)

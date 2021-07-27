@@ -3,9 +3,7 @@
  * \section intro_sec Overview
  *
  *The Epidemics plugin consists of various algorithms used in epidemics modeling.
- *This manual was created in April 2021 for version number 0.3
-
-
+ *This manual was created in July 2021 for version number 0.35
  */
 
 /** \file epidemics.h
@@ -23,7 +21,7 @@
 namespace ug{
 	namespace epi{
 		
-			constexpr int version_number=0.3;//change if you update your Epidemics version
+			constexpr int version_number=0.35;//change if you update your Epidemics version
 			
 template<seird::Geometry T, class F>
 			class InitialValueManager{
@@ -259,7 +257,18 @@ template<seird::Geometry T, class F>
 				return u0;
 			}
 			
-	
+			/*! Runs the SIR model. This function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
+			@param[in] sir_model Instance of a SIR model object			
+			@param[in] path Path where output data is written to
+			@param[in] name name of the file that contains simulation output
+			@param[in] v1 Initial numbers of suceptibles in the SIR model
+			@param[in] v2 Initial numbers of infected in the SIR model
+			@param[in] v3 Initial numbers of recovered in the SIR model
+			@param[in] v4 Initial numbers of deaths in the SIR model		
+			@param[in] t_start Simulation start time
+			@param[in] t_end Simulation end time
+			@param[in] stepsize Stepsize of the explicit Runge Kutta solver (4th order)			
+			*/	
 			void RunSIR(ug::epi::SIR<std::vector<double>>& sir_model,std::string path, std::string name, double v1, double v2, double v3,  double v4, double t_start, double t_end, double stepsize){		
 				std::vector<double> u0={v1,v2,v3,v4};
 
@@ -271,6 +280,19 @@ template<seird::Geometry T, class F>
 				
 			}
 
+			/*! Runs the SEIRD model. This function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
+			@param[in] seird_model Instance of a SEIRD model instance			
+			@param[in] path Path where output data is written to
+			@param[in] name name of the file that contains simulation output
+			@param[in] v1 Initial numbers of suceptibles in the  SEIRD model
+			@param[in] v2 Initial numbers of exposed in the SEIRD model
+			@param[in] v3 Initial numbers of infected in the SEIRD model			
+			@param[in] v4 Initial numbers of recovered in the SEIRD model	
+			@param[in] v5 Initial numbers of deaths in the SEIRD model				
+			@param[in] t_start Simulation start time
+			@param[in] t_end Simulation end time
+			@param[in] stepsize Stepsize of the implicit linear implicit solver (2th order)			
+			*/	
 			void RunSEIRD(ug::epi::SEIRD<std::vector<double>>& seird_model,std::string path, std::string name, double v1, double v2, double v3, double v4, double v5, double t_start, double t_end, double stepsize_time){		
 				std::vector<double> u0={v1,v2,v3,v4,v5};
 
