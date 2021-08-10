@@ -87,7 +87,7 @@ The following algorithms are currently implemented:
 
 |Name|Description|
 |---|---|
-|SRI|Standard Susceptible-Recovered-Infected ODE Model|
-|SEIRD| Extended SRI model accounting for an incubation period.|
+|SIR|Classical Susceptible-Infected-Recovered-Deaths ODE Model|
+|SEIRD| Extended SIR model accounting for a new class (Exposed) amongst other additions|
 |SEIRD_VARA|Extended SRI model paired with variable (over time) infection rate|
-|SEIRD_PDE| A PDE formulation of the SEIRD model, discretized using Finite Differences.|
+|SEIRD_PDE| A PDE formulation of the SEIRD model, discretized using Finite Differences|

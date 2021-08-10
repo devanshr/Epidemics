@@ -21,10 +21,12 @@ namespace ug {
 			};
 
 		}
+		/*! Dummy class of the SEIRD PDE model for an unspecified geometry.  More information about the theoretical foundation can be found in the other documents in the documents folder of this plugin.*/	
 
 		template<class T, seird::Geometry G>
 		class SEIRD_PDE {};
 
+		/*! Class of the SEIRD PDE model ona a planar grid. The SEIRD model includes a new class (Exposed) amongst other additions. More information about the theoretical foundation can be found in the other documents in the documents folder of this plugin.*/	
 		template<class T>
 		class SEIRD_PDE<T,seird::Geometry::Plane> {
 			using F = typename T::value_type;

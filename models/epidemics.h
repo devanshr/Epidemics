@@ -3,13 +3,27 @@
  * \section intro_sec Overview
  *
  *The Epidemics plugin consists of various algorithms used in epidemics modeling.
- *This manual was created in July 2021 for version number 0.35
+ * File | Description
+ *------------- | -------------
+ * sir.h | Classical Susceptible-Infected-Recovered-Deceased ODE Model
+ * seird.h  | Extended SIR model accounting for a new class (Exposed) amongst other additions
+ * seird_variable_alpha.h  | Extended SRI model paired with variable (over time) infection rate
+ * seird_pde.h | A PDE formulation of the SEIRD model, discretized using Finite Differences
+ * 
+ * This package is under active development. This manual was created in February 2021 for version number 0.34.
+ *\subsection System Requirements
+ *In its current form, the package has been shown to work on Windows 10, Linux Ubuntu, Raspbian OS and macOS Mojave 10.14.4. Compilers, such as the Microsoft Visual Studio Compiler,
+ * GCC11 and Clang were tested.
+ * The compiler must support at least C++ 2011, but a C++ 2017 compatible compiler is recommended for some examples.
+ * For help and more contact us at github.com/devanshr/Epidemics
+ * 
+ * 
+ *This manual was created in August 2021 for version number 0.35
  */
 
 /** \file epidemics.h
- * This file is used if the optimization functions are indirectly called.
- * Indirectly means that the user only passes secondary information like path, options and
- * shell commands instead of directly calling the model functions.
+ * This file contains bindings for the UG4 software suite. When you build UG4, the functions found here are registered to the UG4 runtime.
+ * If UG4 is never used, this file is not required for anything and could even be deleted.
  */
 
 #pragma once
@@ -22,7 +36,8 @@ namespace ug{
 	namespace epi{
 		
 			constexpr int version_number=0.35;//change if you update your Epidemics version
-			
+
+/*! This class contains initial parameters for a SEIRD PDE problem that has a circular shape. For most applications this class is never needed.*/			
 template<seird::Geometry T, class F>
 			class InitialValueManager{
 			};
@@ -30,17 +45,17 @@ template<seird::Geometry T, class F>
 			template<class F>
 			class InitialValueManager<seird::Geometry::Plane,F>{
 				
-				F r1=10;
-				F r2=10;
-				F r3=10;
-				F r4=10;
-				F r5=10;
+				F r1=10; /**< Precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape)*/
+				F r2=10; /**< Precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape)*/
+				F r3=10; /**< Precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape)*/
+				F r4=10; /**< Precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape)*/
+				F r5=10; /**< Precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape)*/
 				
-				F v1=10;
-				F v2=10;
-				F v3=10;
-				F v4=10;
-				F v5=10;
+				F v1=10; /**< Density of Susceptibles*/
+				F v2=10; /**< Density of Infected*/
+				F v3=10; /**< Density of Exposed*/
+				F v4=10; /**< Density of Recovered*/
+				F v5=10; /**< Density of Deceased*/
 				
 				F hx=0.1;
 				F ht=0.1;
@@ -56,40 +71,43 @@ template<seird::Geometry T, class F>
 				InitialValueManager<ug::epi::seird::Geometry::Plane,F>(){
 					
 				}
-				
+				/**< Returns precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Susceptible class*/
 				F get_r1() const{
 					return r1;
 				}
-								
+				/**< Sets precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Susceptible class*/				
 				void set_r1(F _val){
 					r1=_val;
 				}
+				/**< Returns precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Exposed class*/
 				F get_r2() const{
 					return r2;
 				}
-								
+				/**< Sets precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Exposed class*/				
 				void set_r2(F _val){
 					r2=_val;
 				}
-				
+				/**< Returns precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Infected class*/
 				F get_r3() const{
 					return r3;
 				}
-								
+				/**< Sets precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Infected class*/				
 				void set_r3(F _val){
 					r3=_val;
 				}
+				/**< Returns precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Recovered class*/
 				F get_r4() const{
 					return r4;
 				}
-								
+				/**< Sets precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Recovered class*/				
 				void set_r4(F _val){
 					r4=_val;
 				}
+				/**< Returns precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Deceased class*/
 				F get_r5() const{
 					return r5;
 				}
-								
+				/**< Sets precision of the circular Gaussian shape (can be likened to the inverse radius of the circular shape) for the Deceased class*/				
 				void set_r5(F _val){
 					r5=_val;
 				}
@@ -257,7 +275,7 @@ template<seird::Geometry T, class F>
 				return u0;
 			}
 			
-			/*! Runs the SIR model. This function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
+			/*! Runs the SIR model. After compilation, this function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
 			@param[in] sir_model Instance of a SIR model object			
 			@param[in] path Path where output data is written to
 			@param[in] name name of the file that contains simulation output
@@ -280,7 +298,7 @@ template<seird::Geometry T, class F>
 				
 			}
 
-			/*! Runs the SEIRD model. This function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
+			/*! Runs the SEIRD model. After compilation, this function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
 			@param[in] seird_model Instance of a SEIRD model instance			
 			@param[in] path Path where output data is written to
 			@param[in] name name of the file that contains simulation output
@@ -304,6 +322,13 @@ template<seird::Geometry T, class F>
 				
 			}
 			
+			/*! Runs the SEIRD PDE model. Initial conditions can be provided either by an instance of InitialValueManager<seird::Geometry::Plane,double> or a path to a height map.
+			 * After compilation, this function can also be called from UG4, as it was registered in epidemics_plugin.cpp.
+			@param[in] seird_model Instance of a SEIRD PDE model instance			
+			@param[in] initial_manager Reference to an InitialValueManager<seird::Geometry::Plane,double> instance to get the initial conditions
+			@param[in] path Path where output data is written to			
+			@param[in] name name of the file that contains simulation output
+			*/							
 			void RunSEIRDPDE(ug::epi::SEIRD_PDE<std::vector<double>,ug::epi::seird::Geometry::Plane>& seird_model,InitialValueManager<seird::Geometry::Plane,double>& initial_manager, std::string path, std::string name){		
 	
 				double t_start=initial_manager.get_t_start();

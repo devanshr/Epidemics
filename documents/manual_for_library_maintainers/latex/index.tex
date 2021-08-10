@@ -1,2 +1,20 @@
-\hypertarget{index_intro_sec}{}\doxysection{Overview}\label{index_intro_sec}
-The Epidemics plugin consists of various algorithms used in epidemics modeling. This manual was created in July 2021 for version number 0.\+35 
+\hypertarget{index_intro_sec}{}\section{Overview}\label{index_intro_sec}
+The Epidemics plugin consists of various algorithms used in epidemics modeling. \tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ File }&\textbf{ Description  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ File }&\textbf{ Description  }\\\cline{1-2}
+\endhead
+sir.\+h &Classical Susceptible-\/\+Infected-\/\+Recovered-\/\+Deceased O\+DE Model \\\cline{1-2}
+\hyperlink{seird_8h}{seird.\+h} &Extended S\+IR model accounting for a new class (Exposed) amongst other additions \\\cline{1-2}
+seird\+\_\+variable\+\_\+alpha.\+h &Extended S\+RI model paired with variable (over time) infection rate \\\cline{1-2}
+\hyperlink{seird__pde_8h}{seird\+\_\+pde.\+h} &A P\+DE formulation of the S\+E\+I\+RD model, discretized using Finite Differences \\\cline{1-2}
+\end{longtabu}
+This package is under active development. This manual was created in February 2021 for version number 0.\+34. \hypertarget{index_System}{}\subsection{Requirements}\label{index_System}
+In its current form, the package has been shown to work on Windows 10, Linux Ubuntu, Raspbian OS and mac\+OS Mojave 10.\+14.\+4. Compilers, such as the Microsoft Visual Studio Compiler, G\+C\+C11 and Clang were tested. The compiler must support at least C++ 2011, but a C++ 2017 compatible compiler is recommended for some examples. For help and more contact us at github.\+com/devanshr/\+Epidemics
+
+This manual was created in August 2021 for version number 0.\+35 
