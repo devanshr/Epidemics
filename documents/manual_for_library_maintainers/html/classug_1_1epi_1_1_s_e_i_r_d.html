@@ -79,16 +79,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afa071cf690a6fbb94ded02abdec47a8a"><td class="memItemLeft" align="right" valign="top"><a id="afa071cf690a6fbb94ded02abdec47a8a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SEIRD</b> (F _alpha, F _kappa, F _theta, F _qq, F _pp)</td></tr>
 <tr class="separator:afa071cf690a6fbb94ded02abdec47a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537a6879b4a4d238d0141aaee478a1a8"><td class="memItemLeft" align="right" valign="top"><a id="a537a6879b4a4d238d0141aaee478a1a8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>change_step_size_time</b> (F _ht)</td></tr>
+<tr class="memitem:a537a6879b4a4d238d0141aaee478a1a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html#a537a6879b4a4d238d0141aaee478a1a8">change_step_size_time</a> (F _ht)</td></tr>
 <tr class="separator:a537a6879b4a4d238d0141aaee478a1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1b0b3727a9b5eb9afe1f41985a74967"><td class="memItemLeft" align="right" valign="top"><a id="ae1b0b3727a9b5eb9afe1f41985a74967"></a>
-std::tuple&lt; std::vector&lt; F &gt;, std::vector&lt; F &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html#ae1b0b3727a9b5eb9afe1f41985a74967">run</a> (F t0, const T u0, F tend)</td></tr>
-<tr class="memdesc:ae1b0b3727a9b5eb9afe1f41985a74967"><td class="mdescLeft">&#160;</td><td class="mdescRight">System amtrix of the ordinary differential equations system determined by the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model. <br /></td></tr>
+<tr class="memitem:ae1b0b3727a9b5eb9afe1f41985a74967"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; std::vector&lt; F &gt;, std::vector&lt; F &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html#ae1b0b3727a9b5eb9afe1f41985a74967">run</a> (F t0, const T u0, F tend)</td></tr>
+<tr class="memdesc:ae1b0b3727a9b5eb9afe1f41985a74967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the system matrix of the ordinary differential equations system determined by the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model evaluated at time t.  <a href="#ae1b0b3727a9b5eb9afe1f41985a74967">More...</a><br /></td></tr>
 <tr class="separator:ae1b0b3727a9b5eb9afe1f41985a74967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a654ab9e70a1efe5a5fd8b0534cd14a37"><td class="memItemLeft" align="right" valign="top"><a id="a654ab9e70a1efe5a5fd8b0534cd14a37"></a>
 std::array&lt; F, 5 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html#a654ab9e70a1efe5a5fd8b0534cd14a37">system</a> (std::array&lt; F, 5 &gt; &amp;u, F t=0)</td></tr>
-<tr class="memdesc:a654ab9e70a1efe5a5fd8b0534cd14a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jacobi matrix of the ordinary differential equations system determined by the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model. <br /></td></tr>
+<tr class="memdesc:a654ab9e70a1efe5a5fd8b0534cd14a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Jacobi matrix of the ordinary differential equations system determined by the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model evaluated at time t. <br /></td></tr>
 <tr class="separator:a654ab9e70a1efe5a5fd8b0534cd14a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e809ff18e08d75269af918eced73d1"><td class="memItemLeft" align="right" valign="top"><a id="a97e809ff18e08d75269af918eced73d1"></a>
 std::array&lt; F, 25 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>jacobian</b> (const std::array&lt; F, 5 &gt; &amp;u, F t=0)</td></tr>
@@ -107,6 +105,95 @@ class ug::epi::SEIRD&lt; T &gt;</h3>
 
 <p>Class of the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> ODE model. The <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model includes a new class (Exposed) amongst other additions. More information can be found in the other documents in the documents folder of this plugin. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a537a6879b4a4d238d0141aaee478a1a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a537a6879b4a4d238d0141aaee478a1a8">&#9670;&nbsp;</a></span>change_step_size_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">ug::epi::SEIRD</a>&lt; T &gt;::change_step_size_time </td>
+          <td>(</td>
+          <td class="paramtype">F&#160;</td>
+          <td class="paramname"><em>_ht</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the step size for the ordinary differential equation solvers. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_ht</td><td>Step size for the ODE solvers </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae1b0b3727a9b5eb9afe1f41985a74967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1b0b3727a9b5eb9afe1f41985a74967">&#9670;&nbsp;</a></span>run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt;std::vector&lt;F&gt;,std::vector&lt;F&gt; &gt; <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">ug::epi::SEIRD</a>&lt; T &gt;::run </td>
+          <td>(</td>
+          <td class="paramtype">F&#160;</td>
+          <td class="paramname"><em>t0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T&#160;</td>
+          <td class="paramname"><em>u0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">F&#160;</td>
+          <td class="paramname"><em>tend</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the system matrix of the ordinary differential equations system determined by the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model evaluated at time t. </p>
+<p>Solves the <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> model with an explicit solver of fourth order. Because the solver is explicit, instabilities in the solution profile can occur. It is recommended to use the linear implicit solver. Results are stored in a vector of vectors. Results are not written to file as of yet. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t0</td><td>Simulation start time </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">u0</td><td>Initial conditions for the five S-E-I-R-D classes </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tend</td><td>end time </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">std::tuple&lt;std::vector&lt;F&gt;,std::vector&lt;F&gt;&gt;</td><td>Vector of vectors containing the simulation output </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a4b2848690a22845a5164345ad43393a8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b2848690a22845a5164345ad43393a8">&#9670;&nbsp;</a></span>run_linear_implicit()</h2>
 
@@ -174,7 +261,7 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Names of the various classes </p>
+<p>Names of the various <a class="el" href="classug_1_1epi_1_1_s_e_i_r_d.html">SEIRD</a> classes </p>
 
 </div>
 </div>

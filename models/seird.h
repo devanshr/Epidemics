@@ -1,7 +1,6 @@
 /** \file seird.h
  * This file contains the SEIRD class. The SEIRD ODE model includes a new class (Exposed) amongst other additions. More information can be found in the other documents in the documents folder of this plugin.
  */
- 
 #pragma once
 #include <vector>
 #include <array>
@@ -19,10 +18,10 @@ namespace ug{
 			
 			private:
 			F alpha; /**< Infection coefficient that controls how many people go from Susceptible to Exposed*/
-			F kappa; /**< Coefficient that controls the percantage of people that go from the Exposed to Infected class*/
-			F theta; /**< Death coefficient that controls how many people go from the infected to Deceased class*/
-			F qq; /**< Incubation coefficient that controls how long somebody remains in the Exposed class*/
-			F pp; /**< Coefficient that determines for how long somebody remains in the infected class */
+			F kappa; /**< Coefficient that controls how many people leave the Exposed class*/
+			F theta; /**< Death coefficient that controls how many people go from the Infected to Deceased class*/
+			F qq; /**< Incubation coefficient that controls how many people leave the Exposed class*/
+			F pp; /**< Coefficient that controls how many people leave the Infected class*/
 			F ht=0.01; /**< Step size for the ordinary differential equation solvers */
 
 			void calc_values(F t, std::array<F,5>& u, std::vector<F>& res){
@@ -63,14 +62,25 @@ namespace ug{
 			
 			
 			public:
-			const std::array<std::string,5> names={"Susceptibles","Exposed", "Infected", "Recovered", "Deaths"}; /**< Names of the various classes */
+			const std::array<std::string,5> names={"Susceptibles","Exposed", "Infected", "Recovered", "Deaths"}; /**< Names of the various SEIRD classes */
 			SEIRD(F _alpha, F _kappa, F _theta, F _qq, F _pp):alpha(_alpha),kappa(_kappa),theta(_theta),qq(_qq),pp(_pp){
 			
 			}	
-
+			
+			/*! Sets the step size for the ordinary differential equation solvers.
+			@param[in] _ht Step size for the ODE solvers		
+			*/	
 			void change_step_size_time(F _ht) {
 				ht = _ht;
 			}
+			
+			/*! Solves the SEIRD model with an explicit solver of fourth order. Because the solver is explicit, instabilities in the solution
+			 * profile can occur. It is recommended to use the linear implicit solver. Results are stored in a vector of vectors. Results are not written to file as of yet.
+			@param[in] t0 Simulation start time		
+			@param[in] u0 Initial conditions for the five S-E-I-R-D classes
+			@param[in] tend end time
+			@param[out] std::tuple<std::vector<F>,std::vector<F>> Vector of vectors containing the simulation output			
+			*/				
 			std::tuple<std::vector<F>,std::vector<F>> run(F t0, const T u0, F tend){
 				std::vector<F> res;
 				std::vector<F> ts;
@@ -96,7 +106,7 @@ namespace ug{
 				return std::make_tuple(ts,res);			
 			}
 			
-			//!< System amtrix of the ordinary differential equations system determined by the SEIRD model
+			//!< Returns the system matrix of the ordinary differential equations system determined by the SEIRD model evaluated at time t.
 			std::array<F, 5> system(std::array<F, 5>& u, F t=0) {
 				std::array<F, 5> res;
 
@@ -112,7 +122,7 @@ namespace ug{
 				return res;
 			}
 
-			//!< Jacobi matrix of the ordinary differential equations system determined by the SEIRD model
+			//!< Returns the Jacobi matrix of the ordinary differential equations system determined by the SEIRD model evaluated at time t.
 			std::array<F,25> jacobian(const std::array<F, 5>& u,F t=0) {
 				std::array<F, 5*5> res;
 

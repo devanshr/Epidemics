@@ -1,3 +1,6 @@
+/** \file utility.h
+ * This file contains various helper functions for EpidemicsRunner GUI.
+ */
 #pragma once
 #include <algorithm>
 #include <gtk/gtk.h>
@@ -8,6 +11,18 @@
 namespace ug{	
 	namespace epi{
 
+			/*! Creates an evaluate.lua file for use with the ConstrainedOptimization UG4 plugin. To understand the use of an evaluate.lua file,
+			 * consult the documentation of the ConstrainedOptimization UG4 plugin.
+			@param[in] path Path where the evaluate.lua file shall be written to.		
+			@param[in] textbody Auxillary text that shall be added into the evaluate.lua file
+			@param[in] names_of_constants Names of variables or model parameters that are not optimized but have to be set
+			@param[in] values_of_constants Values of aforementioned variables or model parameters that are not optimized but have to be set
+			@param[in] names_of_variables Names of variables or model parameters that are optimized
+			@param[in] values_of_variables Values of aforementioned variables or model parameters that are optimized	
+			@param[in] names_of_inits Names of initial conditions or auxillary variables that are not optimized but have to be set
+			@param[in] values_of_inits Values of initial conditions or auxillary variables that are not optimized but have to be set				
+			@param[in] grid_vec Optional parameter that is used to specify the cartesian coordinates of the grid if a PDE model is optimized
+			*/	
 		void create_evaluate_lua(std::string path, std::string textbody, std::vector<std::string>& names_of_constants,std::vector<double>& values_of_constants, std::vector<std::string>& names_of_variables, std::vector<std::string>& names_of_inits, std::vector<double>& values_of_inits, std::vector<double> grid_vec=std::vector<double>()) 
 		{
 
@@ -47,25 +62,25 @@ end
 
 )";
 			//lua_output << "h=" << stepsize << "\n";
-			std::printf("utitlity debug print0\n");
+		//	std::printf("utitlity debug print0\n");
 			for (size_t i = 0; i < names_of_inits.size(); i++) {
 				lua_output << names_of_inits[i] << "=" << values_of_inits[i] << "\n";
 			}
 			
-			std::printf("utitlity debug print1\n");
+		//	std::printf("utitlity debug print1\n");
 			for (size_t i= 0; i < names_of_constants.size(); i++) {
 				lua_output << names_of_constants[i] << "=" << values_of_constants[i] << "\n";
 			}
 
-			std::printf("utitlity debug print2\n");
+		//	std::printf("utitlity debug print2\n");
 
 			for (size_t i = 0; i < names_of_variables.size(); i++) {
 				lua_output << names_of_variables[i] << "=parameters."<<names_of_variables[i]<<":get_value_as_double()\n";
 			}
-			std::printf("utitlity debug print3, grid_vec.size() = %d\n", (int)grid_vec.size());
+	//		std::printf("utitlity debug print3, grid_vec.size() = %d\n", (int)grid_vec.size());
 			
 			if(grid_vec.size()!=0){
-				std::printf("utitlity debug print3.1\n");
+		//		std::printf("utitlity debug print3.1\n");
 				lua_output << "grid={" << grid_vec[0];
 				for (int i=1; i<grid_vec.size(); i++){
 					lua_output << "," << grid_vec[i];

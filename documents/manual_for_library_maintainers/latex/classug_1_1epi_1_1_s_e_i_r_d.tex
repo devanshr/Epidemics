@@ -10,15 +10,13 @@
 \mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_afa071cf690a6fbb94ded02abdec47a8a}\label{classug_1_1epi_1_1_s_e_i_r_d_afa071cf690a6fbb94ded02abdec47a8a}} 
 {\bfseries S\+E\+I\+RD} (F \+\_\+alpha, F \+\_\+kappa, F \+\_\+theta, F \+\_\+qq, F \+\_\+pp)
 \item 
-\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_a537a6879b4a4d238d0141aaee478a1a8}\label{classug_1_1epi_1_1_s_e_i_r_d_a537a6879b4a4d238d0141aaee478a1a8}} 
-void {\bfseries change\+\_\+step\+\_\+size\+\_\+time} (F \+\_\+ht)
+void \hyperlink{classug_1_1epi_1_1_s_e_i_r_d_a537a6879b4a4d238d0141aaee478a1a8}{change\+\_\+step\+\_\+size\+\_\+time} (F \+\_\+ht)
 \item 
-\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_ae1b0b3727a9b5eb9afe1f41985a74967}\label{classug_1_1epi_1_1_s_e_i_r_d_ae1b0b3727a9b5eb9afe1f41985a74967}} 
 std\+::tuple$<$ std\+::vector$<$ F $>$, std\+::vector$<$ F $>$ $>$ \hyperlink{classug_1_1epi_1_1_s_e_i_r_d_ae1b0b3727a9b5eb9afe1f41985a74967}{run} (F t0, const T u0, F tend)
-\begin{DoxyCompactList}\small\item\em System amtrix of the ordinary differential equations system determined by the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Returns the system matrix of the ordinary differential equations system determined by the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model evaluated at time t. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_a654ab9e70a1efe5a5fd8b0534cd14a37}\label{classug_1_1epi_1_1_s_e_i_r_d_a654ab9e70a1efe5a5fd8b0534cd14a37}} 
 std\+::array$<$ F, 5 $>$ \hyperlink{classug_1_1epi_1_1_s_e_i_r_d_a654ab9e70a1efe5a5fd8b0534cd14a37}{system} (std\+::array$<$ F, 5 $>$ \&u, F t=0)
-\begin{DoxyCompactList}\small\item\em Jacobi matrix of the ordinary differential equations system determined by the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Returns the Jacobi matrix of the ordinary differential equations system determined by the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model evaluated at time t. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_a97e809ff18e08d75269af918eced73d1}\label{classug_1_1epi_1_1_s_e_i_r_d_a97e809ff18e08d75269af918eced73d1}} 
 std\+::array$<$ F, 25 $>$ {\bfseries jacobian} (const std\+::array$<$ F, 5 $>$ \&u, F t=0)
 \item 
@@ -38,6 +36,40 @@ class ug\+::epi\+::\+S\+E\+I\+R\+D$<$ T $>$}
 Class of the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} O\+DE model. The \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model includes a new class (Exposed) amongst other additions. More information can be found in the other documents in the documents folder of this plugin. 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_a537a6879b4a4d238d0141aaee478a1a8}\label{classug_1_1epi_1_1_s_e_i_r_d_a537a6879b4a4d238d0141aaee478a1a8}} 
+\index{ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}!change\+\_\+step\+\_\+size\+\_\+time@{change\+\_\+step\+\_\+size\+\_\+time}}
+\index{change\+\_\+step\+\_\+size\+\_\+time@{change\+\_\+step\+\_\+size\+\_\+time}!ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}}
+\subsubsection{\texorpdfstring{change\+\_\+step\+\_\+size\+\_\+time()}{change\_step\_size\_time()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{ug\+::epi\+::\+S\+E\+I\+RD}$<$ T $>$\+::change\+\_\+step\+\_\+size\+\_\+time (\begin{DoxyParamCaption}\item[{F}]{\+\_\+ht }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the step size for the ordinary differential equation solvers. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \+\_\+ht} & Step size for the O\+DE solvers \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_ae1b0b3727a9b5eb9afe1f41985a74967}\label{classug_1_1epi_1_1_s_e_i_r_d_ae1b0b3727a9b5eb9afe1f41985a74967}} 
+\index{ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}!run@{run}}
+\index{run@{run}!ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::tuple$<$std\+::vector$<$F$>$,std\+::vector$<$F$>$ $>$ \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{ug\+::epi\+::\+S\+E\+I\+RD}$<$ T $>$\+::run (\begin{DoxyParamCaption}\item[{F}]{t0,  }\item[{const T}]{u0,  }\item[{F}]{tend }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the system matrix of the ordinary differential equations system determined by the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model evaluated at time t. 
+
+Solves the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model with an explicit solver of fourth order. Because the solver is explicit, instabilities in the solution profile can occur. It is recommended to use the linear implicit solver. Results are stored in a vector of vectors. Results are not written to file as of yet. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em t0} & Simulation start time \\
+\hline
+\mbox{\tt in}  & {\em u0} & Initial conditions for the five S-\/\+E-\/\+I-\/\+R-\/D classes \\
+\hline
+\mbox{\tt in}  & {\em tend} & end time \\
+\hline
+\mbox{\tt out}  & {\em std\+::tuple$<$std\+::vector$<$\+F$>$,std\+::vector$<$\+F$>$$>$} & Vector of vectors containing the simulation output \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classug_1_1epi_1_1_s_e_i_r_d_a4b2848690a22845a5164345ad43393a8}\label{classug_1_1epi_1_1_s_e_i_r_d_a4b2848690a22845a5164345ad43393a8}} 
 \index{ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}!run\+\_\+linear\+\_\+implicit@{run\+\_\+linear\+\_\+implicit}}
 \index{run\+\_\+linear\+\_\+implicit@{run\+\_\+linear\+\_\+implicit}!ug\+::epi\+::\+S\+E\+I\+RD@{ug\+::epi\+::\+S\+E\+I\+RD}}
@@ -66,7 +98,7 @@ Solves the \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} model with a li
 {\footnotesize\ttfamily template$<$class T $>$ \\
 const std\+::array$<$std\+::string,5$>$ \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{ug\+::epi\+::\+S\+E\+I\+RD}$<$ T $>$\+::names =\{\char`\"{}Susceptibles\char`\"{},\char`\"{}Exposed\char`\"{}, \char`\"{}Infected\char`\"{}, \char`\"{}Recovered\char`\"{}, \char`\"{}Deaths\char`\"{}\}}
 
-Names of the various classes 
+Names of the various \hyperlink{classug_1_1epi_1_1_s_e_i_r_d}{S\+E\+I\+RD} classes 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

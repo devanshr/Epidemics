@@ -1,0 +1,72 @@
+\hypertarget{utility_8h}{}\section{Epidemics\+Runner/\+Linux/utility.h File Reference}
+\label{utility_8h}\index{Epidemics\+Runner/\+Linux/utility.\+h@{Epidemics\+Runner/\+Linux/utility.\+h}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$gtk/gtk.\+h$>$}\newline
+{\ttfamily \#include $<$cairo.\+h$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{utility_8h_ac36bb85adee0da5fc3e592145351a459}{ug\+::epi\+::create\+\_\+evaluate\+\_\+lua} (std\+::string path, std\+::string textbody, std\+::vector$<$ std\+::string $>$ \&names\+\_\+of\+\_\+constants, std\+::vector$<$ double $>$ \&values\+\_\+of\+\_\+constants, std\+::vector$<$ std\+::string $>$ \&names\+\_\+of\+\_\+variables, std\+::vector$<$ std\+::string $>$ \&names\+\_\+of\+\_\+inits, std\+::vector$<$ double $>$ \&values\+\_\+of\+\_\+inits, std\+::vector$<$ double $>$ grid\+\_\+vec=std\+::vector$<$ double $>$())
+\item 
+\mbox{\Hypertarget{utility_8h_a2e647b24aaaf9e841960b9401c70a81c}\label{utility_8h_a2e647b24aaaf9e841960b9401c70a81c}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+values} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, int selected\+\_\+dim)
+\item 
+\mbox{\Hypertarget{utility_8h_ab01e27954ad65f6334b6a01a24183f0a}\label{utility_8h_ab01e27954ad65f6334b6a01a24183f0a}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+values} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, std\+::vector$<$ double $>$ \&colors, bool set\+\_\+background)
+\item 
+\mbox{\Hypertarget{utility_8h_a2957f0d1be6e3704718b3aa115a5a141}\label{utility_8h_a2957f0d1be6e3704718b3aa115a5a141}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+values} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, std\+::vector$<$ double $>$ \&colors, bool set\+\_\+background, double xrange\+\_\+min, double xrange\+\_\+max, double yrange\+\_\+min, double yrange\+\_\+max)
+\item 
+\mbox{\Hypertarget{utility_8h_ab779104069b461d1a46474808d29303f}\label{utility_8h_ab779104069b461d1a46474808d29303f}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+values\+\_\+square} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, std\+::vector$<$ double $>$ \&colors, bool set\+\_\+background)
+\item 
+\mbox{\Hypertarget{utility_8h_a41bf565c708c103958430ea1115c3a53}\label{utility_8h_a41bf565c708c103958430ea1115c3a53}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+values\+\_\+square} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, std\+::vector$<$ double $>$ \&colors, bool set\+\_\+background, double xrange\+\_\+min, double xrange\+\_\+max, double yrange\+\_\+min, double yrange\+\_\+max)
+\item 
+\mbox{\Hypertarget{utility_8h_a0b15bd247378e8ad4470a9b7cc164440}\label{utility_8h_a0b15bd247378e8ad4470a9b7cc164440}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+axis} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints)
+\item 
+\mbox{\Hypertarget{utility_8h_a62038f42157e0e83a48ed99f073c0829}\label{utility_8h_a62038f42157e0e83a48ed99f073c0829}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+axis} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims)
+\item 
+\mbox{\Hypertarget{utility_8h_aff74ab75751d49cbf39617f4ec556ac8}\label{utility_8h_aff74ab75751d49cbf39617f4ec556ac8}} 
+void {\bfseries ug\+::epi\+::util\+::plot\+\_\+axis} (Gtk\+Widget $\ast$\+\_\+drawing\+\_\+widget, cairo\+\_\+t $\ast$cr, const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, double xrange\+\_\+min, double xrange\+\_\+max, double yrange\+\_\+min, double yrange\+\_\+max)
+\item 
+\mbox{\Hypertarget{utility_8h_a2647100bfa1c8cf4579f69b33a116e72}\label{utility_8h_a2647100bfa1c8cf4579f69b33a116e72}} 
+void {\bfseries ug\+::epi\+::util\+::get\+\_\+plotting\+\_\+dimensions} (const std\+::vector$<$ double $>$ \&timepoints, const std\+::vector$<$ double $>$ \&datapoints, bool $\ast$selected\+\_\+dims, double \&xrange\+\_\+min, double \&xrange\+\_\+max, double \&yrange\+\_\+min, double \&yrange\+\_\+max, std\+::vector$<$ double $>$ $\ast$exp\+\_\+timepoints, std\+::vector$<$ double $>$ $\ast$exp\+\_\+datapoints)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains various helper functions for Epidemics\+Runner G\+UI. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{utility_8h_file_ac36bb85adee0da5fc3e592145351a459}\label{utility_8h_file_ac36bb85adee0da5fc3e592145351a459}} 
+\index{utility.\+h@{utility.\+h}!create\+\_\+evaluate\+\_\+lua@{create\+\_\+evaluate\+\_\+lua}}
+\index{create\+\_\+evaluate\+\_\+lua@{create\+\_\+evaluate\+\_\+lua}!utility.\+h@{utility.\+h}}
+\subsubsection{\texorpdfstring{create\+\_\+evaluate\+\_\+lua()}{create\_evaluate\_lua()}}
+{\footnotesize\ttfamily void ug\+::epi\+::create\+\_\+evaluate\+\_\+lua (\begin{DoxyParamCaption}\item[{std\+::string}]{path,  }\item[{std\+::string}]{textbody,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{names\+\_\+of\+\_\+constants,  }\item[{std\+::vector$<$ double $>$ \&}]{values\+\_\+of\+\_\+constants,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{names\+\_\+of\+\_\+variables,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{names\+\_\+of\+\_\+inits,  }\item[{std\+::vector$<$ double $>$ \&}]{values\+\_\+of\+\_\+inits,  }\item[{std\+::vector$<$ double $>$}]{grid\+\_\+vec = {\ttfamily std\+:\+:vector$<$double$>$()} }\end{DoxyParamCaption})}
+
+Creates an evaluate.\+lua file for use with the Constrained\+Optimization U\+G4 plugin. To understand the use of an evaluate.\+lua file, consult the documentation of the Constrained\+Optimization U\+G4 plugin. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em path} & Path where the evaluate.\+lua file shall be written to. \\
+\hline
+\mbox{\tt in}  & {\em textbody} & Auxillary text that shall be added into the evaluate.\+lua file \\
+\hline
+\mbox{\tt in}  & {\em names\+\_\+of\+\_\+constants} & Names of variables or model parameters that are not optimized but have to be set \\
+\hline
+\mbox{\tt in}  & {\em values\+\_\+of\+\_\+constants} & Values of aforementioned variables or model parameters that are not optimized but have to be set \\
+\hline
+\mbox{\tt in}  & {\em names\+\_\+of\+\_\+variables} & Names of variables or model parameters that are optimized \\
+\hline
+\mbox{\tt in}  & {\em values\+\_\+of\+\_\+variables} & Values of aforementioned variables or model parameters that are optimized \\
+\hline
+\mbox{\tt in}  & {\em names\+\_\+of\+\_\+inits} & Names of initial conditions or auxillary variables that are not optimized but have to be set \\
+\hline
+\mbox{\tt in}  & {\em values\+\_\+of\+\_\+inits} & Values of initial conditions or auxillary variables that are not optimized but have to be set \\
+\hline
+\mbox{\tt in}  & {\em grid\+\_\+vec} & Optional parameter that is used to specify the cartesian coordinates of the grid if a P\+DE model is optimized \\
+\hline
+\end{DoxyParams}

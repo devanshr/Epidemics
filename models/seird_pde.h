@@ -26,26 +26,33 @@ namespace ug {
 		template<class T, seird::Geometry G>
 		class SEIRD_PDE {};
 
-		/*! Class of the SEIRD PDE model ona a planar grid. The SEIRD model includes a new class (Exposed) amongst other additions. More information about the theoretical foundation can be found in the other documents in the documents folder of this plugin.*/	
+		/*! Class of the SEIRD PDE model on a a planar grid. The SEIRD model includes a new class (Exposed) amongst other additions. More information about the theoretical foundation can be found in the other documents in the documents folder of this plugin.*/	
 		template<class T>
 		class SEIRD_PDE<T,seird::Geometry::Plane> {
 			using F = typename T::value_type;
 		private:
 			F rho = 1;
-			F alpha = 1;
-			F sigma = 1;
-			F kappa = 1;
-			F theta = 1;
-			F tau = 1;
+			F alpha = 1; /**< Infection coefficient that controls how many people go from Susceptible to Exposed*/
+			F sigma = 1; /**< Coefficient that controls how many people leave the Infected class*/
+			F kappa = 1;/**< Coefficient that controls how many people leave the Exposed class*/
+			F theta = 1; /**< Death coefficient that controls how many people go from the Infected to Deceased class*/
+			F tau = 1; /**< Coefficient that controls how many people leave the Exposed class*/
 			F dimX = 1;
 			F dimY = 1;
-			F D=1;
+			F D=1; /**< Diffusion coefficient for the Susceptible and Exposed class*/
 			const size_t dimModel = 5;
-			F hx = 0.25;
-			F ht = 0.25;
-			std::string filepath="";
-			std::string filename="";
+			F hx = 0.25; /**< Step size of the ODE solver in the spatial domain. Does not have to equal ht*/
+			F ht = 0.25; /**< Step size of the ODE solver in the time domain. Does not have to equal hx*/
+			std::string filepath=""; /**< Filepath where simulation results are stored*/
+			std::string filename=""; /**< Name of the created file that contains simulation results*/
 
+		/*! Sets values for the Susceptible class. On the rectangular boundary, either double forward or double backwards finite differences are used. See other documents in the documents folder of this plugin for a mathematical derivation.
+			@param[in] G_prime Derivative of Susceptible grid element with respect to time
+			@param[in] G Susceptible grid element with respect to time				
+			@param[in] A Exposed grid element with respect to time	
+			@param[in] nCols Number of columns in the rectangular discretization
+			@param[in] nRows Number of rows in the rectangular discretization									
+		*/	
 		void set_susceptibles(typename T::iterator G_prime, typename T::iterator G, typename T::iterator A, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
 			for (int i = 0; i<(nRows); i++) {
@@ -97,6 +104,14 @@ namespace ug {
 			}
 		
 		}
+		
+		/*! Sets values for the Exposed class. On the rectangular boundary, either double forward or double backwards finite differences are used. See other documents in the documents folder of this plugin for a mathematical derivation.
+			@param[in] A_prime Derivative of Exposed grid element with respect to time
+			@param[in] E Exposed grid element with respect to time				
+			@param[in] G Susceptible grid element with respect to time	
+			@param[in] nCols Number of columns in the rectangular discretization
+			@param[in] nRows Number of rows in the rectangular discretization									
+		*/			
 		void set_exposed(typename T::iterator A_prime, typename T::iterator A, typename T::iterator G, int nCols, int nRows) {
 			F hinv = 1 / (hx * hx);
 			F tauinv = 1 / tau;
@@ -233,7 +248,14 @@ namespace ug {
 				dest[i] += h * factor * source[i];
 			}
 		}
-		
+		/*! Sets values of the Jacobian matrix for the Susceptible class. On the rectangular boundary, either double forward or double backwards finite differences are used. See other documents in the documents folder of this plugin for a mathematical derivation.
+			@param[in] J_S Susceptible subset of the Jacobi matrix where results will be stored
+			@param[in] S Susceptible subset of the finite difference system matrix				
+			@param[in] E Exposed subset of the finite difference system matrix	
+			@param[in] nCols Number of columns in the rectangular discretization
+			@param[in] nRows Number of rows in the rectangular discretization
+			@param[in] nRows Number of rows in the Jacobian matrix of the rectangular discretization													
+		*/			
 		void set_susceptibles_jacobian(typename T::iterator J_S,typename T::iterator S, typename T::iterator E, int nCols, int nRows, int nRowsJacobian) {
 			auto J=J_S; //Start of Jacobian matrix
 			auto J_e=J_S+nRows*nCols;
@@ -524,27 +546,49 @@ namespace ug {
 			bool StoreToFile=true; // if true, results are stored to file only
 	
 		public:
-		
+			/*! Determines if simulation results will be stored to on the hard drive. It is recommended to turn this on, because high discretizations might require more memory than RAM is available.
+				@param[in] _store_to_file Determines, if results will be stored to file
+				@param[in] _filepath Path where simulation results will be saved				
+				@param[in] _filename Name of the file that contains simulation results													
+			*/			
 			void set_store_to_file(bool _store_to_file, std::string _filepath, std::string _filename){
 				StoreToFile=_store_to_file;
 				filepath=_filepath;
 				filename=_filename;
 			}			
+			
+			/*! Constructor of the class that the model parameters.
+			@param[in] _alpha Infection coefficient that controls how many people go from Susceptible to Exposed
+			@param[in] _kappa Coefficient that controls how many people leave the Exposed class
+			@param[in] _theta Death coefficient that controls how many people go from the Infected to Deceased class
+			@param[in] _sigma Coefficient that controls how many people leave the Infected class
+			@param[in]  _tau Coefficient that controls how many people leave the Exposed class
+			@param[in] _diffusion Diffusion coefficient for the Susceptible and Exposed class		
+			*/	
 			SEIRD_PDE( F _alpha, F _kappa, F _theta, F _sigma, F _tau  , F _diffusion):tau(_tau), alpha(_alpha), sigma(_sigma), kappa(_kappa), theta(_theta)  , D(_diffusion){
 				
 			}		
 			
 			
-			const std::vector<std::string> names = { "Susceptibles","Exposed", "Infected", "Recovered", "Deaths" };
+			const std::vector<std::string> names = { "Susceptibles","Exposed", "Infected", "Recovered", "Deaths" };  /**< Names of the various SEIRD classes */
 
+			/*! Sets the time step size for the ordinary differential equation solvers.
+			@param[in] _ht Time step size for the ODE solvers		
+			*/
 			void change_step_size_time(F _ht) {
 				ht = _ht;
 			}
-
-			void change_step_size_spatial(F _hx) {
+			/*! Sets the spatial step size for the ordinary differential equation solvers.
+			@param[in] _hx Spatial step size for the ODE solvers		
+			*/				void change_step_size_spatial(F _hx) {
 				hx= _hx;
 			}
 			
+			/*! Returns the system matrix of the finite difference forumlation of the PDE SEIRD model evaluated at time t and values u.
+			@param[in] u S-E-I-R-D class values at time t at the various spatial locations
+			@param[in] t Coefficient that controls how many people leave the Exposed class	
+			@param[out] T System matrix of the finite difference forumlation of the PDE SEIRD model evaluated at time t and values u				
+			*/				
 			T system(T& u, F t=0) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t vars_per_row = (std::ceil(dimX / hx) + 1);
@@ -582,6 +626,11 @@ namespace ug {
 				return res;
 			}	
 
+			/*! Returns the Jacobi matrix of the finite difference forumlation of the PDE SEIRD model evaluated at time t and values u.
+			@param[in] u S-E-I-R-D class values at time t at the various spatial locations
+			@param[in] t Coefficient that controls how many people leave the Exposed class	
+			@param[out] T Jacobi matrix of the finite difference forumlation of the PDE SEIRD model evaluated at time t and values u				
+			*/		
 			T jacobian(T& u, F t=0) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				size_t vars_per_row_jacobian=dimModel*vars_per_dim;
@@ -616,7 +665,14 @@ namespace ug {
 			}	
 
 
-			
+			/*! Solves the PDE SEIRD model with an explicit solver of fourth order. Results are stored in a vector of vectors. Results are written to file. 
+			 * If the diffusion coefficient is zero (D=0), then this solver is relatively reliable. Otherwise it is often unstable. If any negative numbers are encountered in the results,
+			 * the step size either has to be made smaller of the linear implicit solver should be tried out.
+			@param[in] t0 Simulation start time		
+			@param[in] u0 Initial conditions for the five S-E-I-R-D classes on the rectangular grid
+			@param[in] tend end time
+			@param[out] std::tuple<std::vector<F>,std::vector<F>> Dummy vector with simulation output that shall not be used			
+			*/			
 			std::tuple<std::vector<F>,std::vector<F>> run(F t0,  T& u0, F tend) {
 				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
 				
@@ -657,7 +713,13 @@ namespace ug {
 
 			}
 			
-			
+			/*! Solves the PDE SEIRD model with a linear implicit solver of second order. Results are stored in a vector of vectors. Results are written to file. 
+			 * For high discretizations, this solver might be very slow (even hours for a time step). The explicit solver can then be tried out instead.
+			@param[in] t0 Simulation start time		
+			@param[in] u0 Initial conditions for the five S-E-I-R-D classes on the rectangular grid
+			@param[in] tend end time
+			@param[out] std::tuple<std::vector<F>,std::vector<F>> Dummy vector with simulation output that shall not be used			
+			*/				
 			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0,  T& u0, F tend) {
 				std::printf("hx = %f\n", hx);
 				size_t nVars = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
