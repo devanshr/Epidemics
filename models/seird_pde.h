@@ -663,6 +663,15 @@ namespace ug {
 				//std::cin.get();
 				return res;
 			}	
+			
+			//Returns Jacobian value at position i,j. Will be useful to reduce computation time. Function is not finished yet.
+			T Jacobian_get(size_t i, size_t j){
+				size_t vars_per_dim = static_cast<int>(std::ceil(dimX / hx) + 1)* static_cast<int>(std::ceil(dimY / hx) + 1);
+				size_t vars_per_row_jacobian=dimModel*vars_per_dim;
+				size_t vars_per_row = (std::ceil(dimX / hx) + 1); //Row means with respect to a single class
+				size_t vars_per_column = (std::ceil(dimY / hx) + 1);
+				//if (j<vars_per_row_jacobian*va
+			}
 
 
 			/*! Solves the PDE SEIRD model with an explicit solver of fourth order. Results are stored in a vector of vectors. Results are written to file. 
