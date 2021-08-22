@@ -296,8 +296,8 @@ class SEIRDPDE_EDITORWidget;
 						widget->get_u0_from_image(widget);
 						seird_model.set_store_to_file(true,widget->user_selected_optimization_path, filename);
 
-						seird_model.run_linear_implicit(t_start, widget->u0, t_end);
-						//seird_model.run(t_start, widget->u0, t_end);
+						//seird_model.run_linear_implicit(t_start, widget->u0, t_end);
+						seird_model.run(t_start, widget->u0, t_end);
 						widget->set_u0(std::vector<double>());
 					}
 					else{
