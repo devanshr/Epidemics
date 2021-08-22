@@ -15,9 +15,9 @@ Sample problems can be found in the Sample Folder.
 
 For Windows users, an optional GUI has been created for the use of estimation or prototyping.
  
-<img src="documents/images/gui.linux2" alt="drawing" width="1167"/>  
+<img src="documents/images/gui_linux2.png" alt="drawing" width="1167"/>  
 <img src="documents/images/gui_winforms.png" alt="drawing" width="600"/>
-<img src="documents/images/gui.linux1" alt="drawing" width="1139"/>  
+<img src="documents/images/gui_linux1.png" alt="drawing" width="1139"/>  
   
 # Installation Notes 
 ## General
