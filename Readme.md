@@ -13,16 +13,18 @@ It also provides some brief notes concerning the installation of the plugin.
 
 Sample problems can be found in the Sample Folder.
 
-For Windows users, an optional GUI has been created for the use of estimation or prototyping. 
-
-<img src="documents/images/gui.png" alt="drawing" width="600"/>
-    
+For Windows users, an optional GUI has been created for the use of estimation or prototyping.
+ 
+<img src="documents/images/gui.linux2" alt="drawing" width="1167"/>  
+<img src="documents/images/gui_winforms.png" alt="drawing" width="600"/>
+<img src="documents/images/gui.linux1" alt="drawing" width="1139"/>  
+  
 # Installation Notes 
 ## General
 The installation equals the standard process for adding UG4 plugins described on [the ughub GitHub page.](https://github.com/UG4/ughub)
 Due to the usage of OS specific functions for process generation, the plugin is not necessarily multiplatform. 
 In its current form, the package has been shown to work on Windows 10, Linux Ubuntu and Raspberry Pi OS. 
-On Windows 10, two compilers were tested, GCC 9.3.0 and Visual Studio v16.3.10. 
+The GCC, Apple Clang and MSVC compilers were tested.
 It is assumed that the package also works for older compiler versions that support C++17. On Linux Ubuntu, 
 only GCC was tested. GCC and Clang might require special flags 
 set in the build process, which is explained below. The utilized Visual Studio compiler has not exhibited such necessities
