@@ -34,7 +34,7 @@ namespace ug {
 			F rho = 1;
 			F alpha = 1; /**< Infection coefficient that controls how many people go from Susceptible to Exposed*/
 			F sigma = 1; /**< Coefficient that controls how many people leave the Infected class*/
-			F kappa = 1;/**< Coefficient that controls how many people leave the Exposed class*/
+			F kappa = 1;/**< Coefficient that controls how many people become infected (from those that left the Exposed class)*/
 			F theta = 1; /**< Death coefficient that controls how many people go from the Infected to Deceased class*/
 			F tau = 1; /**< Coefficient that controls how many people leave the Exposed class*/
 			F dimX = 1;

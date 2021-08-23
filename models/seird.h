@@ -18,7 +18,7 @@ namespace ug{
 			
 			private:
 			F alpha; /**< Infection coefficient that controls how many people go from Susceptible to Exposed*/
-			F kappa; /**< Coefficient that controls how many people leave the Exposed class*/
+			F kappa; /**< Coefficient that controls how many people become infected (from those that left the Exposed class)*/
 			F theta; /**< Death coefficient that controls how many people go from the Infected to Deceased class*/
 			F qq; /**< Incubation coefficient that controls how many people leave the Exposed class*/
 			F pp; /**< Coefficient that controls how many people leave the Infected class*/
