@@ -88,7 +88,7 @@ namespace ug {
 					std::vector<F> u_copy(dim);
 					int iter = 1;
 				
-					while (t <= tend) {
+					while ((double)t < (double)(tend+h)) {
 						std::copy(u.begin(), u.end(), u_copy.begin());
 						//k1
 						T1 temp = model->system(u,t); //it only has dim entries but otherwise type errors in this old version of dgemm
@@ -99,20 +99,20 @@ namespace ug {
 						T2 temp2=model->jacobian(u,t);
 						std::copy(temp2.begin(), temp2.end(), J.begin());
 						M=sumAB(F(1), I, F(-a * h), J);
-						co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
+						co::dc::qr<typename std::vector<F>::iterator,F> (M.begin(), dim, dim, Qt.begin(), R.begin());
 						//co::dc::qr<typename std::vector<F>::iterator> (M.begin(), dim, dim, Qt.begin(), R.begin());
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
 						co::dc::backwards_substitution<F>(R.begin(), k1.begin(), 1, q1.begin(), dim);
 						
 						//k2
 						for (int i = 0; i < dim; i++) {
-							u[i] = u_copy[i] + 0.5 * h * k1[i];
+							u[i] = u_copy[i] + F(0.5) * h * k1[i];
 							//std::cout<<I[i]<<"\t";
 						}
 				
 					
-						temp = model->system(u,t+0.5*h); //it only has dim entries but otherwise type errors in this old version of dgemm
-						temp2=model->jacobian(u,t+0.5*h);
+						temp = model->system(u,t+F(0.5)*h); //it only has dim entries but otherwise type errors in this old version of dgemm
+						temp2=model->jacobian(u,t+F(0.5)*h);
 						std::copy(temp.begin(), temp.end(), fy.begin());
 						co::mul::dgemm_nn(dim, 1, dim, -a*h, J.begin(), 1, dim, k1.begin(), 1, 1, F(1.0), fy.begin(), 1, 1);
 						co::mul::dgemm_nn(dim, 1, dim, F(1.0), Qt.begin(), 1, dim, fy.begin(), 1, 1, F(0.0), q1.begin(), 1, 1);
@@ -171,9 +171,7 @@ namespace ug {
 
 						t+=h;
 					}
-					if (t > t0) {
-						t +=h;
-					}
+				
 					return std::make_pair(timepoints, datapoints);
 				}
 			};

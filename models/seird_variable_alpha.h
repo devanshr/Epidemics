@@ -24,19 +24,19 @@ namespace ug{
 			void calc_values(F t, std::array<F,5>& u, std::vector<F>& res){
 				std::array<F,5> k1=system(u,t);
 				std::array<F,5> v;
-				v[0]=u[0]+ht*0.5*k1[0];
-				v[1]=u[1]+ht*0.5*k1[1];
-				v[2]=u[2]+ht*0.5*k1[2];
-				v[3]=u[3]+ht*0.5*k1[3];
-				v[4]=u[4]+ht*0.5*k1[4];
-				std::array<F,5> k2= system(v,t+ht*0.5);
+				v[0]=u[0]+ht*F(0.5)*k1[0];
+				v[1]=u[1]+ht*F(0.5)*k1[1];
+				v[2]=u[2]+ht*F(0.5)*k1[2];
+				v[3]=u[3]+ht*F(0.5)*k1[3];
+				v[4]=u[4]+ht*F(0.5)*k1[4];
+				std::array<F,5> k2= system(v,t+ht*F(0.5));
 
-				v[0]=u[0]+ht*0.5*k2[0];
-				v[1]=u[1]+ht*0.5*k2[1];
-				v[2]=u[2]+ht*0.5*k2[2];
-				v[3]=u[3]+ht*0.5*k2[3];
-				v[4]=u[4]+ht*0.5*k2[4];
-				std::array<F,5> k3= system(v,t+ht*0.5);
+				v[0]=u[0]+ht*F(0.5)*k2[0];
+				v[1]=u[1]+ht*F(0.5)*k2[1];
+				v[2]=u[2]+ht*F(0.5)*k2[2];
+				v[3]=u[3]+ht*F(0.5)*k2[3];
+				v[4]=u[4]+ht*F(0.5)*k2[4];
+				std::array<F,5> k3= system(v,t+ht*F(0.5));
 
 				v[0]=u[0]+ht*k3[0];
 				v[1]=u[1]+ht*k3[1];
@@ -61,7 +61,7 @@ namespace ug{
 				bool interpolation=false;
 				int alphaindex=0;
 				int limitindex=-1;
-				F eps=0.5;
+				F eps=F(0.5);
 				
 				for (int i=0;i<alpha_limits.size();i++){
 					if (t>(alpha_limits[i]-eps)){
@@ -88,7 +88,7 @@ namespace ug{
 					F R;
 					F C;
 					F c;
-					F d=std::sqrt((y0-y1)*(y0-y1));
+					F d=std::sqrt((double)((y0-y1)*(y0-y1)));
 					if (y1>y0){
 						R=x1;
 						C=x0;
@@ -99,7 +99,7 @@ namespace ug{
 						C=x1;
 						c=y1;
 					}
-					return d*std::exp(-((t-R)*(t-R))/((t-C)*(t-C)));
+					return d*std::exp(double(-((t-R)*(t-R))/((t-C)*(t-C))));
 				}
 				
 			}
@@ -149,9 +149,9 @@ namespace ug{
 
 				F _alpha=eval_alpha(t);
 				res[0] = -_alpha * G * A; 				// dG/dt=-alpha*G*A
-				res[1] = _alpha * G * A - (1 / qq) * A; 			// dA/dt = alpha*G*A - (A/q)
-				res[2] = (kappa / qq) * A - (1 / pp) * K; 		// dK/dt = (kappa*A)/qq - (K/pp) 
-				res[3] = ((1 - kappa) / qq) * A + ((1 - theta) / pp) * K;   // dR/dt= (1-kappa)/q *A +(1 -theta)/pp *K
+				res[1] = _alpha * G * A - (F(1) / qq) * A; 			// dA/dt = alpha*G*A - (A/q)
+				res[2] = (kappa / qq) * A - (F(1) / pp) * K; 		// dK/dt = (kappa*A)/qq - (K/pp) 
+				res[3] = ((F(1) - kappa) / qq) * A + ((F(1) - theta) / pp) * K;   // dR/dt= (1-kappa)/q *A +(1 -theta)/pp *K
 				res[4] = (theta / pp) * K; 				// dV/dt = theta/pp * K
 				return res;
 			}
@@ -168,13 +168,13 @@ namespace ug{
 				res[0] = -_alpha*E;
 				res[1] = -_alpha * S;
 				res[5] = _alpha * E;
-				res[6] = _alpha * S - (1/qq);
+				res[6] = _alpha * S - (F(1)/qq);
 				res[11] = kappa / qq;
-				res[12] = -(1 / pp);
-				res[16] = (1 - kappa) / qq;
-				res[17] = (1 - theta) / pp;
+				res[12] = (F(-1) / pp);
+				res[16] = (F(1) - kappa) / qq;
+				res[17] = (F(1) - theta) / pp;
 				res[22] = theta / pp;
-
+	
 				return res;
 			}
 			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0, const T& u0, F tend) {
