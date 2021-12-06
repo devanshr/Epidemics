@@ -11,9 +11,10 @@ It also provides some brief notes concerning the installation of the plugin.
 * [Description](#description)
 * [Example](#description)
 
-Sample problems can be found in the Sample Folder.
+Sample problems can be found in the Samples Folder.
 
-For Windows users, an optional GUI has been created for the use of estimation or prototyping.
+An optional GUI has been created for the use of estimation or prototyping. This GUI has been shown to work on
+Windows, Linux and MacOS.
  
 <img src="documents/images/gui_linux2.png" alt="drawing" width="1167"/>  
 <img src="documents/images/gui_winforms.png" alt="drawing" width="600"/>
