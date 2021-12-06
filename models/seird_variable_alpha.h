@@ -20,6 +20,10 @@ namespace ug{
 			F qq;
 			F pp;
 			F ht=0.01;
+			F cumulated_infected_of_last_run=F(-1);
+			F cumulated_exposed_of_last_run=F(-1);
+			T cumulated_infected_of_last_run_container;
+			T cumulated_exposed_of_last_run_container;			
 
 			void calc_values(F t, std::array<F,5>& u, std::vector<F>& res){
 				std::array<F,5> k1=system(u,t);
@@ -137,7 +141,18 @@ namespace ug{
 				}
 				return std::make_tuple(ts,res);			
 			}
-
+			
+			void update_metainfo(std::array<F, 5>& u, F t){	
+				F _alpha=eval_alpha(t);
+				F G = u[0]; // Gesunde (Susceptibles)
+				F A = u[1]; // Angesteckte (Exposed)
+				F K = u[2]; // Kranke (Infected)							
+				cumulated_exposed_of_last_run+=_alpha * G * A*ht;
+				cumulated_infected_of_last_run+=(kappa / qq) * A*ht;
+				cumulated_exposed_of_last_run_container.push_back(cumulated_exposed_of_last_run);
+				cumulated_infected_of_last_run_container.push_back(cumulated_infected_of_last_run);					
+			}
+			
 			std::array<F, 5> system(std::array<F, 5>& u, F t) {
 				std::array<F, 5> res;
 
@@ -152,10 +167,11 @@ namespace ug{
 				res[1] = _alpha * G * A - (F(1) / qq) * A; 			// dA/dt = alpha*G*A - (A/q)
 				res[2] = (kappa / qq) * A - (F(1) / pp) * K; 		// dK/dt = (kappa*A)/qq - (K/pp) 
 				res[3] = ((F(1) - kappa) / qq) * A + ((F(1) - theta) / pp) * K;   // dR/dt= (1-kappa)/q *A +(1 -theta)/pp *K
-				res[4] = (theta / pp) * K; 				// dV/dt = theta/pp * K
+				res[4] = (theta / pp) * K; 				// dV/dt = theta/pp * K			
 				return res;
 			}
-
+			
+		public: bool check=false;
 			std::array<F,25> jacobian(const std::array<F, 5>& u, F t) {
 				std::array<F, 5*5> res;
 
@@ -177,11 +193,26 @@ namespace ug{
 	
 				return res;
 			}
-			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0, const T& u0, F tend) {
+			std::tuple<std::vector<F>,std::vector<F>> run_linear_implicit(F t0, const T& u0, F tend, T* cumulated_exposed=nullptr, T* cumulated_infected=nullptr) {
 				std::array<F, 5> u = { u0[0],u0[1],u0[2],u0[3],u0[4] };
+				cumulated_exposed_of_last_run=u0[1];
+				cumulated_infected_of_last_run=u0[2];
+				cumulated_exposed_of_last_run_container.reserve(int((tend-t0)/ht));		
+				cumulated_infected_of_last_run_container.reserve(int((tend-t0)/ht));				
+				cumulated_exposed_of_last_run_container.push_back(u0[1]);
+				cumulated_infected_of_last_run_container.push_back(u0[2]);			
 				utility::LinearImplicitSolver23<std::array<F,5>,std::array<F,25>,SEIRD_VARA,F> solver(this,5);
 				solver.change_step_size(ht);
 				auto result=solver.run(t0, u, tend);
+		
+				
+				if (cumulated_exposed != nullptr){
+					*cumulated_exposed=cumulated_exposed_of_last_run_container;
+					if (cumulated_infected != nullptr){
+						*cumulated_infected=cumulated_infected_of_last_run_container;
+					
+					}
+				}
 				return std::make_tuple(result.first,result.second);
 			}
 		

@@ -8,6 +8,25 @@
 namespace ug {
 	namespace epi {
 		namespace utility {
+			
+			template<class T>
+			class has_update_metainfo{
+				typedef char yes[1];
+				typedef char no[2];
+				
+				template<class C> 
+				static yes& test(decltype(&C::update_metainfo));
+				
+				template<class C> 
+				static no& test(...);
+				
+				public:
+				static const bool value=sizeof(test<T>(0)) == sizeof(char);
+				
+			};
+			
+			
+			
 			template<class T1,class T2, class C,class F>
 			class LinearImplicitSolver23 {
 
@@ -37,7 +56,7 @@ namespace ug {
 					}
 					return result;
 				}
-
+			bool class_has_metainfo=false;
 			public:
 				void set_store_to_file(bool _store_to_file, std::string _filepath, std::string _filename, OutputWriter<T1,F>* _ow){
 					StoreToFile=_store_to_file;
@@ -47,7 +66,7 @@ namespace ug {
 				}
 
 				LinearImplicitSolver23(C* _model, int _dim) : model(_model), dim(_dim) {
-					
+					class_has_metainfo=has_update_metainfo<C>::value;
 				}
 
 				void change_step_size(F _h) {
@@ -90,6 +109,9 @@ namespace ug {
 				
 					while ((double)t < (double)(tend+h)) {
 						std::copy(u.begin(), u.end(), u_copy.begin());
+						if (class_has_metainfo){
+							model->update_metainfo(u,t);
+						}						
 						//k1
 						T1 temp = model->system(u,t); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::vector<F> fy(dim);
@@ -148,27 +170,6 @@ namespace ug {
 							(*ow).write_to_file(filepath, filename+std::to_string(iter)+".txt",t,u);
 						}
 						iter++;
-					//	co::mul::printmat(temp2.begin(), dim, dim);
-					//	std::cout << "M:\n";
-					//	co::mul::printmat(M.begin(), dim, dim);
-					//	std::cin.get();
-					//	std::cout << "Result:\n";
-					//	co::mul::printmat(u.begin(), dim, 1);
-					//	std::cin.get();
-						/*
-						std::cout << "x:\n";
-						co::mul::printmat(k1.begin(), dim,1);
-						std::cout << "M:\n";
-						co::mul::printmat(M.begin(), dim,dim);
-						std::cout << "fy:\n";
-						co::mul::printmat(fy.begin(), dim, 1);
-						std::cout << "Mx:\n";
-						std::vector<F> temp3(dim);
-						co::mul::dgemm_nn(dim, 1, dim, F(1.0), M.begin(), 1, dim, k1.begin(), 1, 1, F(0.0), temp3.begin(), 1, 1);
-						co::mul::printmat(temp3.begin(), dim, 1);
-						std::cin.get();
-*/
-
 						t+=h;
 					}
 				
