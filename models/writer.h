@@ -110,9 +110,9 @@ namespace ug{
 			
 			general_output<<"\n";
 			for (size_t i=0;i<(m.size()/dim);i++){
-				general_output<<times[i]<<"\t";
+				general_output<<times[i];
 				for (size_t j=0;j<dim;j++){
-					general_output<<m[i*dim+j]<<"\t";
+					general_output<<"\t"<<m[i*dim+j];
 				}
 				general_output<<"\n";
 			}
