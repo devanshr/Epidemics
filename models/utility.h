@@ -8,22 +8,7 @@
 namespace ug {
 	namespace epi {
 		namespace utility {
-			
-			template<class T>
-			class has_update_metainfo{
-				typedef char yes[1];
-				typedef char no[2];
-				
-				template<class C> 
-				static yes& test(decltype(&C::update_metainfo));
-				
-				template<class C> 
-				static no& test(...);
-				
-				public:
-				static const bool value=sizeof(test<T>(0)) == sizeof(char);
-				
-			};
+
 			
 			
 			
@@ -56,7 +41,7 @@ namespace ug {
 					}
 					return result;
 				}
-			bool class_has_metainfo=false;
+
 			public:
 				void set_store_to_file(bool _store_to_file, std::string _filepath, std::string _filename, OutputWriter<T1,F>* _ow){
 					StoreToFile=_store_to_file;
@@ -66,7 +51,7 @@ namespace ug {
 				}
 
 				LinearImplicitSolver23(C* _model, int _dim) : model(_model), dim(_dim) {
-					class_has_metainfo=has_update_metainfo<C>::value;
+
 				}
 
 				void change_step_size(F _h) {
@@ -108,10 +93,7 @@ namespace ug {
 					int iter = 1;
 				
 					while ((double)t < (double)(tend+h)) {
-						std::copy(u.begin(), u.end(), u_copy.begin());
-						if (class_has_metainfo){
-							model->update_metainfo(u,t);
-						}						
+						std::copy(u.begin(), u.end(), u_copy.begin());						
 						//k1
 						T1 temp = model->system(u,t); //it only has dim entries but otherwise type errors in this old version of dgemm
 						std::vector<F> fy(dim);
